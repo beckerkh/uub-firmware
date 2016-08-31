@@ -1,1 +1,1 @@
-# uub-fpga-firmware
+# uub-firmware
