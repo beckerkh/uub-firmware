@@ -1,0 +1,568 @@
+INFO: [Common 17-701] A license check has taken more than 10 seconds to complete. This may indicate that there is a performance issue with one or more license servers listed in XILINXD_LICENSE_FILE or LM_LICENSE_FILE, or that the license servers are just not responding at all. Try setting the FLEXLM_DIAGNOSTICS environment variable to 3 and running Vivado again to get more information.
+#-----------------------------------------------------------
+# Vivado v2014.2 (64-bit)
+# SW Build 932637 on Wed Jun 11 13:33:10 MDT 2014
+# IP Build 924643 on Fri May 30 09:20:16 MDT 2014
+# Start of session at: Fri Jan 23 08:58:37 2015
+# Process ID: 4556
+# Log file: C:/zynq2/time_tagging/2014_2/ip_repo/IP_Projects/edit_time_tagging_v1_0.runs/synth_1/time_tagging_v1_0.vds
+# Journal file: C:/zynq2/time_tagging/2014_2/ip_repo/IP_Projects/edit_time_tagging_v1_0.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source time_tagging_v1_0.tcl
+# set_param gui.test TreeTableDev
+# set_msg_config -id {HDL 9-1061} -limit 100000
+# set_msg_config -id {HDL 9-1654} -limit 100000
+# create_project -in_memory -part xc7z020clg484-1
+# set_property target_language Verilog [current_project]
+# set_param project.compositeFile.enableAutoGeneration 0
+# set_property default_lib xil_defaultlib [current_project]
+# set_property ip_repo_paths {
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0
+# } [current_fileset]
+# read_verilog -library xil_defaultlib {
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg2.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg1.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/org.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/norg.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/mux_8.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/inv.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/dff.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/decode_8.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_28.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/andg.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27wld.v
+#   C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v
+# }
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg2.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg1.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/org.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/norg.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/mux_8.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/inv.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/dff.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/decode_8.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_28.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/andg.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27wld.v]
+WARNING: [filemgmt 20-1763] Vivado Synthesis ignores library specification for Verilog or SystemVerilog files. [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v]
+# set_param synth.vivado.isSynthRun true
+# set_property webtalk.parent_dir C:/zynq2/time_tagging/2014_2/ip_repo/IP_Projects/edit_time_tagging_v1_0.cache/wt [current_project]
+# set_property parent.project_dir C:/zynq2/time_tagging/2014_2/ip_repo/IP_Projects [current_project]
+# catch { write_hwdef -file time_tagging_v1_0.hwdef }
+INFO: [Vivado_Tcl 4-279] hardware handoff file cannot be generated as there is no block diagram instance in the design
+# synth_design -top time_tagging_v1_0 -part xc7z020clg484-1
+Command: synth_design -top time_tagging_v1_0 -part xc7z020clg484-1
+
+Starting synthesis...
+
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:26 . Memory (MB): peak = 231.402 ; gain = 98.246
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'time_tagging_v1_0' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0.v:4]
+	Parameter C_S00_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S00_AXI_ADDR_WIDTH bound to: 6 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'time_tagging_v1_0_S00_AXI' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:4]
+	Parameter C_S_AXI_DATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_S_AXI_ADDR_WIDTH bound to: 6 - type: integer 
+	Parameter ADDR_LSB bound to: 2 - type: integer 
+	Parameter OPT_MEM_ADDR_BITS bound to: 3 - type: integer 
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:126]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:137]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:158]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:159]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:160]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:161]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:162]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:163]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:164]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:165]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:166]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:167]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:168]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:169]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:170]
+INFO: [Synth 8-226] default block is never used [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:468]
+INFO: [Synth 8-226] default block is never used [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:585]
+INFO: [Synth 8-226] default block is never used [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:666]
+INFO: [Synth 8-256] done synthesizing module 'time_tagging_v1_0_S00_AXI' (1#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0_S00_AXI.v:4]
+INFO: [Synth 8-638] synthesizing module 'time_tagging_hw_v1_0' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:4]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:89]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:90]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:91]
+INFO: [Synth 8-4472] Detected and applied attribute ASYNC_REG = TRUE [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:92]
+INFO: [Synth 8-638] synthesizing module 'Counter_27' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27.v:21]
+INFO: [Synth 8-256] done synthesizing module 'Counter_27' (2#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27.v:21]
+INFO: [Synth 8-638] synthesizing module 'Counter_28' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_28.v:21]
+INFO: [Synth 8-256] done synthesizing module 'Counter_28' (3#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_28.v:21]
+INFO: [Synth 8-638] synthesizing module 'Counter_27wld' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27wld.v:21]
+INFO: [Synth 8-256] done synthesizing module 'Counter_27wld' (4#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/counter_27wld.v:21]
+INFO: [Synth 8-638] synthesizing module 'reg1' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg1.v:21]
+INFO: [Synth 8-256] done synthesizing module 'reg1' (5#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg1.v:21]
+INFO: [Synth 8-638] synthesizing module 'reg2' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg2.v:21]
+INFO: [Synth 8-256] done synthesizing module 'reg2' (6#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/reg2.v:21]
+INFO: [Synth 8-638] synthesizing module 'dff' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/dff.v:21]
+INFO: [Synth 8-256] done synthesizing module 'dff' (7#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/dff.v:21]
+INFO: [Synth 8-638] synthesizing module 'inv' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/inv.v:21]
+INFO: [Synth 8-256] done synthesizing module 'inv' (8#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/inv.v:21]
+INFO: [Synth 8-638] synthesizing module 'norg' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/norg.v:21]
+INFO: [Synth 8-256] done synthesizing module 'norg' (9#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/norg.v:21]
+INFO: [Synth 8-638] synthesizing module 'andg' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/andg.v:21]
+INFO: [Synth 8-256] done synthesizing module 'andg' (10#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/andg.v:21]
+INFO: [Synth 8-638] synthesizing module 'org' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/org.v:21]
+INFO: [Synth 8-256] done synthesizing module 'org' (11#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/org.v:21]
+INFO: [Synth 8-638] synthesizing module 'mux_8' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/mux_8.v:21]
+INFO: [Synth 8-256] done synthesizing module 'mux_8' (12#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/mux_8.v:21]
+INFO: [Synth 8-638] synthesizing module 'decode_8' [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/decode_8.v:21]
+INFO: [Synth 8-256] done synthesizing module 'decode_8' (13#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/decode_8.v:21]
+INFO: [Synth 8-256] done synthesizing module 'time_tagging_hw_v1_0' (14#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_hw_v1_0.v:4]
+INFO: [Synth 8-256] done synthesizing module 'time_tagging_v1_0' (15#1) [C:/zynq2/time_tagging/2014_2/ip_repo/time_tagging_1.0/hdl/time_tagging_v1_0.v:4]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:27 . Memory (MB): peak = 264.383 ; gain = 131.227
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:27 . Memory (MB): peak = 264.383 ; gain = 131.227
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization : Time (s): cpu = 00:00:04 ; elapsed = 00:00:27 . Memory (MB): peak = 264.383 ; gain = 131.227
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 59    
+	                8 Bit    Registers := 2     
+	                6 Bit    Registers := 2     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 53    
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 16    
+	   2 Input      2 Bit        Muxes := 4     
+	   4 Input      1 Bit        Muxes := 3     
+	  16 Input      1 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 13    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module time_tagging_v1_0 
+Detailed RTL Component Info : 
+Module time_tagging_v1_0_S00_AXI 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 30    
+	                6 Bit    Registers := 2     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 27    
++---Muxes : 
+	   4 Input      1 Bit        Muxes := 3     
+	  16 Input      1 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 13    
+Module Counter_27 
+Detailed RTL Component Info : 
+Module Counter_28 
+Detailed RTL Component Info : 
+Module Counter_27wld 
+Detailed RTL Component Info : 
+Module reg1 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+Module reg2 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+Module dff 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
+Module inv 
+Detailed RTL Component Info : 
+Module norg 
+Detailed RTL Component Info : 
+Module andg 
+Detailed RTL Component Info : 
+Module org 
+Detailed RTL Component Info : 
+Module mux_8 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 2     
+Module decode_8 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      2 Bit        Muxes := 2     
+Module time_tagging_hw_v1_0 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 2     
+	                1 Bit    Registers := 6     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Loading clock regions from C:/Xilinx_2014/Vivado/2014.2/data\parts/xilinx/zynq/zynq/xc7z020/ClockRegion.xml
+Loading clock buffers from C:/Xilinx_2014/Vivado/2014.2/data\parts/xilinx/zynq/zynq/xc7z020/ClockBuffers.xml
+Loading clock placement rules from C:/Xilinx_2014/Vivado/2014.2/data/parts/xilinx/zynq/ClockPlacerRules.xml
+Loading package pin functions from C:/Xilinx_2014/Vivado/2014.2/data\parts/xilinx/zynq/PinFunctions.xml...
+Loading package from C:/Xilinx_2014/Vivado/2014.2/data\parts/xilinx/zynq/zynq/xc7z020/clg484/Package.xml
+Loading io standards from C:/Xilinx_2014/Vivado/2014.2/data\./parts/xilinx/zynq/IOStandards.xml
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+Workers Ready, Starting Parallel Section  : Time (s): cpu = 00:00:07 ; elapsed = 00:00:31 . Memory (MB): peak = 431.801 ; gain = 298.645
+---------------------------------------------------------------------------------
+Start Cross Boundary Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_awprot[2]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_awprot[1]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_awprot[0]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_wstrb[3]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_wstrb[2]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_wstrb[1]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_wstrb[0]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_arprot[2]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_arprot[1]
+WARNING: [Synth 8-3331] design time_tagging_v1_0 has unconnected port s00_axi_arprot[0]
+---------------------------------------------------------------------------------
+Finished Cross Boundary Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:31 . Memory (MB): peak = 432.871 ; gain = 299.715
+---------------------------------------------------------------------------------
+Finished Parallel Reinfer  : Time (s): cpu = 00:00:08 ; elapsed = 00:00:31 . Memory (MB): peak = 432.871 ; gain = 299.715
+---------------------------------------------------------------------------------
+Start RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff2/regout_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\time_tagging_hw_v1_0_i/ttag_sbuffer2_n/regout_reg[27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\time_tagging_hw_v1_0_i/ttag_sbuffer1_n/regout_reg[27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_rresp_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_bresp_reg[1] )
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_araddr_reg[1] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_araddr_reg[0] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_awaddr_reg[1] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_awaddr_reg[0] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_bresp_reg[1] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_bresp_reg[0] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_rresp_reg[1] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_v1_0_S00_AXI_inst/axi_rresp_reg[0] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable4/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable4/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable4/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable4/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable6/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable6/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable6/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable6/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable6/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff4/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff3/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[7] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[6] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[5] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[4] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[3] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode2/regout_reg[2] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[2] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[3] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[4] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[5] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[6] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/decode3/regout_reg[7] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff3/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff3/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff3/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff3/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff4/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff4/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff4/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff4/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff1/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff2/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff2/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff1/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff1/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff1/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff1/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff2/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable2/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable1/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable1/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable1/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable1/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable1/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable2/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable2/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable2/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable2/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/lpm_ttagdff2/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable3/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable5/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable5/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable5/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable5/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable5/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable3/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable3/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable3/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_dffenable3/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_mout/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_calout/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_mout/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_calout/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_calout/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_calout/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_calout/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_calout/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_calout/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_calout/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_calout/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_calout/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_mout/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_mout/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_mout/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_mout/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_mout/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_mout/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_mout/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_mout/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_n/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_s/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_n/regout_reg[27] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_s/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_s/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_s/regout_reg[29] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_s/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_s/regout_reg[30] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_s/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_s/regout_reg[31] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer2_n/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+WARNING: [Synth 8-3332] Sequential element (\time_tagging_hw_v1_0_i/ttag_mbuffer1_n/regout_reg[28] ) is unused and will be removed from module time_tagging_v1_0.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Area Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:32 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+Finished Parallel Area Opt  : Time (s): cpu = 00:00:08 ; elapsed = 00:00:32 . Memory (MB): peak = 453.801 ; gain = 320.645
+Finished Parallel Section  : Time (s): cpu = 00:00:08 ; elapsed = 00:00:32 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:32 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:09 ; elapsed = 00:00:33 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:09 ; elapsed = 00:00:34 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:09 ; elapsed = 00:00:34 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:09 ; elapsed = 00:00:34 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register:
++------------------+---------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name       | RTL Name                                    | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------------+---------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|time_tagging_v1_0 | time_tagging_v1_0_S00_AXI_inst/cseldfr4_reg | 4      | 1     | YES          | NO                 | NO                | 1      | 0       | 
++------------------+---------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     3|
+|2     |CARRY4 |    28|
+|3     |LUT1   |    83|
+|4     |LUT2   |    12|
+|5     |LUT3   |    38|
+|6     |LUT4   |     6|
+|7     |LUT5   |   233|
+|8     |LUT6   |   128|
+|9     |MUXF7  |    64|
+|10    |MUXF8  |    32|
+|11    |SRL16E |     1|
+|12    |FDCE   |   919|
+|13    |FDRE   |   996|
+|14    |IBUF   |    68|
+|15    |OBUF   |    41|
++------+-------+------+
+
+Report Instance Areas: 
++------+---------------------------------+--------------------------+------+
+|      |Instance                         |Module                    |Cells |
++------+---------------------------------+--------------------------+------+
+|1     |top                              |                          |  2652|
+|2     |  time_tagging_hw_v1_0_i         |time_tagging_hw_v1_0      |  1297|
+|3     |    mux2                         |mux_8                     |    28|
+|4     |    mux3                         |mux_8_23                  |    31|
+|5     |    mux4                         |mux_8_24                  |    27|
+|6     |    mux5                         |mux_8_25                  |    27|
+|7     |    mux6                         |mux_8_26                  |    28|
+|8     |    mux7                         |mux_8_27                  |    27|
+|9     |    mux8                         |mux_8_28                  |    27|
+|10    |    mux9                         |mux_8_29                  |    27|
+|11    |    calnanosec_counter           |Counter_27wld             |    61|
+|12    |    deadnanosec_counter          |Counter_27                |    61|
+|13    |    decode2                      |decode_8                  |     4|
+|14    |    decode3                      |decode_8_0                |     4|
+|15    |    dqff1                        |dff                       |     1|
+|16    |    dqff12                       |dff_1                     |     3|
+|17    |    dqff13                       |dff_2                     |     2|
+|18    |    dqff14                       |dff_3                     |     2|
+|19    |    dqff15                       |dff_4                     |     2|
+|20    |    dqff16                       |dff_5                     |     2|
+|21    |    dqff17                       |dff_6                     |     1|
+|22    |    dqff18                       |dff_7                     |     2|
+|23    |    dqff19                       |dff_8                     |     2|
+|24    |    dqff2                        |dff_9                     |     1|
+|25    |    dqff20                       |dff_10                    |     3|
+|26    |    dqff23                       |dff_11                    |     2|
+|27    |    dqff24                       |dff_12                    |     1|
+|28    |    dqff25                       |dff_13                    |     1|
+|29    |    dqff26                       |dff_14                    |     1|
+|30    |    dqff27                       |dff_15                    |     1|
+|31    |    dqff3                        |dff_16                    |     3|
+|32    |    dqff6                        |dff_17                    |     3|
+|33    |    dqff7                        |dff_18                    |     1|
+|34    |    dqff8                        |dff_19                    |     1|
+|35    |    lpm_ttagdff1                 |reg1                      |    27|
+|36    |    lpm_ttagdff2                 |reg1_20                   |    28|
+|37    |    lpm_ttagdff3                 |reg1_21                   |    27|
+|38    |    lpm_ttagdff4                 |reg1_22                   |    27|
+|39    |    nanosecondcounter            |Counter_27_30             |    61|
+|40    |    ttag_dffenable1              |reg2                      |    27|
+|41    |    ttag_dffenable2              |reg2_31                   |    27|
+|42    |    ttag_dffenable3              |reg2_32                   |    27|
+|43    |    ttag_dffenable4              |reg2_33                   |    28|
+|44    |    ttag_dffenable5              |reg2_34                   |    27|
+|45    |    ttag_dffenable6              |reg2_35                   |    27|
+|46    |    ttag_mbuffer1_calout         |reg2_36                   |    27|
+|47    |    ttag_mbuffer1_mout           |reg2_37                   |    27|
+|48    |    ttag_mbuffer1_n              |reg2_38                   |    27|
+|49    |    ttag_mbuffer1_s              |reg2_39                   |    28|
+|50    |    ttag_mbuffer2_calout         |reg2_40                   |    27|
+|51    |    ttag_mbuffer2_mout           |reg2_41                   |    27|
+|52    |    ttag_mbuffer2_n              |reg2_42                   |    27|
+|53    |    ttag_mbuffer2_s              |reg2_43                   |    28|
+|54    |    ttag_sbuffer1_calout         |reg2_44                   |    27|
+|55    |    ttag_sbuffer1_n              |reg2_45                   |    31|
+|56    |    ttag_sbuffer1_rmout          |reg2_46                   |    27|
+|57    |    ttag_sbuffer1_s              |reg2_47                   |    28|
+|58    |    ttag_sbuffer2_calout         |reg2_48                   |    27|
+|59    |    ttag_sbuffer2_n              |reg2_49                   |    31|
+|60    |    ttag_sbuffer2_rmout          |reg2_50                   |    27|
+|61    |    ttag_sbuffer2_s              |reg2_51                   |    28|
+|62    |    ttag_secondscounter          |Counter_28                |    63|
+|63    |  time_tagging_v1_0_S00_AXI_inst |time_tagging_v1_0_S00_AXI |  1243|
++------+---------------------------------+--------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:09 ; elapsed = 00:00:34 . Memory (MB): peak = 453.801 ; gain = 320.645
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 146 warnings.
+Synthesis Optimization Complete : Time (s): cpu = 00:00:10 ; elapsed = 00:00:34 . Memory (MB): peak = 453.801 ; gain = 320.645
+INFO: [Netlist 29-17] Analyzing 96 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Opt 31-140] Inserted 0 IBUFs to IO ports without IO buffers.
+INFO: [Opt 31-141] Inserted 0 OBUFs to IO ports without IO buffers.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+65 Infos, 110 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:10 ; elapsed = 00:01:19 . Memory (MB): peak = 514.898 ; gain = 334.039
+# write_checkpoint time_tagging_v1_0.dcp
+# report_utilization -file time_tagging_v1_0_utilization_synth.rpt -pb time_tagging_v1_0_utilization_synth.pb
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.038 . Memory (MB): peak = 514.898 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Fri Jan 23 08:59:57 2015...
