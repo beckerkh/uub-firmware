@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+#  package_project
+#
+#  Package project & documentaton for distribution
+#
+#  Steps: 
+#  1) Run make in  ip_repo/sde_trigger/hdl/
+#  2) Do Vivado Synthesis, implementation and create bitmap for project
+#  3) Run this script from the uub-firmware base
+#  4) Tag the version
+#  5) Commit & push to GitHub
+#
+#  14-Aug-2016 DFN Original version
+#  01-Sep-2016 DFN Modified to work with GitHub
+
+VERSION="`cat  ip_repo/sde_trigger/hdl/sde_trigger_id`"
+
+# Clean up any files left in temp directory
+rm -rf temp
+mkdir temp
+
+# Copy new set of files to temp directory
+cp docs/SDE_PLD_Firmware_Specs.pdf temp/SDE_PLD_Firmware_Specs_${VERSION}.pdf
+
+cp ip_repo/sde_trigger/drivers/sde_trigger/src/*.h temp/
+cp ip_repo/sde_trigger/drivers/sde_trigger/src/sde_trigger.c temp/
+cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.h temp/
+cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.c temp/
+
+cp wp2/uub_proto2/src/test_periph/src/*.c temp/
+cp wp2/uub_proto2/src/test_periph/src/*.h temp/
+cp wp2/uub_proto2/src/test_periph/src/README temp/README_${VERSION}
+cp wp2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/
+
+# Package everything up into a tar file
+(cd temp; tar czf ../wp5/uub_firmware_${VERSION}.tgz ./*)
+
+# Tag this version
+git tag ${VERSION}
+
