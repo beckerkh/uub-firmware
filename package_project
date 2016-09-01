@@ -5,11 +5,11 @@
 #  Package project & documentaton for distribution
 #
 #  Steps: 
-#  1) Run make in  ip_repo/sde_trigger/hdl/
+#  1) Run make in ip_repo/sde_trigger/hdl/
 #  2) Do Vivado Synthesis, implementation and create bitmap for project
 #  3) Run this script from the uub-firmware base
-#  4) Tag the version
-#  5) Commit & push to GitHub
+#  4) Commit & push to GitHub; don't forget to push the tag (push --tags) 
+#     created by this script.
 #
 #  14-Aug-2016 DFN Original version
 #  01-Sep-2016 DFN Modified to work with GitHub
@@ -38,4 +38,10 @@ cp wp2/uub_proto2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/
 
 # Tag this version
 git tag ${VERSION}
+
+echo "If all goes well, don't forget to:"
+echo "  1) git add wp5/uub_firmware_${VERSION}.tgz"
+echo "  2) git commit"
+echo "  3) git push origin master"
+echo "  4) git push --tags"
 
