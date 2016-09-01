@@ -31,7 +31,7 @@ cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.c temp/
 cp wp2/uub_proto2/src/test_periph/src/*.c temp/
 cp wp2/uub_proto2/src/test_periph/src/*.h temp/
 cp wp2/uub_proto2/src/test_periph/src/README temp/README_${VERSION}
-cp wp2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/
+cp wp2/uub_proto2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/
 
 # Package everything up into a tar file
 (cd temp; tar czf ../wp5/uub_firmware_${VERSION}.tgz ./*)
