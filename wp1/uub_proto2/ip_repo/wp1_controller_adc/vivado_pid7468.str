@@ -1,0 +1,83 @@
+/*
+
+Vivado v2015.2 (64-bit)
+SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+Process ID: 7468
+
+Current time: 	8/26/16 3:12:35 PM CEST
+Time zone: 	Central European Time (Europe/Berlin)
+
+OS: Windows 7
+Version: 6.1
+Architecture: amd64
+Available processors (cores): 8
+
+Screen size: 1366x768
+Screen resolution (DPI): 96
+Available screens: 1
+Default font: family=Tahoma,name=Tahoma,style=plain,size=11
+
+Java version: 	1.8.0_25 64-bit
+Java home: 	C:/Xilinx/Vivado/2015.2/tps/win64/jre
+
+User name: 	roberto
+User directory: E:/beyond_2015_sde_pld/trunk/ip_repo/wp1_controller_adc
+User country: 	IT
+User language: 	it
+User locale: 	it_IT
+
+Vivado preferences path: C:/Users/roberto/AppData/Roaming/Xilinx/Vivado/2015.2/vivado.ini
+Vivado layouts directory: C:/Users/roberto/AppData/Roaming/Xilinx/Vivado/2015.2/layouts/application
+
+GUI allocated memory:	233 MB
+GUI max memory:		3,052 MB
+Engine allocated memory: 379 MB
+
+*/
+
+// TclEventType: START_GUI
+// HColorUtils.generateUniqueColorPalette (num colors: 55) elapsed time: 1.8s
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 37 MB (+35861kb) [00:00:10]
+// [Engine Memory]: 356 MB (+221768kb) [00:00:10]
+// Opening Vivado Project: E:\beyond_2015_sde_pld\trunk\ip_repo\wp1_controller_adc\wp1_controller_adc.xpr. Version: Vivado v2015.2 
+// cp:P (cl:JFrame):  Open Project : addNotify
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// Tcl Message: open_project E:/beyond_2015_sde_pld/trunk/ip_repo/wp1_controller_adc/wp1_controller_adc.xpr 
+// TclEventType: PROJECT_NEW
+// Tcl Message: open_project E:/beyond_2015_sde_pld/trunk/ip_repo/wp1_controller_adc/wp1_controller_adc.xpr 
+// Tcl Message: INFO: [Project 1-313] Project file moved from 'C:/Xilinx/Vivado/2015.2/progetti/uub_proto/ip_repo/wp1_controller_adc' since last save. 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository 'e:/beyond_2015_sde_pld/trunk/ip_repo/WP1_ADC_Control'. 
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 47 MB (+9485kb) [00:00:15]
+// [Engine Memory]: 390 MB (+16651kb) [00:00:15]
+// [GUI Memory]: 62 MB (+12285kb) [00:00:16]
+// [Engine Memory]: 458 MB (+51367kb) [00:00:18]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2015.2/data/ip'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 458 MB. GUI used memory: 29 MB. Current time: 8/26/16 3:12:42 PM CEST
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Project name: wp1_controller_adc; location: E:/beyond_2015_sde_pld/trunk/ip_repo/wp1_controller_adc; part: xc7z020clg484-2
+// Tcl Message: open_project: Time (s): cpu = 00:00:22 ; elapsed = 00:00:11 . Memory (MB): peak = 802.613 ; gain = 197.105 
+dismissDialog("Open Project"); // cp:P (cl:JFrame)
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 29 MB. Current time: 8/26/16 3:42:46 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 27 MB. Current time: 8/26/16 4:12:50 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 28 MB. Current time: 8/26/16 4:42:53 PM CEST
+// [GUI Memory]: 65 MB (+53kb) [01:47:34]
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 27 MB. Current time: 8/26/16 5:12:57 PM CEST
+// [GUI Memory]: 69 MB (+663kb) [02:19:22]
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 26 MB. Current time: 8/26/16 5:43:00 PM CEST
+// [GUI Memory]: 73 MB (+714kb) [02:51:04]
+// HMemoryUtils.trashcanNow. Engine heap size: 464 MB. GUI used memory: 28 MB. Current time: 8/26/16 6:13:04 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 478 MB. GUI used memory: 29 MB. Current time: 8/26/16 6:31:31 PM CEST
+// [GUI Memory]: 77 MB (+258kb) [03:30:22]
