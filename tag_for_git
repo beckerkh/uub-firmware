@@ -1,0 +1,111 @@
+#!/bin/sh
+#
+# Tag for git
+#
+# Search Vivado tree and find files that should be committed to svn
+# in order to be able to compile a checked out project
+#
+# 12-Sep-2016 DFN Original version derived from tag_for_svn
+#
+#  The directory structure should be as follows:
+# 
+# <project>/
+#           <project>.xpr (Managed by svn)
+#           bd/          (This directory contains the block designs in the 
+#                         project. Only .bd files in this sub-directory tree
+#                         are managed)
+#
+#           ip/          (This directory contains added IP not included in the
+#                         block designs above.  (eg trigger_clks from clocking
+#                         wizard.  Only .bd, .xci, .xdc, .veo, .vhdl files
+#                         are managed. )
+#
+#           scripts/     (.tcl  project & bd scripts - All files managed)
+#
+#           hdl/         (This directory contains board wrapper hdl files and
+#                         the like. All files in this sub-directory tree
+#                         are managed.)
+#
+#           constraints/ (All files managed)
+
+
+STARTPWD=`pwd`
+
+# Add .xpr files from the current directory
+echo " "
+echo "Adding .xpr files from the current directory..."
+svn  add --parents *.xpr
+
+# Add any .bd files we find in the bd directory.  May need more files.
+if test -d bd
+ then
+    echo " "
+    echo "Adding .bd and wrapper files from the bd/ subdirectory tree..."
+    cd bd
+    find ./ -name "*.bd"  -exec git add --parents {} \;
+    //find ./ -name "*.bxml"  -exec git add --parents {} \;
+    //find ./ -name "*.bmm"  -exec git add --parents {} \;
+    find ./ -name "hw_handoff"  -exec git add --parents {} \;
+    find ./ -name "*.xci"  -exec git add --parents {} \;
+    cd $STARTPWD
+fi
+
+# Add all files we find in the ip directory
+if test -d ip 
+then
+    echo " "
+    echo "Adding .bd, .xci, .veo, .v, .vhdl files from the ip/ subdirectory tree..."
+    cd ip
+    find ./ -maxdepth 2 -name "*.bd" -exec git add --parents {} \;
+    find ./ -maxdepth 2 -name "*.xci" -exec git add --parents {} \;
+    find ./ -maxdepth 2 -name "*.veo" -exec git add --parents {} \;
+    find ./ -maxdepth 2 -name "*.v" -exec git add --parents {} \;
+    find ./ -maxdepth 2 -name "*.vhdl" -exec git add --parents {} \;
+    cd $STARTPWD
+fi
+
+# Add all .tcl  files in the scripts directory
+if test -d scripts
+ then
+    echo " "
+    echo "Adding .tcl files from the scripts/ subdirectory..."
+    cd scripts
+    find ./ -name "*.tcl" -exec git add --parents {} \;
+    cd $STARTPWD
+fi
+
+# Add all files in the hdl/ directory
+if test -d hdl
+ then
+    echo " "
+    echo "Adding all files from the hdl/ subdirectory..."
+    cd hdl
+    find ./ -maxdepth 2 -name "*.v" -exec git add --parents {} \;
+    find ./ -maxdepth 2 -name "*.vhdl" -exec git add --parents {} \;
+    cd $STARTPWD
+fi
+
+# Add all .xdc files in the constraints/ directory
+if test -d constraints
+then
+    echo " "
+    echo "Adding all .xdc files from the constraints/ subdirectory..."
+    cd constraints
+    find ./ -name "*.xdc" -exec git add --parents {} \;
+    cd $STARTPWD
+fi
+
+# Add all files in the src/ directory
+if test -d src
+then
+    echo " "
+    echo "Adding all files from the src/ subdirectory..."
+    git add src
+    cd $STARTPWD
+fi
+
+echo " "
+echo "Finished.  Please check that all desired files have been added"
+echo "and that extraneous files have not been added to git.  Some hand"
+echo "followup commands may need to be given."
+
