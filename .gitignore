@@ -5,4 +5,7 @@
 *~
 *.o
 *.d
+*.a
+*.elf
+*.elf.size
 
