@@ -8,6 +8,7 @@
  #include "xil_cache.h"
  #include "xscugic.h"
  #include "xil_exception.h"
+ #include "xiicps.h"
  #include "iicps_header.h"
  #include "init_xiicps_header.h"
  #include "xspips.h"
