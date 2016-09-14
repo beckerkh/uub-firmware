@@ -1,8 +1,8 @@
 //Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2015.2.1 (win64) Build 1302555 Wed Aug  5 13:06:02 MDT 2015
-//Date        : Thu Sep 08 19:29:20 2016
-//Host        : pccad-elet running 64-bit Service Pack 1  (build 7601)
+//Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
+//Date        : Tue Sep 13 16:38:42 2016
+//Host        : dfn-x3100.auger.mtu.edu running 64-bit Scientific Linux release 6.8 (Carbon)
 //Command     : generate_target uub_proto2_wrapper.bd
 //Design      : uub_proto2_wrapper
 //Purpose     : IP block netlist
