@@ -1184,17 +1184,7 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext1_ctl</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:name>ext0_dat</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1214,7 +1204,17 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext0_dat</spirit:name>
+          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>7</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>ext1_ctl</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1720,10 +1720,10 @@
       <spirit:adHocConnection>
         <spirit:name>xlconstant_0_dout</spirit:name>
         <spirit:internalPortReference spirit:componentRef="xlconstant_0" spirit:portRef="dout"/>
-        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
         <spirit:externalPortReference spirit:portRef="ext1_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
+        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_P6X</spirit:name>
@@ -1790,6 +1790,11 @@
         <spirit:name>GPS_PPS_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="GPS_PPS"/>
         <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="TRUE_PPS"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>GPS_UART_INT_1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="interrupt"/>
+        <spirit:internalPortReference spirit:componentRef="zync_block" spirit:portRef="GPS_UART_INT"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
@@ -2838,9 +2843,9 @@
       <spirit:adHocConnection>
         <spirit:name>TRIGGER_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="TRIGGER_CLK"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="CLK120"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>TRIG_IN_1</spirit:name>
@@ -2850,18 +2855,18 @@
       <spirit:adHocConnection>
         <spirit:name>S_AXI_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_CLK"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aclk"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aclk"/>
         <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aclk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>S_AXI_ARESETN_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aresetn"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>sde_trigger_0_SHWR_ADDR</spirit:name>
@@ -4853,6 +4858,12 @@
             </spirit:vector>
           </spirit:wire>
         </spirit:port>
+        <spirit:port>
+          <spirit:name>GPS_UART_INT</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
       </spirit:ports>
     </spirit:model>
   </spirit:component>
@@ -5021,6 +5032,7 @@
         <spirit:componentRef spirit:library="ip" spirit:name="xlconcat" spirit:vendor="xilinx.com" spirit:version="2.1"/>
         <spirit:configurableElementValues>
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_xlconcat_0_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="NUM_PORTS">3</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
@@ -5182,6 +5194,11 @@
         <spirit:name>axi_cdma_0_cdma_introut</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_cdma_0" spirit:portRef="cdma_introut"/>
         <spirit:internalPortReference spirit:componentRef="xlconcat_0" spirit:portRef="In0"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>GPS_UART_INT_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="GPS_UART_INT"/>
+        <spirit:internalPortReference spirit:componentRef="xlconcat_0" spirit:portRef="In2"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
