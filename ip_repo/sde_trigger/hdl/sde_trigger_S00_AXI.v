@@ -149,6 +149,11 @@ module sde_trigger_S00_AXI #
    //-- Number of Slave Registers: up to 256
    // Register addresses are defined in sde_trigger_defs.vh
    
+   reg [C_S_AXI_DATA_WIDTH-1:0]   SB_TRIG_THR0;
+   reg [C_S_AXI_DATA_WIDTH-1:0]   SB_TRIG_THR1;
+   reg [C_S_AXI_DATA_WIDTH-1:0]   SB_TRIG_THR2;
+   reg [C_S_AXI_DATA_WIDTH-1:0]   SB_TRIG_SSD;
+   reg [C_S_AXI_DATA_WIDTH-1:0]   SB_TRIG_ENAB;
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG1_THR0;
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG1_THR1;
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG1_THR2;
@@ -356,6 +361,11 @@ module sde_trigger_S00_AXI #
              ((COMPATIBILITY_GLOBAL_CONTROL &
              `COMPATIBILITY_GLOBAL_CONTROL_RESET) != 0))
 	  begin
+	     SB_TRIG_THR0 <= 0;
+	     SB_TRIG_THR1 <= 0;
+	     SB_TRIG_THR2 <= 0;
+	     SB_TRIG_SSD <= 0;
+	     SB_TRIG_ENAB <= 0;
 	     MUON_TRIG1_THR0 <= 0;
 	     MUON_TRIG1_THR1 <= 0;
 	     MUON_TRIG1_THR2 <= 0;
@@ -443,6 +453,16 @@ module sde_trigger_S00_AXI #
 	   if (slv_reg_wren)
 	     begin
 	        case ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
+	          `SB_TRIG_THR0_ADDR :
+	            SB_TRIG_THR0 <= S_AXI_WDATA;
+	          `SB_TRIG_THR1_ADDR :
+	            SB_TRIG_THR1 <= S_AXI_WDATA;
+	          `SB_TRIG_THR2_ADDR :
+	            SB_TRIG_THR2 <= S_AXI_WDATA;
+	          `SB_TRIG_SSD_ADDR :
+	            SB_TRIG_SSD <= S_AXI_WDATA;
+	          `SB_TRIG_ENAB_ADDR :
+	            SB_TRIG_ENAB <= S_AXI_WDATA;
 	          `MUON_TRIG1_THR0_ADDR :
 	            MUON_TRIG1_THR0 <= S_AXI_WDATA;
 	          `MUON_TRIG1_THR1_ADDR :
@@ -597,6 +617,16 @@ module sde_trigger_S00_AXI #
                     LED_CONTROL <= S_AXI_WDATA;
                   
 	          default : begin
+	             SB_TRIG_THR0
+                       <= SB_TRIG_THR0;
+	             SB_TRIG_THR1 
+                       <= SB_TRIG_THR1;
+	             SB_TRIG_THR2 
+                       <= SB_TRIG_THR2;
+	             SB_TRIG_SSD 
+                       <= SB_TRIG_SSD;
+	             SB_TRIG_ENAB 
+                       <= SB_TRIG_ENAB;
 	             MUON_TRIG1_THR0
                        <= MUON_TRIG1_THR0;
 	             MUON_TRIG1_THR1 
@@ -863,6 +893,16 @@ module sde_trigger_S00_AXI #
 	  begin    
 	     // Address decoding for reading registers
 	     case ( axi_araddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
+	       `SB_TRIG_THR0_ADDR :
+                 reg_data_out <= SB_TRIG_THR0;
+	       `SB_TRIG_THR1_ADDR :
+                 reg_data_out <= SB_TRIG_THR1;
+	       `SB_TRIG_THR2_ADDR :
+                 reg_data_out <= SB_TRIG_THR2;
+	       `SB_TRIG_SSD_ADDR :
+                 reg_data_out <= SB_TRIG_SSD;
+	       `SB_TRIG_ENAB_ADDR :
+                 reg_data_out <= SB_TRIG_ENAB;
 	       `MUON_TRIG1_THR0_ADDR :
                  reg_data_out <= MUON_TRIG1_THR0;
 	       `MUON_TRIG1_THR1_ADDR :

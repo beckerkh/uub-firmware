@@ -80,14 +80,10 @@
 
 \begin_layout Title
 SDE Upgrade PLD Firmware Specifications
-\begin_inset Newline newline
-\end_inset
-
-Version 11160816
 \end_layout
 
 \begin_layout Date
-August 16, 2016
+September 17, 2016
 \end_layout
 
 \begin_layout Author
@@ -105,7 +101,7 @@ This document describes the high level specifications for the PLD firmware
 \begin_inset Quotes eld
 \end_inset
 
-trunk/docs
+docs
 \begin_inset Quotes erd
 \end_inset
 
@@ -113,11 +109,11 @@ trunk/docs
 \begin_inset Quotes eld
 \end_inset
 
-beyond2015_sde_pld
+auger-prime-sde/uub-firmware
 \begin_inset Quotes erd
 \end_inset
 
- SVN repository.
+ github repository.
 \end_layout
 
 \begin_layout Section
@@ -159,37 +155,29 @@ The Xilinx Vivado development tools are used.
  The highest level which includes the various interfaces the processor via
  the AXI bus is built using the Vivado block diagram tools.
  Lower levels of custom firmware are coded directly in Verilog.
- This structure allows the relatively clean mating to the SVN repository.
+ This structure allows the relatively clean mating to the git repository.
 \end_layout
 
 \begin_layout Standard
-For storage in SVN a directory structure recommended by Xilinx is used.
+For storage in git a directory structure recommended by Xilinx is used.
  The shell script 
 \begin_inset Quotes eld
 \end_inset
 
-tag_for_svn
+tag_for_git
 \begin_inset Quotes erd
 \end_inset
 
-, located in the 
-\begin_inset Quotes eld
-\end_inset
-
-trunk
-\begin_inset Quotes erd
-\end_inset
-
- directory scan through a project directory and tag those files that need
- to be stored in SVN.
- Some hand addition or removal of files from SVN may be required.
+, located in the base directory scans through a project directory and tag
+ those files that need to be stored in git.
+ Some hand addition or removal of files from git may be required.
  This helps to avoid temporary files created by Vivado from being stored
- in SVN.
+ in git.
  Please look at the source code for 
 \begin_inset Quotes eld
 \end_inset
 
-tag_for_svn
+tag_for_git
 \begin_inset Quotes erd
 \end_inset
 
@@ -202,16 +190,16 @@ ip_repo
 \begin_inset Quotes erd
 \end_inset
 
- directory, the entire tree of the IP should be added to SVN.
+ directory, the entire tree of the IP should be added to git.
 \end_layout
 
 \begin_layout Standard
-Each WP with firmware has its own master directory in the SVN repository.
+Each WP with firmware has its own master directory in the git repository.
  For example, front end development work is in 
 \begin_inset Quotes eld
 \end_inset
 
-trunk/wp1
+/wp1
 \begin_inset Quotes erd
 \end_inset
 
@@ -219,7 +207,7 @@ trunk/wp1
 \begin_inset Quotes eld
 \end_inset
 
-trunk/wp2
+wp2
 \begin_inset Quotes erd
 \end_inset
 
@@ -227,7 +215,7 @@ trunk/wp2
 \begin_inset Quotes eld
 \end_inset
 
-trunk/wp3
+wp3
 \begin_inset Quotes erd
 \end_inset
 
@@ -236,7 +224,7 @@ trunk/wp3
 \begin_inset Quotes eld
 \end_inset
 
-trunk/wp5/sde_pl_hhddmmyy.tar
+wp5/sde_pl_hhddmmyy.tar
 \begin_inset Quotes erd
 \end_inset
 
@@ -4485,6 +4473,604 @@ Only 1 random trigger is generated per write to the START register.
 
 \begin_layout Subsection
 \noindent
+Full bandwidth single bin trigger
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\color black
+The full bandwidth single bin trigger operates on a single bin or small
+ number of consecutive bins.
+ The single bin trigger registers are organized as follows:
+\color inherit
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Address
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Width
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_THR0_ADDR 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Threshold for PMT1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_THR1_ADDR 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Threshold for PMT2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_THR2_ADDR 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Threshold for PMT3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_SSD_ADDR 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Threshold for SSD
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_ENAB_ADDR 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Control bits for the trigger
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+The bit usage for the SB_TRIG_ENAB register is as follows:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit(s)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit Mask (or Shift)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_INCL_PMT0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Include PMT0 in multiplicity logic if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_INCL_PMT1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Include PMT1 in multiplicity logic if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_INCL_PMT2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Include PMT2 in multiplicity logic if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_INCL_SSD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Include SSD in multiplicity logic if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6:4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_COINC_LVL_MASK (_SHIFT)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coincidence level for multiplicity logic sub-trigger
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8:7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_WCD_DELAY_SHIFT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Delay of WCD PMT signals prior to coincidence
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10:9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_SSD_DELAY_SHIFT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Delay of SSD signals prior to coincidence
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12:11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_COINC_OVLP_SHIFT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coincidence overlap width increase (bins)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14:13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_CONSEC_BINS_SHIFT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+# of consecutive bins required above threshold
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A signal amplitude must be strictly greater than its respective threshold
+ for the trigger to fire.
+ The multiplicity must be greater than or equal to the specified multiplicity.
+ The window for the multiplicity logic coincidence can be set from 1 time
+ bin (8.33 ns) up to 4 time bins.
+ Loading 0 into the SB_TRIG_COINC_OVLP bits sets the overlap to 1 bin, loading
+ 1, sets it to 2 bins, etc.
+ Either the WCD PMT or the SSD signal may be digitally delayed prior to
+ forming a coincidence.
+ Setting the SB_TRIG_WCD_DELAY (or SB_TRIG_SSD_DELAY) bits to 0 adds no
+ delay, setting the bits to 1 adds 1 time bin delay, etc.
+ Additionally, a requirement for more than one consecutive bin for each
+ of the PMT, SSD signals to be above threshold can be added.
+ Setting SB_TRIG_CONSEC_BINS bits to 0 requires just 1 bin to be above threshold
+, setting it to 1, requires 2 bins to be above threshold, etc.
+\end_layout
+
+\begin_layout Subsection
+\noindent
 Shower memory
 \end_layout
 
@@ -4769,7 +5355,7 @@ SHWR_BUF_TRIG_MASK register, then a trigger is generated on a LED flash,
 
 \color cyan
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="3">
+<lyxtabular version="3" rows="15" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -5278,6 +5864,41 @@ Trigger on LED flash
 \end_inset
 </cell>
 </row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+SB_TRIG
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Full bandwidth single bin trigger
+\end_layout
+
+\end_inset
+</cell>
+</row>
 </lyxtabular>
 
 \end_inset
@@ -5308,7 +5929,7 @@ The following bits are defined in the SHWR_BUF_TRIG_ID register.
 
 \color cyan
 \begin_inset Tabular
-<lyxtabular version="3" rows="15" columns="3">
+<lyxtabular version="3" rows="16" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -5834,7 +6455,7 @@ LED flasher fired
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5845,7 +6466,7 @@ LED flasher fired
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5856,13 +6477,48 @@ SHWR_BUF_TRIG_LED_DLYD
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \size footnotesize
 LED flasher fired after trigger
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+SB_TRIG_DLYD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Additional single bin trigger
 \end_layout
 
 \end_inset
@@ -6761,7 +7417,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-7
+15
 \end_layout
 
 \end_inset
@@ -8991,9 +9647,9 @@ ip_repo
 \begin_inset Quotes erd
 \end_inset
 
- directory in the beyond_2015_sde_pld svn repository.
+ directory in the auger-prime-sde/uub-firmeware git repository.
  A version corresponding to the integrated project snapshot is included
- in the trunk/wp5/sde_pl_hhddmmyy.tar file.
+ in the wp5/sde_pl_hhddmmyy.tar file.
 \end_layout
 
 \begin_layout Section
@@ -10305,7 +10961,7 @@ Description
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_SHWR_NANOSEC
+TTAG_SHWR_TICS
 \end_layout
 
 \end_inset
@@ -10345,7 +11001,7 @@ Seconds counter at shower trigger
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_SHWR_PPS_NANOSEC
+TTAG_SHWR_PPS_TICS
 \end_layout
 
 \end_inset
@@ -10385,7 +11041,7 @@ Seconds counter at last PPS before shower
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_MUON_NANOSEC
+TTAG_MUON_TICS
 \end_layout
 
 \end_inset
@@ -10425,7 +11081,7 @@ Seconds counter at muon buffer trigger
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_MUON_PPS_NANOSEC
+TTAG_MUON_PPS_TICS
 \end_layout
 
 \end_inset
@@ -10485,7 +11141,7 @@ Seconds counter at last PPS
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_PPS_NANOSEC
+TTAG_PPS_TICS
 \end_layout
 
 \end_inset
@@ -10616,11 +11272,11 @@ ttag
 \end_layout
 
 \begin_layout Standard
-The *NANOSEC registers contain the 120 Mhz counter value in the low order
- 27 bits (TTAG_NANOSEC_MASK).
+The *TICS registers contain the 120 Mhz counter value in the low order 27
+ bits (TTAG_TICS_MASK).
  Bit 27 is always 0.
- In the TTAG_SHWR_NANOSEC and TTAG_MUON_NANOSEC, bits 31:28 contain the
- value of the event counter for the shower and muon buffer triggers respectively
+ In the TTAG_SHWR_TICS and TTAG_MUON_TICS, bits 31:28 contain the value
+ of the event counter for the shower and muon buffer triggers respectively
  (TTAG_EVTCTR_SHIFT & TTAG_EVTCTR_MASK).
  The *SECONDS registers contain the seconds counter in the low order 28
  bits (TTAG_SECONDS_MASK).

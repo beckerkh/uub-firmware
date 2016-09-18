@@ -52,17 +52,19 @@ double time, prev_time, dt;
 #endif
 
     seconds = read_ttag(TTAG_SHWR_SECONDS_ADDR);
-    nanosec = read_ttag(TTAG_SHWR_NANOSEC_ADDR);
+    nanosec = read_ttag(TTAG_SHWR_TICS_ADDR);
     seconds = seconds & TTAG_SECONDS_MASK;
-    nanosec = nanosec & TTAG_NANOSEC_MASK;
+    nanosec = nanosec & TTAG_TICS_MASK;
 
     time = (double) seconds + 8.3333 * (double) nanosec / 1.e9;
     dt = time - prev_time;
     prev_time = time;
     trig_id = read_trig(SHWR_BUF_TRIG_ID_ADDR);
     printf("trigger_test: Trigger ID = %x ==", trig_id);
-    if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
+    if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
       printf(" SB");
+    if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
+      printf(" COMPAT_SB");
     if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0)
       printf(" EXT");
     printf(" T = %lf  DT = %lf", time, dt);

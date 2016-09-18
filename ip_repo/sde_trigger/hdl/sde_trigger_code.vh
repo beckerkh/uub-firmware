@@ -9,6 +9,7 @@
 // 26-Feb-2016 DFN Add external trigger
 // 06-Apr-2016 DFN Change to put each ADC in its own 16 bit field to simplify
 //                 unpacking.
+// 17-Sep-2016 DFN Add single_bin_120mhz trigger
 
 reg [1:0] ENABLE40;
 wire COMPATIBILITY_SB_TRIG;
@@ -39,6 +40,17 @@ reg [3:0] ADC_EXTRA;
 reg [`ADC_WIDTH-1:0] FILTB_PMT0, FILTB_PMT1, FILTB_PMT2;
 reg [`ADC_WIDTH+1:0] FILTD_PMT0, FILTD_PMT1, FILTD_PMT2;
 
+reg [2*`ADC_WIDTH-1:0] 		  ADC0_DLY[0:`ADC_FILT_DELAY];
+reg [2*`ADC_WIDTH-1:0] 		  ADC1_DLY[0:`ADC_FILT_DELAY];
+reg [2*`ADC_WIDTH-1:0] 		  ADC2_DLY[0:`ADC_FILT_DELAY];
+reg [2*`ADC_WIDTH-1:0] 		  ADC3_DLY[0:`ADC_FILT_DELAY];
+reg [2*`ADC_WIDTH-1:0] 		  ADC4_DLY[0:`ADC_FILT_DELAY];
+reg [2*`ADC_WIDTH-1:0] 		  ADCD0;
+reg [2*`ADC_WIDTH-1:0] 		  ADCD1;
+reg [2*`ADC_WIDTH-1:0] 		  ADCD2;
+reg [2*`ADC_WIDTH-1:0] 		  ADCD3;
+reg [2*`ADC_WIDTH-1:0] 		  ADCD4;
+
 reg [`MUON_NUM_TRIGS-1:0] MUON_PRETRIG;
 reg [`MUON_EXT_TRIG_DELAY:0] MUON_EXT_TRIG;
 wire MUON_PRETRIG1, MUON_PRETRIG2, MUON_PRETRIG3, MUON_PRETRIG4;
@@ -46,6 +58,7 @@ reg LCL_RESET;
 wire [4:0] MUON1_DEBUG, MUON2_DEBUG, MUON3_DEBUG, MUON4_DEBUG;
 wire [4:0] MUON_BUFFER_DEBUG;
 wire [4:0] LED_DEBUG;
+wire [4:0] SB_TRIG_DEBUG;
 wire LED_TRG_FLAG;
 wire [31:0] LCL_LED_CONTROL;
 reg TRIGGERED;
@@ -60,6 +73,7 @@ integer INDEX;
 integer DELAY;
 integer DEADDLY;
 integer MUON_EXTDLY;
+integer DLY_IDX;
 
 // Generate compatibility mode triggers.
 // Some debug included below
@@ -82,6 +96,24 @@ single_bin_40mhz
                            `COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT]),
 	    .TRIG(COMPATIBILITY_SB_TRIG)
 	    );
+
+// Generate full bandwidth triggers
+
+single_bin_120mhz
+  sb_120mhz1(.RESET(LCL_RESET),
+                .CLK120(CLK120),
+	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+                .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .TRIG_THR0(SB_TRIG_THR0[`ADC_WIDTH-1:0]),
+	        .TRIG_THR1(SB_TRIG_THR1[`ADC_WIDTH-1:0]),
+	        .TRIG_THR2(SB_TRIG_THR2[`ADC_WIDTH-1:0]),
+	        .TRIG_SSD(SB_TRIG_SSD[`ADC_WIDTH-1:0]),
+	        .TRIG_ENAB(SB_TRIG_ENAB),
+                .TRIG(SB_TRIG),
+                .DEBUG(SB_TRIG_DEBUG)
+  	        );
 
 // Generate muon triggers
 
@@ -286,6 +318,26 @@ always @(posedge CLK120) begin
         FILTD_PMT1 <= FILT_PMT1;
         FILTD_PMT2 <= FILT_PMT2;
 
+	// Delay ADC data to re-time it with filtered ADC data
+	ADC0_DLY[0] <= ADC0;
+	ADC1_DLY[0] <= ADC1;
+	ADC2_DLY[0] <= ADC2;
+	ADC3_DLY[0] <= ADC3;
+	ADC4_DLY[0] <= ADC4;
+        for (DLY_IDX=1; DLY_IDX<=`ADC_FILT_DELAY;
+             DLY_IDX=DLY_IDX+1) begin
+           ADC0_DLY[DLY_IDX] <= ADC0_DLY[DLY_IDX-1];
+           ADC1_DLY[DLY_IDX] <= ADC1_DLY[DLY_IDX-1];
+           ADC2_DLY[DLY_IDX] <= ADC2_DLY[DLY_IDX-1];
+           ADC3_DLY[DLY_IDX] <= ADC3_DLY[DLY_IDX-1];
+           ADC4_DLY[DLY_IDX] <= ADC4_DLY[DLY_IDX-1];
+        end
+	ADCD0 <= ADC0_DLY[`ADC_FILT_DELAY];
+	ADCD1 <= ADC1_DLY[`ADC_FILT_DELAY];
+	ADCD2 <= ADC2_DLY[`ADC_FILT_DELAY];
+	ADCD3 <= ADC3_DLY[`ADC_FILT_DELAY];
+	ADCD4 <= ADC4_DLY[`ADC_FILT_DELAY];
+	
         // Send shower data to memory
         
         SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT-1:0]
@@ -293,16 +345,16 @@ always @(posedge CLK120) begin
         SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:
                    `SHWR_MEM_BUF_SHIFT] <= SHWR_BUF_WNUM;
         SHWR_ADDR <= SHWR_ADDR1;
-        SHWR_DATA0[`ADC_WIDTH-1:0] <= ADC0[`ADC_WIDTH-1:0];
-        SHWR_DATA0[`ADC_WIDTH+15:16] <= ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA1[`ADC_WIDTH-1:0] <= ADC1[`ADC_WIDTH-1:0];
-        SHWR_DATA1[`ADC_WIDTH+15:16] <= ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA2[`ADC_WIDTH-1:0] <= ADC2[`ADC_WIDTH-1:0];
-        SHWR_DATA2[`ADC_WIDTH+15:16] <= ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA3[`ADC_WIDTH-1:0] <= ADC3[`ADC_WIDTH-1:0];
-        SHWR_DATA3[`ADC_WIDTH+15:16] <= ADC3[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA4[`ADC_WIDTH-1:0] <= ADC4[`ADC_WIDTH-1:0];
-        SHWR_DATA4[`ADC_WIDTH+15:16] <= ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH];
+        SHWR_DATA0[`ADC_WIDTH-1:0] <= ADCD0[`ADC_WIDTH-1:0];
+        SHWR_DATA0[`ADC_WIDTH+15:16] <= ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH];
+        SHWR_DATA1[`ADC_WIDTH-1:0] <= ADCD1[`ADC_WIDTH-1:0];
+        SHWR_DATA1[`ADC_WIDTH+15:16] <= ADCD1[2*`ADC_WIDTH-1:`ADC_WIDTH];
+        SHWR_DATA2[`ADC_WIDTH-1:0] <= ADCD2[`ADC_WIDTH-1:0];
+        SHWR_DATA2[`ADC_WIDTH+15:16] <= ADCD2[2*`ADC_WIDTH-1:`ADC_WIDTH];
+        SHWR_DATA3[`ADC_WIDTH-1:0] <= ADCD3[`ADC_WIDTH-1:0];
+        SHWR_DATA3[`ADC_WIDTH+15:16] <= ADCD3[2*`ADC_WIDTH-1:`ADC_WIDTH];
+        SHWR_DATA4[`ADC_WIDTH-1:0] <= ADCD4[`ADC_WIDTH-1:0];
+        SHWR_DATA4[`ADC_WIDTH+15:16] <= ADCD4[2*`ADC_WIDTH-1:`ADC_WIDTH];
 
         SHWR_DATA0[15:`ADC_WIDTH] <= FILTB_PMT0 & 'hf;
         SHWR_DATA0[31:`ADC_WIDTH+16] <= (FILTB_PMT0 >> 4) & 'hf;
@@ -353,7 +405,10 @@ always @(posedge CLK120) begin
                               `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
                 | ((PRESCALED_COMPAT_EXT_TRIG <<
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT));
+                   (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
+                | ((SB_TRIG <<
+                    `SHWR_BUF_TRIG_SB_SHIFT) & 
+                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
               
               if (SOME_TRIG) begin
                  TRIGGERED <= 1;
@@ -389,10 +444,14 @@ always @(posedge CLK120) begin
                                   `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
                | ((PRESCALED_COMPAT_EXT_TRIG << 
                    `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT));
+                   (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
+                | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
+                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
+
               LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM]
-                <= LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM]
-                | SOME_DLYD_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);             
+                <= LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM] |
+                   (SOME_DLYD_TRIG<<8) |  
+		   (LED_TRG_FLAG << (`SHWR_BUF_TRIG_LED_SHIFT+8));             
  
               // Delay this action to the end of the buffer
  	      SHWR_TRIG_DLYD[0] <= 0;

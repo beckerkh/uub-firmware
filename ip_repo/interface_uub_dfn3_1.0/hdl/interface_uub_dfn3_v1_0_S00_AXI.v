@@ -25,7 +25,7 @@
          input TRUE_PPS,
          output reg RADIO_RST_OUT,
          output wire PPS,
-
+	 output reg USE_FAKE_SIGNAL,
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -404,19 +404,14 @@
    
 	always @( posedge CLK120 )
 	begin
-             slv_reg0[7:0] <= HCONF;
-             slv_reg0[8] <= USB_IFAULT;
-             slv_reg0[9] <= WATCHDOG;
-             slv_reg0[10] <= RADIO_RST_IN;
+           slv_reg0[7:0] <= HCONF;
+           slv_reg0[8] <= USB_IFAULT;
+           slv_reg0[9] <= WATCHDOG;
+           slv_reg0[10] <= RADIO_RST_IN;
              
-             RADIO_RST_OUT <= slv_reg1[0];
-             USE_FAKE_PPS <= slv_reg2[0];
-
-//             if (USE_FAKE_PPS)
-//               PPS <= FAKE_PPS;
-//             else
-//               PPS <= TRUE_PPS;
-           
+           RADIO_RST_OUT <= slv_reg1[0];
+           USE_FAKE_PPS <= slv_reg2[0];
+	   USE_FAKE_SIGNAL <= slv_reg2[1];
         end
 
    mux1 ppsmux(.SEL_B(USE_FAKE_PPS), .D({TRUE_PPS,FAKE_PPS}), .Q(PPS));

@@ -78,10 +78,17 @@ void trigger_test()
   int shwr_status, muon_status;
 #endif
   int id;
+
 #ifdef SHWR_TRIGGERS
-  int sb_trig_enab;
   int trigger_mask;
+  #ifdef COMPAT_SB_TRIGGER
+    int compat_sb_trig_enab;
+  #endif
+  #ifdef SB_TRIGGER
+    int sb_trig_enab;
+  #endif
 #endif
+
 #ifdef MUON_TRIGGERS
   int muon_trig_enab;
   int muon_trigger_mask;
@@ -92,11 +99,21 @@ void trigger_test()
   double time, dt, prev_time;
 #endif
 
+  // Select any special test options.
+  int test_options = 0;
+
   // Select fake or true GPS for 1pps
 #ifdef USE_FAKE_GPS
-  INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
-                               INTERFACE_UUB_DFN3_S00_AXI_SLV_REG2_OFFSET,1);
+  test_options = 1;
 #endif
+
+  // Select fake or true signals
+#ifdef USE_FAKE_SIGNAL
+  test_options = test_options | 2;
+#endif
+  INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
+                               INTERFACE_UUB_DFN3_S00_AXI_SLV_REG2_OFFSET,
+			       test_options);
 
   // Set up trigger
 
@@ -219,11 +236,28 @@ void trigger_test()
   write_trig(COMPATIBILITY_SB_TRIG_THR2_ADDR,(int) TRIG_THR2);
 
   // Define which PMTs to include & coincidence level required
-  sb_trig_enab = COMPATIBILITY_SB_TRIG_INCL_PMT0 |
+  compat_sb_trig_enab = COMPATIBILITY_SB_TRIG_INCL_PMT0 |
     COMPATIBILITY_SB_TRIG_INCL_PMT1 |
     COMPATIBILITY_SB_TRIG_INCL_PMT2 |
     (1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT);
-  write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, sb_trig_enab);
+  write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, compat_sb_trig_enab);
+
+  write_trig(SB_TRIG_THR0_ADDR,(int) (TRIG_THR0));
+  write_trig(SB_TRIG_THR1_ADDR,(int) (TRIG_THR1));
+  write_trig(SB_TRIG_THR2_ADDR,(int) (TRIG_THR2));
+  write_trig(SB_TRIG_SSD_ADDR,(int) (TRIG_SSD));
+ 
+  // Define which PMTs to include & coincidence level required
+  sb_trig_enab =  SB_TRIG_INCL_PMT0 |
+    SB_TRIG_INCL_PMT1 |
+    SB_TRIG_INCL_PMT2 |
+    SB_TRIG_INCL_SSD |
+    (1 << SB_TRIG_COINC_LVL_SHIFT) |
+    (0 << SB_TRIG_WCD_DELAY_SHIFT) |
+    (1 << SB_TRIG_SSD_DELAY_SHIFT) |
+    (3 << SB_TRIG_COINC_OVLP_SHIFT) |
+    (1 << SB_TRIG_CONSEC_BINS_SHIFT);
+     write_trig(SB_TRIG_ENAB_ADDR, sb_trig_enab);
 
   // Flush any shower stale events
   status = read_trig(SHWR_BUF_STATUS_ADDR);
@@ -235,17 +269,25 @@ void trigger_test()
       status = read_trig(SHWR_BUF_STATUS_ADDR);
     }
 
-  // trigger_mask = COMPATIBILITY_SHWR_BUF_TRIG_SB;
-  //  trigger_mask = COMPATIBILITY_SHWR_BUF_TRIG_SB |
-  //  COMPAT_PRESCALE_SHWR_BUF_TRIG_SB |
-  //  COMPATIBILITY_SHWR_BUF_TRIG_EXT |
-  //  COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT ;
-  trigger_mask = COMPATIBILITY_SHWR_BUF_TRIG_EXT |
-    COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT ;
+  trigger_mask = 0;
+#ifdef COMPAT_SB_TRIGGER
+  trigger_mask = trigger_mask | COMPATIBILITY_SHWR_BUF_TRIG_SB;
+#endif
+#ifdef PRESCALE_COMPAT_SB_TRIG
+  trigger_mask = trigger_mask | COMPAT_PRESCALE_SHWR_BUF_TRIG_SB;
+#endif
+#ifdef EXT_TRIGGER
+  trigger_mask = trigger_mask |  COMPATIBILITY_SHWR_BUF_TRIG_EXT;
+#endif
+#ifdef PRESCALE_EXT_TRIGGER
+  trigger_mask = trigger_mask |  COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT;
+#endif
 
   printf("Trigger_test: Enabled triggers = ");
-  if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0) 
+  if ((trigger_mask & SHWR_BUF_TRIG_SB) != 0) 
     printf(" SB");
+  if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0) 
+    printf(" COMPAT_SB");
   if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0) 
     printf(" EXT");
   if ((trigger_mask & COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) != 0) 
@@ -255,7 +297,7 @@ void trigger_test()
   printf("\n");
   printf("Trigger_test: Shower trigger thresholds = %d\n",(int) (TRIG_THR0));
 
-  // Flush any stale muon buffers
+  // Flush any stale shower buffers
   shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
   while ((SHWR_INTR_PEND_MASK & (shwr_status >> SHWR_INTR_PEND_SHIFT)) != 0)
     {

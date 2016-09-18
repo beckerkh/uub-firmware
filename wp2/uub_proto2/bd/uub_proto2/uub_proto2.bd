@@ -1360,6 +1360,13 @@
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_interface_uub_dfn3_0_0</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>fake_signal_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="user" spirit:name="fake_signal" spirit:vendor="user.org" spirit:version="1.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_fake_signal_0_0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
     </spirit:componentInstances>
     <spirit:interconnections>
       <spirit:interconnection>
@@ -1475,6 +1482,7 @@
         <spirit:internalPortReference spirit:componentRef="clock_1pps_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="clk_120m"/>
         <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="CLK120"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="CLK"/>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="TRIGGER_CLK"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="CLK"/>
@@ -1667,30 +1675,26 @@
       <spirit:adHocConnection>
         <spirit:name>adc_inputs_SYNC_OUT0</spirit:name>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="SYNC_OUT0"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC0"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC0_IN"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="IN0"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>adc_inputs_SYNC_OUT4</spirit:name>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="SYNC_OUT4"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC4"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC4_IN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>adc_inputs_SYNC_OUT1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="SYNC_OUT1"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC1"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC1_IN"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC3_IN"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="IN1"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>adc_inputs_SYNC_OUT2</spirit:name>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="SYNC_OUT2"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC2"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC2_IN"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="IN2"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>adc_inputs_SYNC_OUT3</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="SYNC_OUT3"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC3"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>ADC0_CK_P_1</spirit:name>
@@ -1795,6 +1799,36 @@
         <spirit:name>GPS_UART_INT_1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="interrupt"/>
         <spirit:internalPortReference spirit:componentRef="zync_block" spirit:portRef="GPS_UART_INT"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>interface_uub_dfn3_0_USE_FAKE_SIGNAL</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="USE_FAKE_SIGNAL"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>fake_signal_0_ADC0_OUT</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC0_OUT"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC0"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADC1_1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC1_OUT"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC1"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADC2_1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC2_OUT"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC2"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADC3_1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC3_OUT"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC3"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>ADC4_1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC4_OUT"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ADC4"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
@@ -2843,9 +2877,9 @@
       <spirit:adHocConnection>
         <spirit:name>TRIGGER_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="TRIGGER_CLK"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="CLK120"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>TRIG_IN_1</spirit:name>
@@ -2855,18 +2889,18 @@
       <spirit:adHocConnection>
         <spirit:name>S_AXI_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_CLK"/>
-        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aclk"/>
-        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aclk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>S_AXI_ARESETN_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aresetn"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>sde_trigger_0_SHWR_ADDR</spirit:name>

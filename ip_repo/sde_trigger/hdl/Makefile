@@ -12,11 +12,12 @@
 # 26-May-2016 DFN Remove leading 0's from register address
 # 03-Aug-2016 DFN Add include of "time_tagging.h"
 # 14-Aug-2016 DFN Add saving of compile date in file sde_trigger_id
+# 17-Sep-2016 DFN Move time tagging stuff to time_tagging_defs.vh, h
 
 all:	sde_trigger_id sde_trigger_options.vh  \
 	../drivers/sde_trigger/src/sde_trigger_defs.h \
 	../drivers/sde_trigger/src/sde_trigger_options.h \
-	../../time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.h
+	../drivers/sde_trigger/src/time_tagging_defs.h
 
 sde_trigger_id: FORCE
 	echo "`date +%H%d%m%y`" >sde_trigger_id
@@ -33,8 +34,6 @@ sde_trigger_options.vh: FORCE
 	>../drivers/sde_trigger/src/sde_trigger_defs.h
 	echo "#include \"sde_trigger_options.h\"" \
 	>>../drivers/sde_trigger/src/sde_trigger_defs.h
-	echo "#include \"time_tagging.h\"" \
-	>>../drivers/sde_trigger/src/sde_trigger_defs.h
 	echo "" \
 	>>../drivers/sde_trigger/src/sde_trigger_defs.h
 	sed -e "s/\`define/\#define/" <sde_trigger_defs.vh | \
@@ -49,6 +48,16 @@ sde_trigger_options.vh: FORCE
 	sed -e "s/slv_reg\([0-9]*\)/SDE_TRIGGER_S00_AXI_SLV_REG\1_OFFSET/" \
 	>> ../drivers/sde_trigger/src/sde_trigger_defs.h
 
+../drivers/sde_trigger/src/time_tagging_defs.h: 	FORCE
+	sed -e "s/\`define/\#define/" <time_tagging_defs.vh | \
+	sed -e "s/\`ifndef/\#ifndef/" | \
+	sed -e "s/\`endif/\#endif/" | \
+	sed -e "s/\`//" | \
+	sed -e "s/\`//" | \
+	sed -e "s/\`//" | \
+	sed -e "s/'h/0x/" \
+	> ../drivers/sde_trigger/src/time_tagging_defs.h
+
 ../drivers/sde_trigger/src/sde_trigger_options.h:	sde_trigger_options.vh
 	sed -e "s/\`define/\#define/" <sde_trigger_options.vh | \
 	sed -e "s/\`ifndef/\#ifndef/" | \
@@ -59,6 +68,7 @@ sde_trigger_options.vh: FORCE
 clean:
 	rm -f ../drivers/sde_trigger/src/sde_trigger_defs.h
 	rm -f ../drivers/sde_trigger/src/sde_trigger_options.h
+	rm -f ../drivers/sde_trigger/src/time_tagging_defs.h
 	rm -f sde_trigger_options.vh
 
 FORCE:

@@ -9,6 +9,8 @@
 #include "xil_types.h"
 #include "xil_printf.h"
 #include "sde_trigger_defs.h"
+#include "time_tagging_defs.h"
+#include "time_tagging.h"
 #include "xaxicdma.h"
 #include "xdebug.h"
 #include "xil_cache.h"
@@ -19,6 +21,7 @@
 #include "test_periph.h"
 #include "interface_uub_dfn3.h" 
 
+#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
 #define DO_LED_PULSE
 //#define DO_LED_NOW
@@ -30,14 +33,21 @@
 #define COMPAT_MV_PER_CHAN (2000./(1024.*30.))
 #define COMPAT_CHAN_PER_MV (1/COMPAT_MV_PER_CHAN)
 //#define TRIG_THR0 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-#define TRIG_THR0 1000
+#define TRIG_THR0 700
 #define TRIG_THR1 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
 #define TRIG_THR2 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
 #define TRIG_SSD 50. * COMPAT_CHAN_PER_MV // Set ?? threshold
 
 #define MUONS_PER_BUF (MUON_MEM_WORDS/MUON_BURST_LEN)
 
-//#define SHWR_TRIGGERS
+#define SHWR_TRIGGERS
+#ifdef SHWR_TRIGGERS 
+  #define COMPAT_SB_TRIGGER
+  #define SB_TRIGGER
+//  #define EXT_TRIGGER
+//  #define PRESCALE_EXT_TRIGGER
+//  #define PRESCALE_COMPAT_SB_TRIGGER
+#endif
 //#define MUON_TRIGGERS
 
 // PDT mode. Read shower/muon buffers

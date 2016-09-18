@@ -4,6 +4,7 @@
 	<comment>Created by SDK v2015.2. test_periph_dfn_bsp - ps7_cortexa9_0</comment>
 	<projects>
 		<project>test_periph_dfn_bsp</project>
+		<project>uub_proto2_wrapper_hw_platform_0</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
