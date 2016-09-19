@@ -56,9 +56,12 @@ double time, prev_time, dt;
     seconds = seconds & TTAG_SECONDS_MASK;
     nanosec = nanosec & TTAG_TICS_MASK;
 
-    time = (double) seconds + 8.3333 * (double) nanosec / 1.e9;
+    // This is not correct to get the time.
+    //    time = (double) seconds + 8.3333 * (double) nanosec / 1.e9;
+    time = (double) seconds;
     dt = time - prev_time;
     prev_time = time;
+
     trig_id = read_trig(SHWR_BUF_TRIG_ID_ADDR);
     printf("trigger_test: Trigger ID = %x ==", trig_id);
     if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
@@ -66,6 +69,12 @@ double time, prev_time, dt;
     if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
       printf(" COMPAT_SB");
     if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0)
+      printf(" EXT");
+    if ((trig_id & (SHWR_BUF_TRIG_SB<<8)) != 0)
+      printf(" SB_DLYD");
+    if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_SB<<8)) != 0)
+      printf(" COMPAT_SB_DLYD");
+    if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_EXT<<8)) != 0)
       printf(" EXT");
     printf(" T = %lf  DT = %lf", time, dt);
     printf("\n");
@@ -225,59 +234,107 @@ double time, prev_time, dt;
       }
   }
 
-  void check_shw_buffers()
-  {
-    int i, corrupt;
+void check_shw_buffers()
+{
+  int i, corrupt, trig;
 #ifdef RAMP
-    int j;
+  int j;
 #endif
 
-   for (i=1; i<SHWR_MEM_WORDS; i++)
-     {
-       corrupt = 0;
-       if (flags[i] == 0)
-         {
-           if (flags[i-1] != 14) 
-             {
-               corrupt = 1;
-             }
-         } else {
-         if (flags[i] != flags[i-1]+1) 
-           {
-             corrupt = 1;
-           }
-       }
-       if (corrupt != 0)
-         {   
-           printf("trigger_test: Corrupt buffer: time bin %x  flags=%x %x\n",
-                  i,flags[i],flags[i-1]);
-           return;
+  corrupt = 0;
+  for (i=1; i<SHWR_MEM_WORDS; i++)
+    {
+      if (flags[i] >= 15) corrupt = 1;
+      if (flags[i] == 0)
+	{
+	  if (flags[i-1] != 14) 
+	    corrupt = 1;
+	} else {
+	if (flags[i] != flags[i-1]+1) 
+	  corrupt = 1;
+      }
+      if (corrupt != 0)
+	{   
+	  printf("trigger_test: Corrupt buffer: time bin %x  flags=%x %x\n",
+		 i,flags[i],flags[i-1]);
+	  return;
         }
-      }
+    }
 
 #ifdef RAMP
-    for (i=1; i<SHWR_MEM_WORDS; i++)
-      {
-        for (j=0; j<10; j++)
-          {
-            if ((adc[j][i]+1 != adc[j][i-1]) && (adc[j][i] != 0xfff))
-              {
-                printf("trigger_test: Corrupted value ADC %d  @time bin %d = %x",
-                       j,i-1,adc[j][i-1]);
-                printf("  @time bin %d = %x\n",i,adc[j][i]);
-              }
-          }
-      }
+  for (i=1; i<SHWR_MEM_WORDS; i++)
+    {
+      for (j=0; j<10; j++)
+	{
+	  if ((adc[j][i]+1 != adc[j][i-1]) && (adc[j][i] != 0xfff))
+	    {
+	      printf("trigger_test: Corrupted value ADC %d  @time bin %d = %x",
+		     j,i-1,adc[j][i-1]);
+	      printf("  @time bin %d = %x\n",i,adc[j][i]);
+	    }
+	}
+    }
 #endif
-  }
+}
 
   void print_shw_buffers()
   {
-    int i;
+    int i, trig, first, last, trig2;
+
+
+  trig = 0;
+  for (i=0; i<SHWR_MEM_WORDS; i++) {
+    if (trig == 0) {
+      if ((filt_adc[0][i] > TRIG_THR0) || (filt_adc[1][i] > TRIG_THR1) ||
+	  (filt_adc[1][i] > TRIG_THR2)) {
+	trig = i;
+	printf("trigger_test: Event should trigger at bin %d = 0x%x\n",trig,trig);
+      }
+    }
+  }
+  if (trig == 0) 
+    printf("trigger_test: Event should not have triggered\n");
+
+  trig2 = 0;
+  for (i=0; i<SHWR_MEM_WORDS; i++) {
+    if (trig2 == 0) {
+      if (flags[i] != 0) {
+	trig2 = i-15;
+	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
+      }
+    }
+  }
+  if (trig2 == 0) 
+    printf("trigger_test: Can't find trigger point\n");
+
 
     printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
-    //  for (i=0; i<SHWR_MEM_WORDS; i++)
-    for (i=694; i<766; i++)
+    if (abs(trig - trig2) > 10) {
+      first = trig2-5;
+      if (first < 0) first = 0;
+      last = trig2+20;
+      if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
+     
+    //      for (i=0; i<SHWR_MEM_WORDS; i++)
+        for (i=first; i<last; i++)
+      {
+        printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
+               i, flags[i], adc[0][i], adc[1][i], adc[2][i], 
+               adc[3][i], adc[4][i], 
+               adc[5][i], adc[6][i], adc[7][i], adc[8][i], adc[9][i],
+               filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
+      }
+	printf("...\n");
+    }
+ 
+   if (trig != 0) {
+      first = trig-5;
+      if (first < 0) first = 0;
+      last = trig+20;
+      if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
+    } 
+    //      for (i=0; i<SHWR_MEM_WORDS; i++)
+        for (i=first; i<last; i++)
       {
         printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
                i, flags[i], adc[0][i], adc[1][i], adc[2][i], 

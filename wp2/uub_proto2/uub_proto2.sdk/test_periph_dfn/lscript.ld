@@ -10,8 +10,8 @@
 /*                                                                 */
 /*******************************************************************/
 
-_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x800;
-_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x800;
+_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x1000;
+_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x1000;
 
 _ABORT_STACK_SIZE = DEFINED(_ABORT_STACK_SIZE) ? _ABORT_STACK_SIZE : 1024;
 _SUPERVISOR_STACK_SIZE = DEFINED(_SUPERVISOR_STACK_SIZE) ? _SUPERVISOR_STACK_SIZE : 2048;
@@ -23,6 +23,13 @@ _UNDEF_STACK_SIZE = DEFINED(_UNDEF_STACK_SIZE) ? _UNDEF_STACK_SIZE : 1024;
 
 MEMORY
 {
+   trigger_memory_block_muon_memory_block_axi_bram_ctrl_0_S_AXI_BASEADDR : ORIGIN = 0x40000000, LENGTH = 0x00020000
+   trigger_memory_block_muon_memory_block_axi_bram_ctrl_1_S_AXI_BASEADDR : ORIGIN = 0x42000000, LENGTH = 0x00020000
+   trigger_memory_block_shower_memory_block_axi_bram_ctrl_0_S_AXI_BASEADDR : ORIGIN = 0x44000000, LENGTH = 0x00008000
+   trigger_memory_block_shower_memory_block_axi_bram_ctrl_1_S_AXI_BASEADDR : ORIGIN = 0x46000000, LENGTH = 0x00008000
+   trigger_memory_block_shower_memory_block_axi_bram_ctrl_2_S_AXI_BASEADDR : ORIGIN = 0x48000000, LENGTH = 0x00008000
+   trigger_memory_block_shower_memory_block_axi_bram_ctrl_3_S_AXI_BASEADDR : ORIGIN = 0x4A000000, LENGTH = 0x00008000
+   trigger_memory_block_shower_memory_block_axi_bram_ctrl_4_S_AXI_BASEADDR : ORIGIN = 0x4C000000, LENGTH = 0x00008000
    ps7_ddr_0_S_AXI_BASEADDR : ORIGIN = 0x00100000, LENGTH = 0x3FF00000
    ps7_ram_0_S_AXI_BASEADDR : ORIGIN = 0x00000000, LENGTH = 0x00030000
    ps7_ram_1_S_AXI_BASEADDR : ORIGIN = 0xFFFF0000, LENGTH = 0x0000FE00

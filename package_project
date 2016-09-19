@@ -13,6 +13,7 @@
 #
 #  14-Aug-2016 DFN Original version
 #  01-Sep-2016 DFN Modified to work with GitHub
+#  18-Sep-2016 DFN Add xparameters.h and uub_proto2_wrapper.hdf
 
 VERSION="`cat  ip_repo/sde_trigger/hdl/sde_trigger_id`"
 
@@ -27,6 +28,12 @@ cp ip_repo/sde_trigger/drivers/sde_trigger/src/*.h temp/
 cp ip_repo/sde_trigger/drivers/sde_trigger/src/sde_trigger.c temp/
 cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.h temp/
 cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.c temp/
+
+WD=`pwd`
+cd wp2/uub_proto2
+find ./ -name xparameters.h -exec cp {} ../../temp/ {} \;
+find ./ -name uub_proto2_wrapper.hdf -exec cp {} ../../temp/ {} \;
+cd $WD
 
 cp wp2/uub_proto2/src/test_periph/src/*.c temp/
 cp wp2/uub_proto2/src/test_periph/src/*.h temp/

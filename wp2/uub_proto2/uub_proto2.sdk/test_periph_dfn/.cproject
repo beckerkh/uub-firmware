@@ -25,11 +25,12 @@
 							<tool id="xilinx.gnu.arm.c.toolchain.compiler.debug.1486952972" name="ARM gcc compiler" superClass="xilinx.gnu.arm.c.toolchain.compiler.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="xilinx.gnu.compiler.option.optimization.level.466077382" name="Optimization Level" superClass="xilinx.gnu.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.option.debugging.level.1948595085" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.416456555" name="Software Platform Include Path" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../test_periph_dfn_bsp/ps7_cortexa9_0/include"/>
-								</option>
-								<option id="xilinx.gnu.compiler.symbols.defined.825174043" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
+								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.416456555" name="Software Platform Include Path" superClass="xilinx.gnu.compiler.inferred.swplatform.includes"/>
+								<option id="xilinx.gnu.compiler.symbols.defined.825174043" name="Defined symbols (-D)" superClass="xilinx.gnu.compiler.symbols.defined" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STANDALONE"/>
+								</option>
+								<option id="xilinx.gnu.compiler.dircategory.includes.198746617" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../standalone_bsp_0/ps7_cortexa9_0/include"/>
 								</option>
 								<inputType id="xilinx.gnu.arm.c.compiler.input.361570895" name="C source files" superClass="xilinx.gnu.arm.c.compiler.input"/>
 							</tool>
@@ -42,13 +43,14 @@
 							</tool>
 							<tool id="xilinx.gnu.arm.toolchain.archiver.1209455606" name="ARM archiver" superClass="xilinx.gnu.arm.toolchain.archiver"/>
 							<tool id="xilinx.gnu.arm.c.toolchain.linker.debug.1890153789" name="ARM gcc linker" superClass="xilinx.gnu.arm.c.toolchain.linker.debug">
-								<option id="xilinx.gnu.linker.inferred.swplatform.lpath.1706182249" name="Software Platform Library Path" superClass="xilinx.gnu.linker.inferred.swplatform.lpath" valueType="libPaths">
-									<listOptionValue builtIn="false" value="../../test_periph_dfn_bsp/ps7_cortexa9_0/lib"/>
-								</option>
+								<option id="xilinx.gnu.linker.inferred.swplatform.lpath.1706182249" name="Software Platform Library Path" superClass="xilinx.gnu.linker.inferred.swplatform.lpath" valueType="libPaths"/>
 								<option id="xilinx.gnu.linker.inferred.swplatform.flags.1337243363" name="Software Platform Inferred Flags" superClass="xilinx.gnu.linker.inferred.swplatform.flags" valueType="libs">
 									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lgcc,-lc,--end-group"/>
 								</option>
 								<option id="xilinx.gnu.c.linker.option.lscript.995637216" name="Linker Script" superClass="xilinx.gnu.c.linker.option.lscript" value="../lscript.ld" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.paths.915837852" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="../../standalone_bsp_0/ps7_cortexa9_0/lib"/>
+								</option>
 								<inputType id="xilinx.gnu.linker.input.837067302" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

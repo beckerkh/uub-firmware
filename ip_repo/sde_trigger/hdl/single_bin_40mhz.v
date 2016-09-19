@@ -4,6 +4,7 @@
 //
 // 21-Mar-2014 DFN Initial version
 // 21-May-2015 DFN Add requirement that multiplicity > 0
+// 19-Sep-2016 DFN Correct width of THRES & ADC arrays.
 
 `include "sde_trigger_defs.vh"
 
@@ -17,7 +18,7 @@ module single_bin_40mhz(
 			input [`ADC_WIDTH-1:0] THRES1,
 			input [`ADC_WIDTH-1:0] THRES2,
 			input [2:0] TRIG_ENABLE,
-			input [1:0]MULTIPLICITY,
+			input [1:0] MULTIPLICITY,
 			output reg TRIG
 			);
    
@@ -25,8 +26,8 @@ module single_bin_40mhz(
    reg [1:0]                       SUM_PMT_TRIGS;
    reg                             ITRIG;
    reg                             PREV_ITRIG;
-   reg [`ADC_WIDTH-3:0]            THRES[2:0];
-   reg [`ADC_WIDTH-3:0]            ADC[2:0];
+   reg [`ADC_WIDTH-1:0]            THRES[2:0];
+   reg [`ADC_WIDTH-1:0]            ADC[2:0];
    
    integer                         INDEX;
    

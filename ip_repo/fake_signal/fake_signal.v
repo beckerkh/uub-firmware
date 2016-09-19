@@ -4,11 +4,11 @@
 // 14-Sep-2016 DFN Initial version
 //
 
-`define CLOCK_FREQ 120       // Clock frequency in Mhz
-`define DESIRED_DELAY 100000 // Desired pulse spacing in usec
+`define CLOCK_FREQ 120        // Clock frequency in Mhz
+`define DESIRED_DELAY 5000000 // Desired pulse spacing in usec
 `define MAX_DLYCOUNT (`CLOCK_FREQ * `DESIRED_DELAY)
 `define PEDESTAL 200         // Signal pedestal
-`define MAX_SIGNAL 4095      // Maximum signal size
+`define MAX_SIGNAL 2047      // Maximum signal size
 `define SIGNAL_BINS (`MAX_SIGNAL-`PEDESTAL)
 
 module fake_signal 
@@ -33,12 +33,19 @@ module fake_signal
    reg [31:0] PULSE_DELAY;
    reg [11:0] PULSE;
 
-   always @(posedge CLK)
+initial begin
+   PULSE_DELAY <= 0;
+   PULSE <= 0;
+end
+   
+always @(posedge CLK)
      begin
 
 	// Define basic pulse interval
-	PULSE_DELAY <= PULSE_DELAY+1;
-	if (PULSE_DELAY >= `MAX_DLYCOUNT) PULSE_DELAY <= 0;
+	if (PULSE_DELAY >= `MAX_DLYCOUNT) 
+	  PULSE_DELAY <= 0;
+        else
+	  PULSE_DELAY <= PULSE_DELAY+1;
 	if (PULSE_DELAY < `SIGNAL_BINS)
 	  PULSE <= PULSE+1;
 	else

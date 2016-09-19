@@ -13,6 +13,7 @@
 
 reg [1:0] ENABLE40;
 wire COMPATIBILITY_SB_TRIG;
+wire SB_TRIG;
 reg [`SHWR_TRIG_DLY:0] SHWR_TRIG_DLYD; // Trigger delayed to end of buf
 reg [`SHWR_DEAD_DLY:0] SHWR_DEAD_DLYD; // Dead time after end of buf
 
@@ -32,7 +33,7 @@ wire LCL_SHWR_CONTROL_WRITTEN;
 reg PREV_SHWR_CONTROL_WRITTEN;
 reg [31:0] LCL_SHWR_BUF_STATUS;
 reg [31:0] LCL_SHWR_BUF_TRIG_ID;
-reg [14:0] LCL_SHWR_BUF_TRIG_IDN[0:`SHWR_MEM_NBUF-1];
+reg [31:0] LCL_SHWR_BUF_TRIG_IDN[0:`SHWR_MEM_NBUF-1];
 wire [31:0] LCL_COMPATIBILITY_GLOBAL_CONTROL;
 reg TRIG_IN_PREV;
 reg EXT_TRIG;
@@ -243,6 +244,10 @@ always @(posedge CLK120) begin
         COMPAT_EXT_TRIG_COUNTER <= 0;
         PRESCALED_COMPAT_SB_TRIG <= 0;
         PRESCALED_COMPAT_EXT_TRIG <= 0;
+        for (DEADDLY = 0; DEADDLY<=`SHWR_DEAD_DLY; DEADDLY=DEADDLY+1)
+	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
+	for (DELAY = 0; DELAY<=`SHWR_TRIG_DLY; DELAY=DELAY+1)
+	  SHWR_TRIG_DLYD[DELAY] <= 0;
      end
    else
      begin
@@ -266,7 +271,7 @@ always @(posedge CLK120) begin
         EXT_TRIG <= TRIG_IN & !TRIG_IN_PREV;
 
         // Trig_out
-        TRIG_OUT <= SOME_TRIG;
+        TRIG_OUT <= |SOME_TRIG;
         
         // Handle prescaling of shower triggers
         if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) begin
@@ -324,8 +329,7 @@ always @(posedge CLK120) begin
 	ADC2_DLY[0] <= ADC2;
 	ADC3_DLY[0] <= ADC3;
 	ADC4_DLY[0] <= ADC4;
-        for (DLY_IDX=1; DLY_IDX<=`ADC_FILT_DELAY;
-             DLY_IDX=DLY_IDX+1) begin
+        for (DLY_IDX=1; DLY_IDX<=`ADC_FILT_DELAY; DLY_IDX=DLY_IDX+1) begin
            ADC0_DLY[DLY_IDX] <= ADC0_DLY[DLY_IDX-1];
            ADC1_DLY[DLY_IDX] <= ADC1_DLY[DLY_IDX-1];
            ADC2_DLY[DLY_IDX] <= ADC2_DLY[DLY_IDX-1];
@@ -366,10 +370,18 @@ always @(posedge CLK120) begin
         SHWR_DATA3[31:`ADC_WIDTH+16] <= (FILTB_PMT2 >> 4) & 'hf;
         SHWR_DATA4[15:`ADC_WIDTH] <=  (FILTB_PMT2 >> 8) & 'hf;
         SHWR_DATA4[31:`ADC_WIDTH+16] <= ADC_EXTRA;
-        if (ADC_EXTRA == 14)
-          ADC_EXTRA <= 0;
-        else
-          ADC_EXTRA <= ADC_EXTRA+1;
+
+	// Some debugging for now in ADC_EXTRA in place of seq. number
+	ADC_EXTRA = COMPATIBILITY_SB_TRIG |
+		    (SB_TRIG << 1) |
+		    ((|SOME_TRIG) <<2) |
+		    (TRIGGERED <<3);
+       
+     // Put sequence number in ADC_EXTRA
+//        if (ADC_EXTRA == 14)
+//          ADC_EXTRA <= 0;
+//        else
+//          ADC_EXTRA <= ADC_EXTRA+1;
         
         // Make offset to data in current buffer to read available
         LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0] 
@@ -406,8 +418,7 @@ always @(posedge CLK120) begin
                 | ((PRESCALED_COMPAT_EXT_TRIG <<
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
-                | ((SB_TRIG <<
-                    `SHWR_BUF_TRIG_SB_SHIFT) & 
+                | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
               
               if (SOME_TRIG) begin
@@ -419,7 +430,7 @@ always @(posedge CLK120) begin
                  // Trigger ID of first trigger. 
                    LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM] 
                      <= SOME_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);
-
+		 SOME_TRIG <= 0;
               end
            end // if (!TRIGGERED && !DEAD)
 
@@ -429,8 +440,7 @@ always @(posedge CLK120) begin
               SHWR_DEAD_DLYD[0] <= 0;
               for (DEADDLY = 0; DEADDLY<`SHWR_DEAD_DLY; DEADDLY=DEADDLY+1)
 	        SHWR_DEAD_DLYD[DEADDLY+1] <= SHWR_DEAD_DLYD[DEADDLY];     
-              if (SHWR_DEAD_DLYD[`SHWR_DEAD_DLY] 
-                  < SHWR_DEAD_DLYD[`SHWR_DEAD_DLY-1])
+              if (SHWR_DEAD_DLYD[`SHWR_DEAD_DLY]) 
                 DEAD <= 0;
            end
 
@@ -459,7 +469,7 @@ always @(posedge CLK120) begin
 	        SHWR_TRIG_DLYD[DELAY+1] <= SHWR_TRIG_DLYD[DELAY];
               
               // If rising edge, we have a trigger and are at the end of the buffer
-              if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1]) 
+              if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
 	        begin
                    // Mark buffer as full and switch to the next one
 	           SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |

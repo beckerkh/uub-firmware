@@ -1,4 +1,4 @@
 `ifndef _TRIGGER_OPTIONS
   `define _TRIGGER_OPTIONS
-  `define COMPILE_DATE 'h19170916
+  `define COMPILE_DATE 'h13190916
 `endif

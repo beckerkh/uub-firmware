@@ -13,7 +13,7 @@
 
  `define ADC_WIDTH 12 // Number of bits per ADC
  `define NUM_ADCS 10  // Number of ADCs
- `define ADC_FILT_DELAY 21 // ADC filter delay
+ `define ADC_FILT_DELAY 22 // ADC filter delay
  `define WIDTH_BITS 9 // Number of bits in ToT occupancy register
 
  `define SHWR_MEM_WIDTH 32      // Width of each shower memory block
