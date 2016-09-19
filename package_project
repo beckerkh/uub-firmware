@@ -31,8 +31,8 @@ cp ip_repo/time_tagging_1.0/drivers/time_tagging_v1_0/src/time_tagging.c temp/
 
 WD=`pwd`
 cd wp2/uub_proto2
-find ./ -name xparameters.h -exec cp {} ../../temp/ {} \;
-find ./ -name uub_proto2_wrapper.hdf -exec cp {} ../../temp/ {} \;
+find ./ -name xparameters.h -exec cp {} ../../temp/ \;
+find ./ -name uub_proto2_wrapper.hdf -exec cp {} ../../temp/ \;
 cd $WD
 
 cp wp2/uub_proto2/src/test_periph/src/*.c temp/

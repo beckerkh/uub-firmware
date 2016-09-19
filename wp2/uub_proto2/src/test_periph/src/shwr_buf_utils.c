@@ -299,7 +299,7 @@ void check_shw_buffers()
   for (i=0; i<SHWR_MEM_WORDS; i++) {
     if (trig2 == 0) {
       if (flags[i] != 0) {
-	trig2 = i-15;
+	trig2 = i-7;
 	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
       }
     }
@@ -309,7 +309,7 @@ void check_shw_buffers()
 
 
     printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
-    if (abs(trig - trig2) > 10) {
+    if (abs(trig - trig2) > 20) {
       first = trig2-5;
       if (first < 0) first = 0;
       last = trig2+20;
@@ -328,9 +328,9 @@ void check_shw_buffers()
     }
  
    if (trig != 0) {
-      first = trig-5;
+      first = trig2-5;
       if (first < 0) first = 0;
-      last = trig+20;
+      last = trig2+20;
       if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
     } 
     //      for (i=0; i<SHWR_MEM_WORDS; i++)

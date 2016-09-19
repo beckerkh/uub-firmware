@@ -33,10 +33,10 @@
 #define COMPAT_MV_PER_CHAN (2000./(1024.*30.))
 #define COMPAT_CHAN_PER_MV (1/COMPAT_MV_PER_CHAN)
 //#define TRIG_THR0 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-#define TRIG_THR0 2046
-#define TRIG_THR1 2046
-#define TRIG_THR2 2046
-#define TRIG_SSD 2046
+#define TRIG_THR0 2040
+#define TRIG_THR1 2040
+#define TRIG_THR2 2040
+#define TRIG_SSD 2040
 //#define TRIG_THR1 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
 //#define TRIG_THR2 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
 //#define TRIG_SSD 50. * COMPAT_CHAN_PER_MV // Set ?? threshold
@@ -46,7 +46,7 @@
 #define SHWR_TRIGGERS
 #ifdef SHWR_TRIGGERS 
   #define COMPAT_SB_TRIGGER
-//  #define SB_TRIGGER
+  #define SB_TRIGGER
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
