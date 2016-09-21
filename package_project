@@ -38,7 +38,7 @@ cd $WD
 cp wp2/uub_proto2/src/test_periph/src/*.c temp/
 cp wp2/uub_proto2/src/test_periph/src/*.h temp/
 cp wp2/uub_proto2/src/test_periph/src/README temp/README_${VERSION}
-cp wp2/uub_proto2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/
+cp wp2/uub_proto2/uub_proto2.runs/impl_1/uub_proto2_wrapper.bit temp/fpga.bit
 
 # Package everything up into a tar file
 (cd temp; tar czf ../wp5/uub_firmware_${VERSION}.tgz ./*)

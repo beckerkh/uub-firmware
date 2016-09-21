@@ -1762,7 +1762,7 @@
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_LEDBAR</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="LEDBAR"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="LED"/>
         <spirit:externalPortReference spirit:portRef="LED_ASY"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
@@ -2825,7 +2825,7 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>LEDBAR</spirit:name>
+          <spirit:name>LED</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
           </spirit:wire>
@@ -3044,8 +3044,8 @@
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>sde_trigger_0_LEDBAR</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="LEDBAR"/>
-        <spirit:externalPortReference spirit:portRef="LEDBAR"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="LED"/>
+        <spirit:externalPortReference spirit:portRef="LED"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>SHWR_DATA2_1</spirit:name>

@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-September 17, 2016
+September 19, 2016
 \end_layout
 
 \begin_layout Author
@@ -114,6 +114,15 @@ auger-prime-sde/uub-firmware
 \end_inset
 
  github repository.
+\end_layout
+
+\begin_layout Section
+History
+\end_layout
+
+\begin_layout Description
+19-Sep-2016 Added description of full bandwidth single bin shower trigger;
+ corrected errors in time tagging register description.
 \end_layout
 
 \begin_layout Section
@@ -11021,7 +11030,7 @@ TTAG_SHWR_PPS_TICS
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_SHWR_PPS_SECONDS
+TTAG_SHWR_PPS_CAL
 \end_layout
 
 \end_inset
@@ -11030,7 +11039,7 @@ TTAG_SHWR_PPS_SECONDS
 \begin_inset Text
 
 \begin_layout Plain Layout
-Seconds counter at last PPS before shower
+120 Mhz calibration counter at last PPS before shower
 \end_layout
 
 \end_inset
@@ -11101,7 +11110,7 @@ TTAG_MUON_PPS_TICS
 \begin_inset Text
 
 \begin_layout Plain Layout
-TTAG_MUON_PPS_SECONDS
+TTAG_MUON_PPS_CAL
 \end_layout
 
 \end_inset
@@ -11110,7 +11119,7 @@ TTAG_MUON_PPS_SECONDS
 \begin_inset Text
 
 \begin_layout Plain Layout
-Seconds counter at last PPS before muon buf.
+120 Mhz calibration counter at last PPS before muon buf.
 \end_layout
 
 \end_inset
@@ -11170,7 +11179,7 @@ TTAG_PPS_CAL
 \begin_inset Text
 
 \begin_layout Plain Layout
-Calibration counter at last PPS
+120 MHz calibration counter at last PPS
 \end_layout
 
 \end_inset

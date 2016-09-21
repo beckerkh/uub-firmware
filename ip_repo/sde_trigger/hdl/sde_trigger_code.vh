@@ -10,6 +10,7 @@
 // 06-Apr-2016 DFN Change to put each ADC in its own 16 bit field to simplify
 //                 unpacking.
 // 17-Sep-2016 DFN Add single_bin_120mhz trigger
+// 20-Sep-2016 DFN Add LED trigger (not just tag)
 
 reg [1:0] ENABLE40;
 wire COMPATIBILITY_SB_TRIG;
@@ -62,7 +63,7 @@ wire [4:0] LED_DEBUG;
 wire [4:0] SB_TRIG_DEBUG;
 wire LED_TRG_FLAG;
 wire [31:0] LCL_LED_CONTROL;
-reg TRIGGERED;
+reg TRIGGERED, SOME_TRIG_OR;
 reg [31:0] SOME_TRIG;
 reg [31:0] SOME_DLYD_TRIG;
 reg [7:0] COMPAT_SB_TRIG_COUNTER;
@@ -103,10 +104,10 @@ single_bin_40mhz
 single_bin_120mhz
   sb_120mhz1(.RESET(LCL_RESET),
                 .CLK120(CLK120),
-	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-                .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC0(ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC1(ADCD1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC2(ADCD2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+                .ADC_SSD(ADCD4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
 	        .TRIG_THR0(SB_TRIG_THR0[`ADC_WIDTH-1:0]),
 	        .TRIG_THR1(SB_TRIG_THR1[`ADC_WIDTH-1:0]),
 	        .TRIG_THR2(SB_TRIG_THR2[`ADC_WIDTH-1:0]),
@@ -212,7 +213,7 @@ led_control led_control1(.RESET(LCL_RESET),
                          .CLK120(CLK120),
                          .ONE_PPS(ONE_PPS),
                          .LED_CONTROL(LCL_LED_CONTROL),
-                         .LEDBAR(LEDBAR),
+                         .LED(LED),
                          .TRG_FLAG(LED_TRG_FLAG),
                          .DEBUG(LED_DEBUG)
                          );
@@ -234,7 +235,6 @@ always @(posedge CLK120) begin
         DEAD <= 0;
         SHWR_INTR <= 0;
         SHWR_ADDR1 <= 0;
-        TRIG_OUT <= 0;
         EXT_TRIG <= 0;
         ADC_EXTRA <= 0;
         SOME_DLYD_TRIG <= 0;
@@ -270,9 +270,8 @@ always @(posedge CLK120) begin
         TRIG_IN_PREV <= TRIG_IN;
         EXT_TRIG <= TRIG_IN & !TRIG_IN_PREV;
 
-        // Trig_out
-        TRIG_OUT <= |SOME_TRIG;
-        
+        SOME_TRIG_OR <= |SOME_TRIG;
+	        
         // Handle prescaling of shower triggers
         if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) begin
            if (COMPATIBILITY_SB_TRIG) begin
@@ -374,8 +373,8 @@ always @(posedge CLK120) begin
 	// Some debugging for now in ADC_EXTRA in place of seq. number
 	ADC_EXTRA = COMPATIBILITY_SB_TRIG |
 		    (SB_TRIG << 1) |
-		    ((|SOME_TRIG) <<2) |
-		    (TRIGGERED <<3);
+		    (LED_TRG_FLAG << 2) |
+		    (TRIGGERED << 3);
        
      // Put sequence number in ADC_EXTRA
 //        if (ADC_EXTRA == 14)
@@ -419,7 +418,9 @@ always @(posedge CLK120) begin
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
                 | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
+                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB))
+                | ((LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT) & 
+                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_LED));
               
               if (SOME_TRIG) begin
                  TRIGGERED <= 1;
@@ -560,6 +561,8 @@ end
         AXI_REG_WRITE <= slv_reg_wren;
      end
 
+   // Stretch trigger out signal
+   stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
 
    // Synchronization with AXI registers for cases where glitches would be
    // problematic.  This should not be necessary for semi-static control registers.

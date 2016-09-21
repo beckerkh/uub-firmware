@@ -72,7 +72,7 @@ module sde_trigger #
     output wire [`MUON_EVT_CTR_WIDTH-1:0] MUON_EVT_CTR,
     output wire TRIG_OUT, // External trigger output
     output wire [5:1] P6X,  // Test point outputs
-    output wire LEDBAR,
+    output wire LED,
    
     // User ports ends
     // Do not modify the ports beyond this line
@@ -191,7 +191,7 @@ module sde_trigger #
                              .MUON_INTR(MUON_INTR),
                              .TRIG_OUT(TRIG_OUT),
 			     .P6X(P6X),
-                             .LEDBAR(LEDBAR)
+                             .LED(LED)
 	                     );
 
    // Instantiation of Axi Bus Interface S_AXI_INTR

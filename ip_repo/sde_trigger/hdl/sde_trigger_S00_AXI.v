@@ -54,9 +54,9 @@ module sde_trigger_S00_AXI #
     output wire MUON_TRIGGER,  // Pulse when a muon buffer is full
     output reg SHWR_INTR,      // Remains high until no full buffers
     output wire MUON_INTR,     // Remains high until no full buffers
-    output reg TRIG_OUT,       // External trigger output
+    output wire TRIG_OUT,       // External trigger output
     output reg [5:1] P6X,       // Test points P65 through P61
-    output wire LEDBAR,
+    output wire LED,
                 
     // User ports ends
     // Do not modify the ports beyond this line

@@ -40,25 +40,33 @@ extern int Index;
 extern u32 bd_space[512] __attribute__((aligned(64)));;
 #endif
 
-int seconds, nanosec;
-double time, prev_time, dt;
+static double prev_time = 0;
 
   // Read shower memory buffers from PL memory into PS memory
   void read_shw_buffers()
   {
-    int trig_id;
+    int trig_id, pps_tics;
+    int seconds, tics, delta_tics;
+    double time, dt;
 #ifdef PDT
     int i;
 #endif
 
+    pps_tics = read_ttag(TTAG_SHWR_PPS_TICS_ADDR);
     seconds = read_ttag(TTAG_SHWR_SECONDS_ADDR);
-    nanosec = read_ttag(TTAG_SHWR_TICS_ADDR);
-    seconds = seconds & TTAG_SECONDS_MASK;
-    nanosec = nanosec & TTAG_TICS_MASK;
+    tics = read_ttag(TTAG_SHWR_TICS_ADDR);
 
-    // This is not correct to get the time.
-    //    time = (double) seconds + 8.3333 * (double) nanosec / 1.e9;
-    time = (double) seconds;
+    pps_tics = pps_tics & TTAG_TICS_MASK;
+    seconds = seconds & TTAG_SECONDS_MASK;
+    tics = tics & TTAG_TICS_MASK;
+
+    delta_tics = tics-pps_tics;
+    if (delta_tics < 0) delta_tics = delta_tics + TTAG_TICS_MASK +1;
+    printf("pps_tics=%d seconds=%d tics=%d delta_tics=%d\n",
+	   pps_tics, seconds, tics, delta_tics);
+
+    // Does not yet account for rollover of seconds
+    time = (double) seconds + 8.3333 * (double) delta_tics / 1.e9;
     dt = time - prev_time;
     prev_time = time;
 
