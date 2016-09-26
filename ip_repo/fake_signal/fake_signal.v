@@ -2,11 +2,14 @@
 // trigger modules.
 //
 // 14-Sep-2016 DFN Initial version
+// 21-Sep-2016 DFN Modify to send a burst of 2 pulses.
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
 `define DESIRED_DELAY 5000000 // Desired pulse spacing in usec
+`define DESIRED_DELAY2 1000000 // Delay of 2nd pulse after first
 `define MAX_DLYCOUNT (`CLOCK_FREQ * `DESIRED_DELAY)
+`define MAX_DLYCOUNT2 (`CLOCK_FREQ * `DESIRED_DELAY2)
 `define PEDESTAL 200         // Signal pedestal
 `define MAX_SIGNAL 2047      // Maximum signal size
 `define SIGNAL_BINS (`MAX_SIGNAL-`PEDESTAL)
@@ -47,6 +50,12 @@ always @(posedge CLK)
         else
 	  PULSE_DELAY <= PULSE_DELAY+1;
 	if (PULSE_DELAY < `SIGNAL_BINS)
+	  PULSE <= PULSE+1;
+	else if ((PULSE_DELAY >= `MAX_DLYCOUNT2) && 
+		 (PULSE_DELAY <`MAX_DLYCOUNT2+`SIGNAL_BINS))
+	  PULSE <= PULSE+1;
+	else if ((PULSE_DELAY >= 2*`MAX_DLYCOUNT2) && 
+		 (PULSE_DELAY <2*`MAX_DLYCOUNT2+`SIGNAL_BINS))
 	  PULSE <= PULSE+1;
 	else
 	  PULSE <= 0;

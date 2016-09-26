@@ -409,7 +409,7 @@
            slv_reg0[9] <= WATCHDOG;
            slv_reg0[10] <= RADIO_RST_IN;
              
-           RADIO_RST_OUT <= slv_reg1[0];
+           RADIO_RST_OUT <= !slv_reg1[0];
            USE_FAKE_PPS <= slv_reg2[0];
 	   USE_FAKE_SIGNAL <= slv_reg2[1];
         end
