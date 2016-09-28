@@ -244,45 +244,46 @@ static double prev_time = 0;
 
 void check_shw_buffers()
 {
-  int i, corrupt, trig;
-#ifdef RAMP
-  int j;
-#endif
 
-  corrupt = 0;
-  for (i=1; i<SHWR_MEM_WORDS; i++)
-    {
-      if (flags[i] >= 15) corrupt = 1;
-      if (flags[i] == 0)
-	{
-	  if (flags[i-1] != 14) 
-	    corrupt = 1;
-	} else {
-	if (flags[i] != flags[i-1]+1) 
-	  corrupt = 1;
-      }
-      if (corrupt != 0)
-	{   
-	  printf("trigger_test: Corrupt buffer: time bin %x  flags=%x %x\n",
-		 i,flags[i],flags[i-1]);
-	  return;
-        }
-    }
+/*   int i, corrupt, trig; */
+/* #ifdef RAMP */
+/*   int j; */
+/* #endif */
 
-#ifdef RAMP
-  for (i=1; i<SHWR_MEM_WORDS; i++)
-    {
-      for (j=0; j<10; j++)
-	{
-	  if ((adc[j][i]+1 != adc[j][i-1]) && (adc[j][i] != 0xfff))
-	    {
-	      printf("trigger_test: Corrupted value ADC %d  @time bin %d = %x",
-		     j,i-1,adc[j][i-1]);
-	      printf("  @time bin %d = %x\n",i,adc[j][i]);
-	    }
-	}
-    }
-#endif
+/*   corrupt = 0; */
+/*   for (i=1; i<SHWR_MEM_WORDS; i++) */
+/*     { */
+/*       if (flags[i] >= 15) corrupt = 1; */
+/*       if (flags[i] == 0) */
+/* 	{ */
+/* 	  if (flags[i-1] != 14)  */
+/* 	    corrupt = 1; */
+/* 	} else { */
+/* 	if (flags[i] != flags[i-1]+1)  */
+/* 	  corrupt = 1; */
+/*       } */
+/*       if (corrupt != 0) */
+/* 	{    */
+/* 	  printf("trigger_test: Corrupt buffer: time bin %x  flags=%x %x\n", */
+/* 		 i,flags[i],flags[i-1]); */
+/* 	  return; */
+/*         } */
+/*     } */
+
+/* #ifdef RAMP */
+/*   for (i=1; i<SHWR_MEM_WORDS; i++) */
+/*     { */
+/*       for (j=0; j<10; j++) */
+/* 	{ */
+/* 	  if ((adc[j][i]+1 != adc[j][i-1]) && (adc[j][i] != 0xfff)) */
+/* 	    { */
+/* 	      printf("trigger_test: Corrupted value ADC %d  @time bin %d = %x", */
+/* 		     j,i-1,adc[j][i-1]); */
+/* 	      printf("  @time bin %d = %x\n",i,adc[j][i]); */
+/* 	    } */
+/* 	} */
+/*     } */
+/* #endif */
 }
 
   void print_shw_buffers()
@@ -324,7 +325,7 @@ void check_shw_buffers()
       if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
      
     //      for (i=0; i<SHWR_MEM_WORDS; i++)
-        for (i=first; i<last; i++)
+      for (i=first; i<last; i++)
       {
         printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
                i, flags[i], adc[0][i], adc[1][i], adc[2][i], 
@@ -342,7 +343,8 @@ void check_shw_buffers()
       if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
     } 
     //      for (i=0; i<SHWR_MEM_WORDS; i++)
-        for (i=first; i<last; i++)
+   //        for (i=first; i<last; i++)
+        for (i=trig2; i<trig2; i++)
       {
         printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
                i, flags[i], adc[0][i], adc[1][i], adc[2][i], 

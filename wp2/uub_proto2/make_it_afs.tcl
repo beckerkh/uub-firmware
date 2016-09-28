@@ -2,6 +2,7 @@
 #-----------------------------------------------------------
 open_bd_design {/afs/auger.mtu.edu/common/scratch/dfnitz/git_clones/uub-firmware/wp2/uub_proto2/bd/uub_proto2/uub_proto2.bd}
 reset_target all [get_files  /afs/auger.mtu.edu/common/scratch/dfnitz/git_clones/uub-firmware/wp2/uub_proto2/bd/uub_proto2/uub_proto2.bd]
+reset_run synth_1
 launch_runs synth_1 -jobs 4
 wait_on_run synth_1
 launch_runs impl_1 -jobs 4

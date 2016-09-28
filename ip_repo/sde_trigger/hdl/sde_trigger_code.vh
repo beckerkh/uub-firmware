@@ -11,6 +11,8 @@
 //                 unpacking.
 // 17-Sep-2016 DFN Add single_bin_120mhz trigger
 // 20-Sep-2016 DFN Add LED trigger (not just tag)
+// 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by one clock cycle wrt
+//                 SHWR_TRIGGER
 
 reg [1:0] ENABLE40;
 wire COMPATIBILITY_SB_TRIG;
@@ -27,6 +29,8 @@ reg [31:0] LCL_SHWR_BUF_START;
 reg [31:0] LCL_SHWR_BUF_STARTT;
 reg [`SHWR_MEM_BUF_SHIFT+
      `SHWR_BUF_NUM_WIDTH-1:0] LCL_SHWR_BUF_STARTN[0:`SHWR_MEM_NBUF-1];
+reg [`SHWR_BUF_NUM_WIDTH-1:0] LCL_SHWR_BUF_WNUM;
+reg [`SHWR_BUF_NUM_WIDTH-1:0] TMP_SHWR_BUF_WNUM;
 reg AXI_REG_WRITE;
 reg AXI_SHWR_CONTROL_WRITTEN;
 reg AXI_MUON_CONTROL_WRITTEN;
@@ -252,6 +256,12 @@ always @(posedge CLK120) begin
    else
      begin
 
+        // Delay SHWR_BUF_WNUM by two clock cycles. This is necessary to
+        // compensate for timing delays within the time tagging module so that
+        // it associates the trigger with the correct buffer.
+        TMP_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM;
+        SHWR_BUF_WNUM <= TMP_SHWR_BUF_WNUM;
+        
         // Delay muon external trigger to be approx in sync with single bin
         MUON_EXT_TRIG[0] <= EXT_TRIG;
         for (MUON_EXTDLY = 1; MUON_EXTDLY<=`MUON_EXT_TRIG_DELAY; 
@@ -259,7 +269,7 @@ always @(posedge CLK120) begin
           MUON_EXT_TRIG[MUON_EXTDLY] <= MUON_EXT_TRIG[MUON_EXTDLY-1];
 
         // Form composite trigger for storing muon in muon buffer        
-        MUON_PRETRIG = (MUON_PRETRIG1 << `MUON_BUF_TRIG_SB1_SHIFT) |
+        MUON_PRETRIG <= (MUON_PRETRIG1 << `MUON_BUF_TRIG_SB1_SHIFT) |
                        (MUON_PRETRIG2 << `MUON_BUF_TRIG_SB2_SHIFT) | 
                        (MUON_PRETRIG3 <<`MUON_BUF_TRIG_SB3_SHIFT) | 
                        (MUON_PRETRIG4 <<`MUON_BUF_TRIG_SB4_SHIFT) |
@@ -346,7 +356,7 @@ always @(posedge CLK120) begin
         SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT-1:0]
           <= (SHWR_ADDR1+4) & (`SHWR_MEM_DEPTH-1);
         SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:
-                   `SHWR_MEM_BUF_SHIFT] <= SHWR_BUF_WNUM;
+                   `SHWR_MEM_BUF_SHIFT] <= LCL_SHWR_BUF_WNUM;
         SHWR_ADDR <= SHWR_ADDR1;
         SHWR_DATA0[`ADC_WIDTH-1:0] <= ADCD0[`ADC_WIDTH-1:0];
         SHWR_DATA0[`ADC_WIDTH+15:16] <= ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH];
@@ -429,7 +439,7 @@ always @(posedge CLK120) begin
                  SHWR_DEAD_DLYD[0] <= 1;
 
                  // Trigger ID of first trigger. 
-                   LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM] 
+                   LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] 
                      <= SOME_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);
 		 SOME_TRIG <= 0;
               end
@@ -459,8 +469,8 @@ always @(posedge CLK120) begin
                 | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
 
-              LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM]
-                <= LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_WNUM] |
+              LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM]
+                <= LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] |
                    (SOME_DLYD_TRIG<<8) |  
 		   (LED_TRG_FLAG << (`SHWR_BUF_TRIG_LED_SHIFT+8));             
  
@@ -474,16 +484,16 @@ always @(posedge CLK120) begin
 	        begin
                    // Mark buffer as full and switch to the next one
 	           SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
-                                          (1<<SHWR_BUF_WNUM);
+                                          (1<<LCL_SHWR_BUF_WNUM);
 	           SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
-	           SHWR_BUF_WNUM <= SHWR_BUF_WNUM+1;
+	           LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
                    SHWR_TRIGGER <= 1;
                    SHWR_INTR <= 1;
                    SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
                    TRIGGERED <= 0;
                    
                    // Save address to start of trace
-                   LCL_SHWR_BUF_STARTN[SHWR_BUF_WNUM] <= SHWR_ADDR;
+                   LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
                 end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1])
            end
            else
@@ -522,7 +532,7 @@ always @(posedge CLK120) begin
         // Load shower buffer status register 
         // Load as sub-register as alternative to test timing performance
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_WNUM_SHIFT+`SHWR_BUF_NUM_WIDTH-1:
-                            `SHWR_BUF_WNUM_SHIFT] <= SHWR_BUF_WNUM;
+                            `SHWR_BUF_WNUM_SHIFT] <= LCL_SHWR_BUF_WNUM;
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_RNUM_SHIFT+`SHWR_BUF_NUM_WIDTH-1:
                             `SHWR_BUF_RNUM_SHIFT] <= SHWR_BUF_RNUM;
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_FULL_SHIFT+`SHWR_MEM_NBUF-1:
@@ -535,11 +545,11 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P65
 
-	P6X[1] <= LED_DEBUG[0];
-	P6X[2] <= LED_DEBUG[1];
-	P6X[3] <= LED_DEBUG[2];
-	P6X[4] <= LED_DEBUG[3];
-	P6X[5] <= LED_DEBUG[4];
+	P6X[1] <= SHWR_TRIGGER;
+	P6X[2] <= SHWR_BUF_WNUM[0];
+	P6X[3] <= SHWR_BUF_WNUM[1];
+	P6X[4] <= SHWR_BUF_RNUM[0];
+	P6X[5] <= SHWR_BUF_RNUM[1];
         
      end // else: !if(LCL_RESET)
 end
