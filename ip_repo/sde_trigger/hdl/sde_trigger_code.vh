@@ -228,7 +228,7 @@ always @(posedge CLK120) begin
    if (LCL_RESET)
      begin
         ENABLE40 <= 0;
-        SHWR_BUF_WNUM <= 0;
+        LCL_SHWR_BUF_WNUM <= 0;
         SHWR_BUF_NUM_FULL <= 0;
         SHWR_BUF_FULL_FLAGS <= 0;
         SHWR_BUF_RNUM <= 0;

@@ -307,13 +307,124 @@ void trigger_test()
   printf("\n");
   printf("Trigger_test: Shower trigger thresholds = %d =0x%x\n",
 	 (int) (TRIG_THR0), (int) (TRIG_THR0));
+  // Here for test.  Should remove for normal operation.
+  write_trig(SHWR_BUF_TRIG_MASK_ADDR, trigger_mask);
+
+  // Wait a bit for some triggers to come in.
+  sleep(3);
+
+  // Check status of buffers
+  shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
+  toread_shwr_buf_num = SHWR_BUF_RNUM_MASK & 
+    (shwr_status >> SHWR_BUF_RNUM_SHIFT);
+  cur_shwr_buf_num = SHWR_BUF_WNUM_MASK & 
+    (shwr_status >> SHWR_BUF_WNUM_SHIFT);
+  full_shwr_bufs = SHWR_BUF_FULL_MASK & 
+    (shwr_status >> SHWR_BUF_FULL_SHIFT);
+  num_full = 0x7 & (shwr_status >> SHWR_BUF_NFULL_SHIFT);
+  printf("Shower buf writing %d  to read %d  full %x  num full=%d\n",
+         cur_shwr_buf_num,toread_shwr_buf_num,
+         full_shwr_bufs,num_full);
+  write_trig(SHWR_BUF_CONTROL_ADDR, toread_shwr_buf_num);
+  shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
+
+  // Reset trigger - to check that everything that needs to be reset is.
+  write_trig(COMPATIBILITY_GLOBAL_CONTROL_ADDR,1);
+
+  // Enable the shower triggers for this test
+  // Set trigger thresholds
+#ifdef COMPAT_SB_TRIGGER
+  write_trig(COMPATIBILITY_SB_TRIG_THR0_ADDR,(int) TRIG_THR0);
+  write_trig(COMPATIBILITY_SB_TRIG_THR1_ADDR,(int) TRIG_THR1);
+  write_trig(COMPATIBILITY_SB_TRIG_THR2_ADDR,(int) TRIG_THR2);
+
+  // Define which PMTs to include & coincidence level required
+  compat_sb_trig_enab = COMPATIBILITY_SB_TRIG_INCL_PMT0 |
+    COMPATIBILITY_SB_TRIG_INCL_PMT1 |
+    COMPATIBILITY_SB_TRIG_INCL_PMT2 |
+    (1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT);
+  write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, compat_sb_trig_enab);
+#endif
+
+#ifdef SB_TRIGGER
+  write_trig(SB_TRIG_THR0_ADDR,(int) (TRIG_THR0));
+  write_trig(SB_TRIG_THR1_ADDR,(int) (TRIG_THR1));
+  write_trig(SB_TRIG_THR2_ADDR,(int) (TRIG_THR2));
+  write_trig(SB_TRIG_SSD_ADDR,(int) (TRIG_SSD));
+  thr0 = read_trig(SB_TRIG_THR0_ADDR);
+  thr1 = read_trig(SB_TRIG_THR1_ADDR);
+  thr2 = read_trig(SB_TRIG_THR2_ADDR);
+  if (thr0 != TRIG_THR0) 
+    printf("trigger_test: Trigger threshold 0 error - wrote %d read %d\n",
+	   TRIG_THR0,thr0);
+  if (thr1 != TRIG_THR1) 
+    printf("trigger_test: Trigger threshold 1 error - wrote %d read %d\n",
+	   TRIG_THR1,thr1);
+  if (thr2 != TRIG_THR2) 
+    printf("trigger_test: Trigger threshold 2 error - wrote %d read %d\n",
+	   TRIG_THR2,thr2);
+
+  // Define which PMTs to include & coincidence level required
+  sb_trig_enab =  SB_TRIG_INCL_PMT0 |
+    SB_TRIG_INCL_PMT1 |
+    SB_TRIG_INCL_PMT2 |
+    SB_TRIG_INCL_SSD |
+    (1 << SB_TRIG_COINC_LVL_SHIFT) |
+    (0 << SB_TRIG_WCD_DELAY_SHIFT) |
+    (1 << SB_TRIG_SSD_DELAY_SHIFT) |
+    (3 << SB_TRIG_COINC_OVLP_SHIFT) |
+    (1 << SB_TRIG_CONSEC_BINS_SHIFT);
+     write_trig(SB_TRIG_ENAB_ADDR, sb_trig_enab);
+#endif
+
+  trigger_mask = 0;
+#ifdef SB_TRIGGER
+  trigger_mask = trigger_mask | SHWR_BUF_TRIG_SB;
+#endif
+#ifdef COMPAT_SB_TRIGGER
+  trigger_mask = trigger_mask | COMPATIBILITY_SHWR_BUF_TRIG_SB;
+#endif
+#ifdef PRESCALE_COMPAT_SB_TRIG
+  trigger_mask = trigger_mask | COMPAT_PRESCALE_SHWR_BUF_TRIG_SB;
+#endif
+#ifdef EXT_TRIGGER
+  trigger_mask = trigger_mask |  COMPATIBILITY_SHWR_BUF_TRIG_EXT;
+#endif
+#ifdef PRESCALE_EXT_TRIGGER
+  trigger_mask = trigger_mask |  COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT;
+#endif
+
+  printf("Trigger_test: Enabled triggers = ");
+  if ((trigger_mask & SHWR_BUF_TRIG_SB) != 0) 
+    printf(" SB");
+  if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0) 
+    printf(" COMPAT_SB");
+  if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0) 
+    printf(" EXT");
+  if ((trigger_mask & COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) != 0) 
+    printf(" PRESCALE_SB");
+  if ((trigger_mask & COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT) != 0) 
+    printf(" PRESCALE_EXT");
+  printf("\n");
+  printf("Trigger_test: Shower trigger thresholds = %d =0x%x\n",
+	 (int) (TRIG_THR0), (int) (TRIG_THR0));
+  // Here for test.  Should remove for normal operation.
+  write_trig(SHWR_BUF_TRIG_MASK_ADDR, trigger_mask);
 
   // Flush any stale shower buffers
   shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
   while ((SHWR_INTR_PEND_MASK & (shwr_status >> SHWR_INTR_PEND_SHIFT)) != 0)
     {
-      toread_shwr_buf_num = SHWR_BUF_RNUM_MASK & 
-        (shwr_status >> SHWR_BUF_RNUM_SHIFT);
+        toread_shwr_buf_num = SHWR_BUF_RNUM_MASK & 
+          (shwr_status >> SHWR_BUF_RNUM_SHIFT);
+        cur_shwr_buf_num = SHWR_BUF_WNUM_MASK & 
+          (shwr_status >> SHWR_BUF_WNUM_SHIFT);
+        full_shwr_bufs = SHWR_BUF_FULL_MASK & 
+          (shwr_status >> SHWR_BUF_FULL_SHIFT);
+        num_full = 0x7 & (shwr_status >> SHWR_BUF_NFULL_SHIFT);
+        printf("Shower buf writing %d  to read %d  full %x  num full=%d\n",
+               cur_shwr_buf_num,toread_shwr_buf_num,
+               full_shwr_bufs,num_full);
       write_trig(SHWR_BUF_CONTROL_ADDR, toread_shwr_buf_num);
       shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
     }
