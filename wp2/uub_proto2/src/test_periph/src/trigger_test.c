@@ -112,6 +112,9 @@ void trigger_test()
 #ifdef USE_FAKE_SIGNAL
   test_options = test_options | 2;
 #endif
+#ifdef USE_FAKE_MUON
+  test_options = test_options | 4;
+#endif
   INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
                                INTERFACE_UUB_DFN3_S00_AXI_SLV_REG2_OFFSET,
 			       test_options);
@@ -451,11 +454,12 @@ void trigger_test()
     (1 << MUON_TRIG_COINC_LVL_SHIFT) |
     (0 << MUON_TRIG_WCD_DELAY_SHIFT) |
     (1 << MUON_TRIG_SSD_DELAY_SHIFT) |
-    (3 << MUON_TRIG_COINC_OVLP_SHIFT) |
-    (1 << MUON_TRIG_CONSEC_BINS_SHIFT);
+    (0 << MUON_TRIG_COINC_OVLP_SHIFT) |
+    (0 << MUON_TRIG_CONSEC_BINS_SHIFT);
      write_trig(MUON_TRIG1_ENAB_ADDR, muon_trig_enab);
 
-muon_trigger_mask =  MUON_BUF_TRIG_SB1 | MUON_BUF_TRIG_EXT;
+     //muon_trigger_mask =  MUON_BUF_TRIG_SB1 | MUON_BUF_TRIG_EXT;
+     muon_trigger_mask =  MUON_BUF_TRIG_SB1;
   printf("Trigger_test: Enabled muon triggers = ");
   if ((muon_trigger_mask & MUON_BUF_TRIG_SB1) != 0) 
     printf(" SB1");

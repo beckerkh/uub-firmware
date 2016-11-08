@@ -25,7 +25,8 @@ module interface_uub_dfn3_v1_0 #
     input wire TRUE_PPS,
     output wire RADIO_RST_OUT,
     output wire PPS,
-    output wire USE_FAKE_SIGNAL,
+    output wire USE_FAKE_SHWR,
+    output wire USE_FAKE_MUON,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -92,7 +93,8 @@ module interface_uub_dfn3_v1_0 #
       .TRUE_PPS(TRUE_PPS),
       .RADIO_RST_OUT(RADIO_RST_OUT),
       .PPS(PPS),
-      .USE_FAKE_SIGNAL(USE_FAKE_SIGNAL)
+      .USE_FAKE_SHWR(USE_FAKE_SHWR),
+      .USE_FAKE_MUON(USE_FAKE_MUON)
       );
 
    // Add user logic here

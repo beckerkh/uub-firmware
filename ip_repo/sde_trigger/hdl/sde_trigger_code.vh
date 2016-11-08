@@ -11,7 +11,7 @@
 //                 unpacking.
 // 17-Sep-2016 DFN Add single_bin_120mhz trigger
 // 20-Sep-2016 DFN Add LED trigger (not just tag)
-// 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by one clock cycle wrt
+// 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by two clock cycles wrt
 //                 SHWR_TRIGGER
 
 reg [1:0] ENABLE40;
@@ -192,13 +192,14 @@ muon_buffers
 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+                .MUON_TRIG_IN(MUON_PRETRIG),
                 .MUON_BUF_CONTROL(MUON_BUF_CONTROL),
                 .MUON_BUF_TRIG_MASK(MUON_BUF_TRIG_MASK),
                 .AXI_MUON_CONTROL_WRITTEN(AXI_MUON_CONTROL_WRITTEN),
                 .AXI_REG_WRITE(AXI_REG_WRITE),
+                .MUON_TRIGGER(MUON_TRIGGER),
 	        .MUON_INTR(MUON_INTR),
                 .MUON_ENB(MUON_ENB),
-                .MUON_TRIG(MUON_PRETRIG),
                 .MUON_BUF_WNUM(MUON_BUF_WNUM),
                 .MUON_BUF_RNUM(MUON_BUF_RNUM),
                 .MUON_EVT_CTR(MUON_EVT_CTR),
@@ -545,11 +546,11 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P65
 
-	P6X[1] <= SHWR_TRIGGER;
-	P6X[2] <= SHWR_BUF_WNUM[0];
-	P6X[3] <= SHWR_BUF_WNUM[1];
-	P6X[4] <= SHWR_BUF_RNUM[0];
-	P6X[5] <= SHWR_BUF_RNUM[1];
+	P6X[1] <= MUON_TRIGGER;
+	P6X[2] <= MUON_BUF_WNUM[0];
+	P6X[3] <= MUON_PRETRIG;
+	P6X[4] <= MUON_ENB;
+	P6X[5] <= MUON_BUF_RNUM[0];
         
      end // else: !if(LCL_RESET)
 end

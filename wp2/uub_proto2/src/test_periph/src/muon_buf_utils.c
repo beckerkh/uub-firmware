@@ -41,16 +41,38 @@ extern int Index;
 extern u32 bd_space[512] __attribute__((aligned(64)));;
 #endif
 
+static double prev_time = 0;
 
   // Read muon memory buffers from PL memory into PS memory via DMA or PDT
   void read_muon_buffers()
   {
     int i;
+    int pps_tics, seconds, tics, delta_tics;
+    double time, dt;
+
+    pps_tics = read_ttag(TTAG_MUON_PPS_TICS_ADDR);
+    seconds = read_ttag(TTAG_MUON_SECONDS_ADDR);
+    tics = read_ttag(TTAG_MUON_TICS_ADDR);
+
+    pps_tics = pps_tics & TTAG_TICS_MASK;
+    seconds = seconds & TTAG_SECONDS_MASK;
+    tics = tics & TTAG_TICS_MASK;
+
+    delta_tics = tics-pps_tics;
+    if (delta_tics < 0) delta_tics = delta_tics + TTAG_TICS_MASK +1;
+    // Does not yet account for rollover of seconds
+    time = (double) seconds + 8.3333 * (double) delta_tics / 1.e9;
+    dt = time - prev_time;
+    prev_time = time;
+
+    //    printf("pps_tics=%d seconds=%d tics=%d delta_tics=%d T=%lf DT=%lf\n",
+    //	   pps_tics, seconds, tics, delta_tics, time, dt);
+    printf("T=%lf DT=%lf\n", time, dt);
 
     disable_trigger_intr();
     mu_word_count = read_trig(MUON_BUF_WORD_COUNT_ADDR);
-    muon_buffer_start = read_trig(MUON_BUF_TIME_TAG_A_ADDR);
-    muon_buffer_end = read_trig(MUON_BUF_TIME_TAG_B_ADDR);
+    muon_buffer_start = read_trig(MUON_BUF_TIME_TAG_A_ADDR) & 0x7fffffff;
+    muon_buffer_end = read_trig(MUON_BUF_TIME_TAG_B_ADDR) & 0x7fffffff;
     enable_trigger_intr();
 
 #ifdef PDT
@@ -171,26 +193,38 @@ void print_muon_buffers()
   double fdt;
 
   nmuons = mu_word_count/(MUON_BURST_LEN);
-  dt = muon_buffer_end - muon_buffer_start;
-  if (dt < 0) dt = dt+0x80000000;
-  fdt = dt * 8.3333 / 1.e9 / nmuons;
+  dt = (muon_buffer_end - muon_buffer_start) & 0x7fffffff;
+  fdt = (double) dt * 8.3333 / 1.e9 / (double) nmuons;
   printf("Trigger_test: mu_word_count = %d  nmuons = %d  ave. dt = %lf\n",
 		  mu_word_count, nmuons, fdt);
-  printf("\n>>>>>>>>>> BEGINNING OF MUON BUFFER >>>>>>>>>>\n");
-  for (i=0; i<nmuons; i++)
+  if (fdt < 0.009)
     {
-      for (j=0; j<MUON_BURST_LEN-1; j++) {
-        if (i == 0)
-          dt = muon_burst_start[i] - muon_buffer_start;
-        else
-          dt = muon_burst_start[i] - muon_burst_start[i-1];
-        if (dt < 0) dt = dt+0x80000000;
-        	fdt = dt * 8.3333 / 1.e9;
+      printf("Anomalous dt: end=%x beg=%x dt=%x fdt=%f\n",
+             muon_buffer_end, muon_buffer_start, dt, fdt);
+      fdt = (double) dt * 8.3333;
+      fdt = fdt / 1.e9;
+      fdt = fdt / (double) nmuons;
+      fdt = 0;
+    }
+  printf("\n>>>>>>>>>> BEGINNING OF MUON BUFFER >>>>>>>>>>\n");
+  //  for (i=0; i<nmuons; i++)
+  for (i=0; i<nmuons; i+=20)
+    {
+      //      for (j=0; j<MUON_BURST_LEN-1; j++) {
+      for (j=0; j<1; j++) {
+        if (i == 0) {
+          dt = (muon_burst_start[i] - muon_buffer_start) & 0x7fffffff;
+          fdt = (double) dt * 8.3333 / 1.e9;
+        } else {
+          dt = (muon_burst_start[i] - muon_burst_start[i-1]) & 0x7fffffff;
+          fdt = (double) dt * 8.3333 / 1.e9;
+        }
 
-        printf("%3d %2d  %3x %3x %3x %3x %2x %lf\n",
+        printf("%3d %2d  %3x %3x %3x %3x %2x %8x %8x %8x %lf\n",
                i, j+1, muon_adc[0][j][i], muon_adc[1][j][i],
                muon_adc[2][j][i],  muon_adc[3][j][i], 
-               muon_trig_tags[i], fdt);
+               muon_trig_tags[i], muon_burst_start[i], muon_buffer_start,
+               muon_buffer_end, fdt);
       }
     }
   printf("<<<<<<<<<< END OF MUON BUFFER <<<<<<<<<<\n\n");

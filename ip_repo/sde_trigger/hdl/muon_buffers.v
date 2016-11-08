@@ -3,6 +3,8 @@
 // This module implements the loading of data into muon buffers.
 //
 // 02-Jun-2016 DFN Initial version
+// 04-Oct-2016 DFN Add 2 cycle delay to MUON_BUF_WNUM to compensate for
+//                 delays in time tagging module.
 
 `include "sde_trigger_defs.vh"
 
@@ -14,7 +16,7 @@ module muon_buffers(
 		    input [`ADC_WIDTH-1:0] ADC1,
 		    input [`ADC_WIDTH-1:0] ADC2,
 		    input [`ADC_WIDTH-1:0] ADC_SSD,
-		    input [`MUON_NUM_TRIGS-1:0] MUON_TRIG,
+		    input [`MUON_NUM_TRIGS-1:0] MUON_TRIG_IN,
                     input [31:0] MUON_BUF_CONTROL,
                     input [31:0] MUON_BUF_TRIG_MASK,
                     input AXI_MUON_CONTROL_WRITTEN,
@@ -43,7 +45,9 @@ module muon_buffers(
    reg [`MUON_MEM_NBUF-1:0]          MUON_BUF_FULL_FLAGS;
    reg [`MUON_MEM_ADDR_WIDTH-1:0]    LCL_MUON_BUF_WORD_COUNTN[0:`MUON_MEM_NBUF-1];
    reg [`MUON_MEM_ADDR_WIDTH-1:0]    LCL_MUON_BUF_WORD_COUNT;
-
+   reg [`MUON_BUF_NUM_WIDTH-1:0]     LCL_MUON_BUF_WNUM;
+   reg [`MUON_BUF_NUM_WIDTH-1:0]     TMP_MUON_BUF_WNUM;
+   
    reg [31:0]                        WORD_COUNT;
    reg [7:0]                         MUON_BURST;
    reg [7:0]                         MUON_COUNT;
@@ -57,12 +61,13 @@ module muon_buffers(
    reg [31:0]                        MUON_DATA1_TMP0, MUON_DATA1_TMP1;
    reg [`MUON_MEM_ADDR_WIDTH-1:0]    MUON_ADDRT;
    reg                               MUON_ENBT;
-         
+   reg                               NEW_BUF;
+
    integer                           INDEX;
    
    always @(posedge CLK120) begin
       if (RESET) begin
-         MUON_BUF_WNUM <= 0;
+         LCL_MUON_BUF_WNUM <= 0;
          MUON_BUF_RNUM <= 0;
          MUON_BUF_FULL_FLAGS <= 0;
          MUON_BUF_NUM_FULL <= 0;
@@ -78,8 +83,14 @@ module muon_buffers(
          MUON_COUNT <= 0;
          TIME_TAG <= 0;
          LCL_MUON_BUF_TIME_TAG_A[0] <= 0;
+         NEW_BUF <= 0;
       end
       else begin
+
+         // Delay MUON_BUF_WNUM by 2 clock cycles.
+         MUON_BUF_WNUM <= TMP_MUON_BUF_WNUM;
+         TMP_MUON_BUF_WNUM <= LCL_MUON_BUF_WNUM;
+         
          if (MUON_TRIGGER == 1) MUON_TRIGGER <= 0;  // Reset after one clock
          TIME_TAG <= TIME_TAG+1;
          LCL_MUON_BUF_WORD_COUNT <=  LCL_MUON_BUF_WORD_COUNTN[MUON_BUF_RNUM];
@@ -95,7 +106,7 @@ module muon_buffers(
          MUON_DATA1 <= MUON_DATA1_TMP1;
          MUON_ENB <= MUON_ENBT;
          MUON_ADDR <= MUON_ADDRT;
-            
+         
          // Do we have a free buffer? If not, we can't process this trigger.
          // Note that the way this is implemented here we can only fill n-1 of
          // the buffers, or we'll end up overwriting the oldest buffer. So this
@@ -105,11 +116,11 @@ module muon_buffers(
          // for now.
          if (MUON_BUF_NUM_FULL < `MUON_MEM_NBUF-1) begin
             if (MUON_BURST == 0) begin
-               if ((MUON_BUF_TRIG_MASK & MUON_TRIG) != 0) begin
+               if ((MUON_BUF_TRIG_MASK & MUON_TRIG_IN) != 0) begin
 	          MUON_BURST <= 1;
                   MUON_ENBT <= 1;
                   MUON_DATA0_TMP1 <= TIME_TAG | 'h80000000;
-                  MUON_DATA1_TMP1 <= (MUON_TRIG & MUON_BUF_TRIG_MASK) | 
+                  MUON_DATA1_TMP1 <= (MUON_TRIG_IN & MUON_BUF_TRIG_MASK) | 
                                      'h80000000;
                   if (MUON_ADDRT[`MUON_MEM_BUF_SHIFT-1:0] !=  0) begin
                      MUON_ADDRT <= MUON_ADDRT+4;
@@ -117,15 +128,15 @@ module muon_buffers(
                   end
                   MUON_COUNT <= MUON_COUNT+1;
                   
-               end // if ((MUON_BUF_TRIG_MASK & MUON_TRIG) != 0)
-            end
+               end // if ((MUON_BUF_TRIG_MASK & MUON_TRIG_IN) != 0)
+            end  // if (MUON_BURST == 0)
 
             // We are in the midst of putting muon data in the buffer 
             else if (MUON_BURST < `MUON_BURST_LEN) begin
                MUON_BURST <= MUON_BURST+1;
                MUON_ADDRT <= MUON_ADDRT+4;
                WORD_COUNT <= WORD_COUNT+1;
-              
+               
                MUON_DATA0_TMP1[`ADC_WIDTH-1:0] 
                  <= MUON_DATA0_TMP0[`ADC_WIDTH-1:0];
                MUON_DATA0_TMP1[15:`ADC_WIDTH] <=  'hf;
@@ -139,40 +150,46 @@ module muon_buffers(
                MUON_DATA1_TMP1[15+`ADC_WIDTH:16] 
                  <= MUON_DATA1_TMP0[15+`ADC_WIDTH:16];
                MUON_DATA1_TMP1[31:16+`ADC_WIDTH] <= (MUON_BURST >> 4) & 'h7;
-             end
- 
-           // End of muon burst
+            end // if (MUON_BURST < `MUON_BURST_LEN)
+            
+            // End of muon burst
             else if (MUON_BURST >= `MUON_BURST_LEN) begin
                MUON_BURST <= 0;
                MUON_ENBT <= 0;
-  
-             // Full muon buffer?
+               
+               // Full muon buffer?
                if (WORD_COUNT >= `MUON_MEM_WORDS-`MUON_BURST_LEN-2) 
                  begin
-                  // Mark buffer as full and switch to the next one
-	          MUON_BUF_FULL_FLAGS <= MUON_BUF_FULL_FLAGS |
-                                         (1<<MUON_BUF_WNUM);
- 	          MUON_BUF_NUM_FULL <= MUON_BUF_NUM_FULL+1;
+                    // Mark buffer as full and switch to the next one
+	            MUON_BUF_FULL_FLAGS <= MUON_BUF_FULL_FLAGS |
+                                           (1<<LCL_MUON_BUF_WNUM);
+ 	            MUON_BUF_NUM_FULL <= MUON_BUF_NUM_FULL+1;
 
-                  MUON_INTR <= 1;
-                  MUON_TRIGGER <= 1;
-                  WORD_COUNT <= 0;
-                  MUON_COUNT <= 0;
-                  
-                  // Save number of words in buffer
-                  LCL_MUON_BUF_WORD_COUNTN[MUON_BUF_WNUM] <= WORD_COUNT+1;
-                  // Save time at end of buffer
-                  LCL_MUON_BUF_TIME_TAG_B[MUON_BUF_WNUM] <= TIME_TAG;
-                  
-                  MUON_BUF_WNUM = MUON_BUF_WNUM+1;  // Need "=" not "<="
-                  
-                  // Time at beginning of next buffer
-                  LCL_MUON_BUF_TIME_TAG_A[MUON_BUF_WNUM] <= TIME_TAG;
-                  MUON_ADDRT[`MUON_MEM_BUF_SHIFT-1:0] <=  0;
-                  MUON_ADDRT[`MUON_MEM_BUF_SHIFT+`MUON_BUF_NUM_WIDTH-1:
-                            `MUON_MEM_BUF_SHIFT] <= MUON_BUF_WNUM;
-               end
-            end // if (MUON_BURST == 0)
+                    MUON_INTR <= 1;
+                    MUON_TRIGGER <= 1;
+                    WORD_COUNT <= 0;
+                    MUON_COUNT <= 0;
+                    NEW_BUF <= 1;
+                    
+                    // Save number of words in buffer
+                    LCL_MUON_BUF_WORD_COUNTN[LCL_MUON_BUF_WNUM] <= WORD_COUNT+1;
+                    // Save time at end of buffer
+                    LCL_MUON_BUF_TIME_TAG_B[LCL_MUON_BUF_WNUM] <= TIME_TAG;
+                    
+                    LCL_MUON_BUF_WNUM <= LCL_MUON_BUF_WNUM+1;
+                    MUON_ADDRT[`MUON_MEM_BUF_SHIFT-1:0] <=  0;
+                    MUON_ADDRT[`MUON_MEM_BUF_SHIFT+`MUON_BUF_NUM_WIDTH-1:
+                               `MUON_MEM_BUF_SHIFT] <= LCL_MUON_BUF_WNUM+1;
+                end // if (WORD_COUNT >= `MUON_MEM_WORDS-`MUON_BURST_LEN-2)
+            end // if (MUON_BURST >= `MUON_BURST_LEN) 
+
+            // Beginning of new buffer
+            if (NEW_BUF)
+              begin
+                 // Time at beginning of next buffer
+                 LCL_MUON_BUF_TIME_TAG_A[LCL_MUON_BUF_WNUM] <= TIME_TAG;
+                 NEW_BUF <= 0;
+              end // if (NEW_BUF)
          end // if (MUON_BUF_NUM_FULL < `MUON_MEM_NBUF-1)
 
          // Process clearing of muon buff full flag
@@ -198,7 +215,7 @@ module muon_buffers(
 
          // Process loading of status registers from internal registers
          LCL_MUON_BUF_STATUS[`MUON_BUF_WNUM_SHIFT+`MUON_BUF_NUM_WIDTH-1:
-                             `MUON_BUF_WNUM_SHIFT] <= MUON_BUF_WNUM;
+                             `MUON_BUF_WNUM_SHIFT] <= LCL_MUON_BUF_WNUM;
          LCL_MUON_BUF_STATUS[`MUON_BUF_RNUM_SHIFT+`MUON_BUF_NUM_WIDTH-1:
                              `MUON_BUF_RNUM_SHIFT] <= MUON_BUF_RNUM;
          LCL_MUON_BUF_STATUS[`MUON_BUF_FULL_SHIFT+`MUON_MEM_NBUF-1:
@@ -236,11 +253,11 @@ module muon_buffers(
    synchronizer_32bit muon_buf_wc_sync
      (.ASYNC_IN(LCL_MUON_BUF_WORD_COUNT),
       .CLK(AXI_CLK),.SYNC_OUT(MUON_BUF_WORD_COUNT));
-  synchronizer_32bit muon_buf_start_sync
-     (.ASYNC_IN(LCL_MUON_BUF_TIME_TAG_A[RNUM]),
+   synchronizer_32bit muon_buf_start_sync
+     (.ASYNC_IN(LCL_MUON_BUF_TIME_TAG_A[MUON_BUF_RNUM]),
       .CLK(AXI_CLK),.SYNC_OUT(MUON_BUF_TIME_TAG_A));
-  synchronizer_32bit muon_buf_end_sync
-     (.ASYNC_IN(LCL_MUON_BUF_TIME_TAG_B[RNUM]),
+   synchronizer_32bit muon_buf_end_sync
+     (.ASYNC_IN(LCL_MUON_BUF_TIME_TAG_B[MUON_BUF_RNUM]),
       .CLK(AXI_CLK),.SYNC_OUT(MUON_BUF_TIME_TAG_B));
 
    // These are mostly redundant, but may be useful for debugging

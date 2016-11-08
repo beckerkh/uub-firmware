@@ -25,7 +25,8 @@
          input TRUE_PPS,
          output reg RADIO_RST_OUT,
          output wire PPS,
-	 output reg USE_FAKE_SIGNAL,
+	 output reg USE_FAKE_SHWR,
+	 output reg USE_FAKE_MUON,
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -411,7 +412,8 @@
              
            RADIO_RST_OUT <= !slv_reg1[0];
            USE_FAKE_PPS <= slv_reg2[0];
-	   USE_FAKE_SIGNAL <= slv_reg2[1];
+	   USE_FAKE_SHWR <= slv_reg2[1];
+	   USE_FAKE_MUON <= slv_reg2[2];
         end
 
    mux1 ppsmux(.SEL_B(USE_FAKE_PPS), .D({TRUE_PPS,FAKE_PPS}), .Q(PPS));
