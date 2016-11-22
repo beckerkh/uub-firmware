@@ -3,6 +3,7 @@
 // This module implements the full bandwidth single bin trigger.
 //
 // 17-Sep-2016 DFN Initial version
+// 19-Nov-2016 DFN Remove unneccessary WCD delay
 
 `include "sde_trigger_defs.vh"
 
@@ -27,9 +28,9 @@ module single_bin_120mhz(
    reg [`ADC_WIDTH-1:0] 		  THRES[3:0];
    reg [`SB_TRIG_COINC_LVL_WIDTH-1:0] 	  MULTIPLICITY;
 
-   reg [`ADC_WIDTH-1:0] 		  ADC0_DELAY[0:`SB_TRIG_DELAY_MAX];
-   reg [`ADC_WIDTH-1:0] 		  ADC1_DELAY[0:`SB_TRIG_DELAY_MAX];
-   reg [`ADC_WIDTH-1:0] 		  ADC2_DELAY[0:`SB_TRIG_DELAY_MAX];
+   reg [`ADC_WIDTH-1:0] 		  ADC0_DELAY;
+   reg [`ADC_WIDTH-1:0] 		  ADC1_DELAY;
+   reg [`ADC_WIDTH-1:0] 		  ADC2_DELAY;
    reg [`ADC_WIDTH-1:0] 		  ADCSSD_DELAY[0:`SB_TRIG_DELAY_MAX];
 
    reg [`ADC_WIDTH-1:0] 		  ADC0_PIPELINE[0:`SB_TRIG_CONSEC_BINS_MAX];
@@ -69,7 +70,6 @@ module single_bin_120mhz(
    
    reg [`SB_TRIG_COINC_OVLP_WIDTH-1:0] 	  COINC_OVLP;
    reg [`SB_TRIG_CONSEC_BINS_WIDTH-1:0]   CONSEC_BINS; // # consec. bins - 1
-   reg [`SB_TRIG_DELAY_WIDTH-1:0] 	  WCD_DELAY;
    reg [`SB_TRIG_DELAY_WIDTH-1:0] 	  SSD_DELAY;
    
    integer                                DLY_IDX;
@@ -95,31 +95,25 @@ module single_bin_120mhz(
          CONSEC_BINS <= TRIG_ENAB[`SB_TRIG_CONSEC_BINS_SHIFT+
                                   `SB_TRIG_CONSEC_BINS_WIDTH-1:
                                   `SB_TRIG_CONSEC_BINS_SHIFT];
-         WCD_DELAY <= TRIG_ENAB[`SB_TRIG_WCD_DELAY_SHIFT+
-                                `SB_TRIG_DELAY_WIDTH-1:
-                                `SB_TRIG_WCD_DELAY_SHIFT];
          SSD_DELAY <= TRIG_ENAB[`SB_TRIG_SSD_DELAY_SHIFT+
                                 `SB_TRIG_DELAY_WIDTH-1:
                                 `SB_TRIG_SSD_DELAY_SHIFT];
          
          // Delay signals to allow compensation of timing difference between
          // WCD & SSD.
-         ADC0_DELAY[0] <= ADC0;
-         ADC1_DELAY[0] <= ADC1;
-         ADC2_DELAY[0] <= ADC2;
+         ADC0_DELAY <= ADC0;
+         ADC1_DELAY <= ADC1;
+         ADC2_DELAY <= ADC2;
          ADCSSD_DELAY[0] <= ADC_SSD;
          for (DLY_IDX=1; DLY_IDX<=`SB_TRIG_DELAY_MAX; DLY_IDX=DLY_IDX+1) begin
-            ADC0_DELAY[DLY_IDX] <= ADC0_DELAY[DLY_IDX-1];
-            ADC1_DELAY[DLY_IDX] <= ADC1_DELAY[DLY_IDX-1];
-            ADC2_DELAY[DLY_IDX] <= ADC2_DELAY[DLY_IDX-1];
             ADCSSD_DELAY[DLY_IDX] <= ADCSSD_DELAY[DLY_IDX-1];
          end
 
          // Store signals in pipeline to allow multi time bin operations
          
-	 ADC0_PIPELINE[0] <= ADC0_DELAY[WCD_DELAY];
-	 ADC1_PIPELINE[0] <= ADC1_DELAY[WCD_DELAY];
-	 ADC2_PIPELINE[0] <= ADC2_DELAY[WCD_DELAY];
+	 ADC0_PIPELINE[0] <= ADC0_DELAY;
+	 ADC1_PIPELINE[0] <= ADC1_DELAY;
+	 ADC2_PIPELINE[0] <= ADC2_DELAY;
 	 ADCSSD_PIPELINE[0] <= ADCSSD_DELAY[SSD_DELAY];
 
          for (CONSEC_IDX=1; CONSEC_IDX<=`SB_TRIG_CONSEC_BINS_MAX;

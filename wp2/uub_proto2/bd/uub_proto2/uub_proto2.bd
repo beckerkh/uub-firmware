@@ -1354,17 +1354,17 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>interface_uub_dfn3_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="auger" spirit:name="interface_uub_dfn3" spirit:vendor="auger.org" spirit:version="1.0"/>
-        <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_interface_uub_dfn3_0_0</spirit:configurableElementValue>
-        </spirit:configurableElementValues>
-      </spirit:componentInstance>
-      <spirit:componentInstance>
         <spirit:instanceName>fake_signal_0</spirit:instanceName>
         <spirit:componentRef spirit:library="user" spirit:name="fake_signal" spirit:vendor="user.org" spirit:version="1.0"/>
         <spirit:configurableElementValues>
           <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_fake_signal_0_0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>interface_uub_dfn3_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="auger" spirit:name="interface_uub_dfn3" spirit:vendor="auger.org" spirit:version="1.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_interface_uub_dfn3_0_0</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
     </spirit:componentInstances>
@@ -1481,8 +1481,8 @@
         <spirit:internalPortReference spirit:componentRef="util_ds_buf_0" spirit:portRef="IBUF_OUT"/>
         <spirit:internalPortReference spirit:componentRef="clock_1pps_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="clk_120m"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="CLK"/>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="TRIGGER_CLK"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="CLK"/>
@@ -1830,12 +1830,12 @@
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC3_IN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_USE_FAKE_SHWR</spirit:name>
+        <spirit:name>interface_uub_dfn3_0_USE_FAKE_SHWR1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="USE_FAKE_SHWR"/>
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_SHWR"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_USE_FAKE_MUON</spirit:name>
+        <spirit:name>interface_uub_dfn3_0_USE_FAKE_MUON1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="USE_FAKE_MUON"/>
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_MUON"/>
       </spirit:adHocConnection>
@@ -5063,8 +5063,8 @@
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_42_SLEW">slow</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_45_PULLUP">disabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_45_SLEW">fast</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_46_PULLUP">disabled</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_47_PULLUP">disabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_46_PULLUP">enabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_47_PULLUP">enabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_48_PULLUP">disabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_49_PULLUP">disabled</spirit:configurableElementValue>
         </spirit:configurableElementValues>

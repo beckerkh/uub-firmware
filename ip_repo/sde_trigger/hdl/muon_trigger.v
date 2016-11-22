@@ -3,6 +3,7 @@
 // This module implements the muon trigger.
 //
 // 17-May-2016 DFN Initial version
+// 18-Nov-2016 DFN Remove WCD delay as SSD is earlier than WCD
 
 `include "sde_trigger_defs.vh"
 
@@ -27,9 +28,9 @@ module muon_trigger(
    reg [`ADC_WIDTH-1:0]              THRES[3:0];
    reg [`MUON_TRIG_COINC_LVL_WIDTH-1:0] MULTIPLICITY;
 
-   reg [`ADC_WIDTH-1:0]                 ADC0_DELAY[0:`MUON_TRIG_DELAY_MAX];
-   reg [`ADC_WIDTH-1:0]                 ADC1_DELAY[0:`MUON_TRIG_DELAY_MAX];
-   reg [`ADC_WIDTH-1:0]                 ADC2_DELAY[0:`MUON_TRIG_DELAY_MAX];
+   reg [`ADC_WIDTH-1:0]                 ADC0_DELAY[0:0];
+   reg [`ADC_WIDTH-1:0]                 ADC1_DELAY[0:0];
+   reg [`ADC_WIDTH-1:0]                 ADC2_DELAY[0:0];
    reg [`ADC_WIDTH-1:0]                 ADCSSD_DELAY[0:`MUON_TRIG_DELAY_MAX];
 
    reg [`ADC_WIDTH-1:0]                 ADC0_PIPELINE[0:`MUON_TRIG_CONSEC_BINS_MAX];
@@ -69,7 +70,6 @@ module muon_trigger(
    
    reg [`MUON_TRIG_COINC_OVLP_WIDTH-1:0] COINC_OVLP;
    reg [`MUON_TRIG_CONSEC_BINS_WIDTH-1:0] CONSEC_BINS; // # consec. bins - 1
-   reg [`MUON_TRIG_DELAY_WIDTH-1:0]       WCD_DELAY;
    reg [`MUON_TRIG_DELAY_WIDTH-1:0]       SSD_DELAY;
    
    integer                                DLY_IDX;
@@ -95,9 +95,6 @@ module muon_trigger(
          CONSEC_BINS <= TRIG_ENAB[`MUON_TRIG_CONSEC_BINS_SHIFT+
                                   `MUON_TRIG_CONSEC_BINS_WIDTH-1:
                                   `MUON_TRIG_CONSEC_BINS_SHIFT];
-         WCD_DELAY <= TRIG_ENAB[`MUON_TRIG_WCD_DELAY_SHIFT+
-                                `MUON_TRIG_DELAY_WIDTH-1:
-                                `MUON_TRIG_WCD_DELAY_SHIFT];
          SSD_DELAY <= TRIG_ENAB[`MUON_TRIG_SSD_DELAY_SHIFT+
                                 `MUON_TRIG_DELAY_WIDTH-1:
                                 `MUON_TRIG_SSD_DELAY_SHIFT];
@@ -109,17 +106,14 @@ module muon_trigger(
          ADC2_DELAY[0] <= ADC2;
          ADCSSD_DELAY[0] <= ADC_SSD;
          for (DLY_IDX=1; DLY_IDX<=`MUON_TRIG_DELAY_MAX; DLY_IDX=DLY_IDX+1) begin
-            ADC0_DELAY[DLY_IDX] <= ADC0_DELAY[DLY_IDX-1];
-            ADC1_DELAY[DLY_IDX] <= ADC1_DELAY[DLY_IDX-1];
-            ADC2_DELAY[DLY_IDX] <= ADC2_DELAY[DLY_IDX-1];
             ADCSSD_DELAY[DLY_IDX] <= ADCSSD_DELAY[DLY_IDX-1];
          end
 
          // Store signals in pipeline to allow multi time bin operations
          
-	 ADC0_PIPELINE[0] <= ADC0_DELAY[WCD_DELAY];
-	 ADC1_PIPELINE[0] <= ADC1_DELAY[WCD_DELAY];
-	 ADC2_PIPELINE[0] <= ADC2_DELAY[WCD_DELAY];
+	 ADC0_PIPELINE[0] <= ADC0_DELAY[0];
+	 ADC1_PIPELINE[0] <= ADC1_DELAY[0];
+	 ADC2_PIPELINE[0] <= ADC2_DELAY[0];
 	 ADCSSD_PIPELINE[0] <= ADCSSD_DELAY[SSD_DELAY];
 
          for (CONSEC_IDX=1; CONSEC_IDX<=`MUON_TRIG_CONSEC_BINS_MAX;

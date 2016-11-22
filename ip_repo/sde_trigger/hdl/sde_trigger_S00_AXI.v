@@ -237,10 +237,21 @@ module sde_trigger_S00_AXI #
    reg [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_CONTROL;
    wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_STATUS;
    wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_START;
-   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_START0;
-   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_START1;
-   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_START2;
-   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BUF_START3;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA0;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA1;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA2;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA3;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA4;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA5;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA6;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA7;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA8;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_PEAK_AREA9;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BASELINE0;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BASELINE1;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BASELINE2;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BASELINE3;
+   wire [C_S_AXI_DATA_WIDTH-1:0]   SHWR_BASELINE4;
 
    wire [C_S_AXI_DATA_WIDTH-1:0]   FILT_PMT0_TEST;
    wire [C_S_AXI_DATA_WIDTH-1:0]   FILT_PMT1_TEST;
@@ -1069,14 +1080,36 @@ module sde_trigger_S00_AXI #
                  reg_data_out <= SHWR_BUF_STATUS;
 	       `SHWR_BUF_START_ADDR :
                  reg_data_out <= SHWR_BUF_START;
-	       `SHWR_BUF_START0_ADDR :
-                 reg_data_out <= SHWR_BUF_START0;
-	       `SHWR_BUF_START1_ADDR :
-                 reg_data_out <= SHWR_BUF_START1;
-	       `SHWR_BUF_START2_ADDR :
-                 reg_data_out <= SHWR_BUF_START2;
-	       `SHWR_BUF_START3_ADDR :
-                 reg_data_out <= SHWR_BUF_START3;
+	       `SHWR_PEAK_AREA0_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA0;
+	       `SHWR_PEAK_AREA1_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA1;
+	       `SHWR_PEAK_AREA2_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA2;
+	       `SHWR_PEAK_AREA3_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA3;
+	       `SHWR_PEAK_AREA4_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA4;
+	       `SHWR_PEAK_AREA5_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA5;
+	       `SHWR_PEAK_AREA6_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA6;
+	       `SHWR_PEAK_AREA7_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA7;
+	       `SHWR_PEAK_AREA8_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA8;
+	       `SHWR_PEAK_AREA9_ADDR :
+                 reg_data_out <= SHWR_PEAK_AREA9;
+	       `SHWR_BASELINE0_ADDR :
+                 reg_data_out <= SHWR_BASELINE0;
+	       `SHWR_BASELINE1_ADDR :
+                 reg_data_out <= SHWR_BASELINE1;
+	       `SHWR_BASELINE2_ADDR :
+                 reg_data_out <= SHWR_BASELINE2;
+	       `SHWR_BASELINE3_ADDR :
+                 reg_data_out <= SHWR_BASELINE3;
+	       `SHWR_BASELINE4_ADDR :
+                 reg_data_out <= SHWR_BASELINE4;
                `FILT_PMT0_TEST_ADDR :
                  reg_data_out <= FILT_PMT0_TEST;
                `FILT_PMT1_TEST_ADDR :

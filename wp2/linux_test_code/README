@@ -1,0 +1,28 @@
+Some notes on running test programs on Didi UUB
+
+* IP of Didi UUB is 172.21.3.51
+
+* Connect from the OB wireless network
+
+* Use telnet and ftp to connect and transfer files
+
+* Username is "root", password is "root"
+
+* Might need to run the command "/etc/init.d/inetd.busybox restart" to get
+  ftp server on the uub to behave.
+
+* When cross-compiling test code, need to run from setup_vivado window
+
+* Make sure to export design to sdk after compile or header files may not
+  be correct for test programs.
+
+* To load new bitstream, 
+  1) transfer bitstream file to uub using ftp
+  2) run "mountboot" command on uub
+  3) copy bitstream file to /boot/fpga.bit
+  4) run "sync" command on uub
+  5) run "reboot" command on uub
+
+* If need to install new software on laptop and have trouble reaching yum
+  repositories after doing a "su", may need to do the command
+  "export http_proxy=http://proxy.auger.org.ar:8080"

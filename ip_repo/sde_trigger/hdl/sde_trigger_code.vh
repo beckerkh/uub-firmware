@@ -13,73 +13,9 @@
 // 20-Sep-2016 DFN Add LED trigger (not just tag)
 // 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by two clock cycles wrt
 //                 SHWR_TRIGGER
+// 18-Nov-2016 DFN Add mode to alternate SIPM calibration data in mu buffers
 
-reg [1:0] ENABLE40;
-wire COMPATIBILITY_SB_TRIG;
-wire SB_TRIG;
-reg [`SHWR_TRIG_DLY:0] SHWR_TRIG_DLYD; // Trigger delayed to end of buf
-reg [`SHWR_DEAD_DLY:0] SHWR_DEAD_DLYD; // Dead time after end of buf
-
-reg [`SHWR_MEM_NBUF-1:0] SHWR_BUF_RESET;
-reg [`SHWR_BUF_NUM_WIDTH:0] SHWR_BUF_NUM_FULL;
-reg [`SHWR_MEM_ADDR_WIDTH-1:0] SHWR_ADDR1;
-reg [`SHWR_MEM_NBUF-1:0] SHWR_BUF_FULL_FLAGS;
-wire [31:0] LCL_SHWR_BUF_CONTROL;
-reg [31:0] LCL_SHWR_BUF_START;
-reg [31:0] LCL_SHWR_BUF_STARTT;
-reg [`SHWR_MEM_BUF_SHIFT+
-     `SHWR_BUF_NUM_WIDTH-1:0] LCL_SHWR_BUF_STARTN[0:`SHWR_MEM_NBUF-1];
-reg [`SHWR_BUF_NUM_WIDTH-1:0] LCL_SHWR_BUF_WNUM;
-reg [`SHWR_BUF_NUM_WIDTH-1:0] TMP_SHWR_BUF_WNUM;
-reg AXI_REG_WRITE;
-reg AXI_SHWR_CONTROL_WRITTEN;
-reg AXI_MUON_CONTROL_WRITTEN;
-wire LCL_SHWR_CONTROL_WRITTEN;
-reg PREV_SHWR_CONTROL_WRITTEN;
-reg [31:0] LCL_SHWR_BUF_STATUS;
-reg [31:0] LCL_SHWR_BUF_TRIG_ID;
-reg [31:0] LCL_SHWR_BUF_TRIG_IDN[0:`SHWR_MEM_NBUF-1];
-wire [31:0] LCL_COMPATIBILITY_GLOBAL_CONTROL;
-reg TRIG_IN_PREV;
-reg EXT_TRIG;
-reg [3:0] ADC_EXTRA;
-reg [`ADC_WIDTH-1:0] FILTB_PMT0, FILTB_PMT1, FILTB_PMT2;
-reg [`ADC_WIDTH+1:0] FILTD_PMT0, FILTD_PMT1, FILTD_PMT2;
-
-reg [2*`ADC_WIDTH-1:0] 		  ADC0_DLY[0:`ADC_FILT_DELAY];
-reg [2*`ADC_WIDTH-1:0] 		  ADC1_DLY[0:`ADC_FILT_DELAY];
-reg [2*`ADC_WIDTH-1:0] 		  ADC2_DLY[0:`ADC_FILT_DELAY];
-reg [2*`ADC_WIDTH-1:0] 		  ADC3_DLY[0:`ADC_FILT_DELAY];
-reg [2*`ADC_WIDTH-1:0] 		  ADC4_DLY[0:`ADC_FILT_DELAY];
-reg [2*`ADC_WIDTH-1:0] 		  ADCD0;
-reg [2*`ADC_WIDTH-1:0] 		  ADCD1;
-reg [2*`ADC_WIDTH-1:0] 		  ADCD2;
-reg [2*`ADC_WIDTH-1:0] 		  ADCD3;
-reg [2*`ADC_WIDTH-1:0] 		  ADCD4;
-
-reg [`MUON_NUM_TRIGS-1:0] MUON_PRETRIG;
-reg [`MUON_EXT_TRIG_DELAY:0] MUON_EXT_TRIG;
-wire MUON_PRETRIG1, MUON_PRETRIG2, MUON_PRETRIG3, MUON_PRETRIG4;
-reg LCL_RESET;
-wire [4:0] MUON1_DEBUG, MUON2_DEBUG, MUON3_DEBUG, MUON4_DEBUG;
-wire [4:0] MUON_BUFFER_DEBUG;
-wire [4:0] LED_DEBUG;
-wire [4:0] SB_TRIG_DEBUG;
-wire LED_TRG_FLAG;
-wire [31:0] LCL_LED_CONTROL;
-reg TRIGGERED, SOME_TRIG_OR;
-reg [31:0] SOME_TRIG;
-reg [31:0] SOME_DLYD_TRIG;
-reg [7:0] COMPAT_SB_TRIG_COUNTER;
-reg [7:0] COMPAT_EXT_TRIG_COUNTER;
-reg PRESCALED_COMPAT_SB_TRIG;
-reg PRESCALED_COMPAT_EXT_TRIG;
-
-integer INDEX;
-integer DELAY;
-integer DEADDLY;
-integer MUON_EXTDLY;
-integer DLY_IDX;
+`include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
 // Generate compatibility mode triggers.
 // Some debug included below
@@ -191,6 +127,7 @@ muon_buffers
 	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	        .ADC_CAL(ADC3[2*`ADC_WIDTH-1:`ADC_WIDTH]),
                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
                 .MUON_TRIG_IN(MUON_PRETRIG),
                 .MUON_BUF_CONTROL(MUON_BUF_CONTROL),
@@ -213,6 +150,21 @@ muon_buffers
                 .DEBUG(MUON_BUFFER_DEBUG)
 	        );
 
+// Keep track of signal area, peak, and baselines
+genvar i;
+generate for (i=0; i<10; i=i+1)
+  begin: area10
+shwr_integral area(.RESET(LCL_RESET),
+		   .CLK120(CLK120),
+		   .TRIGGERED(TRIGGERED),
+		   .ADC(ADCD[i]),
+		   .INTEGRAL(AREA[i]),
+		   .BASELINE(BASELINE[i]),
+		   .PEAK(PEAK[i]),
+		   .SATURATED(SATURATED[i])
+		   );
+  end
+endgenerate
 // Generate LED pulses
 led_control led_control1(.RESET(LCL_RESET),
                          .CLK120(CLK120),
@@ -222,6 +174,11 @@ led_control led_control1(.RESET(LCL_RESET),
                          .TRG_FLAG(LED_TRG_FLAG),
                          .DEBUG(LED_DEBUG)
                          );
+
+// Stretch trigger out signal
+stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
+
+
 
 always @(posedge CLK120) begin
    LCL_RESET <= ((LCL_COMPATIBILITY_GLOBAL_CONTROL &
@@ -305,93 +262,10 @@ always @(posedge CLK120) begin
            else
              PRESCALED_COMPAT_EXT_TRIG <= EXT_TRIG;
         end
-        
-        // Clip filtered signals to remain within 12 bit range
-        if (FILT_PMT0[`ADC_WIDTH+1] == 1)
-          FILTB_PMT0 <= 0;
-        else if (FILT_PMT0[`ADC_WIDTH] == 1)
-          FILTB_PMT0 <= (1 << `ADC_WIDTH) -1;
-        else
-          FILTB_PMT0 = FILT_PMT0[`ADC_WIDTH-1:0];
 
-        if (FILT_PMT1[`ADC_WIDTH+1] == 1)
-          FILTB_PMT1 <= 0;
-        else if (FILT_PMT1[`ADC_WIDTH] == 1)
-          FILTB_PMT1 <= (1 << `ADC_WIDTH) -1;
-        else
-          FILTB_PMT1 = FILT_PMT1[`ADC_WIDTH-1:0];
-
-        if (FILT_PMT2[`ADC_WIDTH+1] == 1)
-          FILTB_PMT2 <= 0;
-        else if (FILT_PMT2[`ADC_WIDTH] == 1)
-          FILTB_PMT2 <= (1 << `ADC_WIDTH) -1;
-        else
-          FILTB_PMT2 = FILT_PMT2[`ADC_WIDTH-1:0];
-
-        // Keep a copy of unclipped filtered signal in sync with clipped one.
-        FILTD_PMT0 <= FILT_PMT0;
-        FILTD_PMT1 <= FILT_PMT1;
-        FILTD_PMT2 <= FILT_PMT2;
-
-	// Delay ADC data to re-time it with filtered ADC data
-	ADC0_DLY[0] <= ADC0;
-	ADC1_DLY[0] <= ADC1;
-	ADC2_DLY[0] <= ADC2;
-	ADC3_DLY[0] <= ADC3;
-	ADC4_DLY[0] <= ADC4;
-        for (DLY_IDX=1; DLY_IDX<=`ADC_FILT_DELAY; DLY_IDX=DLY_IDX+1) begin
-           ADC0_DLY[DLY_IDX] <= ADC0_DLY[DLY_IDX-1];
-           ADC1_DLY[DLY_IDX] <= ADC1_DLY[DLY_IDX-1];
-           ADC2_DLY[DLY_IDX] <= ADC2_DLY[DLY_IDX-1];
-           ADC3_DLY[DLY_IDX] <= ADC3_DLY[DLY_IDX-1];
-           ADC4_DLY[DLY_IDX] <= ADC4_DLY[DLY_IDX-1];
-        end
-	ADCD0 <= ADC0_DLY[`ADC_FILT_DELAY];
-	ADCD1 <= ADC1_DLY[`ADC_FILT_DELAY];
-	ADCD2 <= ADC2_DLY[`ADC_FILT_DELAY];
-	ADCD3 <= ADC3_DLY[`ADC_FILT_DELAY];
-	ADCD4 <= ADC4_DLY[`ADC_FILT_DELAY];
-	
-        // Send shower data to memory
-        
-        SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT-1:0]
-          <= (SHWR_ADDR1+4) & (`SHWR_MEM_DEPTH-1);
-        SHWR_ADDR1[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:
-                   `SHWR_MEM_BUF_SHIFT] <= LCL_SHWR_BUF_WNUM;
-        SHWR_ADDR <= SHWR_ADDR1;
-        SHWR_DATA0[`ADC_WIDTH-1:0] <= ADCD0[`ADC_WIDTH-1:0];
-        SHWR_DATA0[`ADC_WIDTH+15:16] <= ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA1[`ADC_WIDTH-1:0] <= ADCD1[`ADC_WIDTH-1:0];
-        SHWR_DATA1[`ADC_WIDTH+15:16] <= ADCD1[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA2[`ADC_WIDTH-1:0] <= ADCD2[`ADC_WIDTH-1:0];
-        SHWR_DATA2[`ADC_WIDTH+15:16] <= ADCD2[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA3[`ADC_WIDTH-1:0] <= ADCD3[`ADC_WIDTH-1:0];
-        SHWR_DATA3[`ADC_WIDTH+15:16] <= ADCD3[2*`ADC_WIDTH-1:`ADC_WIDTH];
-        SHWR_DATA4[`ADC_WIDTH-1:0] <= ADCD4[`ADC_WIDTH-1:0];
-        SHWR_DATA4[`ADC_WIDTH+15:16] <= ADCD4[2*`ADC_WIDTH-1:`ADC_WIDTH];
-
-        SHWR_DATA0[15:`ADC_WIDTH] <= FILTB_PMT0 & 'hf;
-        SHWR_DATA0[31:`ADC_WIDTH+16] <= (FILTB_PMT0 >> 4) & 'hf;
-        SHWR_DATA1[15:`ADC_WIDTH] <= (FILTB_PMT0 >> 8) & 'hf;
-        SHWR_DATA1[31:`ADC_WIDTH+16] <= FILTB_PMT1 & 'hf;
-        SHWR_DATA2[15:`ADC_WIDTH] <= (FILTB_PMT1 >> 4) & 'hf;
-        SHWR_DATA2[31:`ADC_WIDTH+16] <= (FILTB_PMT1 >> 8) & 'hf;
-        SHWR_DATA3[15:`ADC_WIDTH] <=  FILTB_PMT2 & 'hf;
-        SHWR_DATA3[31:`ADC_WIDTH+16] <= (FILTB_PMT2 >> 4) & 'hf;
-        SHWR_DATA4[15:`ADC_WIDTH] <=  (FILTB_PMT2 >> 8) & 'hf;
-        SHWR_DATA4[31:`ADC_WIDTH+16] <= ADC_EXTRA;
-
-	// Some debugging for now in ADC_EXTRA in place of seq. number
-	ADC_EXTRA = COMPATIBILITY_SB_TRIG |
-		    (SB_TRIG << 1) |
-		    (LED_TRG_FLAG << 2) |
-		    (TRIGGERED << 3);
-       
-     // Put sequence number in ADC_EXTRA
-//        if (ADC_EXTRA == 14)
-//          ADC_EXTRA <= 0;
-//        else
-//          ADC_EXTRA <= ADC_EXTRA+1;
+	// Repetitive code block that scrubs the filtered ADC data,
+	// delays ADC data, and loads shower memory.
+	`include "adc_filt_delay_block.vh"
         
         // Make offset to data in current buffer to read available
         LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0] 
@@ -495,6 +369,60 @@ always @(posedge CLK120) begin
                    
                    // Save address to start of trace
                    LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
+
+		   // Save computed values that we will load in registers
+		   LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[0] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[0] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[0] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[1] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[1] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[1] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[2] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[2] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[2] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[3] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[3] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[3] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[4] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[4] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[4] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[5] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[5] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[5] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[6] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[6] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[6] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[7] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[7] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[7] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[8] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[8] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[8] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
+		     = (AREA[9] >> `SHWR_AREA_FRAC_WIDTH) | 
+		       (PEAK[9] << `SHWR_PEAK_SHIFT) |
+		       (SATURATED[9] << `SHWR_SATURATED_SHIFT);
+
+		   LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[0] | (BASELINE[1] << 16);
+		   LCL_SHWR_BASELINE1[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[2] | (BASELINE[3] << 16);
+		   LCL_SHWR_BASELINE2[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[4] | (BASELINE[5] << 16);
+		   LCL_SHWR_BASELINE3[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[6] | (BASELINE[7] << 16);
+		   LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[8] | (BASELINE[9] << 16);
+			   
                 end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1])
            end
            else
@@ -555,98 +483,6 @@ always @(posedge CLK120) begin
      end // else: !if(LCL_RESET)
 end
 
-   always @( posedge S_AXI_ACLK )
-     begin
-        if (slv_reg_wren &&
-            ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] 
-              == `SHWR_BUF_CONTROL_ADDR ))
-          AXI_SHWR_CONTROL_WRITTEN <= 1;
-        else
-          AXI_SHWR_CONTROL_WRITTEN <= 0;
-        if (slv_reg_wren &&
-            ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] 
-              == `MUON_BUF_CONTROL_ADDR ))
-          AXI_MUON_CONTROL_WRITTEN <= 1;
-        else
-          AXI_MUON_CONTROL_WRITTEN <= 0;
-        AXI_REG_WRITE <= slv_reg_wren;
-     end
-
-   // Stretch trigger out signal
-   stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
-
-   // Synchronization with AXI registers for cases where glitches would be
-   // problematic.  This should not be necessary for semi-static control registers.
-
-   synchronizer_32bit compatibility_global_control_sync
-     (.ASYNC_IN(COMPATIBILITY_GLOBAL_CONTROL),
-      .CLK(CLK120),
-      .SYNC_OUT(LCL_COMPATIBILITY_GLOBAL_CONTROL));
-   synchronizer_32bit shwr_buf_control_sync(.ASYNC_IN(SHWR_BUF_CONTROL),
-                                            .CLK(CLK120),
-                                            .SYNC_OUT(LCL_SHWR_BUF_CONTROL));
-   synchronizer_32bit led__control_sync(.ASYNC_IN(LED_CONTROL),
-                                            .CLK(CLK120),
-                                            .SYNC_OUT(LCL_LED_CONTROL));
-   synchronizer_1bit control_written_sync(.ASYNC_IN(AXI_SHWR_CONTROL_WRITTEN),
-                                          .CLK(CLK120),
-                                          .SYNC_OUT(LCL_SHWR_CONTROL_WRITTEN));
-
-   synchronizer_32bit shwr_trigid_sync
-     (.ASYNC_IN(LCL_SHWR_BUF_TRIG_ID),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(SHWR_BUF_TRIG_ID));
-   synchronizer_32bit shwr_buf_status_sync
-     (.ASYNC_IN(LCL_SHWR_BUF_STATUS),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(SHWR_BUF_STATUS));
-   synchronizer_32bit shwr_buf_start_sync
-     (.ASYNC_IN(LCL_SHWR_BUF_START),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(SHWR_BUF_START));
-
-
-   // Test ADC outputs
-   synchronizer_32bit adc0_test_sync
-     (.ASYNC_IN({4'b0000,ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH],
-                 4'b0000,ADC0[`ADC_WIDTH-1:0]}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(ADC0_TEST));
-   synchronizer_32bit adc1_test_sync
-     (.ASYNC_IN({4'b0000,ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH],
-                 4'b0000,ADC1[`ADC_WIDTH-1:0]}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(ADC1_TEST));
-   synchronizer_32bit adc2_test_sync
-     (.ASYNC_IN({4'b0000,ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH],
-                 4'b0000,ADC2[`ADC_WIDTH-1:0]}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(ADC2_TEST));
-   synchronizer_32bit adc3_test_sync
-     (.ASYNC_IN({4'b0000,ADC3[2*`ADC_WIDTH-1:`ADC_WIDTH],
-                 4'b0000,ADC3[`ADC_WIDTH-1:0]}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(ADC3_TEST));
-   synchronizer_32bit adc4_test_sync
-     (.ASYNC_IN({4'b0000,ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH],
-                 4'b0000,ADC4[`ADC_WIDTH-1:0]}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(ADC4_TEST));
-
-   // Test filtered ADC outputs
-   synchronizer_32bit filt_pmt0_test_sync
-     (.ASYNC_IN({2'b00,FILTD_PMT0,4'b0000,FILTB_PMT0}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(FILT_PMT0_TEST));
-   synchronizer_32bit filt_pmt1_test_sync
-     (.ASYNC_IN({2'b00,FILTD_PMT1,4'b0000,FILTB_PMT1}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(FILT_PMT1_TEST));
-   synchronizer_32bit filt_pmt2_test_sync
-     (.ASYNC_IN({2'b00,FILTD_PMT2,4'b0000,FILTB_PMT2}),
-      .CLK(S_AXI_ACLK),.SYNC_OUT(FILT_PMT2_TEST));
-
-   // These are mostly redundant, but may be useful for debugging
-   // synchronizer_32bit shwr_buf_start0_sync
-   //   (.ASYNC_IN(LCL_SHWR_BUF_START0),
-   //    .CLK(S_AXI_ACLK),.SYNC_OUT(`SHWR_BUF_START0));
-   // synchronizer_32bit shwr_buf_start1_sync
-   //   (.ASYNC_IN(LCL_SHWR_BUF_START1),
-   //    .CLK(S_AXI_ACLK),.SYNC_OUT(`SHWR_BUF_START1));
-   // synchronizer_32bit shwr_buf_start2_sync
-   //   (.ASYNC_IN(LCL_SHWR_BUF_START2),
-   //    .CLK(S_AXI_ACLK),.SYNC_OUT(`SHWR_BUF_START2));
-   // synchronizer_32bit shwr_buf_start3_sync
-   //   (.ASYNC_IN(LCL_SHWR_BUF_START3),
-   //    .CLK(S_AXI_ACLK),.SYNC_OUT(`SHWR_BUF_START3));
+// Include code to synchronize between the AXI bus & local registers
+`include "axi_sync_block.vh"
 

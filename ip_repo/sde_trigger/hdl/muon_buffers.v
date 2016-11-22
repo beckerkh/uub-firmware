@@ -5,6 +5,7 @@
 // 02-Jun-2016 DFN Initial version
 // 04-Oct-2016 DFN Add 2 cycle delay to MUON_BUF_WNUM to compensate for
 //                 delays in time tagging module.
+// 18-Nov-2016 DFN Add mode to alternate SIPM data stored in buffer
 
 `include "sde_trigger_defs.vh"
 
@@ -15,6 +16,7 @@ module muon_buffers(
                     input [`ADC_WIDTH-1:0] ADC0,
 		    input [`ADC_WIDTH-1:0] ADC1,
 		    input [`ADC_WIDTH-1:0] ADC2,
+		    input [`ADC_WIDTH-1:0] ADC_CAL,
 		    input [`ADC_WIDTH-1:0] ADC_SSD,
 		    input [`MUON_NUM_TRIGS-1:0] MUON_TRIG_IN,
                     input [31:0] MUON_BUF_CONTROL,
@@ -62,7 +64,8 @@ module muon_buffers(
    reg [`MUON_MEM_ADDR_WIDTH-1:0]    MUON_ADDRT;
    reg                               MUON_ENBT;
    reg                               NEW_BUF;
-
+   reg 				     SIPM_CAL;
+   
    integer                           INDEX;
    
    always @(posedge CLK120) begin
@@ -84,6 +87,7 @@ module muon_buffers(
          TIME_TAG <= 0;
          LCL_MUON_BUF_TIME_TAG_A[0] <= 0;
          NEW_BUF <= 0;
+	 SIPM_CAL <= 0;
       end
       else begin
 
@@ -95,7 +99,15 @@ module muon_buffers(
          TIME_TAG <= TIME_TAG+1;
          LCL_MUON_BUF_WORD_COUNT <=  LCL_MUON_BUF_WORD_COUNTN[MUON_BUF_RNUM];
          DATA0_PIPELINE[0] <= ADC0 | (ADC1 << 16);
-         DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
+	 if (LCL_MUON_BUF_WORD_COUNT[0:0] == 0)
+           DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
+	 else
+	   begin
+	      if (SIPM_CAL == 0)
+		DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
+	      else
+		DATA1_PIPELINE[0] <= ADC2 | (ADC_CAL << 16);
+	   end
          for (INDEX=1; INDEX<=`MUON_TRIG_PIPELINE_DLY; INDEX=INDEX+1) begin
             DATA0_PIPELINE[INDEX] <= DATA0_PIPELINE[INDEX-1];
             DATA1_PIPELINE[INDEX] <= DATA1_PIPELINE[INDEX-1];
@@ -120,7 +132,9 @@ module muon_buffers(
 	          MUON_BURST <= 1;
                   MUON_ENBT <= 1;
                   MUON_DATA0_TMP1 <= TIME_TAG | 'h80000000;
-                  MUON_DATA1_TMP1 <= (MUON_TRIG_IN & MUON_BUF_TRIG_MASK) | 
+                  MUON_DATA1_TMP1 <= (MUON_TRIG_IN & MUON_BUF_TRIG_MASK) |
+				     ((SIPM_CAL << `MUON_BUF_SIPM_CAL_SHIFT) 
+				      & MUON_BUF_TRIG_MASK) |
                                      'h80000000;
                   if (MUON_ADDRT[`MUON_MEM_BUF_SHIFT-1:0] !=  0) begin
                      MUON_ADDRT <= MUON_ADDRT+4;
@@ -156,7 +170,8 @@ module muon_buffers(
             else if (MUON_BURST >= `MUON_BURST_LEN) begin
                MUON_BURST <= 0;
                MUON_ENBT <= 0;
-               
+	       if ((MUON_BUF_TRIG_MASK & `MUON_BUF_SIPM_CAL) != 0)
+		 SIPM_CAL <= ~SIPM_CAL;
                // Full muon buffer?
                if (WORD_COUNT >= `MUON_MEM_WORDS-`MUON_BURST_LEN-2) 
                  begin
