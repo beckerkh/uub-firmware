@@ -1,3 +1,4 @@
+
 // uub_integral
 
 // Test program to get events directly by reading the event data
@@ -18,10 +19,10 @@
 #include "read_evt.h"
 #include "sde_trigger_defs.h"
 
-#define MAX_EVTS 10
-#define TRIG_THR0 600
-#define TRIG_THR1 600
-#define TRIG_THR2 600
+#define MAX_EVTS 100
+#define TRIG_THR0 900
+#define TRIG_THR1 900
+#define TRIG_THR2 900
 
 // Macros
 #define write_trig(RegNumber, Data) regs[RegNumber] = Data
@@ -32,10 +33,13 @@ main()
   uint32_t v1, v2;
   struct shwr_evt_raw ev;
   int flag, n, i, j, fd;
+  int status, rnum;
+  int ar, pk;
   int offset, size;
   volatile uint32_t *regs;
   uint32_t v[10];
-  int saturated[10], baseline[10], peak[10], area[10];
+  int saturated[10], peak[10], area[10];
+  int baseline[10];
 
   // Open register addresses for read/write
   fd = open("/dev/mem",O_RDWR);
@@ -78,7 +82,6 @@ main()
       n++;
       flag=read_evt_read(&ev);
       if(flag==0){
-	printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 
 	// Get FPGA calculated values of baseline, peak, and area.
 	v[0] = read_trig(SHWR_PEAK_AREA0_ADDR);
@@ -105,31 +108,52 @@ main()
 	v[4] = read_trig(SHWR_BASELINE4_ADDR);
 	for (i=0; i<5; i++)
 	  {
-	    baseline[2*i] = v[i] & 0xfff;
-	    baseline[2*i+1] = (v[i] >> 16) & 0xfff;
+	    baseline[2*i] = v[i] & 0xffff;
+	    baseline[2*i+1] = (v[i] >> 16) & 0xffff;
 	  }
+
+	// Reset shower buffer
+	status = read_trig(SHWR_BUF_STATUS_ADDR);
+	rnum = (status >> SHWR_BUF_RNUM_SHIFT) & SHWR_BUF_RNUM_MASK;
+	write_trig(SHWR_BUF_CONTROL_ADDR,rnum);
+
+	printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 
 	// Output a few lines header with the FPGA calculated area, peak, etc.
 	for (i=0; i<10; i++)
 	  {
-	    printf("%1d %1d %4d %4d %d\n", 
-		   i, saturated[i], baseline[i], peak[i], area[i]);
+	    printf("%1d %1d %4d %4d %d %d\n", 
+		   i, saturated[i], baseline[i], peak[i], area[i], rnum);
 	  }
 
 	// This is still test code here.
 	for(i=0;i<ev.nsamples;i++){
 	  printf("%4d  ",i);
-	  // The first 2 columns after the bin number contain the low and high
-	  // gain data from the WCD PMT.
 	  offset=(i+ev.trace_start) & (SHWR_NSAMPLES - 1);
+
+	  // Nominal ADC trace for high gain PMT2
 	  for(j=1;j<2;j++){
 	    v2=(ev.fadc_raw[j][offset]>>16) & 0xFFF;
 	    printf("%4d ",v2);
 	  }
-	  // The next 3 columns contain the FPGA calculated baseline & integral
-	  for(j=2;j<5;j++) {
+	  // Delayed ADC trace for high gain PMT2 used in integral calc.
+	  for(j=2;j<3;j++){
+	    v2=ev.fadc_raw[j][offset] & 0xFFF;
+	    printf("%4d ",v2);
+	  }
+	  // Calculated baseline & baseline with RC sag.
+	  for(j=3;j<4;j++) {
+	    v1 = ev.fadc_raw[j][offset] & 0xffff;
+	    v2 = (ev.fadc_raw[j][offset]>>16) & 0xffff;
+	    printf("%d %d ",v1,v2);
+	  }
+
+	  // Calculated area & peak
+	  for(j=4;j<5;j++) {
 	    v1 = ev.fadc_raw[j][offset];
-	    printf("%d ",v1);
+            ar = v1 & 0x7ffff;
+            pk = (v1 >> 19) & 0xfff;
+	    printf("%d %d ",ar,pk);
 	  }
 	  printf("\n");
 	}

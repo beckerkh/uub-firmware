@@ -228,7 +228,7 @@ int read_evt_read(struct shwr_evt_raw *shwr)
     shwr->Evt_type_2=0;
     
     shwr->nsamples=SHWR_NSAMPLES;
-    gl.regs[SHWR_BUF_CONTROL_ADDR]=rd;
+    //    gl.regs[SHWR_BUF_CONTROL_ADDR]=rd;
     return(0);
   }
   return(1);

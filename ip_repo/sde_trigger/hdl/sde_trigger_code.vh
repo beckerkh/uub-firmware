@@ -158,8 +158,10 @@ shwr_integral area(.RESET(LCL_RESET),
 		   .CLK120(CLK120),
 		   .TRIGGERED(TRIGGERED),
 		   .ADC(ADCD[i]),
+		   .ADCD(ADCDR[i]),
 		   .INTEGRAL(AREA[i]),
 		   .BASELINE(BASELINE[i]),
+		   .SBASELINE(SBASELINE[i]),
 		   .PEAK(PEAK[i]),
 		   .SATURATED(SATURATED[i])
 		   );
@@ -320,7 +322,6 @@ always @(posedge CLK120) begin
               end
            end // if (!TRIGGERED && !DEAD)
 
-
            // Process dead time
            if (DEAD) begin
               SHWR_DEAD_DLYD[0] <= 0;
@@ -372,44 +373,34 @@ always @(posedge CLK120) begin
 
 		   // Save computed values that we will load in registers
 		   LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[0] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[0] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[0] | (PEAK[0] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[0] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[1] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[1] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[1] | (PEAK[1] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[1] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[2] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[2] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[2] | (PEAK[2] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[2] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[3] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[3] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[3] | (PEAK[3] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[3] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[4] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[4] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[4] | (PEAK[4] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[4] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[5] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[5] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[5] | (PEAK[5] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[5] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[6] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[6] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[6] | (PEAK[6] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[6] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[7] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[7] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[7] | (PEAK[7] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[7] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[8] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[8] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[8] | (PEAK[8] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[8] << `SHWR_SATURATED_SHIFT);
 		   LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
-		     = (AREA[9] >> `SHWR_AREA_FRAC_WIDTH) | 
-		       (PEAK[9] << `SHWR_PEAK_SHIFT) |
+		     <= AREA[9] | (PEAK[9] << `SHWR_PEAK_SHIFT) |
 		       (SATURATED[9] << `SHWR_SATURATED_SHIFT);
 
 		   LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
