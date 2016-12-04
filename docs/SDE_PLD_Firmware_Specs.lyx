@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-November 23, 2016
+December 4, 2016
 \end_layout
 
 \begin_layout Author
@@ -142,6 +142,11 @@ History
  If this bit is set, each the 4th ADC value will alternate between the SSD
  high gain channel & the SIPM calibration channel.
  Added computation of area, peak, and baseline for showers.
+\end_layout
+
+\begin_layout Description
+04-Dec-2016 Changed WATCHDOG from an input to an output; update description
+ in the Interface Module section.
 \end_layout
 
 \begin_layout Section
@@ -12161,13 +12166,13 @@ Some miscellaneous and test functions are grouped together in an interface
 \end_inset
 
 0000.
- This module has 3 registers:
+ This module has 4 registers:
 \end_layout
 
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
+<lyxtabular version="3" rows="10" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top">
@@ -12245,7 +12250,7 @@ Bit 8 - USB_IFAULT
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bit 9 - WATCHDOG
+Bit 9 - not used
 \end_layout
 
 \end_inset
@@ -12321,11 +12326,51 @@ Bit 0 - Generate fake GPS PPS if 1
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 Bit 1 - Generate fake data if 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 2 - Generate fake muon data if 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WATCHDOG output
 \end_layout
 
 \end_inset
