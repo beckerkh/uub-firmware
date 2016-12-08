@@ -102,6 +102,7 @@ void trigger_test()
 
   // Select any special test options.
   int test_options = 0;
+  int watchdog_options = 0;
 
   // Select fake or true GPS for 1pps
 #ifdef USE_FAKE_GPS
@@ -373,7 +374,6 @@ void trigger_test()
     SB_TRIG_INCL_PMT2 |
     SB_TRIG_INCL_SSD |
     (1 << SB_TRIG_COINC_LVL_SHIFT) |
-    (0 << SB_TRIG_WCD_DELAY_SHIFT) |
     (1 << SB_TRIG_SSD_DELAY_SHIFT) |
     (3 << SB_TRIG_COINC_OVLP_SHIFT) |
     (1 << SB_TRIG_CONSEC_BINS_SHIFT);
@@ -452,7 +452,6 @@ void trigger_test()
     //    MUON_TRIG_INCL_PMT2 |
     //    MUON_TRIG_INCL_SSD |
     (1 << MUON_TRIG_COINC_LVL_SHIFT) |
-    (0 << MUON_TRIG_WCD_DELAY_SHIFT) |
     (1 << MUON_TRIG_SSD_DELAY_SHIFT) |
     (0 << MUON_TRIG_COINC_OVLP_SHIFT) |
     (0 << MUON_TRIG_CONSEC_BINS_SHIFT);
@@ -495,6 +494,16 @@ void trigger_test()
 
   // Loop forever
   while (1) {
+
+#ifdef TOGGLE_WATCHDOG
+  //watchdog_options = ~watchdog_options;
+  INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
+                               INTERFACE_UUB_DFN3_S00_AXI_SLV_REG3_OFFSET,
+			       1);
+  INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
+                               INTERFACE_UUB_DFN3_S00_AXI_SLV_REG3_OFFSET,
+			       0);
+#endif
 
 #ifdef DO_LED_PULSE
  

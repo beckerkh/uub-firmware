@@ -2,6 +2,7 @@
 // sde_trigger PL.
 //
 // 25-May-2016 DFN Initial version extracted from trigger_test.c
+// 05-Dec-2016 DFN Add TOGGLE_WATCHDOG switch
 
 
 #include <stdio.h>
@@ -21,6 +22,7 @@
 #include "test_periph.h"
 #include "interface_uub_dfn3.h" 
 
+#define TOGGLE_WATCHDOG
 #define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS

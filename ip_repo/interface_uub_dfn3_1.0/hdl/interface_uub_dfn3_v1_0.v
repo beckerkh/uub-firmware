@@ -18,7 +18,7 @@ module interface_uub_dfn3_v1_0 #
 
     input wire CLK120,
     input wire [7:0] HCONF,
-    input wire WATCHDOG,
+    output wire WATCHDOG,
     input wire RADIO_RST_IN,
     input wire USB_IFAULT,
     input wire FAKE_PPS,

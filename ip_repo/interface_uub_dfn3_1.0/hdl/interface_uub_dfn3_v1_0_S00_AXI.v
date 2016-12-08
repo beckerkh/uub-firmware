@@ -3,8 +3,10 @@
 
 	module interface_uub_dfn3_v1_0_S00_AXI #
 	(
-		// Users to add parameters here
+	 // Users to add parameters here
 
+         // 03-Dec-2016 DFN Change WATCHDOG from an input to an output.
+         
 		// User parameters ends
 		// Do not modify the parameters beyond this line
 
@@ -18,7 +20,7 @@
 
          input CLK120,         
          input [7:0] HCONF,
-         input WATCHDOG,
+         output reg WATCHDOG,
          input RADIO_RST_IN,
          input USB_IFAULT,
          input FAKE_PPS,
@@ -232,39 +234,17 @@
 	    if (slv_reg_wren)
 	      begin
 	        case ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
-	          // 2'h0:
-	            // for ( byte_index = 0; byte_index <= (C_S_AXI_DATA_WIDTH/8)-1; byte_index = byte_index+1 )
-	            //   if ( S_AXI_WSTRB[byte_index] == 1 ) begin
-	            //     // Respective byte enables are asserted as per write strobes 
-	            //     // Slave register 0
-	            //     slv_reg0[(byte_index*8) +: 8] <= S_AXI_WDATA[(byte_index*8) +: 8];
-	            //   end  
 	          2'h1:
-	            for ( byte_index = 0; byte_index <= (C_S_AXI_DATA_WIDTH/8)-1; byte_index = byte_index+1 )
-	              if ( S_AXI_WSTRB[byte_index] == 1 ) begin
-	                // Respective byte enables are asserted as per write strobes 
-	                // Slave register 1
-	                slv_reg1[(byte_index*8) +: 8] <= S_AXI_WDATA[(byte_index*8) +: 8];
-	              end  
+	            slv_reg1 <= S_AXI_WDATA;
 	          2'h2:
-	            for ( byte_index = 0; byte_index <= (C_S_AXI_DATA_WIDTH/8)-1; byte_index = byte_index+1 )
-	              if ( S_AXI_WSTRB[byte_index] == 1 ) begin
-	                // Respective byte enables are asserted as per write strobes 
-	                // Slave register 2
-	                slv_reg2[(byte_index*8) +: 8] <= S_AXI_WDATA[(byte_index*8) +: 8];
-	              end  
+	            slv_reg2 <= S_AXI_WDATA;
 	          2'h3:
-	            for ( byte_index = 0; byte_index <= (C_S_AXI_DATA_WIDTH/8)-1; byte_index = byte_index+1 )
-	              if ( S_AXI_WSTRB[byte_index] == 1 ) begin
-	                // Respective byte enables are asserted as per write strobes 
-	                // Slave register 3
-	                slv_reg3[(byte_index*8) +: 8] <= S_AXI_WDATA[(byte_index*8) +: 8];
-	              end  
+	            slv_reg3 <= S_AXI_WDATA;
 	          default : begin
-	                      slv_reg1 <= slv_reg1;
-	                      slv_reg2 <= slv_reg2;
-	                      slv_reg3 <= slv_reg3;
-	                    end
+	             slv_reg1 <= slv_reg1;
+	             slv_reg2 <= slv_reg2;
+	             slv_reg3 <= slv_reg3;
+	          end
 	        endcase
 	      end
 	  end
@@ -403,17 +383,18 @@
 
    reg USE_FAKE_PPS;
    
-	always @( posedge CLK120 )
+	always @( posedge S_AXI_ACLK )
 	begin
            slv_reg0[7:0] <= HCONF;
            slv_reg0[8] <= USB_IFAULT;
-           slv_reg0[9] <= WATCHDOG;
+           slv_reg0[9] <= 0;
            slv_reg0[10] <= RADIO_RST_IN;
              
            RADIO_RST_OUT <= !slv_reg1[0];
            USE_FAKE_PPS <= slv_reg2[0];
 	   USE_FAKE_SHWR <= slv_reg2[1];
 	   USE_FAKE_MUON <= slv_reg2[2];
+           WATCHDOG <= slv_reg3[0];
         end
 
    mux1 ppsmux(.SEL_B(USE_FAKE_PPS), .D({TRUE_PPS,FAKE_PPS}), .Q(PPS));
