@@ -1148,12 +1148,6 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>TRIG_OUT</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
           <spirit:name>TRIG_IN</spirit:name>
           <spirit:wire>
             <spirit:direction>in</spirit:direction>
@@ -1184,17 +1178,7 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext1_ctl</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:name>ext0_dat</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1214,7 +1198,17 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext0_dat</spirit:name>
+          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>7</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>ext1_ctl</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1284,9 +1278,15 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>WATCHDOG</spirit:name>
+          <spirit:name>TRIG_OUT</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>WATCHDOG</spirit:name>
+          <spirit:wire>
+            <spirit:direction>inout</spirit:direction>
           </spirit:wire>
         </spirit:port>
       </spirit:ports>
@@ -1710,10 +1710,10 @@
       <spirit:adHocConnection>
         <spirit:name>xlconstant_0_dout</spirit:name>
         <spirit:internalPortReference spirit:componentRef="xlconstant_0" spirit:portRef="dout"/>
-        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
         <spirit:externalPortReference spirit:portRef="ext1_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
+        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_P6X</spirit:name>
@@ -1830,14 +1830,14 @@
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_MUON"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_WATCHDOG</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="WATCHDOG"/>
-        <spirit:externalPortReference spirit:portRef="WATCHDOG"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_TRIG_OUT</spirit:name>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="TRIG_OUT"/>
         <spirit:externalPortReference spirit:portRef="TRIG_OUT"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>Net</spirit:name>
+        <spirit:externalPortReference spirit:portRef="WATCHDOG"/>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="WATCHDOG"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

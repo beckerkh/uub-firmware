@@ -496,13 +496,12 @@ void trigger_test()
   while (1) {
 
 #ifdef TOGGLE_WATCHDOG
-  //watchdog_options = ~watchdog_options;
   INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
                                INTERFACE_UUB_DFN3_S00_AXI_SLV_REG3_OFFSET,
-			       1);
+			       3);
   INTERFACE_UUB_DFN3_mWriteReg(XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR,
                                INTERFACE_UUB_DFN3_S00_AXI_SLV_REG3_OFFSET,
-			       0);
+			       2);
 #endif
 
 #ifdef DO_LED_PULSE

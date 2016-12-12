@@ -1,7 +1,7 @@
 //Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-//Date        : Wed Dec  7 11:19:51 2016
+//Date        : Fri Dec  9 11:24:20 2016
 //Host        : dfn-x3100.auger.mtu.edu running 64-bit Scientific Linux release 6.8 (Carbon)
 //Command     : generate_target uub_proto2_wrapper.bd
 //Design      : uub_proto2_wrapper
@@ -118,7 +118,7 @@ module uub_proto2_wrapper
   input TRIG_IN;
   output TRIG_OUT;
   input USB_IFAULT;
-  output WATCHDOG;
+  inout WATCHDOG;
   input [11:0]adc0_n;
   input [11:0]adc0_p;
   input [11:0]adc1_n;

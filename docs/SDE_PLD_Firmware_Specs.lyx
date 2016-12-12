@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-December 4, 2016
+December 12, 2016
 \end_layout
 
 \begin_layout Author
@@ -147,6 +147,10 @@ History
 \begin_layout Description
 04-Dec-2016 Changed WATCHDOG from an input to an output; update description
  in the Interface Module section.
+\end_layout
+
+\begin_layout Description
+12-Dec-2016 Added output enable control for WATCHDOG output.
 \end_layout
 
 \begin_layout Section
@@ -12172,7 +12176,7 @@ Some miscellaneous and test functions are grouped together in an interface
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="10" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top">
@@ -12357,7 +12361,7 @@ Bit 2 - Generate fake muon data if 1
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -12366,11 +12370,31 @@ Bit 2 - Generate fake muon data if 1
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - WATCHDOG output value
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-WATCHDOG output
+Bit 1 - Enable WATCHDOG output
 \end_layout
 
 \end_inset
