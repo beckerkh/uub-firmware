@@ -22,8 +22,9 @@
 #include "test_periph.h"
 #include "interface_uub_dfn3.h" 
 
-#define TOGGLE_WATCHDOG
-#define USE_FAKE_MUON
+#define ADJUST_BASELINE
+//#define TOGGLE_WATCHDOG
+//#define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
@@ -46,15 +47,15 @@
 
 #define MUONS_PER_BUF (MUON_MEM_WORDS/MUON_BURST_LEN)
 
-//#define SHWR_TRIGGERS
+#define SHWR_TRIGGERS
 #ifdef SHWR_TRIGGERS 
-//  #define COMPAT_SB_TRIGGER
-  #define SB_TRIGGER
+  #define COMPAT_SB_TRIGGER
+//  #define SB_TRIGGER
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
 #endif
-#define MUON_TRIGGERS
+//#define MUON_TRIGGERS
 
 // PDT mode. Read shower/muon buffers
 // using simple memory mapped access.
@@ -83,6 +84,7 @@
 
 #define ADC_MASK ((1<<ADC_WIDTH)-1)
 
+void adjust_baseline();
 void enable_trigger_intr();
 void disable_trigger_intr();
 void read_shw_buffers();

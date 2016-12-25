@@ -42,10 +42,9 @@
 #define SPI_SELECT_ADC4 0x04
 
 #define SEARCH_EYE
- 
-//**************************** Type Definitions ************************
- 
-//***************** Macros (Inline Functions) Definitions **************
+#define MAXLOOP 100000
+#define BASELINE_INCR (1./64.)
+#define BASELINE_GOAL 300.
  
 XSpiPs Spi;
  
@@ -53,6 +52,8 @@ XSpiPs Spi;
 #define write_buffer_size 10                // size of the SPI write buffer
 u8 ReadBuffer[read_buffer_size]   = {0x00}; // SPI read buffer initialize to 0
 u8 WriteBuffer[write_buffer_size] = {0x00}; // SPI write buffer initialize to 0
+
+static u8 ADC_OFFSET[3] = {0x00,0x10,0x00} ; // ADC: Offset adjust
 static u8 ADC_LVDS[3] = {0x00,0x14,0xA4} ; // ADC: LVDS interleave, binary, inverted 
 static u8 ADC_RESET[3] = {0x00,0x00,0x3C} ; // ADC soft reset
 static u8 ADC_DIGRESET[3] = {0x00,0x08,0x03} ; // ADC digital reset
@@ -83,6 +84,8 @@ static u8 DelayCodes[17] = {0x87,0x86,0x85,0x84,0x83,0x82,0x81,0x80,0x00,
                             0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27};
 
 void SpiADC(u8 select, u8 chanAB, u8 writebuf[3],u8 readbuf[3]);
+void find_baseline(double baseline[]);
+void adjust_baseline();
  
 //************************************************************************
 // 
@@ -233,7 +236,13 @@ int init_ADC(u16 SpiDeviceId, char valid_display)
       printf( " In normal mode ADC %d  Ch A = %4x,  Ch B = %4x\r\n",
               k, data_display & 0xfff, (data_display >>16) & 0xfff);
 #endif
-    }
+
+
+     }
+
+  // Adjust ADC baselines
+   adjust_baseline();
+
   return XST_SUCCESS;
 }  
    
@@ -246,8 +255,8 @@ void SpiADC(u8 select, u8 chanAB, u8 writebuf[3],u8 readbuf[3])
   writetmp[1] = writebuf[1];
   writetmp[2] = 0;
   readbuf[0] = 0;
-  readbuf[0] = 1;
-  readbuf[0] = 2;
+  readbuf[1] = 0;
+  readbuf[2] = 0;
   XSpiPs_SetSlaveSelect(&Spi, select);               // Assert the chip select
    if (chanAB == 1) 
     XSpiPs_PolledTransfer(&Spi, cmdchannelA, readtmp, 3); // Select channels
@@ -264,6 +273,103 @@ void SpiADC(u8 select, u8 chanAB, u8 writebuf[3],u8 readbuf[3])
              writebuf[2], readbuf[2], writebuf[1]);
 }
 
+// adjust_baseline.c
+//
+// Routine to track & try to adjust the baseline of all the ADCs to be the
+// same value.  Note: The ADC & ADC SPI must have been previously initialized
+// by Init_ADC.
+//
+// 12-Dec-2016 DFN Initial version
+//
+
+void adjust_baseline()
+{
+  int k;
+  int ilg, ihg;
+  int offset;
+  double baseline[10];
+
+  for (k=0; k<10; k++)
+    baseline[k] = BASELINE_GOAL;
+
+  // Find the current baselines
+  find_baseline(baseline);
+
+  // After measuring baseline, now try to add digital offset to bring back to 
+  // nominal value.
+
+  // Cycle through all the ADCs
+  for (k = 0; k < 5; k++)
+    {
+      ilg = 2*k;
+      ihg = 2*k+1;
+
+      offset = (baseline[ilg] - BASELINE_GOAL + .5);
+      if (offset < -128) offset = -128;
+      if (offset > 127) offset = 127;
+      WriteBuffer[0] = ADC_OFFSET[0];
+      WriteBuffer[1] = ADC_OFFSET[1];
+      WriteBuffer[2] = offset;
+      SpiADC(k, 1, WriteBuffer,ReadBuffer);
+
+      offset = (baseline[ihg] - BASELINE_GOAL + .5);
+      if (offset < -128) offset = -128;
+      if (offset > 127) offset = 127;
+      WriteBuffer[0] = ADC_OFFSET[0];
+      WriteBuffer[1] = ADC_OFFSET[1];
+      WriteBuffer[2] = offset;
+      SpiADC(k, 2, WriteBuffer,ReadBuffer);
+    }
+  printf("Digital offset added to baselines\n\n");
+
+  // Check adjusted baselines
+  for (k=0; k<10; k++)
+     baseline[k] = BASELINE_GOAL;
+  find_baseline(baseline);
+} 
+
+void find_baseline(double baseline[10])
+{
+  int i, k;
+  int ilg, ihg, reg_addr;
+  int high_gain[5], low_gain[5];
+  int value;
+
+  // Measure current baseline
+  for (i=0; i<MAXLOOP; i++)
+    {   
+
+      // Cycle through all the ADCs
+      for (k = 0; k < 5; k++)
+        {
+          ilg = 2*k;
+          ihg = 2*k+1;
+          reg_addr = ADC0_TEST_ADDR + k;
+          value = read_trig(reg_addr);
+          high_gain[k] = (value >>16) & 0xfff;
+          low_gain[k] = value & 0xfff;
+          if (low_gain[k] > baseline[ilg])
+            baseline[ilg] = baseline[ilg] + BASELINE_INCR;
+          else
+            baseline[ilg] = baseline[ilg] - BASELINE_INCR;
+
+          if (high_gain[k] > baseline[ihg])
+            baseline[ihg] = baseline[ihg] + BASELINE_INCR;
+          else
+            baseline[ihg] = baseline[ihg] - BASELINE_INCR;
+        }
+
+      if (i%10000 == 0) {
+          printf("Instant Baselines  = %5d %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+                 low_gain[0], high_gain[0], low_gain[1], high_gain[1], low_gain[2],
+                 high_gain[2], low_gain[3], high_gain[3], low_gain[4], high_gain[4]);
+
+    	  printf("Computed Baselines = %5.1f %5.1f %5.1f %5.1f %5.1f %5.1f %5.1f %5.1f %5.1f %5.1f\n\n",
+               baseline[0], baseline[1], baseline[2], baseline[3], baseline[4],
+               baseline[5], baseline[6], baseline[7], baseline[8], baseline[9]); 
+    }
+    }
+}  
 
 
 

@@ -102,7 +102,6 @@ void trigger_test()
 
   // Select any special test options.
   int test_options = 0;
-  int watchdog_options = 0;
 
   // Select fake or true GPS for 1pps
 #ifdef USE_FAKE_GPS
@@ -134,7 +133,7 @@ void trigger_test()
   status = read_trig(SHWR_BUF_TRIG_MASK_ADDR);
   if (status != 0) printf("trigger_test: Error reading TRIG_MASK %x\n",status);
 
-#ifdef DMA
+ #ifdef DMA
   // Initialize the XAxiCdma device.
   DmaCfgPtr = XAxiCdma_LookupConfig(XPAR_ZYNC_BLOCK_AXI_CDMA_0_DEVICE_ID);
   if (status != XST_SUCCESS)
