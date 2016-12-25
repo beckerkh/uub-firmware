@@ -88,6 +88,9 @@ void trigger_test()
   #ifdef SB_TRIGGER
     int sb_trig_enab;
   #endif
+#ifdef LED_TRIGGER
+    int led_trig_enab
+#endif
 #endif
 
 #ifdef MUON_TRIGGERS
@@ -295,6 +298,9 @@ void trigger_test()
 #ifdef PRESCALE_EXT_TRIGGER
   trigger_mask = trigger_mask |  COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT;
 #endif
+#ifdef LED_TRIGGER
+  trigger_mask = trigger_mask |  LED_TRIGGER;
+#endif
 
   printf("Trigger_test: Enabled triggers = ");
   if ((trigger_mask & SHWR_BUF_TRIG_SB) != 0) 
@@ -307,6 +313,8 @@ void trigger_test()
     printf(" PRESCALE_SB");
   if ((trigger_mask & COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT) != 0) 
     printf(" PRESCALE_EXT");
+  if ((trigger_mask & LED_TRIGGER) != 0) 
+    printf(" LED");
   printf("\n");
   printf("Trigger_test: Shower trigger thresholds = %d =0x%x\n",
 	 (int) (TRIG_THR0), (int) (TRIG_THR0));

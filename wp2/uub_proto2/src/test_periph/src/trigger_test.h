@@ -3,6 +3,8 @@
 //
 // 25-May-2016 DFN Initial version extracted from trigger_test.c
 // 05-Dec-2016 DFN Add TOGGLE_WATCHDOG switch
+// 25-Dec-2016 DFN Add LED_TRIGGER option; allows a "random" trigger if
+//                 LED is not connected.
 
 
 #include <stdio.h>
@@ -27,7 +29,7 @@
 //#define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
-//#define DO_LED_PULSE
+#define DO_LED_PULSE
 //#define DO_LED_NOW
 #define LED_DELAY0 50
 #define LED_DELAY1 100
@@ -49,11 +51,12 @@
 
 #define SHWR_TRIGGERS
 #ifdef SHWR_TRIGGERS 
-  #define COMPAT_SB_TRIGGER
+//  #define COMPAT_SB_TRIGGER
 //  #define SB_TRIGGER
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
+ #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 
