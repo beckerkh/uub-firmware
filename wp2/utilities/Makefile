@@ -11,7 +11,7 @@ LIBPATH		= -L.
 #INCPATH		+= -I$(ROOTSYS)/include -I$(ROOTSYS)/include/root
 
 
-all:	single_muon_pulse steps_pulse
+all:	single_muon_pulse steps_pulse bipolar_pulse
 
 
 # Object files
@@ -22,6 +22,9 @@ single_muon_pulse.o:	$(SRCDIR)single_muon_pulse.c
 steps_pulse.o:	$(SRCDIR)steps_pulse.c
 	gcc $(DEBUG) $(CFLAGS) $(INCPATH) -c -o steps_pulse.o steps_pulse.c
 
+bipolar_pulse.o:	$(SRCDIR)bipolar_pulse.c
+	gcc $(DEBUG) $(CFLAGS) $(INCPATH) -c -o bipolar_pulse.o bipolar_pulse.c
+
 
 
 # Executables
@@ -31,6 +34,9 @@ single_muon_pulse: single_muon_pulse.o
 
 steps_pulse: steps_pulse.o
 	gcc $(CFLAGS)  $(LIBS) -o steps_pulse steps_pulse.o
+
+bipolar_pulse: bipolar_pulse.o
+	gcc $(CFLAGS)  $(LIBS) -o bipolar_pulse bipolar_pulse.o
 
 clean:
 	 rm -f *.o
