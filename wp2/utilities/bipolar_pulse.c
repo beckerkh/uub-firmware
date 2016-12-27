@@ -10,13 +10,13 @@
 #include <math.h>
 
 #define VPP 5.   // Peak to peak voltage from pulser
-#define DOTS 1000 // Number of data points
+#define DOTS 10000 // Number of data points
 #define MAX_PH (-0.4*VPP)
 #define NSTEPS_RUNIN 5
 #define NSTEPS_LEADING 100
 #define NSTEPS_TRAILING 120
 #define STEP_SIZE  (MAX_PH/NSTEPS_LEADING) // Vertical step per tick
-#define PERIOD 1. // Period in microseconds
+#define PERIOD 10. // Period in microseconds
 #define DT (PERIOD/DOTS*1.E-6)
 
 int main(int argc, char *argv[])

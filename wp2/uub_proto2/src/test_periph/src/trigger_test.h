@@ -29,7 +29,7 @@
 //#define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
-#define DO_LED_PULSE
+//#define DO_LED_PULSE
 //#define DO_LED_NOW
 #define LED_DELAY0 50
 #define LED_DELAY1 100
@@ -39,9 +39,9 @@
 #define COMPAT_MV_PER_CHAN (2000./(1024.*30.))
 #define COMPAT_CHAN_PER_MV (1/COMPAT_MV_PER_CHAN)
 //#define TRIG_THR0 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-#define TRIG_THR0 2040
-#define TRIG_THR1 2040
-#define TRIG_THR2 2040
+#define TRIG_THR0 1000
+#define TRIG_THR1 1000
+#define TRIG_THR2 1000
 #define TRIG_SSD 2040
 //#define TRIG_THR1 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
 //#define TRIG_THR2 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
@@ -51,12 +51,12 @@
 
 #define SHWR_TRIGGERS
 #ifdef SHWR_TRIGGERS 
-//  #define COMPAT_SB_TRIGGER
+#define COMPAT_SB_TRIGGER
 //  #define SB_TRIGGER
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
- #define LED_TRIGGER
+//  #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 

@@ -318,6 +318,8 @@ void check_shw_buffers()
 
 
     printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
+
+    // Inconsistent trigger
     if (abs(trig - trig2) > 20) {
       first = trig2-5;
       if (first < 0) first = 0;
@@ -336,15 +338,19 @@ void check_shw_buffers()
 	printf("...\n");
     }
  
+    // Normal trigger
    if (trig != 0) {
-      first = trig2-5;
+// Select a portion of event to print
+//      first = trig2-5;
+      first = trig2-100;
       if (first < 0) first = 0;
-      last = trig2+20;
+//      last = trig2+20;
+      last = trig2+200;
       if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
     } 
-    //      for (i=0; i<SHWR_MEM_WORDS; i++)
-   //        for (i=first; i<last; i++)
-        for (i=trig2; i<trig2; i++)
+    //      for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
+          for (i=first; i<last; i++)  // Portion of an event
+    //    for (i=trig2; i<trig2; i++)
       {
         printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
                i, flags[i], adc[0][i], adc[1][i], adc[2][i], 
