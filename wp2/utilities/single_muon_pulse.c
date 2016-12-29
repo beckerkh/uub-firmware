@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define VPP 5.   // Peak to peak voltage from pulser
-#define DOTS 1000 // Number of data points
+#define DOTS 10000 // Number of data points
 #define MAX_PH (-0.4*VPP)
 #define TAU 60.e-9
 #define PERIOD 1. // Period in microseconds
@@ -19,7 +19,7 @@
 int main(int argc, char *argv[])
 {
 
-  double ph, t;
+  double ph;
   int i;
 
   printf("RIGOL:DG5:CSV DATA FILE\r\n");
@@ -33,16 +33,15 @@ int main(int argc, char *argv[])
   printf("x,y[V]\r\n");
 
   printf(",0.0\r\n");
-  ph = MAX_PH;
-  t = 0;
+  ph = MAX_PH/2.;
   printf(",%6e\r\n",ph);
-  for (i=3; i<DOTS; i++)
+  ph = MAX_PH;
+  printf(",%6e\r\n",ph);
+  for (i=4; i<DOTS; i++)
     {
       ph = ph * exp(-DT/TAU);
-      t = t + DT;
       printf(",%6e\r\n",ph);
     }
-  t = t + DT;
   printf("%6e\r\n",0.);
   exit(0);
 }	
