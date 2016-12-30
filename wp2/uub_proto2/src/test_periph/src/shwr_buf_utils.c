@@ -12,6 +12,7 @@ extern u32 shw_mem3[SHWR_MEM_WORDS];
 extern u32 shw_mem4[SHWR_MEM_WORDS];
 
 // ADC traces & extra bits
+extern u32 shw_mem[5][SHWR_MEM_WORDS];
 extern u16 adc[10][SHWR_MEM_WORDS];
 extern u16 filt_adc[3][SHWR_MEM_WORDS];
 extern u8 flags[SHWR_MEM_WORDS];
@@ -207,6 +208,12 @@ static double prev_time = 0;
         j = i + start_offset;
         if (j >= SHWR_MEM_WORDS) j = j - SHWR_MEM_WORDS;
 
+        shw_mem[0][i] = shw_mem0[j];
+        shw_mem[1][i] = shw_mem1[j];
+        shw_mem[2][i] = shw_mem2[j];
+        shw_mem[3][i] = shw_mem3[j];
+        shw_mem[4][i] = shw_mem4[j];
+
         adc[0][i] = shw_mem0[j] & ADC_MASK;
         adc[1][i] = (shw_mem0[j] >> 16) & ADC_MASK;
 
@@ -290,7 +297,7 @@ void check_shw_buffers()
   {
     int i, trig, first, last, trig2;
 
-
+#ifndef INTEGRAL_DEBUG
   trig = 0;
   for (i=0; i<SHWR_MEM_WORDS; i++) {
     if (trig == 0) {
@@ -342,10 +349,12 @@ void check_shw_buffers()
    if (trig != 0) {
 // Select a portion of event to print
 //      first = trig2-5;
-      first = trig2-100;
+//      first = trig2-100;
+	   first = 0;
       if (first < 0) first = 0;
 //      last = trig2+20;
-      last = trig2+200;
+//      last = trig2+200;
+      last = 2048;
       if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
     } 
     //      for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
@@ -359,6 +368,22 @@ void check_shw_buffers()
                filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
       }
     printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
+
+#endif
+
+#ifdef INTEGRAL_DEBUG
+    printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
+
+    for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
+      {
+        printf("%3x %8x %8x %8x %8x %8x\n",
+               i, shw_mem[0][i], shw_mem[1][i], shw_mem[2][i],
+               shw_mem[3][i], shw_mem[4][i]);
+      }
+    printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
+
+#endif
+
   }
 
 

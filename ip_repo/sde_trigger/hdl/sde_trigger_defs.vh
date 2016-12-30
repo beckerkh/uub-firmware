@@ -25,6 +25,9 @@
 `ifndef _TRIGGER_DEFS
  `define _TRIGGER_DEFS
 
+// Debug definitions
+ `define INTEGRAL_DEBUG
+
  `define ADC_WIDTH 12 // Number of bits per ADC
  `define NUM_ADCS 10  // Number of ADCs
  `define ADC_FILT_DELAY 22 // ADC filter delay
@@ -331,7 +334,7 @@
 `define SHWR_PEAK_AREA7_ADDR 187
 `define SHWR_PEAK_AREA8_ADDR 188
 `define SHWR_PEAK_AREA9_ADDR 189
- `define SHWR_AREA_FRAC_WIDTH 6
+ `define SHWR_AREA_FRAC_WIDTH 8
  `define SHWR_AREA_WIDTH 19
  `define SHWR_AREA_SHIFT 0
  `define SHWR_AREA_MASK ((1<<`SHWR_AREA_WIDTH)-1)
@@ -350,8 +353,10 @@
  `define SHWR_BASELINE_EXTRA_BITS 4
  `define BASELINE_EXTRA_BITS 4
  `define BASELINE_FRAC_WIDTH (`SHWR_AREA_FRAC_WIDTH)
- `define BASELINE_SAG_SHIFT1 10 // Frac. multipliers to account for RC decay
- `define BASELINE_SAG_SHIFT2 12 // Set for 100 nF front-end block cap.
+// `define BASELINE_SAG_SHIFT1 10 // Frac. multipliers to account for RC decay
+// `define BASELINE_SAG_SHIFT2 12 // Set for 100 nF front-end block cap.
+ `define BASELINE_SAG_SHIFT1 12 // Frac. multipliers to account for RC decay
+ `define BASELINE_SAG_SHIFT2 14 // Set for 470 nF front-end block cap.
 
 // Addresses to sample instantaneous filtered PMT values for setup, test, etc.
 `define FILT_PMT0_TEST_ADDR 247

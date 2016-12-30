@@ -14,7 +14,7 @@
 #define MAX_PH (-0.4*VPP)
 #define TAU 60.e-9
 #define PERIOD 1. // Period in microseconds
-#define DT (PERIOD/DOTS*1.E-6)
+#define DT (1.E-9)
 
 int main(int argc, char *argv[])
 {

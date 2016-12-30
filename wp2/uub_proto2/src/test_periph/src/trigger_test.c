@@ -17,6 +17,7 @@ u32 shw_mem3[SHWR_MEM_WORDS] __attribute__((aligned(64)));
 u32 shw_mem4[SHWR_MEM_WORDS] __attribute__((aligned(64)));
 
 // ADC traces & extra bits
+u32 shw_mem[5][SHWR_MEM_WORDS];
 u16 adc[10][SHWR_MEM_WORDS];
 u16 filt_adc[3][SHWR_MEM_WORDS];
 u8 flags[SHWR_MEM_WORDS];
