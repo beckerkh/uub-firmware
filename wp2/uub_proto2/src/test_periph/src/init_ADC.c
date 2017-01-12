@@ -240,8 +240,10 @@ int init_ADC(u16 SpiDeviceId, char valid_display)
 
      }
 
+#ifdef ADJUST_BASELINE
   // Adjust ADC baselines
-   adjust_baseline();
+  adjust_baseline();
+#endif
 
   return XST_SUCCESS;
 }  

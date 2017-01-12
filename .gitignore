@@ -16,6 +16,7 @@
 *.debug
 *.bmm
 *.bxml
+*.cap
 \#*\#
 
 # General Directories

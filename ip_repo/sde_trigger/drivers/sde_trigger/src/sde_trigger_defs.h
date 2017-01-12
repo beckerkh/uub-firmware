@@ -26,10 +26,10 @@
 //  9 High gain SSD PMT or SIPM
 
 #ifndef _TRIGGER_DEFS
- #define _TRIGGER_DEFS
+ #define _TRIGGER_DEFS 1
 
 // Debug definitions
- #define INTEGRAL_DEBUG
+ #define INTEGRAL_DEBUG 1
 
  #define ADC_WIDTH 12 // Number of bits per ADC
  #define NUM_ADCS 10  // Number of ADCs

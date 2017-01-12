@@ -22,7 +22,7 @@ module shwr_integral(
 // Count of how many bins included so far in integral
    reg [11:0] 					BIN_COUNT;
 // First pipeline stage of integral calculation
-   reg [`SHWR_AREA_WIDTH+`SHWR_AREA_FRAC_WIDTH-1:0] INTEGRALA;
+   reg [`SHWR_AREA_WIDTH+`BASELINE_FRAC_WIDTH-1:0] INTEGRALA;
 // ADC delay chain
    reg [`ADC_WIDTH-1:0] 			    DLYD_ADC[0:`SHWR_AREA_ADC_DLY];
    // Delayed ADC value
@@ -125,10 +125,12 @@ module shwr_integral(
 			     >> `BASELINE_FRAC_WIDTH);
 	       end
 		   
-	       // Accumulate integral.
-	       if (ADCLONG > CBASELINE)
-	       INTEGRALA <= INTEGRALA + ADCLONG - CBASELINE;
-		INTEGRAL <= INTEGRALA >> `SHWR_AREA_FRAC_WIDTH;
+	       // Accumulate integral, making sure it can't go negative.
+		 INTEGRALA <= INTEGRALA + (ADCLONG - CBASELINE);
+	       if (INTEGRALA[`SHWR_AREA_WIDTH+`BASELINE_FRAC_WIDTH-1] == 0)
+		 INTEGRAL <= INTEGRALA >> `BASELINE_FRAC_WIDTH;
+	       else
+		 INTEGRAL <= 0;
 	    end	      
 	 end
       end // if (RESET)

@@ -79,12 +79,16 @@ static double prev_time = 0;
       printf(" COMPAT_SB");
     if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0)
       printf(" EXT");
+    if ((trig_id & SHWR_BUF_TRIG_LED) != 0)
+      printf(" LED");
+    if ((trig_id & (SHWR_BUF_TRIG_LED<<8)) != 0)
+      printf(" LED_DLYD");
     if ((trig_id & (SHWR_BUF_TRIG_SB<<8)) != 0)
       printf(" SB_DLYD");
     if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_SB<<8)) != 0)
       printf(" COMPAT_SB_DLYD");
     if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_EXT<<8)) != 0)
-      printf(" EXT");
+      printf(" EXT_DLYD");
     printf(" T = %lf  DT = %lf", time, dt);
     printf("\n");
 
