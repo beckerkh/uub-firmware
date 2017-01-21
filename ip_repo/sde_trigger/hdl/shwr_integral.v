@@ -83,7 +83,8 @@ module shwr_integral(
 	      LBASELINE <= LBASELINE+1;
 	    else
 	      LBASELINE <= LBASELINE-1;
-
+	    CBASELINE <= LBASELINE;
+	    
 	    // Round returned baseline to nearest integer for peak calc.
 	    // Return baseline with SHWR_BASELINE_EXTR_BITS.
 	    IBASELINE <= (LBASELINE >> `BASELINE_FRAC_WIDTH);

@@ -20,9 +20,9 @@
 #include "sde_trigger_defs.h"
 
 #define MAX_EVTS 100
-#define TRIG_THR0 900
-#define TRIG_THR1 900
-#define TRIG_THR2 900
+#define TRIG_THR0 600
+#define TRIG_THR1 600
+#define TRIG_THR2 600
 
 // Macros
 #define write_trig(RegNumber, Data) regs[RegNumber] = Data
@@ -42,6 +42,8 @@ main()
   int baseline[10];
 
   // Open register addresses for read/write
+
+  printf("Opening /dev/mem\n");
   fd = open("/dev/mem",O_RDWR);
   if(fd < 0){
     printf("Error - /dev/mem open to read/write registers failed\n");
@@ -59,6 +61,7 @@ main()
     exit(1);
   }
   close(fd); // Can close fd now
+  printf("Finished open of /dev/mem\n");
 
   // Set up triggers for this test
 
@@ -70,10 +73,24 @@ main()
   write_trig(COMPATIBILITY_SB_TRIG_THR1_ADDR,(int) TRIG_THR1);
   write_trig(COMPATIBILITY_SB_TRIG_THR2_ADDR,(int) TRIG_THR2);
   write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, 
+	     COMPATIBILITY_SB_TRIG_INCL_PMT0 |
 	     COMPATIBILITY_SB_TRIG_INCL_PMT1 |
+	     COMPATIBILITY_SB_TRIG_INCL_PMT2 |
 	     (1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT));
-  write_trig(SHWR_BUF_TRIG_MASK_ADDR, COMPATIBILITY_SHWR_BUF_TRIG_SB);
-
+  write_trig(SHWR_BUF_TRIG_MASK_ADDR, 
+	     COMPATIBILITY_SHWR_BUF_TRIG_SB |
+	     COMPATIBILITY_SHWR_BUF_TRIG_EXT);
+  status = read_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR);
+  printf("Trigger enable = %x\n",status);
+  status = read_trig(SHWR_BUF_TRIG_MASK_ADDR);
+  printf("Shwr buf trig mask = %x\n",status);
+  while(1 == 1)
+    {
+  status = read_trig(SHWR_BUF_STATUS_ADDR);
+  printf("Shwr buf status = %x\n",status);
+  sleep(2);
+    }
+      
   // Now loop reading events
   if(read_evt_init()==0){
     n=0;
@@ -82,35 +99,35 @@ main()
       n++;
       flag=read_evt_read(&ev);
       if(flag==0){
-
+	printf("Got a trigger\n");
 	// Get FPGA calculated values of baseline, peak, and area.
-	v[0] = read_trig(SHWR_PEAK_AREA0_ADDR);
-	v[1] = read_trig(SHWR_PEAK_AREA1_ADDR);
-	v[2] = read_trig(SHWR_PEAK_AREA2_ADDR);
-	v[3] = read_trig(SHWR_PEAK_AREA3_ADDR);
-	v[4] = read_trig(SHWR_PEAK_AREA4_ADDR);
-	v[5] = read_trig(SHWR_PEAK_AREA5_ADDR);
-	v[6] = read_trig(SHWR_PEAK_AREA6_ADDR);
-	v[7] = read_trig(SHWR_PEAK_AREA7_ADDR);
-	v[8] = read_trig(SHWR_PEAK_AREA8_ADDR);
-	v[9] = read_trig(SHWR_PEAK_AREA9_ADDR);
-	for (i=0; i<10; i++)
-	  {
-	    peak[i] = (v[i] >> SHWR_PEAK_SHIFT) & SHWR_PEAK_MASK;
-	    area[i] = (v[i] & SHWR_AREA_MASK);
-	    saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT);
-	  }
+	/* v[0] = read_trig(SHWR_PEAK_AREA0_ADDR); */
+	/* v[1] = read_trig(SHWR_PEAK_AREA1_ADDR); */
+	/* v[2] = read_trig(SHWR_PEAK_AREA2_ADDR); */
+	/* v[3] = read_trig(SHWR_PEAK_AREA3_ADDR); */
+	/* v[4] = read_trig(SHWR_PEAK_AREA4_ADDR); */
+	/* v[5] = read_trig(SHWR_PEAK_AREA5_ADDR); */
+	/* v[6] = read_trig(SHWR_PEAK_AREA6_ADDR); */
+	/* v[7] = read_trig(SHWR_PEAK_AREA7_ADDR); */
+	/* v[8] = read_trig(SHWR_PEAK_AREA8_ADDR); */
+	/* v[9] = read_trig(SHWR_PEAK_AREA9_ADDR); */
+	/* for (i=0; i<10; i++) */
+	/*   { */
+	/*     peak[i] = (v[i] >> SHWR_PEAK_SHIFT) & SHWR_PEAK_MASK; */
+	/*     area[i] = (v[i] & SHWR_AREA_MASK); */
+	/*     saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT); */
+	/*   } */
 
-	v[0] = read_trig(SHWR_BASELINE0_ADDR);
-	v[1] = read_trig(SHWR_BASELINE1_ADDR);
-	v[2] = read_trig(SHWR_BASELINE2_ADDR);
-	v[3] = read_trig(SHWR_BASELINE3_ADDR);
-	v[4] = read_trig(SHWR_BASELINE4_ADDR);
-	for (i=0; i<5; i++)
-	  {
-	    baseline[2*i] = v[i] & 0xffff;
-	    baseline[2*i+1] = (v[i] >> 16) & 0xffff;
-	  }
+	/* v[0] = read_trig(SHWR_BASELINE0_ADDR); */
+	/* v[1] = read_trig(SHWR_BASELINE1_ADDR); */
+	/* v[2] = read_trig(SHWR_BASELINE2_ADDR); */
+	/* v[3] = read_trig(SHWR_BASELINE3_ADDR); */
+	/* v[4] = read_trig(SHWR_BASELINE4_ADDR); */
+	/* for (i=0; i<5; i++) */
+	/*   { */
+	/*     baseline[2*i] = v[i] & 0xffff; */
+	/*     baseline[2*i+1] = (v[i] >> 16) & 0xffff; */
+	/*   } */
 
 	// Reset shower buffer
 	status = read_trig(SHWR_BUF_STATUS_ADDR);
@@ -120,11 +137,11 @@ main()
 	printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 
 	// Output a few lines header with the FPGA calculated area, peak, etc.
-	for (i=0; i<10; i++)
-	  {
-	    printf("%1d %1d %4d %4d %d %d\n", 
-		   i, saturated[i], baseline[i], peak[i], area[i], rnum);
-	  }
+	/* for (i=0; i<10; i++) */
+	/*   { */
+	/*     printf("%1d %1d %4d %4d %d %d\n",  */
+	/* 	   i, saturated[i], baseline[i], peak[i], area[i], rnum); */
+	/*   } */
 
 	// This is still test code here.
 	for(i=0;i<ev.nsamples;i++){

@@ -41,12 +41,14 @@ extern int Index;
 extern u32 bd_space[512] __attribute__((aligned(64)));;
 #endif
 
+int peak[10], area[10], baseline[10], saturated[10];
+
 static double prev_time = 0;
 
   // Read shower memory buffers from PL memory into PS memory
   void read_shw_buffers()
   {
-    int trig_id, pps_tics;
+    int trig_id, pps_tics, v[10];
     int seconds, tics, delta_tics;
     double time, dt;
 #ifdef PDT
@@ -91,6 +93,38 @@ static double prev_time = 0;
       printf(" EXT_DLYD");
     printf(" T = %lf  DT = %lf", time, dt);
     printf("\n");
+
+    // Read calculated peak, area, baseline.
+
+	// Get FPGA calculated values of baseline, peak, and area.
+	v[0] = read_trig(SHWR_PEAK_AREA0_ADDR);
+	v[1] = read_trig(SHWR_PEAK_AREA1_ADDR);
+	v[2] = read_trig(SHWR_PEAK_AREA2_ADDR);
+	v[3] = read_trig(SHWR_PEAK_AREA3_ADDR);
+	v[4] = read_trig(SHWR_PEAK_AREA4_ADDR);
+	v[5] = read_trig(SHWR_PEAK_AREA5_ADDR);
+	v[6] = read_trig(SHWR_PEAK_AREA6_ADDR);
+	v[7] = read_trig(SHWR_PEAK_AREA7_ADDR);
+	v[8] = read_trig(SHWR_PEAK_AREA8_ADDR);
+	v[9] = read_trig(SHWR_PEAK_AREA9_ADDR);
+	for (i=0; i<10; i++)
+	  {
+	    peak[i] = (v[i] >> SHWR_PEAK_SHIFT) & SHWR_PEAK_MASK;
+	    area[i] = (v[i] & SHWR_AREA_MASK);
+	    saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT) & 1;
+	  }
+
+	v[0] = read_trig(SHWR_BASELINE0_ADDR);
+	v[1] = read_trig(SHWR_BASELINE1_ADDR);
+	v[2] = read_trig(SHWR_BASELINE2_ADDR);
+	v[3] = read_trig(SHWR_BASELINE3_ADDR);
+	v[4] = read_trig(SHWR_BASELINE4_ADDR);
+	for (i=0; i<5; i++)
+	  {
+	    baseline[2*i] = v[i] & 0xffff;
+	    baseline[2*i+1] = (v[i] >> 16) & 0xffff;
+	  }
+
 
     start_offset = read_trig(SHWR_BUF_START_ADDR);
 
@@ -372,10 +406,20 @@ void check_shw_buffers()
                filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
       }
     printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
-
 #endif
 
 #ifdef INTEGRAL_DEBUG
+
+    printf("\n>>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>\n");
+
+	// Output a few lines header with the FPGA calculated area, peak, etc.
+	for (i=0; i<10; i++)
+	  {
+	    printf("%1d %1d %4d %4d %d\n", 
+		   i, saturated[i], baseline[i], peak[i], area[i]);
+	  }
+    printf("<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<\n");
+
     printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 
     for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event

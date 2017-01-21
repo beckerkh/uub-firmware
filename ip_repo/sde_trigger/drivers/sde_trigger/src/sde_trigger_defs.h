@@ -28,8 +28,12 @@
 #ifndef _TRIGGER_DEFS
  #define _TRIGGER_DEFS 1
 
-// Debug definitions
- #define INTEGRAL_DEBUG 1
+// Debug definitions -- may have a problem with defines nested very deeply
+// so don't nest the DEBUG defines.
+ #define ANY_DEBUG 1  // Enable if any of the following is set.
+// #define HIGAIN_INTEGRAL_DEBUG 1
+   #define LOGAIN_INTEGRAL_DEBUG 1
+// End of debug enable definitions
 
  #define ADC_WIDTH 12 // Number of bits per ADC
  #define NUM_ADCS 10  // Number of ADCs
@@ -337,7 +341,7 @@
 #define SHWR_PEAK_AREA7_ADDR 187
 #define SHWR_PEAK_AREA8_ADDR 188
 #define SHWR_PEAK_AREA9_ADDR 189
- #define SHWR_AREA_FRAC_WIDTH 8
+ #define SHWR_AREA_FRAC_WIDTH 14
  #define SHWR_AREA_WIDTH 19
  #define SHWR_AREA_SHIFT 0
  #define SHWR_AREA_MASK ((1<<SHWR_AREA_WIDTH)-1)

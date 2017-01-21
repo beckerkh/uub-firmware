@@ -5,6 +5,8 @@
 // 21-Sep-2016 DFN Modify to send a burst of 2 pulses.
 // 05-Oct-2016 DFN Modify to send long bursts with 2 different spacings
 //                 for checking muon buffers.
+// 17-Jan-2017 DFN Modify to send square edged pulse for checking baseline
+//                 corrections.
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
@@ -12,6 +14,7 @@
 `define DESIRED_DELAY2 1000000 // 2nd pulse spacing
 `define MAX_DLYCOUNT (`CLOCK_FREQ * `DESIRED_DELAY)
 `define MAX_DLYCOUNT2 (`CLOCK_FREQ * `DESIRED_DELAY2)
+`define SIGNAL_WIDTH 100
 
 `define MUON_DELAY 20000 // Desired pulse spacing in usec
 `define MUON_DELAY2 10000 // 2nd pulse spacing
@@ -72,16 +75,22 @@ module fake_signal
 	     SHWR_PULSE_DELAY <= 0;
            else
 	     SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
-	   if (SHWR_PULSE_DELAY < `SIGNAL_BINS)
-	     SHWR_PULSE <= SHWR_PULSE+1;
-	   else if ((SHWR_PULSE_DELAY >= `MAX_DLYCOUNT2) && 
-		    (SHWR_PULSE_DELAY <`MAX_DLYCOUNT2+`SIGNAL_BINS))
-	     SHWR_PULSE <= SHWR_PULSE+1;
-	   else if ((SHWR_PULSE_DELAY >= 2*`MAX_DLYCOUNT2) && 
-		    (SHWR_PULSE_DELAY <2*`MAX_DLYCOUNT2+`SIGNAL_BINS))
-	     SHWR_PULSE <= SHWR_PULSE+1;
+
+	   if (SHWR_PULSE_DELAY < `SIGNAL_WITH)
+	     SHWR_PULSE <= `MAX_SIGNAL;
 	   else
 	     SHWR_PULSE <= 0;
+
+	   // if (SHWR_PULSE_DELAY < `SIGNAL_BINS)
+	   //   SHWR_PULSE <= SHWR_PULSE+1;
+	   // else if ((SHWR_PULSE_DELAY >= `MAX_DLYCOUNT2) && 
+	   // 	    (SHWR_PULSE_DELAY <`MAX_DLYCOUNT2+`SIGNAL_BINS))
+	   //   SHWR_PULSE <= SHWR_PULSE+1;
+	   // else if ((SHWR_PULSE_DELAY >= 2*`MAX_DLYCOUNT2) && 
+	   // 	    (SHWR_PULSE_DELAY <2*`MAX_DLYCOUNT2+`SIGNAL_BINS))
+	   //   SHWR_PULSE <= SHWR_PULSE+1;
+	   // else
+	   //   SHWR_PULSE <= 0;
         end
 
         // Pattern of pulses suitable for testing muon triggers  

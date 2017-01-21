@@ -8,24 +8,30 @@ void plot_integral(char *filename, double xmin, double xmax)
 
   // Plot showers from minicom capture file
 
-  char line[132];
-  int status, in_event, event_num;
+  char line[132], line2[132];
+  int status, in_event, event_num, in_header;
   size_t len = 0;
   ssize_t read;
   int adcraw[5];
   int ix, adc[2],adcd[2],baseline[2],integral[2],integral_computed[2], iv;
+  int peak[2];
   int nbins = 4095;
-  int i, j, pk, nentries, rnum;
-  double x, baseline_sag[2], baseline_computed[2], baseline_latched[2];
-  int saturated[10], base[10], peak[10], area[10];
+  int i, j, nentries, rnum;
+  double x, baseline_sag[2], baseline_computed[2], ap[2], baseline_initial[2];
+  double pk[2];
+  int saturated[10], baseline_latched[10], peak_latched[10], area[10];
   int ichan = 0;
   int average_mode = 0;
   int timed_mode = 0;
-
-  double ymin = 300;
-  double ymax = 400;
+  double max_ap = 10.;
+  double min_pk = 2000.;  // Should have big signals
+  int logain = 0;
+  double ymin = 0;
+  double ymax = 600;
   int baseline_latch_point = 640;
-  double rc_decay = 0.0008;
+  double r = 200.;
+  double dt = 8.3333e-9;
+  double c = 470.e-9;
   FILE *inpfile = fopen(filename,"r");
   if (inpfile == 0) {
     printf("Unable to open input file %s\n",filename);
@@ -33,10 +39,11 @@ void plot_integral(char *filename, double xmin, double xmax)
   }
    
   // Test computation of baseline sag
-  int amp = 10000;
+  int amp = 100000;
   //  int sag1 = (amp>>9) - (amp>>11) - (amp>>14);
-  int sag1 = (amp>>10) - (amp>>12);
-  int sag2 = amp*0.0008;
+  int sag1 = (amp>>12) - (amp>>14);
+  double rc_decay = dt/(r*c);
+  int sag2 = amp*rc_decay;
   printf("amp=%d  sag1=%d  sag2=%d\n",amp,sag1,sag2);
 
   gStyle->SetPaperSize(27.94,21.59);
@@ -58,9 +65,9 @@ void plot_integral(char *filename, double xmin, double xmax)
   TH1D *hBASE1 = new TH1D("hBASE1","FPGA baseline;Bin;ADC value",
 			  nbins,0.,nbins);
   TH1D *hBASEC0 = new TH1D("hBASEC0","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			   nbins,0.,nbins);
   TH1D *hBASEC1 = new TH1D("hBASEC1","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			   nbins,0.,nbins);
   TH1D *hINT0 = new TH1D("hINT0",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hINT1 = new TH1D("hINT1",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hINTC0 = new TH1D("hINTC0",";Bin;ADC value",nbins,0.,nbins);
@@ -70,17 +77,26 @@ void plot_integral(char *filename, double xmin, double xmax)
   TH1D *hsADC1 = new TH1D("hsADC1",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hsADCD = new TH1D("hsADCD",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hsBASE0 = new TH1D("hsBASE0","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			   nbins,0.,nbins);
   TH1D *hsBASE1 = new TH1D("hsBASE1","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			   nbins,0.,nbins);
   TH1D *hsBASEC0 = new TH1D("hsBASEC0","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			    nbins,0.,nbins);
   TH1D *hsBASEC1 = new TH1D("hsBASEC1","FPGA baseline;Bin;ADC value",
-			  nbins,0.,nbins);
+			    nbins,0.,nbins);
   TH1D *hsINT0 = new TH1D("hsINT0",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hsINT1 = new TH1D("hsINT1",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hsINTC0 = new TH1D("hsINTC0",";Bin;ADC value",nbins,0.,nbins);
   TH1D *hsINTC1 = new TH1D("hsINTC1",";Bin;ADC value",nbins,0.,nbins);
+
+  TH1D *haBASE0;
+  TH1D *haBASE1;
+  TH1D *haBASEC0;
+  TH1D *haBASEC1;
+  TH1D *haADC0;
+  TH1D *haADC1;
+  TH1D *haINT0;
+  TH1D *haINT1;
 
   TPad *padadc0 = new TPad("padadc0","ADC",0.02,0.34,0.48,0.66,0);
   TPad *padadc1 = new TPad("padadc1","ADC",0.52,0.34,0.98,0.66,0);
@@ -100,12 +116,32 @@ void plot_integral(char *filename, double xmin, double xmax)
   event_num = 0;
   printf("Enter s for single traces, t for timed update, a for average mode, q to quit.\n");
   gets(line);
-	if (strncmp(line,"q",1) == 0) return;
-	if (strncmp(line,"a",1) == 0) average_mode = 1;
-	if (strncmp(line,"t",1) == 0) timed_mode = 1;
+  if (strncmp(line,"q",1) == 0) return;
+  if (strncmp(line,"a",1) == 0) average_mode = 1;
+  if (strncmp(line,"t",1) == 0) timed_mode = 1;
 
   while (fgets(line,132,inpfile)) {
-    if (strncmp(line,">>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>",40) == 0)
+    //printf("%s",line);
+    //gets(line2);
+    if (strncmp(line,">>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>",47) == 0)
+      {
+	in_header = 1;
+      } 
+    else if (strncmp(line,"<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<",41) == 0) {
+      in_header = 0;
+    } else if (in_header) {
+      for (i=0; i<10; i++)
+	{
+	  if (i >0) fgets(line,132,inpfile);
+	  sscanf(line,"%d %d %d %d %d", 
+		 &ix, &saturated[i], &baseline_latched[i], 
+		 &peak_latched[i], &area[i]);
+	  //	  	  printf("ix=%d  staturated=%d  base=%d  peak=%d  area=%d\n",
+	  //	 ix, saturated[i], baseline_latched[i]/16, 
+	  //	 peak_latched[i], area[i]);
+	}
+    } 
+    else if (strncmp(line,">>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>",40) == 0)
       {
 	in_event = 1;
 	integral_computed[0] = 0;
@@ -115,11 +151,13 @@ void plot_integral(char *filename, double xmin, double xmax)
 	hADC0->SetLineWidth(3);
 	hADC0->SetLineColor(kBlack);
 	hADC0->SetAxisRange(xmin, xmax, "X");
+	hADC0->SetMinimum(ymin);
 
 	hADC1->Reset();
 	hADC1->SetLineWidth(3);
 	hADC1->SetLineColor(kBlack);
 	hADC1->SetAxisRange(xmin, xmax, "X");
+	hADC1->SetMinimum(ymin);
 
 	hBASE0->Reset();
         hBASE0->SetLineWidth(3);
@@ -172,10 +210,12 @@ void plot_integral(char *filename, double xmin, double xmax)
 	hsADC0->SetLineWidth(3);
 	hsADC0->SetLineColor(kBlack);
 	hsADC0->SetAxisRange(xmin, xmax, "X");
+	hsADC0->SetMinimum(ymin);
 
 	hsADC1->SetLineWidth(3);
 	hsADC1->SetLineColor(kBlack);
 	hsADC1->SetAxisRange(xmin, xmax, "X");
+	hsADC1->SetMinimum(ymin);
 
         hsBASE0->SetLineWidth(3);
 	hsBASE0->SetLineColor(kGreen);
@@ -219,16 +259,6 @@ void plot_integral(char *filename, double xmin, double xmax)
 
 	baseline_sag[0] = 0.;
 	baseline_sag[1] = 0.;
-
-	// Get header information for the event
-	// Need to add reading/writing this to trigger_test
-	//	for(i=0; i<10; i++)
-	//  {
-	//    fgets(line,132,inpfile);
-	//    sscanf(line,"%d %d %d %d %d %d", 
-	//	   &ix, &saturated[i], &base[i], &peak[i], &area[i], &rnum);
-        //	    printf("ix=%d\n",ix);
-	//  }
       }
     else if (strncmp(line,"<<<<<<<<<< END OF EVENT <<<<<<<<<<",34) == 0)
       {
@@ -238,116 +268,116 @@ void plot_integral(char *filename, double xmin, double xmax)
 	// Draw all the histograms
 
 	if (average_mode == 0) {
-	padadczm0->cd();
-	hBASE0->Draw();
-	hBASEC0->Draw("same");
-	hADC0->Draw("same");
-	hINT0->Draw("same");
-	hINTC0->Draw("same");
+	  padadczm0->cd();
+	  hBASE0->Draw();
+	  hBASEC0->Draw("same");
+	  hADC0->Draw("same");
+	  hINT0->Draw("same");
+	  hINTC0->Draw("same");
 
-	padadczm1->cd();
-	hBASE1->Draw();
-	hBASEC1->Draw("same");
-	hADC1->Draw("same");
-	hINT1->Draw("same");
-	hINTC1->Draw("same");
+	  padadczm1->cd();
+	  hBASE1->Draw();
+	  hBASEC1->Draw("same");
+	  hADC1->Draw("same");
+	  hINT1->Draw("same");
+	  hINTC1->Draw("same");
 
-	padadc0->cd();
-	hADC0->Draw();
-	hBASE0->Draw("same");
-	hBASEC0->Draw("same");
-	hINT0->Draw("same");
-	hINTC0->Draw("same");
+	  padadc0->cd();
+	  hADC0->Draw();
+	  hBASE0->Draw("same");
+	  hBASEC0->Draw("same");
+	  hINT0->Draw("same");
+	  hINTC0->Draw("same");
 
-	padadc1->cd();
-	hADC1->Draw();
-	hBASE1->Draw("same");
-	hBASEC1->Draw("same");
-	hINT1->Draw("same");
-	hINTC1->Draw("same");
+	  padadc1->cd();
+	  hADC1->Draw();
+	  hBASE1->Draw("same");
+	  hBASEC1->Draw("same");
+	  hINT1->Draw("same");
+	  hINTC1->Draw("same");
 
-	padint0->cd();
-	hINT0->Draw();
-	hINTC0->Draw("same");
+	  padint0->cd();
+	  hINT0->Draw();
+	  hINTC0->Draw("same");
 
-	padint1->cd();
-	hINT1->Draw();
-	hINTC1->Draw("same");
+	  padint1->cd();
+	  hINT1->Draw();
+	  hINTC1->Draw("same");
 	}
 
 	if (average_mode == 1) {
-	padadczm0->cd();
+	  padadczm0->cd();
 
-	TH1D *haBASE0 = (TH1D*)(hsBASE0->Clone("haBASE0"));
-	haBASE0->Scale(1./event_num);
-	haBASE0->SetMinimum(ymin);
-	haBASE0->SetMaximum(ymax);
-	haBASE0->Draw();
+	  haBASE0 = (TH1D*)(hsBASE0->Clone("haBASE0"));
+	  haBASE0->Scale(1./event_num);
+	  haBASE0->SetMinimum(ymin);
+	  haBASE0->SetMaximum(ymax);
+	  haBASE0->Draw();
 
-	TH1D *haBASEC0 = (TH1D*)(hsBASEC0->Clone("haBASEC0"));
-	haBASEC0->Scale(1./event_num);
-	haBASEC0->SetMinimum(ymin);
-	haBASEC0->SetMaximum(ymax);
-	haBASEC0->Draw("same");
+	  haBASEC0 = (TH1D*)(hsBASEC0->Clone("haBASEC0"));
+	  haBASEC0->Scale(1./event_num);
+	  haBASEC0->SetMinimum(ymin);
+	  haBASEC0->SetMaximum(ymax);
+	  haBASEC0->Draw("same");
 
-	TH1D *haADC0 = (TH1D*)(hsADC0->Clone("haADC0"));
-	haADC0->Scale(1./event_num);
-	haADC0->Draw("same");
+	  haADC0 = (TH1D*)(hsADC0->Clone("haADC0"));
+	  haADC0->Scale(1./event_num);
+	  haADC0->Draw("same");
 
-	TH1D *haINT0 = (TH1D*)(hsINT0->Clone("haINT0"));
-	haINT0->Scale(1./event_num);
-	haINT0->Draw("same");
+	  haINT0 = (TH1D*)(hsINT0->Clone("haINT0"));
+	  haINT0->Scale(1./event_num);
+	  haINT0->Draw("same");
 
-	TH1D *haINTC0 = (TH1D*)(hsINTC0->Clone("haINTC0"));
-	haINTC0->Scale(1./event_num);
-	haINTC0->Draw("same");
+	  haINTC0 = (TH1D*)(hsINTC0->Clone("haINTC0"));
+	  haINTC0->Scale(1./event_num);
+	  haINTC0->Draw("same");
 
-	padadczm1->cd();
-	TH1D *haBASE1 = (TH1D*)(hsBASE1->Clone("haBASE1"));
-	haBASE1->Scale(1./event_num);
-	haBASE1->SetMinimum(ymin);
-	haBASE1->SetMaximum(ymax);
-	haBASE1->Draw();
+	  padadczm1->cd();
+	  haBASE1 = (TH1D*)(hsBASE1->Clone("haBASE1"));
+	  haBASE1->Scale(1./event_num);
+	  haBASE1->SetMinimum(ymin);
+	  haBASE1->SetMaximum(ymax);
+	  haBASE1->Draw();
 
-	TH1D *haBASEC1 = (TH1D*)(hsBASEC1->Clone("haBASEC1"));
-	haBASEC1->Scale(1./event_num);
-	haBASEC1->SetMinimum(ymin);
-	haBASEC1->SetMaximum(ymax);
-	haBASEC1->Draw();
+	  haBASEC1 = (TH1D*)(hsBASEC1->Clone("haBASEC1"));
+	  haBASEC1->Scale(1./event_num);
+	  haBASEC1->SetMinimum(ymin);
+	  haBASEC1->SetMaximum(ymax);
+	  haBASEC1->Draw("same");
 
-	TH1D *haADC1 = (TH1D*)(hsADC1->Clone("haADC1"));
-	haADC1->Scale(1./event_num);
-	haADC1->Draw("same");
+	  haADC1 = (TH1D*)(hsADC1->Clone("haADC1"));
+	  haADC1->Scale(1./event_num);
+	  haADC1->Draw("same");
 
-	TH1D *haINT1 = (TH1D*)(hsINT1->Clone("haINT1"));
-	haINT1->Scale(1./event_num);
-	haINT1->Draw("same");
+	  haINT1 = (TH1D*)(hsINT1->Clone("haINT1"));
+	  haINT1->Scale(1./event_num);
+	  haINT1->Draw("same");
 
-	TH1D *haINTC1 = (TH1D*)(hsINTC1->Clone("haINTC1"));
-	haINTC1->Scale(1./event_num);
-	haINTC1->Draw("same");
+	  haINTC1 = (TH1D*)(hsINTC1->Clone("haINTC1"));
+	  haINTC1->Scale(1./event_num);
+	  haINTC1->Draw("same");
 
-	padadc0->cd();
-	haADC0->Draw();
-	haBASE0->Draw("same");
-	haBASEC0->Draw("same");
-	haINT0->Draw("same");
-	haINTC0->Draw("same");
+	  padadc0->cd();
+	  haADC0->Draw();
+	  haBASE0->Draw("same");
+	  haBASEC0->Draw("same");
+	  haINT0->Draw("same");
+	  haINTC0->Draw("same");
 
-	padadc1->cd();
-	haADC1->Draw();
-	haBASE1->Draw("same");
-	haBASEC1->Draw("same");
-	haINT1->Draw("same");
-	haINTC1->Draw("same");
+	  padadc1->cd();
+	  haADC1->Draw();
+	  haBASE1->Draw("same");
+	  haBASEC1->Draw("same");
+	  haINT1->Draw("same");
+	  haINTC1->Draw("same");
 
-	padint0->cd();
-	haINT0->Draw();
-	haINTC0->Draw("same");
+	  padint0->cd();
+	  haINT0->Draw();
+	  haINTC0->Draw("same");
 
-	padint1->cd();
-	haINT1->Draw();
-	haINTC1->Draw("same");
+	  padint1->cd();
+	  haINT1->Draw();
+	  haINTC1->Draw("same");
 	}
 
         shower_canv->Modified();
@@ -356,51 +386,66 @@ void plot_integral(char *filename, double xmin, double xmax)
 	// shower_canv->SaveAs(line);
 	//	printf("Saturated=%d  Baseline=%7.3lf  Peak=%d  Area=%d  entries=%d  rnum=%d\n",
 	//       saturated[3], double(base[3])/16., peak[3], area[3], nentries, rnum);
-	printf("Plotted event %d. ", event_num);
+	printf("Plotted event %d.\n", event_num);
 
 	if (timed_mode == 1) 
 	  {
 	    sleep(3);
 	  } else if (average_mode == 0) {
-	printf("Type Enter to continue or q to quit: ",
-	       event_num);
-        nentries = 0;
-	gets(line);
-	if (strncmp(line,"q",1) == 0) return;
+	  printf("Type Enter to continue or q to quit: ",
+		 event_num);
+	  nentries = 0;
+	  gets(line);
+	  if (strncmp(line,"q",1) == 0) break;
 	}
       }
     else if (in_event)
       {
 	sscanf(line,"%x %x %x %x %x %x",
 	       &ix,&adcraw[0], &adcraw[1], &adcraw[2], &adcraw[3], &adcraw[4]);
-	nentries++;
 	//	if (nentries < 10)
 	//  printf("nentries=%d  ix=%d  adc=%d\n", nentries, ix, adc);
 
 	x = ix+.5;
-	adc[0] = (adcraw[0] >> 16) & 0xfff;
-	adc[1] = (adcraw[1] >> 16) & 0xfff;
+	if (logain) {
+	  adc[0] = (adcraw[0]) & 0xfff;
+	  adc[1] = (adcraw[1]) & 0xfff;
+	  baseline_computed[0] = (double)baseline_latched[0]/16.;
+	  baseline_computed[1] = (double)baseline_latched[2]/16.;
+	  baseline_initial[0] = (double)baseline_latched[0]/16.;
+	  baseline_initial[1] = (double)baseline_latched[2]/16.;
+	} else {
+	  adc[0] = (adcraw[0] >> 16) & 0xfff;
+	  adc[1] = (adcraw[1] >> 16) & 0xfff;
+	  baseline_computed[0] = (double)baseline_latched[1]/16.;
+	  baseline_computed[1] = (double)baseline_latched[3]/16.;
+	  baseline_initial[0] = (double)baseline_latched[1]/16.;
+	  baseline_initial[1] = (double)baseline_latched[3]/16.;
+	}
 	baseline[0] = double(adcraw[2] & 0xffff)/16.;
 	baseline[1] = double((adcraw[2] >> 16) & 0xffff)/16.;
-	if (ix <= baseline_latch_point)
+	if (ix > baseline_latch_point)
 	  {
-	    baseline_latched[0] = baseline[0];
-	    baseline_latched[1] = baseline[1];
-	    baseline_computed[0] = baseline[0];
-	    baseline_computed[1] = baseline[1];
-	  } else {
-	  baseline_sag[0] = baseline_sag[0] + 
-	    (adc[0] - baseline_computed[0])*rc_decay;
-	  baseline_computed[0] = baseline_latched[0] - baseline_sag[0];
-	  baseline_sag[1] = baseline_sag[1] + 
-	    (adc[1] - baseline_computed[1])*rc_decay;
-	  baseline_computed[1] = baseline_latched[1] - baseline_sag[1];
-	}
+	    baseline_sag[0] = baseline_sag[0] + 
+	      (adc[0] - baseline_computed[0])*rc_decay;
+	    baseline_computed[0] = baseline_initial[0] - baseline_sag[0];
+	    baseline_sag[1] = baseline_sag[1] + 
+	      (adc[1] - baseline_computed[1])*rc_decay;
+	    baseline_computed[1] = baseline_initial[1] - baseline_sag[1];
+	  }
 
 	integral[0] = adcraw[3] & 0x7ffff;
 	integral[1] = adcraw[4] & 0x7ffff;
+	peak[0] = (adcraw[3] >> 19) & 0xfff;
+	peak[1] = (adcraw[4] >> 19) & 0xfff;
 
-	//	pk = (iv >> 19) & 0xfff;
+	if (x > baseline_latch_point) {
+	  integral_computed[0] = 
+	    integral_computed[0]+adc[0]-baseline_computed[0];
+	  integral_computed[1] = 
+	    integral_computed[1]+adc[1]-baseline_computed[1];
+	}
+
 	hADC0->Fill(x,double(adc[0]));
 	hADC1->Fill(x,double(adc[1]));
 	hBASE0->Fill(x-25.,baseline[0]);
@@ -409,30 +454,57 @@ void plot_integral(char *filename, double xmin, double xmax)
 	hINT1->Fill(x-25.,double(integral[1]));
 	hBASEC0->Fill(x,baseline_computed[0]);
 	hBASEC1->Fill(x,baseline_computed[1]);
-
-	hsADC0->Fill(x,double(adc[0]));
-	hsADC1->Fill(x,double(adc[1]));
-	hsBASE0->Fill(x-25.,baseline[0]);
-	hsBASE1->Fill(x-25.,baseline[1]);
-	hsINT0->Fill(x-25.,double(integral[0]));
-	hsINT1->Fill(x-25.,double(integral[1]));
-	hsBASEC0->Fill(x,baseline_computed[0]);
-	hsBASEC1->Fill(x,baseline_computed[1]);
-
-	if (x > baseline_latch_point) {
-	  integral_computed[0] = 
-	    integral_computed[0]+adc[0]-baseline_computed[0];
-	  integral_computed[1] = 
-	    integral_computed[1]+adc[1]-baseline_computed[1];
-	}
 	hINTC0->Fill(x,integral_computed[0]);
 	hINTC1->Fill(x,integral_computed[1]);
-	hsINTC0->Fill(x,integral_computed[0]);
-	hsINTC1->Fill(x,integral_computed[1]);
+
+	// We get some noise events.  Try to filter them out so they
+	// don't mess up the average traces.
+
+	if (logain) {
+	  ap[0] = (double)area[0]/(double)peak_latched[0];
+	  ap[1] = (double)area[2]/(double)peak_latched[2];
+	  pk[0] = (double)peak_latched[0];
+	  pk[1] = (double)peak_latched[2];
+	} else {
+	  ap[0] = (double)area[1]/(double)peak_latched[1];
+	  ap[1] = (double)area[3]/(double)peak_latched[3];
+	  pk[0] = (double)peak_latched[1];
+	  pk[1] = (double)peak_latched[3];
+	}
+	if ((pk[0] > min_pk) || (pk[1] > min_pk))
+	  {
+	    nentries++;
+	    hsADC0->Fill(x,double(adc[0]));
+	    hsADC1->Fill(x,double(adc[1]));
+	    hsBASE0->Fill(x-25.,baseline[0]);
+	    hsBASE1->Fill(x-25.,baseline[1]);
+	    hsINT0->Fill(x-25.,double(integral[0]));
+	    hsINT1->Fill(x-25.,double(integral[1]));
+	    hsBASEC0->Fill(x,baseline_computed[0]);
+	    hsBASEC1->Fill(x,baseline_computed[1]);
+	    hsINTC0->Fill(x,integral_computed[0]);
+	    hsINTC1->Fill(x,integral_computed[1]);
+	  }
+	else if (ix == 0)
+	       printf("Crazy peak -- skipping event in average, peaks = %f %f\n",
+		      pk[0],pk[1]);
       }
-
   }
-
   fclose(inpfile);
+
+  //  TFile *hfile = new TFile("Integral_hists.root","RECREATE");
+  // if (average_mode == 1) { 
+  //   haBASE0->Write();
+  //   haBASE1->Write();
+  //   haBASEC0->Write();
+  //   haBASEC1->Write();
+  // } else {
+  //   hBASE0->Write();
+  //   hBASE1->Write();
+  //   hBASEC0->Write();
+  //   hBASEC1->Write();
+  // }
+  // hfile->Write();
+  // hfile->Close();
 }
 
