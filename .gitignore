@@ -17,6 +17,10 @@
 *.bmm
 *.bxml
 *.cap
+test.dat
+*.save
+*.old
+
 \#*\#
 
 # General Directories
