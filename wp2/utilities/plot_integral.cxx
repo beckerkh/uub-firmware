@@ -1,7 +1,13 @@
+#include "TStyle.h"
+#include "TH1D.h"
+#include "TF1.h"
+#include "TCanvas.h"
+#include "TPad.h"
+#include "TFile.h"
+
 void plot_integral(char *filename, double xmin, double xmax)
 {
-#define _GNU_SOURCE
-#define INTEGRAL_FRAC_BITS 11
+  //#define _GNU_SOURCE
 
 #include <unistd.h>
 
@@ -25,7 +31,7 @@ void plot_integral(char *filename, double xmin, double xmax)
   int timed_mode = 0;
   double max_ap = 10.;
   double min_pk = 2000.;  // Should have big signals
-  int logain = 0;
+  int logain = 1;
   double ymin = 0;
   double ymax = 600;
   int baseline_latch_point = 640;
@@ -97,6 +103,8 @@ void plot_integral(char *filename, double xmin, double xmax)
   TH1D *haADC1;
   TH1D *haINT0;
   TH1D *haINT1;
+  TH1D *haINTC0;
+  TH1D *haINTC1;
 
   TPad *padadc0 = new TPad("padadc0","ADC",0.02,0.34,0.48,0.66,0);
   TPad *padadc1 = new TPad("padadc1","ADC",0.52,0.34,0.98,0.66,0);
@@ -492,18 +500,22 @@ void plot_integral(char *filename, double xmin, double xmax)
   }
   fclose(inpfile);
 
-  //  TFile *hfile = new TFile("Integral_hists.root","RECREATE");
-  // if (average_mode == 1) { 
-  //   haBASE0->Write();
-  //   haBASE1->Write();
-  //   haBASEC0->Write();
-  //   haBASEC1->Write();
-  // } else {
-  //   hBASE0->Write();
-  //   hBASE1->Write();
-  //   hBASEC0->Write();
-  //   hBASEC1->Write();
-  // }
+   TFile *hfile = new TFile("Integral_hists.root","RECREATE");
+  if (average_mode == 1) { 
+    haADC0->Write();
+    haADC1->Write();
+    haBASE0->Write();
+    haBASE1->Write();
+    haBASEC0->Write();
+    haBASEC1->Write();
+  } else {
+    hADC0->Write();
+    hADC1->Write();
+    hBASE0->Write();
+    hBASE1->Write();
+    hBASEC0->Write();
+    hBASEC1->Write();
+  }
   // hfile->Write();
   // hfile->Close();
 }

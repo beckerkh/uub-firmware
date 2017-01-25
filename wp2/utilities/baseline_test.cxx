@@ -34,10 +34,10 @@ void baseline_test()
 
   r1 = 100.;
   r2 = 100.;
-  double c1 = 100.e-9;
+  double c1 = 10.e-9;
   double c2 = 470.e-9;
 
-  nbins = 100;
+  nbins = 500;
   baseline_initial = 1000.;
   dt = (xmax-xmin)/nbins;
 
@@ -64,7 +64,7 @@ void baseline_test()
 
   for (i=0; i<nbins; i++)
     {
-      t = (i+.1)*(xmax-xmin)/nbins + xmin;
+      t = (i+.5)*(xmax-xmin)/nbins + xmin;
       if (t < delay)
 	input = baseline_initial;
       else if (t < delay+width)
@@ -104,16 +104,20 @@ void baseline_test()
   hInfInp2->Draw("same");
 
   // Now fit the final histogram to try to recover RC1 & RC2.
-  tmin = width+delay+dt/2.;
-  TF1 *f = new TF1("f",fitf,tmin,xmax,3);
-  f->SetParameters(1/.1,1/.470,762.85);
-  f->SetParNames ("c1","c2","Normalization");
-  f->SetParLimits(0,1.,20.);
-  f->SetParLimits(1,1.,20.);
-  f->SetParLimits(2,762.85,762.85);
+  //  tmin = width+delay+dt/2.;
+  tmin = width+delay+dt;
+  TF1 *fit = new TF1("fit",fitf,tmin,xmax,4);
+  //  fit->SetParameters(1/.1,1/.470,627.628,117.891);
+  fit->SetParameters(1/.2,1/.370,500.,200.);
+  fit->SetParNames ("1/c1","1/c2","Initial sag1","Initial sag2");
+  fit->SetParLimits(0,1.,20.);
+  fit->SetParLimits(1,1.,20.);
+  //  fit->SetParLimits(2,627.628,627.628);
+  //  fit->SetParLimits(3,117.891,117.891);
 
-  ROOT::Fit::FitConfig::SetMinimizer("Simplex"); 
-  hBaseline->Fit("f","RVW");
+  //f->Draw("same");
+
+  hBaseline->Fit("fit","RW");
 }
 
 // Fit to 2 rc constants
@@ -130,15 +134,18 @@ double fitf(double *t, double *par)
   double input1, input2;
   int ibins;
   int i;
+  char line[132];
 
   c1 = 1./par[0]*1.e-6;
   c2 = 1./par[1]*1.e-6;
   dtrc1 = dt/(r1*c1);
   dtrc2 = dt/(r2*c2);
   baseline_sag1 = par[2];
+  baseline_sag2 = par[3];
   ibins = (t[0] - tmin)/dt;
 
-  for (i=0; i<=ibins; i++)
+  baseline_computed2 = baseline_initial - baseline_sag1 - baseline_sag2;
+  for (i=0; i<ibins; i++)
     {
       input1 = 0;
       output1 = input1 - baseline_sag1;
@@ -149,10 +156,7 @@ double fitf(double *t, double *par)
       output2 = input2 - baseline_sag2;
       baseline_sag2 = baseline_sag2 + output2*dtrc2;
       baseline_computed2 = baseline_computed1 - baseline_sag2;
-
     }
-  //  printf("ibins=%d dt=%g c1=%g c2=%g norm=%g baseline=%g\n",
-  //	 ibins,dt,par[0],par[1],par[2], baseline_computed2);
   
   return baseline_computed2;
 }
