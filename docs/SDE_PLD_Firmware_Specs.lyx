@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-December 12, 2016
+January 24, 2017
 \end_layout
 
 \begin_layout Author
@@ -151,6 +151,11 @@ History
 
 \begin_layout Description
 12-Dec-2016 Added output enable control for WATCHDOG output.
+\end_layout
+
+\begin_layout Description
+24-Jan-2017 Updated documentation to consistently number PMTs starting at
+ 0.
 \end_layout
 
 \begin_layout Section
@@ -1432,7 +1437,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Threshold for PMT1
+Threshold for PMT0
 \end_layout
 
 \end_inset
@@ -1489,7 +1494,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Threshold for PMT2
+Threshold for PMT1
 \end_layout
 
 \end_inset
@@ -1546,7 +1551,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Threshold for PMT3
+Threshold for PMT2
 \end_layout
 
 \end_inset
@@ -1999,7 +2004,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT1
+Lower threshold for PMT0
 \end_layout
 
 \end_inset
@@ -2056,7 +2061,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT2
+Lower threshold for PMT1
 \end_layout
 
 \end_inset
@@ -2113,7 +2118,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT3
+Lower threshold for PMT2
 \end_layout
 
 \end_inset
@@ -2170,7 +2175,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT1
+Upper threshold for PMT0
 \end_layout
 
 \end_inset
@@ -2227,7 +2232,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT2
+Upper threshold for PMT1
 \end_layout
 
 \end_inset
@@ -2284,7 +2289,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT3
+Upper threshold for PMT2
 \end_layout
 
 \end_inset
@@ -2736,7 +2741,7 @@ Not used
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT1 in multiplicity logic if set
+Include PMT0 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -2760,7 +2765,7 @@ Include PMT1 in multiplicity logic if set
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT2 in multiplicity logic if set
+Include PMT1 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -2784,7 +2789,7 @@ Include PMT2 in multiplicity logic if set
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT3 in multiplicity logic if set
+Include PMT2 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -3083,7 +3088,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT1
+Lower threshold for PMT0
 \end_layout
 
 \end_inset
@@ -3140,7 +3145,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT2
+Lower threshold for PMT1
 \end_layout
 
 \end_inset
@@ -3197,7 +3202,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Lower threshold for PMT3
+Lower threshold for PMT2
 \end_layout
 
 \end_inset
@@ -3254,7 +3259,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT1
+Upper threshold for PMT0
 \end_layout
 
 \end_inset
@@ -3311,7 +3316,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT2
+Upper threshold for PMT1
 \end_layout
 
 \end_inset
@@ -3368,7 +3373,7 @@ R/W
 \begin_layout Plain Layout
 
 \color cyan
-Upper threshold for PMT3
+Upper threshold for PMT2
 \end_layout
 
 \end_inset
@@ -4119,7 +4124,7 @@ Not used
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT1 in multiplicity logic if set
+Include PMT0 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -4143,7 +4148,7 @@ Include PMT1 in multiplicity logic if set
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT2 in multiplicity logic if set
+Include PMT1 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -4167,7 +4172,7 @@ Include PMT2 in multiplicity logic if set
 \begin_layout Plain Layout
 
 \color cyan
-Include PMT3 in multiplicity logic if set
+Include PMT2 in multiplicity logic if set
 \end_layout
 
 \end_inset
@@ -4599,7 +4604,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT1
+Threshold for PMT0
 \end_layout
 
 \end_inset
@@ -4637,7 +4642,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT2
+Threshold for PMT1
 \end_layout
 
 \end_inset
@@ -4675,7 +4680,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT3
+Threshold for PMT2
 \end_layout
 
 \end_inset
@@ -7553,7 +7558,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT1
+Threshold for PMT0
 \end_layout
 
 \end_inset
@@ -7591,7 +7596,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT2
+Threshold for PMT1
 \end_layout
 
 \end_inset
@@ -7629,7 +7634,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-Threshold for PMT3
+Threshold for PMT2
 \end_layout
 
 \end_inset

@@ -76,7 +76,7 @@ module fake_signal
            else
 	     SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
 
-	   if (SHWR_PULSE_DELAY < `SIGNAL_WITH)
+	   if (SHWR_PULSE_DELAY < `SIGNAL_WIDTH)
 	     SHWR_PULSE <= `MAX_SIGNAL;
 	   else
 	     SHWR_PULSE <= 0;

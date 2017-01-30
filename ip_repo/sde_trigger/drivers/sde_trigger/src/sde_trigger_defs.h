@@ -30,9 +30,9 @@
 
 // Debug definitions -- may have a problem with defines nested very deeply
 // so don't nest the DEBUG defines.
- #define ANY_DEBUG 1  // Enable if any of the following is set.
+// #define ANY_DEBUG 1  // Enable if any of the following is set.
 // #define HIGAIN_INTEGRAL_DEBUG 1
-   #define LOGAIN_INTEGRAL_DEBUG 1
+//   #define LOGAIN_INTEGRAL_DEBUG 1
 // End of debug enable definitions
 
  #define ADC_WIDTH 12 // Number of bits per ADC
@@ -350,7 +350,7 @@
  #define SHWR_SATURATED_SHIFT 31
  #define SHWR_SATURATED (1<<SHWR_SATURATED_SHIFT)
  #define SHWR_SATURATED_LEVEL ((1<<ADC_WIDTH)-1)
- #define SHWR_AREA_BINS 40
+ #define SHWR_AREA_BINS 60
  #define SHWR_AREA_ADC_DLY 20  // Delay to compensate for trigger formation dly
 #define SHWR_BASELINE0_ADDR 190
 #define SHWR_BASELINE1_ADDR 191
@@ -360,10 +360,10 @@
  #define SHWR_BASELINE_EXTRA_BITS 4
  #define BASELINE_EXTRA_BITS 4
  #define BASELINE_FRAC_WIDTH (SHWR_AREA_FRAC_WIDTH)
-// #define BASELINE_SAG_SHIFT1 10 // Frac. multipliers to account for RC decay
-// #define BASELINE_SAG_SHIFT2 12 // Set for 100 nF front-end block cap.
- #define BASELINE_SAG_SHIFT1 12 // Frac. multipliers to account for RC decay
- #define BASELINE_SAG_SHIFT2 14 // Set for 470 nF front-end block cap.
+ #define BASELINE_SAG_SHIFT1 10 // Frac. multipliers to account for RC decay
+ #define BASELINE_SAG_SHIFT2 12 // Set for 100 nF front-end block cap.
+// #define BASELINE_SAG_SHIFT1 12 // Frac. multipliers to account for RC decay
+// #define BASELINE_SAG_SHIFT2 14 // Set for 470 nF front-end block cap.
 
 // Addresses to sample instantaneous filtered PMT values for setup, test, etc.
 #define FILT_PMT0_TEST_ADDR 247

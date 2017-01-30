@@ -352,8 +352,6 @@ void trigger_test()
 
   // Define which PMTs to include & coincidence level required
   compat_sb_trig_enab = COMPATIBILITY_SB_TRIG_INCL_PMT0 |
-    COMPATIBILITY_SB_TRIG_INCL_PMT1 |
-    COMPATIBILITY_SB_TRIG_INCL_PMT2 |
     (1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT);
   write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, compat_sb_trig_enab);
 #endif

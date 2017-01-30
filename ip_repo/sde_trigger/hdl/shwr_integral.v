@@ -39,6 +39,8 @@ module shwr_integral(
    reg [`ADC_WIDTH-1:0] 			    RBASELINE;
    // Extended precision ADC value
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    ADCLONG;
+   // Delayed extended precision ADC value
+   reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    ADCLONGD;
    // Accumulated baseline sag
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    SAG;
  	
@@ -106,12 +108,12 @@ module shwr_integral(
 		  SAG <= SAG + (((ADCLONG - LBASELINE) >> `BASELINE_SAG_SHIFT1)
 		    - ((ADCLONG - LBASELINE) >> `BASELINE_SAG_SHIFT2));
 	       end
-// CBASELINE <= LBASELINE - SAG; // Simple version if speed problem.
-	       CBASELINE <= LBASELINE  
-			    - (SAG + (((ADCLONG - LBASELINE) 
-				       >> `BASELINE_SAG_SHIFT1)
-				      - ((ADCLONG - LBASELINE) 
-					 >> `BASELINE_SAG_SHIFT2)));
+               CBASELINE <= LBASELINE - SAG; // Simple version if speed problem.
+	       // CBASELINE <= LBASELINE  
+	       //  	    - (SAG + (((ADCLONG - LBASELINE) 
+	       //  		       >> `BASELINE_SAG_SHIFT1)
+	       //  		      - ((ADCLONG - LBASELINE) 
+	       //  			 >> `BASELINE_SAG_SHIFT2)));
 	       SBASELINE 
 		 <= (CBASELINE 
 		     >> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS));
@@ -127,7 +129,8 @@ module shwr_integral(
 	       end
 		   
 	       // Accumulate integral, making sure it can't go negative.
-		 INTEGRALA <= INTEGRALA + (ADCLONG - CBASELINE);
+               ADCLONGD <= ADCLONG; // Delay to keep in sync with CBASELINE
+		 INTEGRALA <= INTEGRALA + (ADCLONGD - CBASELINE);
 	       if (INTEGRALA[`SHWR_AREA_WIDTH+`BASELINE_FRAC_WIDTH-1] == 0)
 		 INTEGRAL <= INTEGRALA >> `BASELINE_FRAC_WIDTH;
 	       else
