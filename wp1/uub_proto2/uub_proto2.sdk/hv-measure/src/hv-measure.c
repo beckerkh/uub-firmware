@@ -144,6 +144,42 @@ int main( int argc, char *argv[] )
   	}
 
 
+
+
+// system ("SiPM_control HPO");
+
+// data from SiPM if connected
+	#define BUFSIZE 128
+    char *cmd = "SiPM_control HPO";
+    char *buf[BUFSIZE];
+    FILE *fg;
+    if ((fg = popen(cmd, "r")) == NULL) {
+        printf("Error opening pipe!\n");
+        return -1;
+    }
+
+
+
+    char *string = buf;
+    printf("%c\n", string[1]);
+
+
+
+
+
+    while (fgets(buf, BUFSIZE, fg) != NULL) {
+    		printf("%s", buf);
+
+    }
+/*
+    int count;
+	for (count = 0; count < 7; count++){
+		printf("%s ", buf);
+	}
+*/
+
+
+
   char dac_ok;
   dac_ok = 0x0;
   sc_get_ADC_values (file);
@@ -167,8 +203,11 @@ int main( int argc, char *argv[] )
 
 	 	 printf ("\"PMT5_HVM\":%.1f,",(float)adc_buffer[PMT5_HVM] *LSB_TO_5V*  2.2);
 	 	 printf ("\"PMT5_CM\":%.1f,",(float)adc_buffer[PMT5_CM] *LSB_TO_5V);
-	 	 printf ("\"PMT5_TM\":%.1f",(float)adc_buffer[PMT5_TM] *LSB_TO_5V);
+	// 	 printf ("\"PMT5_TM\":%.1f",(float)adc_buffer[PMT5_TM] *LSB_TO_5V);
 
+	 	printf ("\"PMT6_HVM\":%.1f,",(float)adc_buffer[PMT5_HVM] *LSB_TO_5V*  2.2);
+	 	printf ("\"PMT6_CM\":%.1f,",(float)adc_buffer[PMT5_CM] *LSB_TO_5V);
+	 	printf ("\"PMT6_TM\":%.1f",(float)adc_buffer[PMT5_TM] *LSB_TO_5V);
 
 	 	 printf("}");
 

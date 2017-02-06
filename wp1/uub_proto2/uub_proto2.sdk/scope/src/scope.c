@@ -1,5 +1,5 @@
 // UUB simple signals acquisition utility and store on json file
-// written by R.Assiro
+// written by R.Assiro and G. Marsella
 
 #include <stdlib.h>
 #include <sys/select.h>
@@ -13,32 +13,24 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "fe_lib.h" /*this include automatically the shwr_evt_defs.h */
-#include "fe_kernel_interface_defs.h"
-#include "read_evt.h"
+//#include "fe_lib.h" /*this include automatically the shwr_evt_defs.h */
+//#include "fe_kernel_interface_defs.h"
+//#include "read_evt.h"
 #include "shwr_evt_defs.h"
 
 #include "xparameters.h"
 #include "sde_trigger_defs.h"
+#include "time_tagging.h"
 
-#include <ctype.h>
-#include <termios.h>
+
+//#include <ctype.h>
+//#include <termios.h>
 
 
 #define SIG_WAKEUP SIGRTMIN+14
 
-//#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
-  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
-
 #define MAP_SIZE 4096UL
 #define MAP_MASK (MAP_SIZE - 1)
-
-/* for possible different control and possible distinct implementations,
-   the structure below is to be used internally by the functions these
-   functions. As it would be only used for these functions,
-   it many keep as local variables.
-*/
-
 
 struct read_evt_global
 {
@@ -62,7 +54,7 @@ unsigned int shwr_addr[5]={
   TRIGGER_MEMORY_SHWR4_BASE
 };
 
-int main(int argc, char **argv)
+int main()
 {
     int fd, file,i,j, Status, data_trig, ord, width, time;
     int nev = 4096;
@@ -81,24 +73,6 @@ int main(int argc, char **argv)
 	time = 6200000; //width of pulse 100ns
 	width = 10; //number x 100ns
 
-/*
-    if (argc < 2 || argc > 2){
-        usage();
-        exit(1);
-    }
-
-*/
-
-	if (argc == 1) {
-		 width = 10; //number x 100ns
-
-	}
-
-	else {
-		width = atoi (argv[1]);
-
-	}
-
     aux=read_evt_init();
     if(aux!=0){
       printf("FeShwrRead: Problem in start the Front-End - (shower read) %d \n",aux);
@@ -106,47 +80,6 @@ int main(int argc, char **argv)
     }
 
 
-/*
-    while(nevt<1)
-    {
-         if (!strcmp(argv[1], "-i")){
-        	gl.regs[SHWR_BUF_TRIG_MASK_ADDR]=0x10000;
-        	FeShwrRead_test(1);
-        }
-
-        //////////////// EXTERNAL  TRIGGER ////////////////////////////////////////
-        if (!strcmp(argv[1], "-e")){
-           	gl.regs[SHWR_BUF_TRIG_MASK_ADDR]=0x10;
-            	FeShwrRead_test(1);
-        }
-
-        //////////////// Nitz FPGA  TRIGGER ////////////////////////////////////////
-        if (!strcmp(argv[1], "-t")){
-        	gl.regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]=0x78;
-        	gl.regs[SHWR_BUF_TRIG_MASK_ADDR]=0x1;
- //    	   printf("scope -t...\n");
-      	FeShwrRead_test(1);
-        }
-
-        ////////////////  LED TRIGGER ////////////////////////////////////////
-        if (!strcmp(argv[1], "-l")){
-        	gl.regs[SHWR_BUF_TRIG_MASK_ADDR]=0x10000;
-        	target = 0x43c203fc;
-        	     if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1);
-        	     	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, target & ~MAP_MASK);
-        	     	virt_addr = map_base + (target & MAP_MASK);
-        	     	 writeval = 0x300000;
-        	     	 *((unsigned long *) virt_addr) = writeval;
-        	     	 usleep (1000);
-       	     		 writeval = 0x300001;
-        	     	 *((unsigned long *) virt_addr) = writeval;
-        	     	close(fd);
-        	     	FeShwrRead_test(1);
-
-        }
-        nevt++;
-    }
-    */
 
     while(nevt<1)
     {
@@ -161,7 +94,6 @@ int main(int argc, char **argv)
     		        	     	usleep (100);
     		        	     	 writeval = (time * width) +1;
     		        	     	*((unsigned long *) virt_addr) = writeval;
-
     		        	     	close(fd);
 
     	}
@@ -186,7 +118,7 @@ int read_evt_init()
     gl.shwr_pt[i]=NULL;
   }
   gl.regs=NULL;
-  /*open registers address for read/write */
+
   fd=open("/dev/mem",O_RDWR);
   if(fd<0){
     printf("Error - it was not possible to open the /dev/mem for read/write regitsters\n");
@@ -204,8 +136,8 @@ int read_evt_init()
     printf("Error - while trying to map the Registers\n");
     exit(1);
   }
-  close(fd); /*it is not needed to keep opened */
-  /*open shower buffers for read */
+  close(fd); //it is not needed to keep opened
+
   size=SHWR_MEM_DEPTH*SHWR_MEM_NBUF;
   if(size%sysconf(_SC_PAGE_SIZE)){
     size=(size/sysconf(_SC_PAGE_SIZE)+1)*sysconf(_SC_PAGE_SIZE);
@@ -227,13 +159,10 @@ int read_evt_init()
     close(fd);
   }
 
-  /*setting periodical process wakeup to check if there are event.
-    It is ugly, but for now, it would work in this whay, until
-    we figure a what to implement interruptions through the kernel */
+  //setting periodical process wakeup to check if there are event. It is ugly, but for now, it would work in this whay, until we figure a what to implement interruptions through the kernel
 
-  /*signal of alarm handler - it is going to be just blocked
-    to be used with sigtimedwait system call.
-  */
+  //signal of alarm handler - it is going to be just blocked to be used with sigtimedwait system call.
+
   if(sigemptyset(&gl.sigset)!=0){
     printf("error while trying to set signals ... 1 \n");
     exit(1);
@@ -247,7 +176,7 @@ int read_evt_init()
     exit(1);
   }
 
-  /* periodical signal generation */
+  // periodical signal generation
   sev.sigev_notify=SIGEV_SIGNAL;
   sev.sigev_signo=SIG_WAKEUP;
   if(timer_create(CLOCK_MONOTONIC,&sev,&t_alarm)!=0){
@@ -256,9 +185,9 @@ int read_evt_init()
   } else {
     struct itimerspec ts;
     ts.it_interval.tv_sec=0;
-    ts.it_interval.tv_nsec=100000; /*.1 ms*/
+    ts.it_interval.tv_nsec=100000; //.1 ms
     ts.it_value.tv_sec=0;
-    ts.it_value.tv_nsec=100000;/*the next interruption would appear in .1ms*/
+    ts.it_value.tv_nsec=100000;//the next interruption would appear in .1ms
     if(timer_settime(t_alarm, 0, &ts, NULL)!=0){
       exit(1);
     }
@@ -266,6 +195,9 @@ int read_evt_init()
   gl.id_counter=0;
   return(0);
 }
+
+
+
 
 int read_evt_end()
 {
@@ -317,6 +249,7 @@ int read_evt_read(struct shwr_evt_raw *shwr)
     shwr->Evt_type_2=0;
     shwr->ev_gps_info.second=gl.regs[TTAG_SHWR_SECONDS_ADDR];
     shwr->ev_gps_info.ticks=gl.regs[TTAG_SHWR_NANOSEC_ADDR];
+
     gl.regs[SHWR_BUF_CONTROL_ADDR]=rd;
     gl.id_counter++;
     return(0);
@@ -331,52 +264,39 @@ FeShwrRead_test(int Nev)
   int nevts,i,j,index;
   FILE *fp;
 
-  nevts=0;
- // printf("Starts the main loop\n");
-//while(nevts<Nev){
-    while(read_evt_read(&evt)!=0); /*wait for a available event */
-    nevts++;
+  while(read_evt_read(&evt)!=0); /*wait for a available event */
 
-    fp = fopen ("/srv/www/adc_data.json", "w" );
-    /* Open /dev/mem file */
+    fp = fopen ("/srv/www/adc_data.json", "w" );    /* Open /dev/mem file */
     fprintf(fp,"[");
     printf("[");
 
-  //gm monitor data  printf("# nevts: %d; type1: %08x ; type2: %08x %d\n",nevts,evt.Evt_type_1,evt.Evt_type_2,evt.id);
     for(j=0;j<SHWR_NSAMPLES;j++){
       index=(j+evt.trace_start)%SHWR_NSAMPLES;
-   //   printf("%4d %4d  ",j,index);
       fprintf(fp,"{");
       printf("{");
       for(i=0;i<SHWR_RAW_NCH_MAX;i++){
-/*	printf("%4d %4d ",
-	         evt.fadc_raw[i][index] & 0xFFF,
-	       (evt.fadc_raw[i][index]>>16) & 0xFFF);*/
-    fprintf  (fp,"\"adc%d\": \"%d\"",i*2, evt.fadc_raw[i][index] & 0xFFF);
-    fprintf(fp,", \"adc%d\": \"%d\"",i*2+1,(evt.fadc_raw[i][index]>>16) & 0xFFF);
+    	  fprintf  (fp,"\"adc%d\": \"%d\"",i*2, evt.fadc_raw[i][index] & 0xFFF);
+    	  fprintf(fp,", \"adc%d\": \"%d\"",i*2+1,(evt.fadc_raw[i][index]>>16) & 0xFFF);
 
+    	  printf  ("\"adc%d\": \"%d\"",i*2, evt.fadc_raw[i][index] & 0xFFF);
+    	  printf(", \"adc%d\": \"%d\"",i*2+1,(evt.fadc_raw[i][index]>>16) & 0xFFF);
 
-    printf  ("\"adc%d\": \"%d\"",i*2, evt.fadc_raw[i][index] & 0xFFF);
-    printf(", \"adc%d\": \"%d\"",i*2+1,(evt.fadc_raw[i][index]>>16) & 0xFFF);
-
-    if (i != 4) {fprintf(fp,", "); printf(", ");}
+    	  if (i != 4) {fprintf(fp,", "); printf(", ");}
       }
-//  if(j%100)     printf("%d \n",(evt.fadc_raw[4][index]>>28)&0xF);
+
       fprintf(fp,"}");
       printf("}");
       if (j!=SHWR_NSAMPLES-1)  {fprintf(fp,", "); printf(", ");}
     }
- 	 fprintf(fp,"]");
+ 	 fprintf(fp,"]\n");
  	 printf("]");
  	 fclose(fp);
- 	// usleep(200000);
 
-//  }
-  read_evt_end();
+ 	 read_evt_end();
 }
 
 
-
+/*
 int usage(void)
 {
     printf("____________________________\n");
@@ -391,3 +311,4 @@ int usage(void)
     printf("|__________________________|\n");
     exit(0);
 }
+*/

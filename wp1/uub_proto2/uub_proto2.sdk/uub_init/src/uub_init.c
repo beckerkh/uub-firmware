@@ -265,8 +265,6 @@ usleep (500); //RITARDO DA SOSTITUIRE CON LETTURA DEVICE READY
 										pabort("can't get max speed hz");
 
 
-
-
 									if (write(fd, cmd2channel, sizeof(cmd2channel)) != sizeof(cmd2channel)) {
 											exit(3);
 									}
@@ -298,12 +296,11 @@ usleep (500); //RITARDO DA SOSTITUIRE CON LETTURA DEVICE READY
 
 		printf("OK\n\r");
 
-
 system ("stty -F /dev/ttyUL1 9600");
 system ("stty -F /dev/ttyPS0 38400");
 //system ("stty -F /dev/ttyPS1 9600");
 printf("Initialization of UARTs... OK\n\r");
-system ("slowc");	//slow control ????? controllare se serve runnare a start
+system ("slowc");	//slow control ????? to ckeck if we need to run after boot
 
 
 // Userspace I/O settings - november 2016
@@ -311,5 +308,7 @@ system ("slowc");	//slow control ????? controllare se serve runnare a start
 system ("modprobe uio");
 system ("modprobe uio_pdrv_genirq");
 printf("Initialization of UIO... OK\n\r");
+
+
 
 }

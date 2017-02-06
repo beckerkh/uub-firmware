@@ -447,6 +447,7 @@ proc create_hier_cell_zync_block { parentCell nameHier } {
   create_bd_pin -dir I -from 0 -to 0 In2
   create_bd_pin -dir I RADIO_CTS
   create_bd_pin -dir O RADIO_RTS
+  create_bd_pin -dir O WDT_RST_OUT
   create_bd_pin -dir O -from 0 -to 0 -type rst peripheral_aresetn
   create_bd_pin -dir O -from 0 -to 0 -type rst peripheral_reset
 
@@ -514,7 +515,7 @@ CONFIG.PCW_SPI0_PERIPHERAL_ENABLE {1} CONFIG.PCW_SPI0_SPI0_IO {MIO 40 .. 45} \
 CONFIG.PCW_SPI1_GRP_SS1_ENABLE {0} CONFIG.PCW_SPI1_GRP_SS2_ENABLE {0} \
 CONFIG.PCW_SPI1_PERIPHERAL_ENABLE {1} CONFIG.PCW_SPI1_SPI1_IO {MIO 10 .. 15} \
 CONFIG.PCW_SPI_PERIPHERAL_FREQMHZ {100} CONFIG.PCW_TTC0_PERIPHERAL_ENABLE {1} \
-CONFIG.PCW_UART0_BAUD_RATE {9600} CONFIG.PCW_UART0_GRP_FULL_ENABLE {1} \
+CONFIG.PCW_UART0_BAUD_RATE {115200} CONFIG.PCW_UART0_GRP_FULL_ENABLE {1} \
 CONFIG.PCW_UART0_PERIPHERAL_ENABLE {1} CONFIG.PCW_UART0_UART0_IO {MIO 46 .. 47} \
 CONFIG.PCW_UART1_BAUD_RATE {115200} CONFIG.PCW_UART1_GRP_FULL_ENABLE {0} \
 CONFIG.PCW_UART1_PERIPHERAL_ENABLE {1} CONFIG.PCW_UART1_UART1_IO {MIO 8 .. 9} \
@@ -530,7 +531,8 @@ CONFIG.PCW_UIPARAM_DDR_USE_INTERNAL_VREF {1} CONFIG.PCW_USB0_PERIPHERAL_ENABLE {
 CONFIG.PCW_USB0_RESET_ENABLE {1} CONFIG.PCW_USB0_RESET_IO {MIO 51} \
 CONFIG.PCW_USE_EXPANDED_IOP {1} CONFIG.PCW_USE_FABRIC_INTERRUPT {1} \
 CONFIG.PCW_USE_M_AXI_GP1 {0} CONFIG.PCW_USE_S_AXI_GP0 {0} \
-CONFIG.PCW_USE_S_AXI_HP0 {1}  ] $processing_system7_0
+CONFIG.PCW_USE_S_AXI_HP0 {1} CONFIG.PCW_WDT_PERIPHERAL_ENABLE {1} \
+ ] $processing_system7_0
 
   # Create instance: xlconcat_0, and set properties
   set xlconcat_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 ]
@@ -584,6 +586,7 @@ CONFIG.PCW_USE_S_AXI_HP0 {1}  ] $processing_system7_0
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins FCLK_CLK0] [get_bd_pins axi_cdma_0/m_axi_aclk] [get_bd_pins axi_cdma_0/s_axi_lite_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/M03_ACLK] [get_bd_pins axi_interconnect_0/M04_ACLK] [get_bd_pins axi_interconnect_0/M05_ACLK] [get_bd_pins axi_interconnect_0/M06_ACLK] [get_bd_pins axi_interconnect_0/M07_ACLK] [get_bd_pins axi_interconnect_0/M08_ACLK] [get_bd_pins axi_interconnect_0/M09_ACLK] [get_bd_pins axi_interconnect_0/M10_ACLK] [get_bd_pins axi_interconnect_0/M11_ACLK] [get_bd_pins axi_interconnect_0/M12_ACLK] [get_bd_pins axi_interconnect_0/M13_ACLK] [get_bd_pins axi_interconnect_0/M14_ACLK] [get_bd_pins axi_interconnect_0/M15_ACLK] [get_bd_pins axi_interconnect_0/M16_ACLK] [get_bd_pins axi_interconnect_0/M17_ACLK] [get_bd_pins axi_interconnect_0/M18_ACLK] [get_bd_pins axi_interconnect_0/M19_ACLK] [get_bd_pins axi_interconnect_0/M20_ACLK] [get_bd_pins axi_interconnect_0/M21_ACLK] [get_bd_pins axi_interconnect_0/M22_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_1/ACLK] [get_bd_pins axi_interconnect_1/M00_ACLK] [get_bd_pins axi_interconnect_1/M01_ACLK] [get_bd_pins axi_interconnect_1/M02_ACLK] [get_bd_pins axi_interconnect_1/M03_ACLK] [get_bd_pins axi_interconnect_1/M04_ACLK] [get_bd_pins axi_interconnect_1/M05_ACLK] [get_bd_pins axi_interconnect_1/M06_ACLK] [get_bd_pins axi_interconnect_1/M07_ACLK] [get_bd_pins axi_interconnect_1/S00_ACLK] [get_bd_pins axi_interconnect_1/S01_ACLK] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins proc_sys_reset_0/aux_reset_in] [get_bd_pins proc_sys_reset_0/ext_reset_in] [get_bd_pins processing_system7_0/FCLK_RESET0_N]
   connect_bd_net -net processing_system7_0_UART0_RTSN [get_bd_pins RADIO_RTS] [get_bd_pins processing_system7_0/UART0_RTSN]
+  connect_bd_net -net processing_system7_0_WDT_RST_OUT [get_bd_pins WDT_RST_OUT] [get_bd_pins processing_system7_0/WDT_RST_OUT]
   connect_bd_net -net trigger_memory_0_IRQ [get_bd_pins In1] [get_bd_pins xlconcat_0/In1]
   connect_bd_net -net xlconcat_0_dout [get_bd_pins processing_system7_0/IRQ_F2P] [get_bd_pins xlconcat_0/dout]
   
@@ -1293,7 +1296,7 @@ proc create_root_design { parentCell } {
   set TRIG_IN [ create_bd_port -dir I TRIG_IN ]
   set TRIG_OUT [ create_bd_port -dir O TRIG_OUT ]
   set USB_IFAULT [ create_bd_port -dir I USB_IFAULT ]
-  set WATCHDOG [ create_bd_port -dir I WATCHDOG ]
+  set WATCHDOG [ create_bd_port -dir O WATCHDOG ]
   set adc0_n [ create_bd_port -dir I -from 11 -to 0 adc0_n ]
   set adc0_p [ create_bd_port -dir I -from 11 -to 0 adc0_p ]
   set adc1_n [ create_bd_port -dir I -from 11 -to 0 -type data adc1_n ]
@@ -1397,11 +1400,9 @@ proc create_root_design { parentCell } {
   connect_bd_net -net RADIO_RST_IN_1 [get_bd_ports RADIO_RST_IN] [get_bd_pins interface_uub_dfn3_0/RADIO_RST_IN]
   connect_bd_net -net TRIG_IN_1 [get_bd_ports TRIG_IN] [get_bd_pins WP1_ADC_CONTROL/EXT_TRIG] [get_bd_pins trigger_memory_block/TRIG_IN]
   connect_bd_net -net USB_IFAULT_1 [get_bd_ports USB_IFAULT] [get_bd_pins interface_uub_dfn3_0/USB_IFAULT]
-  connect_bd_net -net WATCHDOG_1 [get_bd_ports WATCHDOG] [get_bd_pins interface_uub_dfn3_0/WATCHDOG]
   connect_bd_net -net WP1_ADC_CONTROL_ASY_TRIG [get_bd_pins WP1_ADC_CONTROL/ASY_TRIG] [get_bd_pins WP7_LED_Control_0/ASY_TRIG]
   connect_bd_net -net WP1_ADC_CONTROL_ENABLE_PPS [get_bd_pins WP1_ADC_CONTROL/ENABLE_PPS] [get_bd_pins WP7_LED_Control_0/ENABLE_PPS]
   connect_bd_net -net WP1_ADC_CONTROL_gpio_io_o [get_bd_pins WP1_ADC_CONTROL/gpio_io_o] [get_bd_pins WP7_LED_Control_0/delay_set]
-  connect_bd_net -net WP7_LED_Control_0_LED_OUT [get_bd_ports LED_ASY] [get_bd_pins WP7_LED_Control_0/LED_OUT]
   connect_bd_net -net adc0_n_1 [get_bd_ports adc0_n] [get_bd_pins adc_inputs/IBUF_DS0_N]
   connect_bd_net -net adc0_p_1 [get_bd_ports adc0_p] [get_bd_pins adc_inputs/IBUF_DS0_P]
   connect_bd_net -net adc1_n_1 [get_bd_ports adc1_n] [get_bd_pins adc_inputs/IBUF_DS1_N]
@@ -1431,10 +1432,12 @@ proc create_root_design { parentCell } {
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins WP1_ADC_CONTROL/s_axi_aclk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins interface_uub_dfn3_0/s00_axi_aclk] [get_bd_pins trigger_memory_block/S_AXI_CLK] [get_bd_pins zync_block/FCLK_CLK0]
   connect_bd_net -net rx_1 [get_bd_ports GPS_RX] [get_bd_pins axi_uartlite_0/rx]
   connect_bd_net -net trigger_memory_0_IRQ [get_bd_pins trigger_memory_block/IRQ] [get_bd_pins zync_block/In1]
+  connect_bd_net -net trigger_memory_block_LEDBAR [get_bd_ports LED_ASY] [get_bd_pins trigger_memory_block/LEDBAR]
   connect_bd_net -net trigger_memory_block_P6X [get_bd_ports P6X] [get_bd_pins trigger_memory_block/P6X]
   connect_bd_net -net trigger_memory_block_TRIG_OUT [get_bd_ports TRIG_OUT] [get_bd_pins WP1_ADC_CONTROL/NITZ_TRIG] [get_bd_pins trigger_memory_block/TRIG_OUT]
   connect_bd_net -net xlconstant_0_dout [get_bd_ports ext0_ctl] [get_bd_ports ext0_dat] [get_bd_ports ext1_ctl] [get_bd_ports ext1_dat] [get_bd_pins xlconstant_0/dout]
   connect_bd_net -net zync_block_RADIO_RTS [get_bd_ports RADIO_RTS] [get_bd_pins zync_block/RADIO_RTS]
+  connect_bd_net -net zync_block_WDT_RST_OUT [get_bd_ports WATCHDOG] [get_bd_pins zync_block/WDT_RST_OUT]
 
   # Create address segments
   create_bd_addr_seg -range 0x20000 -offset 0x40000000 [get_bd_addr_spaces zync_block/axi_cdma_0/Data] [get_bd_addr_segs trigger_memory_block/muon_memory_block/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
