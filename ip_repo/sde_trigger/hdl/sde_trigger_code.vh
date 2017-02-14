@@ -258,12 +258,12 @@ always @(posedge CLK120) begin
            if (EXT_TRIG) begin
               COMPAT_EXT_TRIG_COUNTER <= COMPAT_EXT_TRIG_COUNTER + 1;
               if (COMPAT_EXT_TRIG_COUNTER == 0) PRESCALED_COMPAT_EXT_TRIG <= 1;
-              else
-                PRESCALED_COMPAT_EXT_TRIG <= 0;
-           end
+	   end
            else
-             PRESCALED_COMPAT_EXT_TRIG <= EXT_TRIG;
+             PRESCALED_COMPAT_EXT_TRIG <= 0;
         end
+        else
+          PRESCALED_COMPAT_EXT_TRIG <= EXT_TRIG;
 
 	// Repetitive code block that scrubs the filtered ADC data,
 	// delays ADC data, and loads shower memory.
@@ -467,7 +467,7 @@ always @(posedge CLK120) begin
 
 	P6X[1] <= TRIG_IN;
 	P6X[2] <= EXT_TRIG;
-	P6X[3] <= SOME_TRIG;
+	P6X[3] <= SOME_TRIG_OR;
 	P6X[4] <= SHWR_INTR;
 	P6X[5] <= SHWR_TRIGGER;
         

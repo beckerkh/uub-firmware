@@ -10,7 +10,7 @@
 //#define ADJUST_BASELINE
 //#define TOGGLE_WATCHDOG
 //#define USE_FAKE_MUON
-#define USE_FAKE_SIGNAL
+//#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
 //#define DO_LED_NOW
@@ -26,12 +26,12 @@
 #define SHWR_TRIGGERS
 
 #ifdef SHWR_TRIGGERS 
-  #define COMPAT_SB_TRIGGER
+ // #define COMPAT_SB_TRIGGER
 //  #define SB_TRIGGER
-//  #define EXT_TRIGGER
+  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
-  #define LED_TRIGGER
+//  #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 
