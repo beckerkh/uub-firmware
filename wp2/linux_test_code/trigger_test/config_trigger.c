@@ -1,0 +1,1 @@
+standalone/config_trigger.c

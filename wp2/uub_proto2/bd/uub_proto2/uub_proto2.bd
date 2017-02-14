@@ -1178,17 +1178,7 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext1_ctl</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-            <spirit:vector>
-              <spirit:left>7</spirit:left>
-              <spirit:right>0</spirit:right>
-            </spirit:vector>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:name>ext0_dat</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1208,7 +1198,17 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>ext0_dat</spirit:name>
+          <spirit:name>ext0_ctl</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>7</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>ext1_ctl</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
             <spirit:vector>
@@ -1354,6 +1354,13 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
+        <spirit:instanceName>fake_signal_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="user" spirit:name="fake_signal" spirit:vendor="user.org" spirit:version="1.0"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_fake_signal_0_0</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
         <spirit:instanceName>interface_uub_dfn3_0</spirit:instanceName>
         <spirit:componentRef spirit:library="auger" spirit:name="interface_uub_dfn3" spirit:vendor="auger.org" spirit:version="1.0"/>
         <spirit:configurableElementValues>
@@ -1361,10 +1368,10 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>fake_signal_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="user" spirit:name="fake_signal" spirit:vendor="user.org" spirit:version="1.0"/>
+        <spirit:instanceName>test_control_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="user" spirit:name="test_control" spirit:vendor="user.org" spirit:version="1.0"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_fake_signal_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_test_control_0_0</spirit:configurableElementValue>
         </spirit:configurableElementValues>
       </spirit:componentInstance>
     </spirit:componentInstances>
@@ -1464,6 +1471,11 @@
         <spirit:activeInterface spirit:busRef="S00_AXI" spirit:componentRef="interface_uub_dfn3_0"/>
         <spirit:activeInterface spirit:busRef="M04_AXI" spirit:componentRef="zync_block"/>
       </spirit:interconnection>
+      <spirit:interconnection>
+        <spirit:name>zync_block_M06_AXI</spirit:name>
+        <spirit:activeInterface spirit:busRef="S00_AXI" spirit:componentRef="test_control_0"/>
+        <spirit:activeInterface spirit:busRef="M06_AXI" spirit:componentRef="zync_block"/>
+      </spirit:interconnection>
     </spirit:interconnections>
     <spirit:adHocConnections>
       <spirit:adHocConnection>
@@ -1481,11 +1493,12 @@
         <spirit:internalPortReference spirit:componentRef="util_ds_buf_0" spirit:portRef="IBUF_OUT"/>
         <spirit:internalPortReference spirit:componentRef="clock_1pps_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="clk_120m"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="CLK"/>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="TRIGGER_CLK"/>
         <spirit:internalPortReference spirit:componentRef="filter_block" spirit:portRef="CLK"/>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="CLK120"/>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="CLK120"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>RADIO_CTS_1</spirit:name>
@@ -1502,8 +1515,9 @@
         <spirit:internalPortReference spirit:componentRef="zync_block" spirit:portRef="peripheral_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="s00_axi_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="s00_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="S_AXI_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="s00_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="s00_axi_aresetn"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>proc_sys_reset_0_peripheral_reset</spirit:name>
@@ -1515,8 +1529,9 @@
         <spirit:internalPortReference spirit:componentRef="zync_block" spirit:portRef="FCLK_CLK0"/>
         <spirit:internalPortReference spirit:componentRef="axi_uartlite_0" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="s00_axi_aclk"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="s00_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="S_AXI_CLK"/>
+        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="s00_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="s00_axi_aclk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>rx_1</spirit:name>
@@ -1576,7 +1591,7 @@
       <spirit:adHocConnection>
         <spirit:name>clock_1pps_0_CLK1PPS</spirit:name>
         <spirit:internalPortReference spirit:componentRef="clock_1pps_0" spirit:portRef="CLK1PPS"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="FAKE_PPS"/>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="FAKE_PPS"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>zync_block_FCLK_CLK1</spirit:name>
@@ -1710,10 +1725,10 @@
       <spirit:adHocConnection>
         <spirit:name>xlconstant_0_dout</spirit:name>
         <spirit:internalPortReference spirit:componentRef="xlconstant_0" spirit:portRef="dout"/>
-        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
-        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
         <spirit:externalPortReference spirit:portRef="ext1_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext0_ctl"/>
+        <spirit:externalPortReference spirit:portRef="ext1_dat"/>
+        <spirit:externalPortReference spirit:portRef="ext0_dat"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_P6X</spirit:name>
@@ -1766,15 +1781,9 @@
         <spirit:externalPortReference spirit:portRef="RADIO_RST_OUT"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_PPS</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="PPS"/>
-        <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="pps"/>
-        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ONE_PPS"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>GPS_PPS_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="GPS_PPS"/>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="TRUE_PPS"/>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="TRUE_PPS"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>GPS_UART_INT_1</spirit:name>
@@ -1820,16 +1829,6 @@
         <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="ADC3_IN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_USE_FAKE_SHWR1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="USE_FAKE_SHWR"/>
-        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_SHWR"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>interface_uub_dfn3_0_USE_FAKE_MUON1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="USE_FAKE_MUON"/>
-        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_MUON"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>trigger_memory_block_TRIG_OUT</spirit:name>
         <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="TRIG_OUT"/>
         <spirit:externalPortReference spirit:portRef="TRIG_OUT"/>
@@ -1838,6 +1837,22 @@
         <spirit:name>Net</spirit:name>
         <spirit:externalPortReference spirit:portRef="WATCHDOG"/>
         <spirit:internalPortReference spirit:componentRef="interface_uub_dfn3_0" spirit:portRef="WATCHDOG"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>interface_uub_dfn3_1_USE_FAKE_SHWR</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="USE_FAKE_SHWR"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_SHWR"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>interface_uub_dfn3_1_USE_FAKE_MUON</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="USE_FAKE_MUON"/>
+        <spirit:internalPortReference spirit:componentRef="fake_signal_0" spirit:portRef="USE_FAKE_MUON"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>test_control_0_PPS</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="PPS"/>
+        <spirit:internalPortReference spirit:componentRef="time_tagging_0" spirit:portRef="pps"/>
+        <spirit:internalPortReference spirit:componentRef="trigger_memory_block" spirit:portRef="ONE_PPS"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
@@ -2886,9 +2901,9 @@
       <spirit:adHocConnection>
         <spirit:name>TRIGGER_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="TRIGGER_CLK"/>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="CLK120"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="CLK120"/>
-        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="CLK120"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>TRIG_IN_1</spirit:name>
@@ -2898,18 +2913,18 @@
       <spirit:adHocConnection>
         <spirit:name>S_AXI_CLK_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_CLK"/>
-        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aclk"/>
-        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aclk"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aclk"/>
+        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aclk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>S_AXI_ARESETN_3</spirit:name>
         <spirit:externalPortReference spirit:portRef="S_AXI_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s00_axi_aresetn"/>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="s_axi_intr_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="muon_memory_block" spirit:portRef="s_axi_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="s_axi_aresetn"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>sde_trigger_0_SHWR_ADDR</spirit:name>
@@ -5063,8 +5078,8 @@
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_42_SLEW">slow</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_45_PULLUP">disabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_45_SLEW">fast</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_46_PULLUP">disabled</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_47_PULLUP">disabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_46_PULLUP">enabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_MIO_47_PULLUP">enabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_48_PULLUP">disabled</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_MIO_49_PULLUP">disabled</spirit:configurableElementValue>
         </spirit:configurableElementValues>
@@ -8342,11 +8357,36 @@
     <spirit:library>BlockDiagram/uub_proto2_imp/zync_block_imp/axi_interconnect_0_imp</spirit:library>
     <spirit:name>m06_couplers_imp</spirit:name>
     <spirit:version>1.00.a</spirit:version>
+    <spirit:componentInstances>
+      <spirit:componentInstance>
+        <spirit:instanceName>auto_pc</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="axi_protocol_converter" spirit:vendor="xilinx.com" spirit:version="2.1"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_auto_pc_7</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="SI_PROTOCOL">AXI4</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MI_PROTOCOL">AXI4LITE</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+    </spirit:componentInstances>
     <spirit:interconnections/>
-    <spirit:adHocConnections/>
+    <spirit:adHocConnections>
+      <spirit:adHocConnection>
+        <spirit:name>S_ACLK_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="S_ACLK"/>
+        <spirit:internalPortReference spirit:componentRef="auto_pc" spirit:portRef="aclk"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>S_ARESETN_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="S_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="auto_pc" spirit:portRef="aresetn"/>
+      </spirit:adHocConnection>
+    </spirit:adHocConnections>
     <spirit:hierConnections>
-      <spirit:hierConnection spirit:interfaceRef="M_AXI/m06_couplers_to_m06_couplers">
-        <spirit:activeInterface spirit:busRef="S_AXI" spirit:componentRef="./m06_couplers_to_m06_couplers"/>
+      <spirit:hierConnection spirit:interfaceRef="M_AXI/auto_pc_to_m06_couplers">
+        <spirit:activeInterface spirit:busRef="M_AXI" spirit:componentRef="auto_pc"/>
+      </spirit:hierConnection>
+      <spirit:hierConnection spirit:interfaceRef="S_AXI/m06_couplers_to_auto_pc">
+        <spirit:activeInterface spirit:busRef="S_AXI" spirit:componentRef="auto_pc"/>
       </spirit:hierConnection>
     </spirit:hierConnections>
   </spirit:design>
@@ -9827,7 +9867,7 @@
         <spirit:instanceName>auto_pc</spirit:instanceName>
         <spirit:componentRef spirit:library="ip" spirit:name="axi_protocol_converter" spirit:vendor="xilinx.com" spirit:version="2.1"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_auto_pc_7</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">uub_proto2_auto_pc_8</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="SI_PROTOCOL">AXI3</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="MI_PROTOCOL">AXI4</spirit:configurableElementValue>
         </spirit:configurableElementValues>
@@ -13205,12 +13245,6 @@
             <spirit:range>128K</spirit:range>
           </spirit:segment>
           <spirit:segment>
-            <spirit:name>SEG_interface_uub_dfn3_0_S00_AXI_reg</spirit:name>
-            <spirit:displayName>/interface_uub_dfn3_0/S00_AXI/S00_AXI_reg</spirit:displayName>
-            <spirit:addressOffset>0x43C00000</spirit:addressOffset>
-            <spirit:range>64K</spirit:range>
-          </spirit:segment>
-          <spirit:segment>
             <spirit:name>SEG_sde_trigger_0_S_AXI_INTR_reg</spirit:name>
             <spirit:displayName>/trigger_memory_block/sde_trigger_0/S_AXI_INTR/S_AXI_INTR_reg</spirit:displayName>
             <spirit:addressOffset>0x43C10000</spirit:addressOffset>
@@ -13220,6 +13254,18 @@
             <spirit:name>SEG_sde_trigger_0_S00_AXI_reg</spirit:name>
             <spirit:displayName>/trigger_memory_block/sde_trigger_0/S00_AXI/S00_AXI_reg</spirit:displayName>
             <spirit:addressOffset>0x43C20000</spirit:addressOffset>
+            <spirit:range>64K</spirit:range>
+          </spirit:segment>
+          <spirit:segment>
+            <spirit:name>SEG_interface_uub_dfn3_0_S00_AXI_reg</spirit:name>
+            <spirit:displayName>/interface_uub_dfn3_0/S00_AXI/S00_AXI_reg</spirit:displayName>
+            <spirit:addressOffset>0x43C00000</spirit:addressOffset>
+            <spirit:range>64K</spirit:range>
+          </spirit:segment>
+          <spirit:segment>
+            <spirit:name>SEG_test_control_0_S00_AXI_reg</spirit:name>
+            <spirit:displayName>/test_control_0/S00_AXI/S00_AXI_reg</spirit:displayName>
+            <spirit:addressOffset>0x43C40000</spirit:addressOffset>
             <spirit:range>64K</spirit:range>
           </spirit:segment>
         </spirit:segments>

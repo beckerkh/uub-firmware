@@ -2,26 +2,15 @@
 //
 // 25-May-2016 DFN Initial version extracted from trigger_test.c
 
+#include "trigger_test_options.h"
 #include "trigger_test.h"
-
-// Shower memory buffers
-extern u32 shw_mem0[SHWR_MEM_WORDS];
-extern u32 shw_mem1[SHWR_MEM_WORDS];
-extern u32 shw_mem2[SHWR_MEM_WORDS];
-extern u32 shw_mem3[SHWR_MEM_WORDS];
-extern u32 shw_mem4[SHWR_MEM_WORDS];
-
-// ADC traces & extra bits
-extern u32 shw_mem[5][SHWR_MEM_WORDS];
-extern u16 adc[10][SHWR_MEM_WORDS];
-extern u16 filt_adc[3][SHWR_MEM_WORDS];
-extern u8 flags[SHWR_MEM_WORDS];
 
 extern u32 *mem_addr, *mem_ptr;
 extern u32 start_offset;
 extern int toread_shwr_buf_num;
 extern int status;
 
+#ifdef DMA
 extern XAxiCdma AxiCdmaInstance;	// Instance of the XAxiCdma 
 extern XScuGic IntController;	// Instance of the Interrupt Controller
 extern XScuGic_Config *IntCfgPtr;    // The configuration parameters of the controller
@@ -30,6 +19,7 @@ extern XAxiCdma_Config *DmaCfgPtr;
 extern int DMA_Error;	/* Dma Error occurs */
 extern int Shwr_Data_Read;
 extern int DMA_Done;
+#endif
 
 #ifdef SCATTER_GATHER
 extern XAxiCdma_Bd BdTemplate;
@@ -91,7 +81,7 @@ static double prev_time = 0;
       printf(" COMPAT_SB_DLYD");
     if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_EXT<<8)) != 0)
       printf(" EXT_DLYD");
-    printf(" T = %lf  DT = %lf", time, dt);
+//    printf(" T = %f  DT = %f", time, dt);
     printf("\n");
 
     // Read calculated peak, area, baseline.
@@ -114,6 +104,9 @@ static double prev_time = 0;
 	    saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT) & 1;
 	  }
 
+	printf("trigger_test: Read peaks %d %d %d %d %d %d %d %d %d %d\n",
+	       peak[0], peak[1], peak[2], peak[3], peak[4],
+	       peak[5], peak[6], peak[7], peak[8], peak[9]);   
 	v[0] = read_trig(SHWR_BASELINE0_ADDR);
 	v[1] = read_trig(SHWR_BASELINE1_ADDR);
 	v[2] = read_trig(SHWR_BASELINE2_ADDR);
@@ -124,6 +117,10 @@ static double prev_time = 0;
 	    baseline[2*i] = v[i] & 0xffff;
 	    baseline[2*i+1] = (v[i] >> 16) & 0xffff;
 	  }
+	printf("trigger_test: Read baselines %d %d %d %d %d %d %d %d %d %d\n",
+			baseline[0], baseline[1], baseline[2], baseline[3],
+			baseline[4], baseline[5], baseline[6], baseline[7],
+			baseline[8], baseline[9]);
 
 
     start_offset = read_trig(SHWR_BUF_START_ADDR);
@@ -131,7 +128,7 @@ static double prev_time = 0;
 #ifdef PDT
 
     // Shower buffer 0
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR0_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[0];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -143,7 +140,7 @@ static double prev_time = 0;
       }
 
     // Shower buffer 1
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR1_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[1];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -155,7 +152,7 @@ static double prev_time = 0;
       }
 
     // Shower buffer 2
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR2_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[2];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -167,7 +164,7 @@ static double prev_time = 0;
       }
 
     // Shower buffer 3
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR3_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[3];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -179,7 +176,7 @@ static double prev_time = 0;
       }
 
     // Shower buffer 4
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR4_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[4];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -194,35 +191,35 @@ static double prev_time = 0;
 #if defined(SIMPLE) && defined(DMA)
 
     // Shower buffer 0
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR0_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[0];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     status = do_simple_polled_dma(mem_ptr, shw_mem0, 4*SHWR_MEM_WORDS);
     if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
  
     // Shower buffer 1
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR1_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[1];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     status = do_simple_polled_dma(mem_ptr, shw_mem1, 4*SHWR_MEM_WORDS);
     if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
 
     // Shower buffer 2
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR2_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[2];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     status = do_simple_polled_dma(mem_ptr, shw_mem2, 4*SHWR_MEM_WORDS);
     if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
 
     // Shower buffer 3
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR3_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[3];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     status = do_simple_polled_dma(mem_ptr, shw_mem3, 4*SHWR_MEM_WORDS);
     if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
 
     // Shower buffer 4
-    mem_addr = (u32*) TRIGGER_MEMORY_SHWR4_BASE;
+    mem_addr = (u32*) shwr_mem_ptr[4];
     mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
     mem_ptr = mem_addr;
     status = do_simple_polled_dma(mem_ptr, shw_mem4, 4*SHWR_MEM_WORDS);
@@ -425,8 +422,8 @@ void check_shw_buffers()
     for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
       {
         printf("%3x %8x %8x %8x %8x %8x\n",
-               i, shw_mem[0][i], shw_mem[1][i], shw_mem[2][i],
-               shw_mem[3][i], shw_mem[4][i]);
+               i, (u32)shw_mem[0][i], (u32)shw_mem[1][i], (u32)shw_mem[2][i],
+               (u32)shw_mem[3][i], (u32)shw_mem[4][i]);
       }
     printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
 

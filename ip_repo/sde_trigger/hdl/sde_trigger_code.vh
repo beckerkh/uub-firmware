@@ -465,11 +465,11 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P65
 
-	P6X[1] <= MUON_TRIGGER;
-	P6X[2] <= MUON_BUF_WNUM[0];
-	P6X[3] <= MUON_PRETRIG;
-	P6X[4] <= MUON_ENB;
-	P6X[5] <= MUON_BUF_RNUM[0];
+	P6X[1] <= TRIG_IN;
+	P6X[2] <= EXT_TRIG;
+	P6X[3] <= SOME_TRIG;
+	P6X[4] <= SHWR_INTR;
+	P6X[5] <= SHWR_TRIGGER;
         
      end // else: !if(LCL_RESET)
 end

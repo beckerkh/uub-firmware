@@ -1,13 +1,10 @@
 
 `timescale 1 ns / 1 ps
 
-module interface_uub_dfn3_v1_0_S00_AXI #
+module test_control_v1_0_S00_AXI #
   (
    // Users to add parameters here
 
-   // 03-Dec-2016 DFN Change WATCHDOG from an input to an output.
-   // 10-Feb-2017 DFN Remove FAKE_GPS & FAKE_SHWR, FAKE_MUON signals
-   //    
    // User parameters ends
    // Do not modify the parameters beyond this line
 
@@ -20,11 +17,11 @@ module interface_uub_dfn3_v1_0_S00_AXI #
     // Users to add ports here
 
     input CLK120,         
-    input [7:0] HCONF,
-    inout WATCHDOG,
-    input RADIO_RST_IN,
-    input USB_IFAULT,
-    output reg RADIO_RST_OUT,
+    input FAKE_PPS,
+    input TRUE_PPS,
+    output wire PPS,
+    output reg USE_FAKE_SHWR,
+    output reg USE_FAKE_MUON,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -93,23 +90,23 @@ module interface_uub_dfn3_v1_0_S00_AXI #
 
    // AXI4LITE signals
    reg [C_S_AXI_ADDR_WIDTH-1 : 0] axi_awaddr;
-   reg                            axi_awready;
-   reg                            axi_wready;
-   reg [1 : 0]                    axi_bresp;
-   reg                            axi_bvalid;
+   reg 				  axi_awready;
+   reg 				  axi_wready;
+   reg [1 : 0] 			  axi_bresp;
+   reg 				  axi_bvalid;
    reg [C_S_AXI_ADDR_WIDTH-1 : 0] axi_araddr;
-   reg                            axi_arready;
+   reg 				  axi_arready;
    reg [C_S_AXI_DATA_WIDTH-1 : 0] axi_rdata;
-   reg [1 : 0]                    axi_rresp;
-   reg                            axi_rvalid;
+   reg [1 : 0] 			  axi_rresp;
+   reg 				  axi_rvalid;
 
    // Example-specific design signals
    // local parameter for addressing 32 bit / 64 bit C_S_AXI_DATA_WIDTH
    // ADDR_LSB is used for addressing 32/64 bit registers/memories
    // ADDR_LSB = 2 for 32 bits (n downto 2)
    // ADDR_LSB = 3 for 64 bits (n downto 3)
-   localparam integer             ADDR_LSB = (C_S_AXI_DATA_WIDTH/32) + 1;
-   localparam integer             OPT_MEM_ADDR_BITS = 1;
+   localparam integer 		  ADDR_LSB = (C_S_AXI_DATA_WIDTH/32) + 1;
+   localparam integer 		  OPT_MEM_ADDR_BITS = 1;
    //----------------------------------------------
    //-- Signals for user logic register space example
    //------------------------------------------------
@@ -118,21 +115,13 @@ module interface_uub_dfn3_v1_0_S00_AXI #
    reg [C_S_AXI_DATA_WIDTH-1:0]   slv_reg1;
    reg [C_S_AXI_DATA_WIDTH-1:0]   slv_reg2;
    reg [C_S_AXI_DATA_WIDTH-1:0]   slv_reg3;
-   wire                           slv_reg_rden;
-   wire                           slv_reg_wren;
+   wire 			  slv_reg_rden;
+   wire 			  slv_reg_wren;
    reg [C_S_AXI_DATA_WIDTH-1:0]   reg_data_out;
-   integer                        byte_index;
-
-   reg                            WATCHDOG_OUT_ENABLE;
-   reg                            WATCHDOG_OUT;
-   wire                           WATCHDOG_IN;
-   
+   integer 			  byte_index;
 
    // I/O Connections assignments
 
-   assign WATCHDOG = WATCHDOG_OUT_ENABLE ? WATCHDOG_OUT : 1'bz;
-   assign WATCHDOG_IN = WATCHDOG;
-   
    assign S_AXI_AWREADY	= axi_awready;
    assign S_AXI_WREADY	= axi_wready;
    assign S_AXI_BRESP	= axi_bresp;
@@ -230,7 +219,7 @@ module interface_uub_dfn3_v1_0_S00_AXI #
      begin
 	if ( S_AXI_ARESETN == 1'b0 )
 	  begin
-	     // slv_reg0 <= 0;
+	     slv_reg0 <= 0;
 	     slv_reg1 <= 0;
 	     slv_reg2 <= 0;
 	     slv_reg3 <= 0;
@@ -239,13 +228,17 @@ module interface_uub_dfn3_v1_0_S00_AXI #
 	   if (slv_reg_wren)
 	     begin
 	        case ( axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] )
+	          2'h0:
+	            slv_reg0 <= S_AXI_WDATA;
 	          2'h1:
 	            slv_reg1 <= S_AXI_WDATA;
 	          2'h2:
 	            slv_reg2 <= S_AXI_WDATA;
 	          2'h3:
 	            slv_reg3 <= S_AXI_WDATA;
+		  
 	          default : begin
+	             slv_reg0 <= slv_reg0;
 	             slv_reg1 <= slv_reg1;
 	             slv_reg2 <= slv_reg2;
 	             slv_reg3 <= slv_reg3;
@@ -385,21 +378,33 @@ module interface_uub_dfn3_v1_0_S00_AXI #
      end    
 
    // Add user logic here
-
+   // So far we only use 3 bits of one of the 4 registers.
+   reg USE_FAKE_PPS;
+   
    always @( posedge S_AXI_ACLK )
      begin
-        slv_reg0[7:0] <= HCONF;
-        slv_reg0[8] <= USB_IFAULT;
-        slv_reg0[9] <= 0;
-        slv_reg0[10] <= RADIO_RST_IN;
-        
-        RADIO_RST_OUT <= !slv_reg1[0];
-        WATCHDOG_OUT <= slv_reg3[0];
-        WATCHDOG_OUT_ENABLE <= slv_reg3[1];
+        USE_FAKE_PPS <= slv_reg0[0];
+	USE_FAKE_SHWR <= slv_reg0[1];
+	USE_FAKE_MUON <= slv_reg0[2];
      end
+
+   mux1 ppsmux(.SEL_B(USE_FAKE_PPS), .D({TRUE_PPS,FAKE_PPS}), .Q(PPS));
+
+   
 
    // User logic ends
 
 endmodule
 
+// 2 to 1 mux
 
+module mux1
+  (
+   input SEL_B,
+   input [0:1] D,
+   output wire Q
+   );
+   
+   assign Q = D[SEL_B];
+
+endmodule

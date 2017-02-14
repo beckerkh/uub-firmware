@@ -2,18 +2,8 @@
 //
 // 25-May-2016 DFN Initial version extracted from trigger_test.c
 
+#include "trigger_test_options.h"
 #include "trigger_test.h"
-
-// Muon memory buffers
-extern u32 muon_mem0[MUON_MEM_WORDS];
-extern u32 muon_mem1[MUON_MEM_WORDS];
-extern u16 muon_adc[4][MUON_BURST_LEN][MUONS_PER_BUF];
-extern u16 muon_seq_num[MUON_BURST_LEN][MUONS_PER_BUF];
-extern u16 muon_trig_tags[MUONS_PER_BUF];
-extern u32 muon_burst_start[MUONS_PER_BUF];
-extern u32 muon_buffer_start;
-extern u32 muon_buffer_end;
-extern int mu_word_count;
 
 extern u32 *mem_addr, *mem_ptr;
 extern u32 start_offset;
@@ -21,6 +11,7 @@ extern int toread_shwr_buf_num;
 extern int toread_muon_buf_num;
 extern int status;
 
+#ifdef DMA
 extern XAxiCdma AxiCdmaInstance;	// Instance of the XAxiCdma 
 extern XScuGic IntController;	// Instance of the Interrupt Controller
 extern XScuGic_Config *IntCfgPtr;    // The configuration parameters of the controller
@@ -30,6 +21,7 @@ extern int DMA_Error;	/* Dma Error occurs */
 extern int Shwr_Data_Read;
 extern int Muon_Data_Read;
 extern  int DMA_Done;
+#endif
 
 #ifdef SCATTER_GATHER
 extern XAxiCdma_Bd BdTemplate;

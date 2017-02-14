@@ -5933,7 +5933,7 @@ The following bits are defined in the SHWR_BUF_TRIG_ID register.
 
 \color cyan
 \begin_inset Tabular
-<lyxtabular version="3" rows="16" columns="3">
+<lyxtabular version="3" rows="17" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -6453,6 +6453,41 @@ SHWR_BUF_TRIG_LED
 
 \size footnotesize
 LED flasher fired
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+SB_TRIG
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Initial full bandwidth SB trigger
 \end_layout
 
 \end_inset

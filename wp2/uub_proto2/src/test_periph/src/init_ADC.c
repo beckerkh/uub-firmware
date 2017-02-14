@@ -28,6 +28,7 @@
 #include "new_uub.h"
 #include "stdio.h"
 #include "test_periph.h"
+#include "trigger_test_options.h"
 #include "trigger_test.h"
 
 //*********************** Constant Definitions ************************

@@ -8,12 +8,16 @@
 
 
 #include <stdio.h>
-#include "xparameters.h"  // Peripheral parameters (GPIO addresses, etc.)
-#include "xil_types.h"
-#include "xil_printf.h"
 #include "sde_trigger_defs.h"
 #include "time_tagging_defs.h"
 #include "time_tagging.h"
+#include "interface_uub_dfn3.h"
+#include "test_control.h" 
+#include "xparameters.h"  // Peripheral parameters (GPIO addresses, etc.)
+
+#ifdef STAND_ALONE
+#include "xil_types.h"
+#include "xil_printf.h"
 #include "xaxicdma.h"
 #include "xdebug.h"
 #include "xil_cache.h"
@@ -22,71 +26,24 @@
 #include "xpseudo_asm_gcc.h"
 #include "xreg_cortexa9.h"
 #include "test_periph.h"
-#include "interface_uub_dfn3.h" 
+#endif
 
-//#define ADJUST_BASELINE
-//#define TOGGLE_WATCHDOG
-//#define USE_FAKE_MUON
-//#define USE_FAKE_SIGNAL
-#define USE_FAKE_GPS
-//#define DO_LED_PULSE
-//#define DO_LED_NOW
-#define LED_DELAY0 50
-#define LED_DELAY1 100
-#define LED_PULSWID0 10
-#define LED_PULSWID1 20
-
-#define COMPAT_MV_PER_CHAN (2000./(1024.*30.))
-#define COMPAT_CHAN_PER_MV (1/COMPAT_MV_PER_CHAN)
-//#define TRIG_THR0 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-#define TRIG_THR0 1000
-#define TRIG_THR1 1000
-#define TRIG_THR2 1000
-#define TRIG_SSD 2040
-//#define TRIG_THR1 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-//#define TRIG_THR2 50. * COMPAT_CHAN_PER_MV // Set approx 50 mv threshold
-//#define TRIG_SSD 50. * COMPAT_CHAN_PER_MV // Set ?? threshold
+#ifndef STAND_ALONE
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 #define MUONS_PER_BUF (MUON_MEM_WORDS/MUON_BURST_LEN)
-
-#define SHWR_TRIGGERS
-#ifdef SHWR_TRIGGERS 
-  #define COMPAT_SB_TRIGGER
-//  #define SB_TRIGGER
-//  #define EXT_TRIGGER
-//  #define PRESCALE_EXT_TRIGGER
-//  #define PRESCALE_COMPAT_SB_TRIGGER
-//  #define LED_TRIGGER
-#endif
-//#define MUON_TRIGGERS
-
-// PDT mode. Read shower/muon buffers
-// using simple memory mapped access.
-#define PDT
-
-// TRIGGGER_POLLED checks sde_trigger module status register for buffers
-// to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
-// to process any full buffers.
-#define TRIGGER_POLLED
-//#define TRIGGER_INTERRUPT
-
-// If DMA & SIMPLE are defined then readout polls for completion of read from 
-// each of the memory blocks before continuing.  This is sufficient to test
-// DMA operatation but it not intended as a model for use.  DMA_INTERRUPT
-// is not implemented in this program for the simple DMA mode.
-//
-// If DMA && SCATTER_GATHER are defined then all of the memory blocks for an
-// event are read in one DMA operation.  If in addition, DMA_INTERRUPT is
-// is defined, the DMA completion invokes an interrupt routine to finish
-// processing the event, otherwise the readout polls for completion of the
-// the DMA operation.
-//#define DMA
-//#define SIMPLE
-//#define SCATTER_GATHER
-//#define DMA_INTERRUPT
-
 #define ADC_MASK ((1<<ADC_WIDTH)-1)
 
+void map_registers();
+void config_trigger();
 void adjust_baseline();
 void enable_trigger_intr();
 void disable_trigger_intr();
@@ -112,15 +69,25 @@ int do_scatter_gather_polled_muon_dma();
 #endif
 
 // Macros
+
+#ifndef TIME_TAGGING_BASE
+  #define TIME_TAGGING_BASE XPAR_TIME_TAGGING_0_S00_AXI_BASEADDR
+#endif
+
+#ifndef INTERFACE_UUB_BASE
+  #define INTERFACE_UUB_BASE XPAR_INTERFACE_UUB_DFN3_0_S00_AXI_BASEADDR
+#endif
+
+#ifndef TEST_CONTROL_BASE
+  #define TEST_CONTROL_BASE XPAR_TEST_CONTROL_0_S00_AXI_BASEADDR
+#endif
+
+#ifdef STAND_ALONE
 #define write_trig(RegNumber, Data)					\
   SDE_TRIGGER_mWriteReg(SDE_TRIGGER_BASE, 4*RegNumber, Data)
 
 #define read_trig(RegNumber)						\
   SDE_TRIGGER_mReadReg(SDE_TRIGGER_BASE, 4*RegNumber)
-
-#ifndef TIME_TAGGING_BASE
-  #define TIME_TAGGING_BASE XPAR_TIME_TAGGING_0_S00_AXI_BASEADDR
-#endif
 
 #define write_ttag(RegNumber, Data)					\
   TIME_TAGGING_mWriteReg(TIME_TAGGING_BASE, 4*RegNumber, Data)
@@ -128,8 +95,63 @@ int do_scatter_gather_polled_muon_dma();
 #define read_ttag(RegNumber)						\
   TIME_TAGGING_mReadReg(TIME_TAGGING_BASE, 4*RegNumber)
 
+#define write_ifc(RegNumber, Data)					\
+  INTERFACE_UUB_DFN3_mWriteReg(INTERFACE_UUB_BASE, 4*RegNumber, Data)
 
+#define read_ifc(RegNumber)						\
+  INTERFACE_UUB_DFN3_mReadReg(INTERFACE_UUB_BASE, 4*RegNumber)
 
+#define write_tstctl(RegNumber, Data)					\
+  TEST_CONTROL_mWriteReg(TEST_CONTROL_BASE, 4*RegNumber, Data)
 
+#define read_tstctl(RegNumber)						\
+  TEST_CONTROL_mReadReg(TEST_CONTROL_BASE, 4*RegNumber)
+
+#else
+
+extern volatile u32 *trig_regs;
+extern volatile u32 *ttag_regs;
+extern volatile u32 *ifc_regs;
+extern volatile u32 *tstctl_regs;
+
+#define write_trig(RegNumber, Data) trig_regs[RegNumber] = Data
+#define read_trig(RegNumber) trig_regs[RegNumber]
+#define write_ttag(RegNumber, Data) ttag_regs[RegNumber] = Data
+#define read_ttag(RegNumber) ttag_regs[RegNumber]
+#define write_ifc(RegNumber, Data) ifc_regs[RegNumber] = Data
+#define read_ifc(RegNumber) ifc_regs[RegNumber]
+#define write_tstctl(RegNumber, Data) tstctl_regs[RegNumber] = Data
+#define read_tstctl(RegNumber) tstctl_regs[RegNumber]
+
+#endif
+
+extern volatile u32 shwr_mem_ptr[5];
+extern volatile u32 muon_mem_ptr[2];
+extern u32 shwr_mem_addr[5];
+extern u32 muon_mem_addr[2];
+
+// Shower memory buffers
+extern u32 shw_mem0[SHWR_MEM_WORDS];
+extern u32 shw_mem1[SHWR_MEM_WORDS];
+extern u32 shw_mem2[SHWR_MEM_WORDS];
+extern u32 shw_mem3[SHWR_MEM_WORDS];
+extern u32 shw_mem4[SHWR_MEM_WORDS];
+
+// ADC traces & extra bits
+extern u32 shw_mem[5][SHWR_MEM_WORDS];
+extern u16 adc[10][SHWR_MEM_WORDS];
+extern u16 filt_adc[3][SHWR_MEM_WORDS];
+extern u8 flags[SHWR_MEM_WORDS];
+
+// Muon memory buffers
+extern u32 muon_mem0[MUON_MEM_WORDS];
+extern u32 muon_mem1[MUON_MEM_WORDS];
+extern u16 muon_adc[4][MUON_BURST_LEN][MUONS_PER_BUF];
+extern u16 muon_seq_num[MUON_BURST_LEN][MUONS_PER_BUF];
+extern u16 muon_trig_tags[MUONS_PER_BUF];
+extern u32 muon_burst_start[MUONS_PER_BUF];
+extern u32 muon_buffer_start;
+extern u32 muon_buffer_end;
+extern int mu_word_count;
 
 
