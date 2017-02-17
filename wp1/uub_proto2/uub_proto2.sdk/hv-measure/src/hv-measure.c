@@ -145,7 +145,6 @@ int main( int argc, char *argv[] )
 
 
 
-
 // system ("SiPM_control HPO");
 
 // data from SiPM if connected
@@ -159,26 +158,22 @@ int main( int argc, char *argv[] )
     }
 
 
-
     char *string = buf;
-    printf("%c\n", string[1]);
+//    printf("%c\n", string[1]);
+    float dummy, voltage, current, temp;
+    char string1[12],string2[10],string3[5],string4[7];
 
-
-
-
-
-    while (fgets(buf, BUFSIZE, fg) != NULL) {
-    		printf("%s", buf);
-
+   while (fgets(buf, BUFSIZE, fg) != NULL) {
+//    		printf("%s", buf);
+    		sscanf (buf, "%s %s %s %s %f %f %f %f %f", string1,
+    		   	  string2,string3,string4,&dummy,&voltage,&current,&temp);
     }
-/*
-    int count;
+
+/*    int count;
 	for (count = 0; count < 7; count++){
 		printf("%s ", buf);
 	}
 */
-
-
 
   char dac_ok;
   dac_ok = 0x0;
@@ -205,11 +200,10 @@ int main( int argc, char *argv[] )
 	 	 printf ("\"PMT5_CM\":%.1f,",(float)adc_buffer[PMT5_CM] *LSB_TO_5V);
 	// 	 printf ("\"PMT5_TM\":%.1f",(float)adc_buffer[PMT5_TM] *LSB_TO_5V);
 
-	 	printf ("\"PMT6_HVM\":%.1f,",(float)adc_buffer[PMT5_HVM] *LSB_TO_5V*  2.2);
-	 	printf ("\"PMT6_CM\":%.1f,",(float)adc_buffer[PMT5_CM] *LSB_TO_5V);
-	 	printf ("\"PMT6_TM\":%.1f",(float)adc_buffer[PMT5_TM] *LSB_TO_5V);
-
-	 	 printf("}");
+	 	 printf ("\"PMT6_HVM\":%.1f,",voltage);
+	 	 printf ("\"PMT6_CM\":%.1f,",current);
+	 	 printf ("\"PMT6_TM\":%.1f",temp);
+	 	printf("}");
 
 /*
 	 printf("PMT Stat: HVmon\tImon \t Tmon\n");
@@ -292,5 +286,3 @@ int main( int argc, char *argv[] )
 
 
   }
-
-

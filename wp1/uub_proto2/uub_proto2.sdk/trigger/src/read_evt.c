@@ -18,7 +18,8 @@
 
 #include "xparameters.h"
 #include "sde_trigger_defs.h"
-
+#include "time_tagging.h"
+#include "time_tagging_defs.h"
 #define SIG_WAKEUP SIGRTMIN+14
 
 /* for possible different control and possible distinct implementations,

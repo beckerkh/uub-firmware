@@ -33,7 +33,7 @@
 							</tool>
 							<tool id="xilinx.gnu.armlinux.toolchain.archiver.660676977" name="ARM Linux archiver" superClass="xilinx.gnu.armlinux.toolchain.archiver"/>
 							<tool id="xilinx.gnu.armlinux.c.toolchain.linker.debug.1827951551" name="ARM Linux gcc linker" superClass="xilinx.gnu.armlinux.c.toolchain.linker.debug">
-								<option id="xilinx.gnu.c.link.option.libs.501633355" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+								<option id="xilinx.gnu.c.link.option.libs.501633355" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="rt"/>
 								</option>
 								<inputType id="xilinx.gnu.linker.input.1631063775" superClass="xilinx.gnu.linker.input">
