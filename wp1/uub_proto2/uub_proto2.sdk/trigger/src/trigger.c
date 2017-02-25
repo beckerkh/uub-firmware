@@ -24,61 +24,73 @@ void setTrigger(void)
 	char buffer[8];
 
 	printf("New Trigger Config!\n");
-	printf("Set Pmt0 Th ( %d )\n",regs[COMPATIBILITY_SB_TRIG_THR0_ADDR]);
+	printf("Set Pmt0 Th ( %d )\n",regs[SB_TRIG_THR0_ADDR]);
 	Th = atoi(fgets(buffer, 17, stdin));
 		if(Th<0||Th>4096){
 			if(buffer!=""){
-			//     Th = regs[COMPATIBILITY_SB_TRIG_THR1_ADDR];
+			//     Th = regs[SB_TRIG_THR0_ADDR];
 			}
-					else { regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]=Th;
+					else { regs[SB_TRIG_THR0_ADDR]=Th;
 									}
 			} else {
-					regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]=Th;
+					regs[SB_TRIG_THR0_ADDR]=Th;
 			}
 
 
-		printf("Set Pmt1 Th ( %d )\n",regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]);
+		printf("Set Pmt1 Th ( %d )\n",regs[SB_TRIG_THR1_ADDR]);
 		Th = atoi(fgets(buffer, 17, stdin));
 		if(Th<0||Th>4096){
 			if(buffer!=""){
-				//     Th = regs[COMPATIBILITY_SB_TRIG_THR1_ADDR];
+				//     Th = regs[SB_TRIG_THR1_ADDR];
 			}
-				else { regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]=Th;
+				else { regs[SB_TRIG_THR1_ADDR]=Th;
 						}
 			} else {
-				 regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]=Th;
+				 regs[SB_TRIG_THR1_ADDR]=Th;
 			}
 
-			printf("Set Pmt2 Th ( %d )\n",regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]);
-			Th = atoi(fgets(buffer, 17, stdin));
-			if(Th<0||Th>4096){
-				if(buffer!=""){
-				//     Th = regs[COMPATIBILITY_SB_TRIG_THR2_ADDR];
-					}
-					else { regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]=Th;
-					}
-			 	} else {
-		           regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]=Th;
-			 	 }
+		printf("Set Pmt2 Th ( %d )\n",regs[SB_TRIG_THR2_ADDR]);
+		Th = atoi(fgets(buffer, 17, stdin));
+		if(Th<0||Th>4096){
+			if(buffer!=""){
+			//     Th = regs[SB_TRIG_THR2_ADDR];
+				}
+				else { regs[SB_TRIG_THR2_ADDR]=Th;
+				}
+		 	} else {
+	           regs[SB_TRIG_THR2_ADDR]=Th;
+		 	 }
 
-				printf("Set SB Trig Enable Mask (%x)\n",regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]);
+		printf("Set SSD Th ( %d )\n",regs[SB_TRIG_SSD_ADDR]);
+		Th = atoi(fgets(buffer, 17, stdin));
+		if(Th<0||Th>4096){
+			if(buffer!=""){
+			//     Th = regs[SB_TRIG_SSD_ADDR];
+				}
+				else { regs[SB_TRIG_SSD_ADDR]=Th;
+				}
+		 	} else {
+	           regs[SB_TRIG_SSD_ADDR]=Th;
+		 	 }
+
+				printf("Set TRIG_ENAB_ADDR (%x)\n",regs[SB_TRIG_ENAB_ADDR]);
 				Th = atoi(fgets(buffer, 17, stdin));
 				if(Th<0||Th>4096){
 					if(buffer!=""){
-					//     Th = regs[COMPATIBILITY_SB_TRIG_THR2_ADDR];
+					//     Th = regs[SB_TRIG_THR2_ADDR];
 						}
-						else { regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]=Th;
+						else { regs[SB_TRIG_ENAB_ADDR]=Th;
 						}
 				 	} else {
-				 		regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]=Th;
+				 		regs[SB_TRIG_ENAB_ADDR]=Th;
 				 	 }
 
 
-				printf("Set Shower Buff Trig Mask (%x)\n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
+				printf("Set SHWR_BUF_TRIG_MASK_ADDR (%x)\n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
 				Th = atoi(fgets(buffer, 17, stdin));
-				if(Th<=0||Th>65537){
+				if(Th<=0||Th>300000){
 					if(buffer!=""){
-					//     Th = regs[COMPATIBILITY_SB_TRIG_THR2_ADDR];
+					//     Th = regs[SHWR_BUF_TRIG_MASK_ADDR];
 						}
 						else { regs[SHWR_BUF_TRIG_MASK_ADDR]=Th;
 						}
@@ -86,14 +98,13 @@ void setTrigger(void)
 				 		regs[SHWR_BUF_TRIG_MASK_ADDR]=Th;
 				 	 }
 
-
-
 				printf("New Trigger Status: \n");
-				printf("PMT0 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR0_ADDR]);
-				printf("PMT1 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]);
-				printf("PMT2 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]);
-				printf("SB_Trigger_mask = %x   (0x48 Pmt0 - 0x50 Pmt1 - 0x60 Pmt2 - 0x78 Or all Pmts )\n",regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]);
-				printf("SHOW_BUF_Trigger_mask = %x  (0x10 external trigger - 0x1 SB trigger - 0x11 Or Ext SB  - \n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
+				printf("PMT0 Th = %d\n",regs[SB_TRIG_THR0_ADDR]);
+				printf("PMT1 Th = %d\n",regs[SB_TRIG_THR1_ADDR]);
+				printf("PMT2 Th = %d\n",regs[SB_TRIG_THR2_ADDR]);
+				printf("SSD Th = %d\n",regs[SB_TRIG_SSD_ADDR]);
+				printf("SB_Trigger_mask = %x   (0x11 (17) Pmt0 - 0x12 (18) Pmt1 - 0x14 (20) Pmt2 - 0x18 (24) SSD - 0x1F (31) Or all Pmts )\n",regs[SB_TRIG_ENAB_ADDR]);
+				printf("SHOW_BUF_Trigger_mask = %x  (0x10 (16) external trigger - 0x20000 (131072) SB trigger - 0x20010 (131088) Or Ext SB  - \n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
 	return;
 }
 
@@ -130,34 +141,37 @@ int main(int argc, char *argv[])
 	if (argc == 1) {
 
 	}
-	else if (argc < 5 || argc > 7){
+	else if (argc < 6 || argc > 8){
 		usage();
 		exit(1);
 	}
 	else {
-		regs[COMPATIBILITY_SB_TRIG_THR0_ADDR] = atoi (argv[1]);
-		regs[COMPATIBILITY_SB_TRIG_THR1_ADDR] = atoi (argv[2]);
-		regs[COMPATIBILITY_SB_TRIG_THR2_ADDR] = atoi (argv[3]);
-		regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR] = atoi (argv[4]);
-		regs[SHWR_BUF_TRIG_MASK_ADDR] = atoi (argv[5]);
+		regs[SB_TRIG_THR0_ADDR] = atoi (argv[1]);
+		regs[SB_TRIG_THR1_ADDR] = atoi (argv[2]);
+		regs[SB_TRIG_THR2_ADDR] = atoi (argv[3]);
+		regs[SB_TRIG_SSD_ADDR] = atoi (argv[4]);
+		regs[SB_TRIG_ENAB_ADDR] = atoi (argv[5]);
+		regs[SHWR_BUF_TRIG_MASK_ADDR] = atoi (argv[6]);
 /*
 		printf("New Trigger Status: \n");
-		printf("PMT0 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR0_ADDR]);
-		printf("PMT1 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]);
-		printf("PMT2 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]);
-		printf("SB_Trigger_mask = %x   (0x48 Pmt0 - 0x50 Pmt1 - 0x60 Pmt2 - 0x78 Or all Pmts )\n",regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]);
-		printf("SHOW_BUF_Trigger_mask = %x  (0x10 external trigger - 0x1 SB trigger - 0x11 Or Ext SB\n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
-*/
+		printf("SB_TRIG_THR0_ADDR = %d\n",regs[SB_TRIG_THR0_ADDR]);
+		printf("SB_TRIG_THR1_ADDR = %d\n",regs[SB_TRIG_THR1_ADDR]);
+		printf("SB_TRIG_THR2_ADDR = %d\n",regs[SB_TRIG_THR2_ADDR]);
+		printf("SB_TRIG_SSD_ADDR = %d\n",regs[SB_TRIG_SSD_ADDR]);
+		printf("SB_TRIG_ENAB_ADDR = %x \n",regs[SB_TRIG_ENAB_ADDR]);
+		printf("SHWR_BUF_TRIG_MASK_ADDR = %x  \n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
+  */
 		exit(1);
 	}
 
 
 	printf("Trigger Status: \n");
-	printf("PMT0 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR0_ADDR]);
-	printf("PMT1 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR1_ADDR]);
-	printf("PMT2 Th = %d\n",regs[COMPATIBILITY_SB_TRIG_THR2_ADDR]);
-	printf("SB_Trigger_mask = %x   (0x48 Pmt0 - 0x50 Pmt1 - 0x60 Pmt2 - 0x78 Or all Pmts )\n",regs[COMPATIBILITY_SB_TRIG_ENAB_ADDR]);
-	printf("SHOW_BUF_Trigger_mask = %x  (0x10 external trigger - 0x1 SB trigger - 0x11 Or Ext SB  - \n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
+	printf("PMT0 Th = %d\n",regs[SB_TRIG_THR0_ADDR]);
+	printf("PMT1 Th = %d\n",regs[SB_TRIG_THR1_ADDR]);
+	printf("PMT2 Th = %d\n",regs[SB_TRIG_THR2_ADDR]);
+	printf("SSD Th = %d\n",regs[SB_TRIG_SSD_ADDR]);
+	printf("SB_Trigger_mask = %x   (0x11 (17) Pmt0 - 0x12 (18) Pmt1 - 0x14 (20) Pmt2 - 0x18 (24) SSD - 0x1F (31) Or all Pmts )\n",regs[SB_TRIG_ENAB_ADDR]);
+	printf("SHOW_BUF_Trigger_mask = %x  (0x10 (16) external trigger - 0x20000 (131072) SB trigger - 0x20010 (131088) Or Ext SB  - \n",regs[SHWR_BUF_TRIG_MASK_ADDR]);
 
 	printf("/n Change config? (y/n) \n");
 

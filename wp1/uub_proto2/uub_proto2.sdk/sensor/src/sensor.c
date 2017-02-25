@@ -221,6 +221,9 @@ int main( int argc, char *argv[] )
 	 			 printf ("\"SP_VOLT\":%.1f,",adc_buffer[SP_VOLT]*LSB_TO_5V*50./5000);
 	 			 printf ("\"SP_CURR\":%.1f",adc_buffer[SP_CURR]*LSB_TO_5V*5./1000.);
 
+	 		 	 printf ("\nT= %d *0.1K, P= %d ",adc_buffer[T_AIR],adc_buffer[P_AIR]);
+	 			            	 printf ("%d *0.1K",adc_buffer[T_WAT]);
+
 
 	 			 printf("}");
 
