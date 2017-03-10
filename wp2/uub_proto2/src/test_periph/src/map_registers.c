@@ -107,7 +107,6 @@ void map_registers()
     }
   printf("Finished mapping shower/muon buffers\n");
   close(fd); // Can close fd now
-#endif
 
   for (i=0; i<3; i++)
     {
@@ -115,4 +114,5 @@ void map_registers()
 	     trig_regs, ttag_regs, ifc_regs, tstctl_regs);
       sleep(1);
     }
+#endif
 }

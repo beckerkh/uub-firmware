@@ -5,7 +5,7 @@
 // 06-Feb-2017 DFN Initial version extracted from trigger_test.h
 
 //#define STAND_ALONE
-#define MAX_EVENTS 1000
+#define MAX_EVENTS 100
 
 //#define ADJUST_BASELINE
 //#define TOGGLE_WATCHDOG
@@ -19,23 +19,22 @@
 #define LED_PULSWID0 10
 #define LED_PULSWID1 20
 
-#define TRIG_THR0 4095
-#define TRIG_THR1 3000
-#define TRIG_THR2 3000
-#define TRIG_SSD 300
-#define SHWR_TRIGGERS
+#define TRIG_THR0 1000
+#define TRIG_THR1 1000
+#define TRIG_THR2 1000
+#define TRIG_SSD 2040
+//#define SHWR_TRIGGERS
 
 #ifdef SHWR_TRIGGERS 
-//  #define COMPAT_SB_TRIGGER
-  #define SB_TRIGGER
-  #define SSD_AND	
-//  #define EXT_TRIGGER
+ // #define COMPAT_SB_TRIGGER
+//  #define SB_TRIGGER
+  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
 //  #define LED_TRIGGER
 #endif
-//#define MUON_TRIGGERS
-//#define MUON_SIPM_CAL
+#define MUON_TRIGGERS
+#define MUON_SIPM_CAL
 
 // TRIGGGER_POLLED checks sde_trigger module status register for buffers
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine

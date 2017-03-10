@@ -152,11 +152,12 @@ muon_buffers
 
 // Keep track of signal area, peak, and baselines
 genvar i;
-generate for (i=0; i<10; i=i+1)
-  begin: area10
+generate for (i=0; i<10; i=i+2)
+  begin: arealo
 shwr_integral area(.RESET(LCL_RESET),
 		   .CLK120(CLK120),
 		   .TRIGGERED(TRIGGERED),
+		   .HILO(0),
 		   .ADC(ADCD[i]),
 		   .ADCD(ADCDR[i]),
 		   .INTEGRAL(AREA[i]),
@@ -167,6 +168,24 @@ shwr_integral area(.RESET(LCL_RESET),
 		   );
   end
 endgenerate
+
+generate for (i=1; i<10; i=i+2)
+  begin: areahi
+shwr_integral area(.RESET(LCL_RESET),
+		   .CLK120(CLK120),
+		   .TRIGGERED(TRIGGERED),
+		   .HILO(1),
+		   .ADC(ADCD[i]),
+		   .ADCD(ADCDR[i]),
+		   .INTEGRAL(AREA[i]),
+		   .BASELINE(BASELINE[i]),
+		   .SBASELINE(SBASELINE[i]),
+		   .PEAK(PEAK[i]),
+		   .SATURATED(SATURATED[i])
+		   );
+  end
+endgenerate
+
 // Generate LED pulses
 led_control led_control1(.RESET(LCL_RESET),
                          .CLK120(CLK120),

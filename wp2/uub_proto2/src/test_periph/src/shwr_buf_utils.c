@@ -332,12 +332,17 @@ void check_shw_buffers()
   {
     int i, trig, first, last, trig2;
 
-#ifndef INTEGRAL_DEBUG
+    trig = 1;
+
+#ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
+#ifdef COMPAT_SB_TRIGGER
   trig = 0;
   for (i=0; i<SHWR_MEM_WORDS; i++) {
     if (trig == 0) {
       if ((filt_adc[0][i] > TRIG_THR0) || (filt_adc[1][i] > TRIG_THR1) ||
 	  (filt_adc[1][i] > TRIG_THR2)) {
+	printf("Trigger point - adcs = %d %d %d\n",
+	       filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
 	trig = i;
 	printf("trigger_test: Event should trigger at bin %d = 0x%x\n",trig,trig);
       }
@@ -352,60 +357,19 @@ void check_shw_buffers()
       if (flags[i] != 0) {
 	trig2 = i-7;
 	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
+	printf("trigger_test: bin=%x filt_adcs=%x %x %x\n", trig2-1,
+	       filt_adc[0][trig2], filt_adc[1][trig2], filt_adc[2][trig2]);
+	printf("trigger_test: bin=%x filt_adcs=%x %x %x\n", trig2,
+	       filt_adc[0][trig2], filt_adc[1][trig2], filt_adc[2][trig2]);
+	printf("trigger_test: bin=%x filt_adcs=%x %x %x\n", trig2+1,
+	       filt_adc[0][trig2], filt_adc[1][trig2], filt_adc[2][trig2]);
       }
     }
   }
   if (trig2 == 0) 
     printf("trigger_test: Can't find trigger point\n");
-
-
-    printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
-
-    // Inconsistent trigger
-    if (abs(trig - trig2) > 20) {
-      first = trig2-5;
-      if (first < 0) first = 0;
-      last = trig2+20;
-      if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
-     
-    //      for (i=0; i<SHWR_MEM_WORDS; i++)
-      for (i=first; i<last; i++)
-      {
-        printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
-               i, flags[i], adc[0][i], adc[1][i], adc[2][i], 
-               adc[3][i], adc[4][i], 
-               adc[5][i], adc[6][i], adc[7][i], adc[8][i], adc[9][i],
-               filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
-      }
-	printf("...\n");
-    }
- 
-    // Normal trigger
-   if (trig != 0) {
-// Select a portion of event to print
-//      first = trig2-5;
-//      first = trig2-100;
-	   first = 0;
-      if (first < 0) first = 0;
-//      last = trig2+20;
-//      last = trig2+200;
-      last = 2048;
-      if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
-    } 
-    //      for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
-          for (i=first; i<last; i++)  // Portion of an event
-    //    for (i=trig2; i<trig2; i++)
-      {
-        printf("%3x %x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x %3x\n",
-               i, flags[i], adc[0][i], adc[1][i], adc[2][i], 
-               adc[3][i], adc[4][i], 
-               adc[5][i], adc[6][i], adc[7][i], adc[8][i], adc[9][i],
-               filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
-      }
-    printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
 #endif
-
-#ifdef INTEGRAL_DEBUG
+#endif
 
     printf("\n>>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>\n");
 
@@ -419,15 +383,46 @@ void check_shw_buffers()
 
     printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 
-    for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
+#ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
+    // Inconsistent trigger
+    /* if (abs(trig - trig2) > 20) { */
+    /*   first = trig2-5; */
+    /*   if (first < 0) first = 0; */
+    /*   last = trig2+20; */
+    /*   if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS; */
+     
+    /* //      for (i=0; i<SHWR_MEM_WORDS; i++) */
+    /*   for (i=first; i<last; i++) */
+    /*   { */
+    /*     printf("%3x %8x %8x %8x %8x %8x\n", */
+    /*            i, (u32)shw_mem[0][i], (u32)shw_mem[1][i], (u32)shw_mem[2][i], */
+    /*            (u32)shw_mem[3][i], (u32)shw_mem[4][i]); */
+    /*   } */
+    /* 	printf("...\n"); */
+    /* } */
+ #endif
+
+    // Normal trigger
+    //   if (trig != 0) {
+// Select a portion of event to print
+//      first = trig2-5;
+//      first = trig2-100;
+//	   first = 0;
+//      if (first < 0) first = 0;
+//      last = trig2+20;
+//      last = trig2+200;
+//      last = 2048;
+//      if (last > SHWR_MEM_WORDS) last = SHWR_MEM_WORDS;
+//    } 
+          for (i=0; i<SHWR_MEM_WORDS; i++)  // Whole event
+//          for (i=first; i<last; i++)  // Portion of an event
+    //    for (i=trig2; i<trig2; i++)
       {
         printf("%3x %8x %8x %8x %8x %8x\n",
                i, (u32)shw_mem[0][i], (u32)shw_mem[1][i], (u32)shw_mem[2][i],
                (u32)shw_mem[3][i], (u32)shw_mem[4][i]);
       }
     printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
-
-#endif
 
   }
 

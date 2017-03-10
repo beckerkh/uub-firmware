@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-January 24, 2017
+March 10, 2017
 \end_layout
 
 \begin_layout Author
@@ -156,6 +156,19 @@ History
 \begin_layout Description
 24-Jan-2017 Updated documentation to consistently number PMTs starting at
  0.
+\end_layout
+
+\begin_layout Description
+10-Mar-2017 Add mode to SB_TRIG where SSD trigger is 
+\begin_inset Quotes eld
+\end_inset
+
+anded
+\begin_inset Quotes erd
+\end_inset
+
+ with WCD trigger; tune parameters of baseline tracking & integral computations;
+ correct error in MUON_BUF_STATUS register bit offsets.
 \end_layout
 
 \begin_layout Section
@@ -4782,7 +4795,7 @@ The bit usage for the SB_TRIG_ENAB register is as follows:
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="3">
+<lyxtabular version="3" rows="10" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -4926,7 +4939,7 @@ SB_TRIG_INCL_SSD
 \begin_inset Text
 
 \begin_layout Plain Layout
-Include SSD in multiplicity logic if set
+Include SSD in trigger logic if set
 \end_layout
 
 \end_inset
@@ -5020,7 +5033,7 @@ Coincidence overlap width increase (bins)
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5029,7 +5042,7 @@ Coincidence overlap width increase (bins)
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5038,11 +5051,40 @@ SB_TRIG_CONSEC_BINS_SHIFT
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 # of consecutive bins required above threshold
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SB_TRIG_SSD_AND_SHIFT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AND SSD & WCD triggers if set
 \end_layout
 
 \end_inset
@@ -5071,6 +5113,18 @@ A signal amplitude must be strictly greater than its respective threshold
  of the PMT, SSD signals to be above threshold can be added.
  Setting SB_TRIG_CONSEC_BINS bits to 0 requires just 1 bin to be above threshold
 , setting it to 1, requires 2 bins to be above threshold, etc.
+ If the SB_TRIG_SSD_AND bit is not set (default), the SSD is included in
+ the multiplicity logic just like the 3 WCD PMTs.
+ On the other hand if the SB_TRIG_SSD_AND bit is set, the multiplicity logic
+ is applied only to the WCD PMTs, and the result of that logic is 
+\begin_inset Quotes eld
+\end_inset
+
+anded
+\begin_inset Quotes erd
+\end_inset
+
+ with the SSD above threshold condition.
 \end_layout
 
 \begin_layout Subsection
@@ -8853,7 +8907,7 @@ Number of buffer currently being written
 \begin_inset Text
 
 \begin_layout Plain Layout
-6:3
+7:4
 \end_layout
 
 \end_inset
@@ -8882,7 +8936,7 @@ Bit map of full buffers
 \begin_inset Text
 
 \begin_layout Plain Layout
-7
+8
 \end_layout
 
 \end_inset
@@ -8911,7 +8965,7 @@ Interrupt pending if set
 \begin_inset Text
 
 \begin_layout Plain Layout
-10:8
+11:9
 \end_layout
 
 \end_inset

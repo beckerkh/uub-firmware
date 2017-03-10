@@ -1,9 +1,10 @@
-// single_bin_120mhz.v
+// single_bin_120mhz_v2.v
 //
 // This module implements the full bandwidth single bin trigger.
 //
 // 17-Sep-2016 DFN Initial version
 // 19-Nov-2016 DFN Remove unneccessary WCD delay
+// 09-Mar-2017 DFN Add ability to "AND" SSD trigger with WCD trigger.
 
 `include "sde_trigger_defs.vh"
 
@@ -67,11 +68,14 @@ module single_bin_120mhz(
    reg 					  ADC1_TRIG4;
    reg 					  ADC2_TRIG4;
    reg 					  ADCSSD_TRIG4;
+   reg 					  ADCSSD_TRIG5;
    
    reg [`SB_TRIG_COINC_OVLP_WIDTH-1:0] 	  COINC_OVLP;
    reg [`SB_TRIG_CONSEC_BINS_WIDTH-1:0]   CONSEC_BINS; // # consec. bins - 1
    reg [`SB_TRIG_DELAY_WIDTH-1:0] 	  SSD_DELAY;
-   
+   reg 					  SSD_AND;
+   reg 					  TRIG1;
+      
    integer                                DLY_IDX;
    integer                                CONSEC_IDX;
    integer                                CONSEC_IDX2;
@@ -98,7 +102,8 @@ module single_bin_120mhz(
          SSD_DELAY <= TRIG_ENAB[`SB_TRIG_SSD_DELAY_SHIFT+
                                 `SB_TRIG_DELAY_WIDTH-1:
                                 `SB_TRIG_SSD_DELAY_SHIFT];
-         
+	 SSD_AND <= TRIG_ENAB[`SB_TRIG_SSD_AND_SHIFT];
+        
          // Delay signals to allow compensation of timing difference between
          // WCD & SSD.
          ADC0_DELAY <= ADC0;
@@ -169,18 +174,23 @@ module single_bin_120mhz(
          ADCSSD_TRIG4 <= |ADCSSD_TRIG3;
          
          // Finally, apply multiplicity condition
-   	 SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4 + ADCSSD_TRIG4;
-	 if ((SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0) && !TRIG)
-           TRIG <= 1;
-         else
-           TRIG <= 0;      
-         
+	 if (SSD_AND)
+	   begin
+	      ADCSSD_TRIG5 <= ADCSSD_TRIG4;
+   	      SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4;
+	      TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0)
+		&& ADCSSD_TRIG5;
+	   end
+	 else
+	   begin
+   	      SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4 + 
+			       ADCSSD_TRIG4;
+	      TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0);
+	   end         
+         TRIG <= TRIG1 && !TRIG;
+
          // Debugging returns
-         DEBUG[0] <= ADC0_TRIG1;
-         DEBUG[1] <= ADC0_TRIG2;
-         DEBUG[2] <= ADC0_TRIG3;
-         DEBUG[3] <= ADC0_TRIG4;
-         DEBUG[4] <= TRIG;
+         DEBUG[4:0] <= 0;
          
       end // if (RESET)
    end // always @ (posedge CLK120)

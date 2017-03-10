@@ -12,7 +12,7 @@ void config_trigger()
 
   int status;
 #ifdef SHWR_TRIGGERS
-  int sb_trig_enab, trigger_mask;
+  int trigger_mask;
   int thr0, thr1, thr2;
   int shwr_status, toread_shwr_buf_num, cur_shwr_buf_num;
   int full_shwr_bufs, num_full;
@@ -21,7 +21,7 @@ void config_trigger()
   int compat_sb_trig_enab;
 #endif
 #ifdef SB_TRIGGER
-  int sb_trig_enab;
+  int sb_trig_enab, thrssd;
 #endif
 #ifdef LED_TRIGGER
   int led_trig_enab;
@@ -29,8 +29,8 @@ void config_trigger()
 #endif
 
 #ifdef MUON_TRIGGERS
-  int muon_trig_enab;
-  int muon_trigger_mask;
+  int muon_trig_enab, muon_trigger_mask;
+  int muon_status, toread_muon_buf_num, cur_muon_buf_num;
 #endif
 #ifdef DO_LED_PULSE
   int led_control, led_timer, led_pulsewid, led_delay;
@@ -60,13 +60,17 @@ void config_trigger()
 	   TRIG_THR2,thr2);
 
   // Define which PMTs to include & coincidence level required
-  compat_sb_trig_enab = COMPATIBILITY_SB_TRIG_INCL_PMT0 |
-    COMPATIBILITY_SB_TRIG_INCL_PMT1 |
-    COMPATIBILITY_SB_TRIG_INCL_PMT2 |
-    (1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT);
+  compat_sb_trig_enab = 0;
+    if (TRIG_THR0 != 4095)
+      compat_sb_trig_enab |=  COMPATIBILITY_SB_TRIG_INCL_PMT0;
+    if (TRIG_THR1 != 4095)
+      compat_sb_trig_enab |=  COMPATIBILITY_SB_TRIG_INCL_PMT1;
+    if (TRIG_THR2 != 4095)
+      compat_sb_trig_enab |=  COMPATIBILITY_SB_TRIG_INCL_PMT2;
+    compat_sb_trig_enab |= 1 << COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT;
   write_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR, compat_sb_trig_enab);
   status = read_trig(COMPATIBILITY_SB_TRIG_ENAB_ADDR);
-  if (status != sb_trig_enab)
+  if (status != compat_sb_trig_enab)
     printf("trigger_test: Trigger enable error - wrote %x read %x\n", 
 	   compat_sb_trig_enab, status);
 #endif
@@ -79,6 +83,7 @@ void config_trigger()
   thr0 = read_trig(SB_TRIG_THR0_ADDR);
   thr1 = read_trig(SB_TRIG_THR1_ADDR);
   thr2 = read_trig(SB_TRIG_THR2_ADDR);
+  thrssd = read_trig(SB_TRIG_SSD_ADDR);
   if (thr0 != TRIG_THR0) 
     printf("trigger_test: Trigger threshold 0 error - wrote %d read %d\n",
 	   TRIG_THR0,thr0);
@@ -88,17 +93,24 @@ void config_trigger()
   if (thr2 != TRIG_THR2) 
     printf("trigger_test: Trigger threshold 2 error - wrote %d read %d\n",
 	   TRIG_THR2,thr2);
+  if (thrssd != TRIG_SSD) 
+    printf("trigger_test: Trigger threshold ssd error - wrote %d read %d\n",
+	   TRIG_SSD,thrssd);
 
   // Define which PMTs to include & coincidence level required
-  sb_trig_enab =  SB_TRIG_INCL_PMT0 |
-    SB_TRIG_INCL_PMT1 |
-    SB_TRIG_INCL_PMT2 |
-    SB_TRIG_INCL_SSD |
-    (1 << SB_TRIG_COINC_LVL_SHIFT) |
-    (0 << SB_TRIG_WCD_DELAY_SHIFT) |
-    (1 << SB_TRIG_SSD_DELAY_SHIFT) |
-    (3 << SB_TRIG_COINC_OVLP_SHIFT) |
-    (1 << SB_TRIG_CONSEC_BINS_SHIFT);
+  sb_trig_enab =  SB_TRIG_INCL_PMT0;
+  sb_trig_enab |=  SB_TRIG_INCL_PMT1;
+  sb_trig_enab |=  SB_TRIG_INCL_PMT2;
+  sb_trig_enab |=  SB_TRIG_INCL_SSD;
+  sb_trig_enab |=  1 << SB_TRIG_COINC_LVL_SHIFT;
+  sb_trig_enab |=  5 << SB_TRIG_SSD_DELAY_SHIFT;
+  sb_trig_enab |=  3 << SB_TRIG_COINC_OVLP_SHIFT;
+  sb_trig_enab |=  1 << SB_TRIG_CONSEC_BINS_SHIFT;
+#ifdef SSD_AND
+  sb_trig_enab |= 1 << SB_TRIG_SSD_AND_SHIFT; 
+#endif
+  printf("sb_trig_enab=%x SB_TRIG_SSD_AND_SHIFT=%d\n",
+	 sb_trig_enab, SB_TRIG_SSD_AND_SHIFT);
   write_trig(SB_TRIG_ENAB_ADDR, sb_trig_enab);
   status = read_trig(SB_TRIG_ENAB_ADDR);
   if (status != sb_trig_enab)
@@ -140,8 +152,8 @@ void config_trigger()
   if ((trigger_mask & SHWR_BUF_TRIG_LED) != 0)
     printf(" LED");
   printf("\n");
-  printf("Trigger_test: Shower trigger thresholds = %d = 0x%x\n",
-	 (int) (TRIG_THR0), (int) (TRIG_THR0));
+  printf("Trigger_test: Shower trigger thresholds = %d %d %d\n",
+	 (int) (TRIG_THR0), (int) (TRIG_THR1), (int) (TRIG_THR2));
 
   // Flush any stale shower buffers
   shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
@@ -180,10 +192,10 @@ void config_trigger()
   write_trig(MUON_TRIG1_SSD_ADDR,(int) (TRIG_SSD));
  
   // Define which PMTs to include & coincidence level required
-  muon_trig_enab =  MUON_TRIG_INCL_PMT0 |
-    //    MUON_TRIG_INCL_PMT1 |
-    //    MUON_TRIG_INCL_PMT2 |
-    //    MUON_TRIG_INCL_SSD |
+    muon_trig_enab =  MUON_TRIG_INCL_PMT0 |
+    MUON_TRIG_INCL_PMT1 |
+    MUON_TRIG_INCL_PMT2 |
+    MUON_TRIG_INCL_SSD |
     (1 << MUON_TRIG_COINC_LVL_SHIFT) |
     (1 << MUON_TRIG_SSD_DELAY_SHIFT) |
     (0 << MUON_TRIG_COINC_OVLP_SHIFT) |
@@ -192,6 +204,9 @@ void config_trigger()
 
   //muon_trigger_mask =  MUON_BUF_TRIG_SB1 | MUON_BUF_TRIG_EXT;
   muon_trigger_mask =  MUON_BUF_TRIG_SB1;
+#ifdef MUON_SIPM_CAL
+  muon_trigger_mask |= MUON_BUF_SIPM_CAL;
+#endif
   printf("Trigger_test: Enabled muon triggers = ");
   if ((muon_trigger_mask & MUON_BUF_TRIG_SB1) != 0) 
     printf(" SB1");
@@ -203,6 +218,8 @@ void config_trigger()
     printf(" SB4");
   if ((muon_trigger_mask & MUON_BUF_TRIG_EXT) != 0) 
     printf(" EXT");
+  if ((muon_trigger_mask & MUON_BUF_SIPM_CAL) != 0) 
+    printf(" SIPM_CAL");
   printf("\n");
   printf("Trigger_test: Muon trigger thresholds = %d\n",(int) (TRIG_THR0));
 

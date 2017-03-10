@@ -70,8 +70,7 @@ static double prev_time = 0;
 #ifdef PDT
 
     // Muon buffer 0
-    mem_addr=
-      (u32*) TRIGGER_MEMORY_MUON0_BASE;
+    mem_addr = (u32*) muon_mem_ptr[0];
     mem_addr = mem_addr + toread_muon_buf_num * MUON_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<mu_word_count; i++)
@@ -83,8 +82,7 @@ static double prev_time = 0;
       }
 
     // Muon buffer 1
-    mem_addr=
-      (u32*) TRIGGER_MEMORY_MUON1_BASE;
+    mem_addr = (u32*) muon_mem_ptr[1];
     mem_addr = mem_addr + toread_muon_buf_num * MUON_MEM_WORDS;
     mem_ptr = mem_addr;
     for (i=0; i<mu_word_count; i++)
@@ -199,11 +197,11 @@ void print_muon_buffers()
       fdt = 0;
     }
   printf("\n>>>>>>>>>> BEGINNING OF MUON BUFFER >>>>>>>>>>\n");
-  //  for (i=0; i<nmuons; i++)
-  for (i=0; i<nmuons; i+=20)
+  for (i=0; i<nmuons; i++)
+    //  for (i=0; i<nmuons; i+=20)
     {
-      //      for (j=0; j<MUON_BURST_LEN-1; j++) {
-      for (j=0; j<1; j++) {
+      for (j=0; j<MUON_BURST_LEN-1; j++) {
+	//      for (j=0; j<1; j++) {
         if (i == 0) {
           dt = (muon_burst_start[i] - muon_buffer_start) & 0x7fffffff;
           fdt = (double) dt * 8.3333 / 1.e9;
