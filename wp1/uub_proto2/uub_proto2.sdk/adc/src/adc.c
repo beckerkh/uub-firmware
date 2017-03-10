@@ -97,9 +97,10 @@ int main(int argc, char *argv[])
 	unsigned long read_result, writeval;
 	off_t target;
 
-
-	if (argc == 2) {
-			if (argv[2] ="-r") {
+	printf ("Setup for ADC bbegin\n");
+	if (argc == 3) {
+		printf ("Setup for ADC begin\n");
+			if (!strcmp(argv[2],"-r")) {
 					adc_read();
 			}
 			adc = atoi (argv[1]);
@@ -107,7 +108,7 @@ int main(int argc, char *argv[])
 			spi();
 			adc_setup();
 	}
-	else if (argc < 2 || argc > 5){
+	else if (argc <= 2 || argc > 5){
 		usage();
 	}
 	else {
@@ -148,6 +149,7 @@ void adc_setup (void)
 {
 
 if (write(fd, cmd2channel, sizeof(cmd2channel)) != sizeof(cmd2channel)) {
+	printf("error opening adc_setup\n");
 		exit(3);
 }
 
@@ -179,6 +181,7 @@ return (1);
 void spi(void)
 {
 									snprintf(filename, 19, "/dev/spidev32766.%d",adc);
+									printf("filename %s\n",filename);
 									fd = open(filename, O_RDWR);
 									if (fd < 0)
 										pabort("can't open device");
@@ -208,21 +211,28 @@ void spi(void)
 									ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
 									if (ret == -1)
 										pabort("can't get max speed hz");
-									close (fd);
+						//			close (fd);
 }
 
 
 void adc_read(void)
 {
-	printf("ADC read funtion\n");
-	adc = 4;
+	printf("ADC read function\n");
+	adc = 2;
 	spi();
 
 #define ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 	int i;
-	char wr_buf[]={0x00,0x01,0x00};
-	char rd_buf[10];
+	char wr_buf[]={0x01,0x01,0x01};
+	char rd_buf[10]={0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01};
+//	rd_buf[0]=0x01;
 
+	printf("input reg:\n");
+	for (i=0;i<ARRAY_SIZE(rd_buf);i++) {
+	printf("0x%02X ", rd_buf[i]);
+	if (i%2)
+		printf("\n");
+}
 
 		char adc_read[3] = {0x00,0x01,0x00} ;
 		adc_read[1] = 8;
@@ -235,14 +245,16 @@ void adc_read(void)
 */
 
 	if (write(fd, wr_buf, ARRAY_SIZE(wr_buf)) != ARRAY_SIZE(wr_buf))
-		perror("Write Error");
+		perror("Write Error!");
 	if (read(fd, rd_buf, ARRAY_SIZE(rd_buf)) != ARRAY_SIZE(rd_buf))
-		perror("Read Error");
-	else
+		perror("Read Error!!");
+	else{
+		printf("input reg:\n");
 		for (i=0;i<ARRAY_SIZE(rd_buf);i++) {
 		printf("0x%02X ", rd_buf[i]);
 		if (i%2)
 			printf("\n");
+		}
 	}
 
 
