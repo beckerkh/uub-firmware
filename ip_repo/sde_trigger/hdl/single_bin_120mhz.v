@@ -25,6 +25,8 @@ module single_bin_120mhz(
 			 );
 
    reg [2:0] 				  SUM_PMT_TRIGS;
+   reg [2:0] 				  SUM_PMT_TRIGS1;
+   reg [2:0] 				  SUM_PMT_TRIGS2;
 
    reg [`ADC_WIDTH-1:0] 		  THRES[3:0];
    reg [`SB_TRIG_COINC_LVL_WIDTH-1:0] 	  MULTIPLICITY;
@@ -75,6 +77,7 @@ module single_bin_120mhz(
    reg [`SB_TRIG_DELAY_WIDTH-1:0] 	  SSD_DELAY;
    reg 					  SSD_AND;
    reg 					  TRIG1;
+   reg 					  TRIG1L;
       
    integer                                DLY_IDX;
    integer                                CONSEC_IDX;
@@ -84,6 +87,8 @@ module single_bin_120mhz(
    always @(posedge CLK120) begin
       if (RESET) begin
          TRIG <= 0;
+	 TRIG1 <= 0;
+	 TRIG1L <= 0;
       end
       else begin
          THRES[0] <= TRIG_THR0;
@@ -174,20 +179,26 @@ module single_bin_120mhz(
          ADCSSD_TRIG4 <= |ADCSSD_TRIG3;
          
          // Finally, apply multiplicity condition
-	 if (SSD_AND)
+	 if (MULTIPLICITY != 0)
 	   begin
-	      ADCSSD_TRIG5 <= ADCSSD_TRIG4;
-   	      SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4;
-	      TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0)
-		&& ADCSSD_TRIG5;
+	      if (SSD_AND)
+		begin
+		   ADCSSD_TRIG5 <= ADCSSD_TRIG4;
+   		   SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4;
+		   TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && ADCSSD_TRIG5;
+		end
+	      else
+		begin
+   		   SUM_PMT_TRIGS1 <= ADC0_TRIG4 + ADC1_TRIG4;
+		   SUM_PMT_TRIGS2 <= ADC2_TRIG4 + ADCSSD_TRIG4;
+   		   SUM_PMT_TRIGS <= SUM_PMT_TRIGS1 + SUM_PMT_TRIGS2;
+		   TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY);
+		end
 	   end
 	 else
-	   begin
-   	      SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4 + 
-			       ADCSSD_TRIG4;
-	      TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0);
-	   end         
-         TRIG <= TRIG1 && !TRIG;
+           TRIG1 <= 0;
+	 TRIG1L <= TRIG1;
+         TRIG <= TRIG1 && !TRIG1L;
 
          // Debugging returns
          DEBUG[4:0] <= 0;

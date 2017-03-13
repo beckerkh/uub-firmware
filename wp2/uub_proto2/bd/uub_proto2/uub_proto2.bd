@@ -2850,6 +2850,16 @@
             <spirit:direction>out</spirit:direction>
           </spirit:wire>
         </spirit:port>
+        <spirit:port>
+          <spirit:name>SHWR_EVT_ID</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>15</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
       </spirit:ports>
     </spirit:model>
   </spirit:component>
@@ -3076,6 +3086,11 @@
         <spirit:name>SHWR_DATA3_1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="SHWR_DATA3"/>
         <spirit:internalPortReference spirit:componentRef="shower_memory_block" spirit:portRef="SHWR_DATA3"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>sde_trigger_0_SHWR_EVT_ID</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="sde_trigger_0" spirit:portRef="SHWR_EVT_ID"/>
+        <spirit:externalPortReference spirit:portRef="SHWR_EVT_ID"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

@@ -98,19 +98,22 @@ void config_trigger()
 	   TRIG_SSD,thrssd);
 
   // Define which PMTs to include & coincidence level required
-  sb_trig_enab =  SB_TRIG_INCL_PMT0;
-  sb_trig_enab |=  SB_TRIG_INCL_PMT1;
-  sb_trig_enab |=  SB_TRIG_INCL_PMT2;
-  sb_trig_enab |=  SB_TRIG_INCL_SSD;
+  sb_trig_enab = 0;
+  if (TRIG_THR0 != 4095)
+    sb_trig_enab =  SB_TRIG_INCL_PMT0;
+  if (TRIG_THR1 != 4095)
+    sb_trig_enab |=  SB_TRIG_INCL_PMT1;
+  if (TRIG_THR2 != 4095)
+    sb_trig_enab |=  SB_TRIG_INCL_PMT2;
+  if (TRIG_SSD != 4095)
+    sb_trig_enab |=  SB_TRIG_INCL_SSD;
   sb_trig_enab |=  1 << SB_TRIG_COINC_LVL_SHIFT;
-  sb_trig_enab |=  5 << SB_TRIG_SSD_DELAY_SHIFT;
+  sb_trig_enab |=  SSD_DELAY << SB_TRIG_SSD_DELAY_SHIFT;
   sb_trig_enab |=  3 << SB_TRIG_COINC_OVLP_SHIFT;
   sb_trig_enab |=  1 << SB_TRIG_CONSEC_BINS_SHIFT;
 #ifdef SSD_AND
   sb_trig_enab |= 1 << SB_TRIG_SSD_AND_SHIFT; 
 #endif
-  printf("sb_trig_enab=%x SB_TRIG_SSD_AND_SHIFT=%d\n",
-	 sb_trig_enab, SB_TRIG_SSD_AND_SHIFT);
   write_trig(SB_TRIG_ENAB_ADDR, sb_trig_enab);
   status = read_trig(SB_TRIG_ENAB_ADDR);
   if (status != sb_trig_enab)
@@ -152,8 +155,9 @@ void config_trigger()
   if ((trigger_mask & SHWR_BUF_TRIG_LED) != 0)
     printf(" LED");
   printf("\n");
-  printf("Trigger_test: Shower trigger thresholds = %d %d %d\n",
-	 (int) (TRIG_THR0), (int) (TRIG_THR1), (int) (TRIG_THR2));
+  printf("Trigger_test: Shower trigger thresholds = %d %d %d %d\n",
+	 (int) (TRIG_THR0), (int) (TRIG_THR1), (int) (TRIG_THR2), 
+	 (int) (TRIG_SSD));
 
   // Flush any stale shower buffers
   shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);

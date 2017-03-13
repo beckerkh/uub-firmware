@@ -231,6 +231,7 @@ always @(posedge CLK120) begin
 	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
 	for (DELAY = 0; DELAY<=`SHWR_TRIG_DLY; DELAY=DELAY+1)
 	  SHWR_TRIG_DLYD[DELAY] <= 0;
+	SHWR_EVT_ID <= 0;
      end
    else
      begin
@@ -330,6 +331,7 @@ always @(posedge CLK120) begin
               
               if (SOME_TRIG) begin
                  TRIGGERED <= 1;
+		 SHWR_EVT_ID  <= SHWR_EVT_ID + 1;
                  SHWR_TRIG_DLYD[0] <= 1;
                  DEAD <= 1;
                  SHWR_DEAD_DLYD[0] <= 1;
@@ -480,7 +482,8 @@ always @(posedge CLK120) begin
                             `SHWR_INTR_PEND_SHIFT] <= SHWR_INTR;
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_NFULL_SHIFT+`SHWR_BUF_NUM_WIDTH:
                             `SHWR_BUF_NFULL_SHIFT] <= SHWR_BUF_NUM_FULL;
-        LCL_SHWR_BUF_STATUS[31:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
+        LCL_SHWR_BUF_STATUS[`SHWR_EVT_ID_SHIFT-1:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
+        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] <= SHWR_EVT_ID;
 
         // Send debug output to test pins P61 through P65
 

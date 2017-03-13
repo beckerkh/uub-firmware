@@ -39,7 +39,8 @@
 
  #define ADC_WIDTH 12 // Number of bits per ADC
  #define NUM_ADCS 10  // Number of ADCs
- #define ADC_FILT_DELAY 22 // ADC filter delay
+// #define ADC_FILT_DELAY 22 // ADC filter delay
+ #define ADC_FILT_DELAY 27 // ADC filter delay
  #define WIDTH_BITS 9 // Number of bits in ToT occupancy register
 
  #define SHWR_MEM_WIDTH 32      // Width of each shower memory block
@@ -214,6 +215,9 @@
  #define SHWR_BUF_NFULL_MASK ((1<<(SHWR_BUF_NUM_WIDTH+1))-1)
  #define SHWR_BUF_NFULL_SHIFT (SHWR_INTR_PEND_SHIFT+1)
  #define SHWR_BUF_NOTUSED_SHIFT (SHWR_BUF_NFULL_SHIFT+SHWR_BUF_NUM_WIDTH+1)
+ #define SHWR_EVT_ID_WIDTH 16
+ #define SHWR_EVT_ID_SHIFT 16
+ #define SHWR_EVT_ID_MASK  ((1<<(SHWR_EVT_ID_WIDTH))-1)
  #define SHWR_BUF_START_ADDR 132
 
 #define MUON_TRIG1_THR0_ADDR 140

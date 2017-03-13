@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-March 10, 2017
+March 11, 2017
 \end_layout
 
 \begin_layout Author
@@ -159,7 +159,7 @@ History
 \end_layout
 
 \begin_layout Description
-10-Mar-2017 Add mode to SB_TRIG where SSD trigger is 
+11-Mar-2017 Add mode to SB_TRIG where SSD trigger is 
 \begin_inset Quotes eld
 \end_inset
 
@@ -168,7 +168,8 @@ anded
 \end_inset
 
  with WCD trigger; tune parameters of baseline tracking & integral computations;
- correct error in MUON_BUF_STATUS register bit offsets.
+ correct error in MUON_BUF_STATUS register bit offsets; added SHWR_EVT_CTR
+ to SHWR_BUF_STATUS register.
 \end_layout
 
 \begin_layout Section
@@ -6704,7 +6705,7 @@ The following bits are defined in the SHWR_BUF_STATUS register.
 \noindent
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="3">
+<lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -6855,7 +6856,7 @@ Interrupt pending if set
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6864,7 +6865,7 @@ Interrupt pending if set
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6873,11 +6874,40 @@ SHWR_BUF_NFULL_MASK (_SHIFT)
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 Number of full buffers
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+31:16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SHWR_BUF_EVT_ID_MASK(_SHIFT)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shower event ID
 \end_layout
 
 \end_inset
