@@ -335,6 +335,8 @@ void print_shw_buffers()
 
   trig = 1;
 
+  //#define DETAIL_PRINT
+
 #ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
 #ifdef COMPAT_SB_TRIGGER
   trig = 0;
@@ -351,27 +353,28 @@ void print_shw_buffers()
   }
   if (trig == 0) 
     printf("trigger_test: Event should not have triggered\n");
-
+#ifdef DETAIL_PRINT
   trig2 = 0;
   for (i=0; i<SHWR_MEM_WORDS; i++) {
     if (trig2 == 0) {
       if (flags[i] != 0) {
-	trig2 = i-12;
-	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
-	for (j=-4; j<=4; j++)
-	  {
-	printf("trigger_test: bin=%x filt_adcs=%4d %4d %4d\n", trig2+j,
-	       filt_adc[0][trig2+j], filt_adc[1][trig2+j],
-	       filt_adc[2][trig2+j]);
-	printf("trigger_test: bin=%x      adcs=%4d %4d %4d %4d\n", trig2+j,
-	       adc[1][trig2+j], adc[3][trig2+j], 
-	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
-	  }
+  	trig2 = i-12;
+  	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
+  	for (j=-3; j<=3; j++)
+  	  {
+  	printf("trigger_test: bin=%x filt_adcs=%4d %4d %4d\n", trig2+j,
+  	       filt_adc[0][trig2+j], filt_adc[1][trig2+j],
+  	       filt_adc[2][trig2+j]);
+  	printf("trigger_test: bin=%x      adcs=%4d %4d %4d %4d\n", trig2+j,
+  	       adc[1][trig2+j], adc[3][trig2+j],
+  	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
+  	  }
       }
     }
   }
-  if (trig2 == 0) 
+  if (trig2 == 0)
     printf("trigger_test: Can't find trigger point\n");
+#endif
 #endif
 
 #ifdef SB_TRIGGER
@@ -390,25 +393,36 @@ void print_shw_buffers()
   if (trig == 0) 
     printf("trigger_test: Event should not have triggered\n");
 
+#ifdef DETAIL_PRINT
   trig2 = 0;
   for (i=10; i<SHWR_MEM_WORDS; i++) {
     if (trig2 == 0) {
       if (flags[i] != 0) {
-	trig2 = i-12;
-	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
-	for (j=-4; j<=4; j++)
-	  {
-	printf("trigger_test: bin=%x adcs=%4d %4d %4d %4d\n", trig2+j,
-	       adc[1][trig2+j], adc[3][trig2+j], 
-	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
-	  }
+  	trig2 = i-12;
+  	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
+  	for (j=-3; j<=3; j++)
+  	  {
+  	printf("trigger_test: bin=%x adcs=%4d %4d %4d %4d\n", trig2+j,
+  	       adc[1][trig2+j], adc[3][trig2+j],
+  	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
+  	  }
       }
     }
   }
-  if (trig2 == 0) 
+  if (trig2 == 0)
     printf("trigger_test: Can't find trigger point\n");
 #endif
 #endif
+#endif
+
+  // Apply secondary software trigger threshold on large PMTs.  Allows
+  // filtering of data for small PMT calibration.  Note this is applied
+  // to the baseline subtracted peak.
+
+  if ((peak[0] > LPMT_THR0) || 
+      (peak[2] > LPMT_THR1) ||
+      (peak[4] > LPMT_THR2))
+    {
 
   printf("\n>>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>\n");
 
@@ -420,14 +434,6 @@ void print_shw_buffers()
     }
   printf("<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<\n");
 
-  // Apply secondary software trigger threshold on large PMTs.  Allows
-  // filtering of data for small PMT calibration.  Note this is applied
-  // to the baseline subtracted peak.
-
-  if ((peak[0] > LPMT_THR0) || 
-      (peak[2] > LPMT_THR1) ||
-      (peak[4] > LPMT_THR2))
-    {
 	
       printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
 

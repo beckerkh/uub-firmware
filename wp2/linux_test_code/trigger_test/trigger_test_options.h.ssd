@@ -33,7 +33,7 @@
 //  #define COMPAT_SB_TRIGGER
   #define SB_TRIGGER
   #define SSD_AND	
-  #define SSD_DELAY 5
+  #define SSD_DELAY 4
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
