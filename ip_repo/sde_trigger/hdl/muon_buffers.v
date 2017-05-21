@@ -6,6 +6,7 @@
 // 04-Oct-2016 DFN Add 2 cycle delay to MUON_BUF_WNUM to compensate for
 //                 delays in time tagging module.
 // 18-Nov-2016 DFN Add mode to alternate SIPM data stored in buffer
+// 03-Mar-2017 DFN Fix bug that prevented SIPM cal data from being stored
 
 `include "sde_trigger_defs.vh"
 
@@ -99,15 +100,10 @@ module muon_buffers(
          TIME_TAG <= TIME_TAG+1;
          LCL_MUON_BUF_WORD_COUNT <=  LCL_MUON_BUF_WORD_COUNTN[MUON_BUF_RNUM];
          DATA0_PIPELINE[0] <= ADC0 | (ADC1 << 16);
-	 if (LCL_MUON_BUF_WORD_COUNT[0:0] == 0)
-           DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
+	 if (SIPM_CAL == 0)
+	   DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
 	 else
-	   begin
-	      if (SIPM_CAL == 0)
-		DATA1_PIPELINE[0] <= ADC2 | (ADC_SSD << 16);
-	      else
-		DATA1_PIPELINE[0] <= ADC2 | (ADC_CAL << 16);
-	   end
+	   DATA1_PIPELINE[0] <= ADC2 | (ADC_CAL << 16);
          for (INDEX=1; INDEX<=`MUON_TRIG_PIPELINE_DLY; INDEX=INDEX+1) begin
             DATA0_PIPELINE[INDEX] <= DATA0_PIPELINE[INDEX-1];
             DATA1_PIPELINE[INDEX] <= DATA1_PIPELINE[INDEX-1];

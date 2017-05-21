@@ -3,6 +3,7 @@
 // This keeps track of the integral of a shower signal.
 //
 // 18-Nov-2016 DFN Initial version
+// 03-Mar-2017 DFN Update to allow different time constants for lo/hi gain
 
 `include "sde_trigger_defs.vh"
 
@@ -11,6 +12,7 @@ module shwr_integral(
 		     input CLK120,
 		     input [`ADC_WIDTH-1:0] ADC,
 		     input TRIGGERED,
+		     input HILO,
 		     output reg[`SHWR_AREA_WIDTH-1:0] INTEGRAL,
 		     output reg[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:0] BASELINE,
 		     output reg[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:0] SBASELINE,
@@ -34,17 +36,25 @@ module shwr_integral(
    // Baseline corrected for sag
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    CBASELINE;
 // Baseline truncated to integer value
-   reg [`ADC_WIDTH-1:0] 			    IBASELINE;
+//   reg [`ADC_WIDTH-1:0] 			    IBASELINE;
 // Baseline rounded to nearest integer value
    reg [`ADC_WIDTH-1:0] 			    RBASELINE;
    // Extended precision ADC value
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    ADCLONG;
    // Delayed extended precision ADC value
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    ADCLONGD;
+   reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    ADCLONGD1;
    // Accumulated baseline sag
    reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    SAG;
+   // Intermediate sag calculations
+   reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    SAG1;
+   reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    SAG2;
+   reg [`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:0] 	    SAG3;
  	
    integer 					    DLY_IDX;
+
+`define ONE_HALF (1 << `BASELINE_FRAC_WIDTH-1)
+`define THREE_QUARTERS (`ONE_HALF + (1 << `BASELINE_FRAC_WIDTH-2)) 
     
    always @(posedge CLK120) begin
       if (RESET) begin
@@ -56,6 +66,8 @@ module shwr_integral(
 	 PEAK <= 0;
 	 SATURATED <= 0;
 	 ADCLONG <= 0;
+	 ADCLONGD <= 0;
+	 ADCLONGD1 <= 0;
 	 SAG <= 0;
       end
       else begin
@@ -81,21 +93,38 @@ module shwr_integral(
 	    SAG <= 0;
 	    
 	    // Keep running track of Baseline with FRAC_WIDTH time constant
-	    if (ADCLONG > LBASELINE)
-	      LBASELINE <= LBASELINE+1;
-	    else
-	      LBASELINE <= LBASELINE-1;
+	    // Needs to do more than just integral test here
+	    // if (ADCLONG > LBASELINE)
+	    //   LBASELINE <= LBASELINE+1;
+	    // else if (ADCLONG < LBASELINE)
+	    //   LBASELINE <= LBASELINE-1;
+	    // CBASELINE <= LBASELINE;
+
+	    if (ADCLONG > LBASELINE + `ONE_HALF)
+	      LBASELINE <= LBASELINE +
+			   (2 << `BASELINE_FRAC_WIDTH-`BASELINE_FRAC_INCR);
+	    else if (ADCLONG > LBASELINE)
+	      LBASELINE <= LBASELINE +
+			   (1 << `BASELINE_FRAC_WIDTH-`BASELINE_FRAC_INCR);
+	    else if (ADCLONG < LBASELINE - `ONE_HALF)
+	      LBASELINE <= LBASELINE - 
+			   (2 << `BASELINE_FRAC_WIDTH-`BASELINE_FRAC_INCR);
+	    else if  (ADCLONG < LBASELINE)
+	      LBASELINE <= LBASELINE - 
+			   (1 << `BASELINE_FRAC_WIDTH-`BASELINE_FRAC_INCR);
 	    CBASELINE <= LBASELINE;
 	    
 	    // Round returned baseline to nearest integer for peak calc.
 	    // Return baseline with SHWR_BASELINE_EXTR_BITS.
-	    IBASELINE <= (LBASELINE >> `BASELINE_FRAC_WIDTH);
-	    RBASELINE <= ((LBASELINE + (1<<(`BASELINE_FRAC_WIDTH-1)))
-	      >> `BASELINE_FRAC_WIDTH);
-	    BASELINE <= (LBASELINE 
-		>> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS));
-	    SBASELINE <= (LBASELINE 
-		>> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS));
+	    RBASELINE <= (LBASELINE + `ONE_HALF) >> `BASELINE_FRAC_WIDTH;
+	    BASELINE <= (LBASELINE + 
+			(1 << (`BASELINE_FRAC_WIDTH
+			       - `SHWR_BASELINE_EXTRA_BITS-1)))
+	      >> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS);
+	    SBASELINE <= (LBASELINE + 
+			 (1 << (`BASELINE_FRAC_WIDTH
+				- `SHWR_BASELINE_EXTRA_BITS-1)))
+	      >> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS);
 	 end
 	 
 	 if (TRIGGERED) begin
@@ -105,8 +134,18 @@ module shwr_integral(
 	       // Accumulate baseline sag -- need to do this one step
 	       // also ignore recovery.
 	       if (ADCLONG > LBASELINE) begin
-		  SAG <= SAG + (((ADCLONG - LBASELINE) >> `BASELINE_SAG_SHIFT1)
-		    - ((ADCLONG - LBASELINE) >> `BASELINE_SAG_SHIFT2));
+		  if (HILO == 0)  // Low gain channel
+		    begin
+		       SAG1 <= (ADCLONG - LBASELINE) >> `BASELINEL_SAG_SHIFT1;
+		       SAG2 <= (ADCLONG - LBASELINE) >> `BASELINEL_SAG_SHIFT2;
+		       SAG3 <= (ADCLONG - LBASELINE) >> `BASELINEL_SAG_SHIFT3;
+		    end 
+		  else begin  // High gain channel
+		     SAG1 <= (ADCLONG - LBASELINE) >> `BASELINEH_SAG_SHIFT1;
+		     SAG2 <= (ADCLONG - LBASELINE) >> `BASELINEH_SAG_SHIFT2;
+		     SAG3 <= (ADCLONG - LBASELINE) >> `BASELINEH_SAG_SHIFT3;
+		  end
+		  SAG <= SAG + (SAG1 + SAG2 + SAG3);
 	       end
                CBASELINE <= LBASELINE - SAG; // Simple version if speed problem.
 	       // CBASELINE <= LBASELINE  
@@ -114,9 +153,10 @@ module shwr_integral(
 	       //  		       >> `BASELINE_SAG_SHIFT1)
 	       //  		      - ((ADCLONG - LBASELINE) 
 	       //  			 >> `BASELINE_SAG_SHIFT2)));
-	       SBASELINE 
-		 <= (CBASELINE 
-		     >> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS));
+	       SBASELINE <= (CBASELINE +
+			     (1 << (`BASELINE_FRAC_WIDTH
+				    - `SHWR_BASELINE_EXTRA_BITS-1)))
+		 >> (`BASELINE_FRAC_WIDTH-`SHWR_BASELINE_EXTRA_BITS);
 	       
 	       // Look for peak.
 	       if ((ADCD > LPEAK) && (ADCD > RBASELINE)) begin
@@ -124,12 +164,13 @@ module shwr_integral(
 		  if (ADCD >= `SHWR_SATURATED_LEVEL) SATURATED <= 1;
 //		  PEAK <= ADCD - RBASELINE;  // Simple version if speed prob.
 		  PEAK <= ADCD 
-			  - ((LBASELINE + (1<<(`BASELINE_FRAC_WIDTH-1)) - SAG)
+			  - ((LBASELINE + `ONE_HALF - SAG)
 			     >> `BASELINE_FRAC_WIDTH);
 	       end
 		   
 	       // Accumulate integral, making sure it can't go negative.
-               ADCLONGD <= ADCLONG; // Delay to keep in sync with CBASELINE
+               ADCLONGD1 <= ADCLONG; // Delay to keep in sync with CBASELINE
+               ADCLONGD <= ADCLONGD1;
 		 INTEGRALA <= INTEGRALA + (ADCLONGD - CBASELINE);
 	       if (INTEGRALA[`SHWR_AREA_WIDTH+`BASELINE_FRAC_WIDTH-1] == 0)
 		 INTEGRAL <= INTEGRALA >> `BASELINE_FRAC_WIDTH;

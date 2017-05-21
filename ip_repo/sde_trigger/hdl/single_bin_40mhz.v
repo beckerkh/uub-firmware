@@ -8,6 +8,8 @@
 
 `include "sde_trigger_defs.vh"
 
+`define TRG_DLY 4
+  
 module single_bin_40mhz(
 			input [1:0] ENABLE40,
 			input CLK120,
@@ -28,8 +30,10 @@ module single_bin_40mhz(
    reg                             PREV_ITRIG;
    reg [`ADC_WIDTH-1:0] 	   THRES[2:0];
    reg [`ADC_WIDTH-1:0] 	   ADC[2:0];
+   reg [`TRG_DLY:0] 		   TRIG_DLY;
    
    integer                         INDEX;
+   integer                         INDEX2;
    
    always @(posedge CLK120) begin
       THRES[0] <= THRES0;
@@ -52,9 +56,15 @@ module single_bin_40mhz(
 	ITRIG <= 0;
       PREV_ITRIG <= ITRIG;
       if (ITRIG && !PREV_ITRIG)
-        TRIG <= 1;
+        TRIG_DLY[0] <= 1;
       else
-        TRIG <= 0;
+        TRIG_DLY[0] <= 0;
+
+      // Delay trigger to make delay same as 120 MHz trigger
+      for (INDEX2=1; INDEX2<=`TRG_DLY; INDEX2=INDEX2+1)
+	 TRIG_DLY[INDEX2] <= TRIG_DLY[INDEX2-1];
+      TRIG = TRIG_DLY[`TRG_DLY];
+
    end
 
 endmodule

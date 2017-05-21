@@ -61,6 +61,7 @@ module sde_trigger #
     output wire [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_WNUM,
     output wire [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_RNUM,
     output wire [`SHWR_EVT_CTR_WIDTH-1:0] SHWR_EVT_CTR,
+    output wire [`SHWR_EVT_ID_WIDTH-1:0] SHWR_EVT_ID,
 
     output wire [`MUON_MEM_WIDTH-1:0] MUON_DATA0,  // Muon data to be stored
     output wire [`MUON_MEM_WIDTH-1:0] MUON_DATA1,  // Muon data to be stored
@@ -179,6 +180,7 @@ module sde_trigger #
                              .SHWR_BUF_WNUM(SHWR_BUF_WNUM),
                              .SHWR_BUF_RNUM(SHWR_BUF_RNUM),
                              .SHWR_EVT_CTR(SHWR_EVT_CTR),
+                             .SHWR_EVT_ID(SHWR_EVT_ID),
                              .MUON_DATA0(MUON_DATA0),
                              .MUON_DATA1(MUON_DATA1),
                              .MUON_ADDR(MUON_ADDR),

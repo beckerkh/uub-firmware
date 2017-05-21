@@ -21,6 +21,7 @@ volatile u32 shwr_mem_ptr[5];
 volatile u32 muon_mem_ptr[2];
 u32 shwr_mem_addr[5];
 u32 muon_mem_addr[2];
+int nevents;
 
 // Shower memory buffers
 u32 shw_mem0[SHWR_MEM_WORDS] __attribute__((aligned(64)));
@@ -94,7 +95,6 @@ void trigger_test()
   int shwr_status, muon_status;
 #endif
   int id;
-  int nevents = 0;
 
 #ifdef SHWR_TRIGGERS
   int trigger_mask;
@@ -120,6 +120,7 @@ void trigger_test()
   double time, dt, prev_time;
 #endif
   int i;
+
   // Map registers & memory buffers
   map_registers();
 
@@ -277,6 +278,7 @@ void trigger_test()
   enable_trigger_intr();  // Final enable of trigger interrupts (if defined)
 
   // Loop forever
+  nevents = 0;
   while (nevents < MAX_EVENTS) {
 
 #ifdef STAND_ALONE   // Seems to be a conflict on Linux

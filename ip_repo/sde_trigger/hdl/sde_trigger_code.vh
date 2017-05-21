@@ -152,11 +152,12 @@ muon_buffers
 
 // Keep track of signal area, peak, and baselines
 genvar i;
-generate for (i=0; i<10; i=i+1)
-  begin: area10
+generate for (i=0; i<10; i=i+2)
+  begin: arealo
 shwr_integral area(.RESET(LCL_RESET),
 		   .CLK120(CLK120),
 		   .TRIGGERED(TRIGGERED),
+		   .HILO(0),
 		   .ADC(ADCD[i]),
 		   .ADCD(ADCDR[i]),
 		   .INTEGRAL(AREA[i]),
@@ -167,6 +168,24 @@ shwr_integral area(.RESET(LCL_RESET),
 		   );
   end
 endgenerate
+
+generate for (i=1; i<10; i=i+2)
+  begin: areahi
+shwr_integral area(.RESET(LCL_RESET),
+		   .CLK120(CLK120),
+		   .TRIGGERED(TRIGGERED),
+		   .HILO(1),
+		   .ADC(ADCD[i]),
+		   .ADCD(ADCDR[i]),
+		   .INTEGRAL(AREA[i]),
+		   .BASELINE(BASELINE[i]),
+		   .SBASELINE(SBASELINE[i]),
+		   .PEAK(PEAK[i]),
+		   .SATURATED(SATURATED[i])
+		   );
+  end
+endgenerate
+
 // Generate LED pulses
 led_control led_control1(.RESET(LCL_RESET),
                          .CLK120(CLK120),
@@ -212,6 +231,7 @@ always @(posedge CLK120) begin
 	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
 	for (DELAY = 0; DELAY<=`SHWR_TRIG_DLY; DELAY=DELAY+1)
 	  SHWR_TRIG_DLYD[DELAY] <= 0;
+	SHWR_EVT_ID <= 0;
      end
    else
      begin
@@ -311,6 +331,7 @@ always @(posedge CLK120) begin
               
               if (SOME_TRIG) begin
                  TRIGGERED <= 1;
+		 SHWR_EVT_ID  <= SHWR_EVT_ID + 1;
                  SHWR_TRIG_DLYD[0] <= 1;
                  DEAD <= 1;
                  SHWR_DEAD_DLYD[0] <= 1;
@@ -461,7 +482,8 @@ always @(posedge CLK120) begin
                             `SHWR_INTR_PEND_SHIFT] <= SHWR_INTR;
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_NFULL_SHIFT+`SHWR_BUF_NUM_WIDTH:
                             `SHWR_BUF_NFULL_SHIFT] <= SHWR_BUF_NUM_FULL;
-        LCL_SHWR_BUF_STATUS[31:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
+        LCL_SHWR_BUF_STATUS[`SHWR_EVT_ID_SHIFT-1:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
+        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] <= SHWR_EVT_ID;
 
         // Send debug output to test pins P61 through P65
 

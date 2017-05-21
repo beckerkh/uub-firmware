@@ -43,6 +43,7 @@ module sde_trigger_S00_AXI #
     output reg [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_WNUM,
     output reg [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_RNUM,
     output reg [`SHWR_EVT_CTR_WIDTH-1:0] SHWR_EVT_CTR,
+    output reg [`SHWR_EVT_ID_WIDTH-1:0] SHWR_EVT_ID,
 
     output wire [`MUON_MEM_WIDTH-1:0] MUON_DATA0,     // Muon data to be stored
     output wire [`MUON_MEM_WIDTH-1:0] MUON_DATA1,     // Muon data to be stored
