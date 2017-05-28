@@ -1,1 +1,1 @@
-drivers/interface_uub_dfn3_v1_0/src/interface_uub_dfn3.h
+../../../ip_repo/interface_uub_dfn3_1.0/drivers/interface_uub_dfn3_v1_0/src/interface_uub_dfn3.h

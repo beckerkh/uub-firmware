@@ -301,7 +301,7 @@ void trigger_test()
         led_pulsewid = LED_PULSWID0;
         if (loop_count % 2 == 1) led_pulsewid = LED_PULSWID1; 
         printf("Led_pulsewid = %d\n", led_pulsewid);
-        led_control = (LED_DELAY << LED_DELAY_SHIFT) |
+        led_control = (LED_DELAY0 << LED_DELAY_SHIFT) |
           (led_pulsewid << LED_PULSWID_SHIFT) | LED_NOW;
         write_trig(LED_CONTROL_ADDR, led_control);
       }

@@ -38,6 +38,12 @@ ext:
 	shwr_buf_utils.c muon_buf_utils.c map_registers.c config_trigger.c \
 	$(cflags) -lrt
 
+noise:
+	cp trigger_test_options.h.noise trigger_test_options.h
+	$(CCARM) -o noise_trigger_test linux_trigger_test.c trigger_test.c \
+	shwr_buf_utils.c muon_buf_utils.c map_registers.c config_trigger.c \
+	$(cflags) -lrt
+
 linux_trigger_test: linux_trigger_test.c trigger_test.c shwr_buf_utils.c \
 	muon_buf_utils.c map_registers.c config_trigger.c $(HEADERS)
 	$(CCARM) -o linux_trigger_test linux_trigger_test.c trigger_test.c \
