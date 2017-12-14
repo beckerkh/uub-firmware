@@ -25,6 +25,8 @@ module interface_uub_dfn3_v1_0_S00_AXI #
     input RADIO_RST_IN,
     input USB_IFAULT,
     output reg RADIO_RST_OUT,
+    output reg ADC_PWD,
+    output reg P65,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -394,6 +396,8 @@ module interface_uub_dfn3_v1_0_S00_AXI #
         slv_reg0[10] <= RADIO_RST_IN;
         
         RADIO_RST_OUT <= !slv_reg1[0];
+        ADC_PWD <= slv_reg1[1];
+        P65 <= slv_reg2[0];
         WATCHDOG_OUT <= slv_reg3[0];
         WATCHDOG_OUT_ENABLE <= slv_reg3[1];
      end

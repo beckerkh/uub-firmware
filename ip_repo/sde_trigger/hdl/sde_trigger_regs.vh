@@ -7,8 +7,6 @@
 // 
 // 22-Nov-2016 DFN Initial version split off from sde_trigger_code.vh because
 //                 that file was getting too large.
-// 21-Nov-2017 DFN Add temporary EVT_ID registers to keep unique version for
-//                 each shower buffer
 
 // Shower buffer handling registers
 reg [`SHWR_TRIG_DLY:0] SHWR_TRIG_DLYD; // Trigger delayed to end of buf
@@ -28,7 +26,6 @@ reg [`SHWR_BUF_NUM_WIDTH-1:0] TMP_SHWR_BUF_WNUM;
 reg [31:0] LCL_SHWR_BUF_STATUS;
 reg [31:0] LCL_SHWR_BUF_TRIG_ID;
 reg [31:0] LCL_SHWR_BUF_TRIG_IDN[0:`SHWR_MEM_NBUF-1];
-reg [`SHWR_EVT_ID_WIDTH-1:0] LCL_SHWR_EVT_IDN[0:`SHWR_MEM_NBUF-1];
 wire [31:0] LCL_COMPATIBILITY_GLOBAL_CONTROL;
 
 // AXI interface registers
@@ -36,7 +33,7 @@ reg AXI_REG_WRITE;
 reg AXI_SHWR_CONTROL_WRITTEN;
 reg AXI_MUON_CONTROL_WRITTEN;
 wire LCL_SHWR_CONTROL_WRITTEN;
-reg  PREV_SHWR_CONTROL_WRITTEN;
+reg PREV_SHWR_CONTROL_WRITTEN;
 
 // ADC handling registers
 reg [3:0] ADC_EXTRA;

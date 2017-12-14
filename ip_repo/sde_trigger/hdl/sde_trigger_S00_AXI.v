@@ -39,7 +39,6 @@ module sde_trigger_S00_AXI #
     output reg [`SHWR_MEM_WIDTH-1:0] SHWR_DATA4,     // Shower data to be stored
     output reg [`SHWR_MEM_ADDR_WIDTH-1:0] SHWR_ADDR, // Address to store it
     output reg SHWR_TRIGGER,  // Trigger (at end of trace)
-    output reg SHWR_TRIG_FAST, // Trigger (when it happens)
     output reg DEAD,     // Dead time indicator
     output reg [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_WNUM,
     output reg [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_RNUM,
@@ -57,7 +56,7 @@ module sde_trigger_S00_AXI #
     output reg SHWR_INTR,      // Remains high until no full buffers
     output wire MUON_INTR,     // Remains high until no full buffers
     output wire TRIG_OUT,       // External trigger output
-    output reg [5:1] P6X,       // Test points P65 through P61
+    output reg [3:1] P6X,       // Test points P63 through P61
     output wire LED,
                 
     // User ports ends
