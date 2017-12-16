@@ -389,11 +389,11 @@ always @(posedge CLK120) begin
               if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
 	        begin
                    // Mark buffer as full and switch to the next one
-                   SHWR_TRIGGER <= 1;
 			SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
                                                (1<<LCL_SHWR_BUF_WNUM);
 			SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
 			LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
+                   SHWR_TRIGGER <= 1;
 			SHWR_INTR <= 1;
 			SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
 			TRIGGERED <= 0;
@@ -471,7 +471,6 @@ always @(posedge CLK120) begin
 			 if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
 		      end
 		 end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
-	  end
         else
           SHWR_BUF_RESET <= 0;
         
