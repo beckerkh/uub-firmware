@@ -8,6 +8,7 @@
 // 21-Jun-16 DFN Change EXTx_CTL to EXTx_DATA.
 // 21-Jun-16 DFN Remove EXTx_DATA; add test point outputs
 // 24-Jun-16 DFN Add externally filtered PMT inputs
+// 22-Nov-17 DFN Add SHWR_TRIG_FAST
 
 `timescale 1 ns / 1 ps
 
@@ -57,6 +58,7 @@ module sde_trigger #
     output wire [`SHWR_MEM_WIDTH-1:0] SHWR_DATA4,  // Shower data to be stored
     output wire [`SHWR_MEM_ADDR_WIDTH-1:0] SHWR_ADDR, // Address to store it
     output wire SHWR_TRIGGER,  // Shower trigger signal at end of trace
+    output wire SHWR_TRIG_FAST, // Shower trig signal when it happens (AMIGA)
     output wire DEAD,     // Dead time indicator
     output wire [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_WNUM,
     output wire [`SHWR_BUF_NUM_WIDTH-1:0] SHWR_BUF_RNUM,
@@ -176,6 +178,7 @@ module sde_trigger #
                              .SHWR_DATA4(SHWR_DATA4),
                              .SHWR_ADDR(SHWR_ADDR),
                              .SHWR_TRIGGER(SHWR_TRIGGER),
+			     .SHWR_TRIG_FAST(SHWR_TRIG_FAST),
                              .DEAD(DEAD),
                              .SHWR_BUF_WNUM(SHWR_BUF_WNUM),
                              .SHWR_BUF_RNUM(SHWR_BUF_RNUM),

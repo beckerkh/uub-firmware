@@ -14,7 +14,7 @@
 // 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by two clock cycles wrt
 //                 SHWR_TRIGGER
 // 18-Nov-2016 DFN Add mode to alternate SIPM calibration data in mu buffers
-
+//                  
 `include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
 // Generate compatibility mode triggers.
@@ -43,19 +43,19 @@ single_bin_40mhz
 
 single_bin_120mhz
   sb_120mhz1(.RESET(LCL_RESET),
-                .CLK120(CLK120),
-	        .ADC0(ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC1(ADCD1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC2(ADCD2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-                .ADC_SSD(ADCD4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .TRIG_THR0(SB_TRIG_THR0[`ADC_WIDTH-1:0]),
-	        .TRIG_THR1(SB_TRIG_THR1[`ADC_WIDTH-1:0]),
-	        .TRIG_THR2(SB_TRIG_THR2[`ADC_WIDTH-1:0]),
-	        .TRIG_SSD(SB_TRIG_SSD[`ADC_WIDTH-1:0]),
-	        .TRIG_ENAB(SB_TRIG_ENAB),
-                .TRIG(SB_TRIG),
-                .DEBUG(SB_TRIG_DEBUG)
-  	        );
+             .CLK120(CLK120),
+	     .ADC0(ADCD0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	     .ADC1(ADCD1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	     .ADC2(ADCD2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+             .ADC_SSD(ADCD4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+	     .TRIG_THR0(SB_TRIG_THR0[`ADC_WIDTH-1:0]),
+	     .TRIG_THR1(SB_TRIG_THR1[`ADC_WIDTH-1:0]),
+	     .TRIG_THR2(SB_TRIG_THR2[`ADC_WIDTH-1:0]),
+	     .TRIG_SSD(SB_TRIG_SSD[`ADC_WIDTH-1:0]),
+	     .TRIG_ENAB(SB_TRIG_ENAB),
+             .TRIG(SB_TRIG),
+             .DEBUG(SB_TRIG_DEBUG)
+  	     );
 
 // Generate muon triggers
 
@@ -154,35 +154,35 @@ muon_buffers
 genvar i;
 generate for (i=0; i<10; i=i+2)
   begin: arealo
-shwr_integral area(.RESET(LCL_RESET),
-		   .CLK120(CLK120),
-		   .TRIGGERED(TRIGGERED),
-		   .HILO(0),
-		   .ADC(ADCD[i]),
-		   .ADCD(ADCDR[i]),
-		   .INTEGRAL(AREA[i]),
-		   .BASELINE(BASELINE[i]),
-		   .SBASELINE(SBASELINE[i]),
-		   .PEAK(PEAK[i]),
-		   .SATURATED(SATURATED[i])
-		   );
+     shwr_integral area(.RESET(LCL_RESET),
+			.CLK120(CLK120),
+			.TRIGGERED(TRIGGERED),
+			.HILO(0),
+			.ADC(ADCD[i]),
+			.ADCD(ADCDR[i]),
+			.INTEGRAL(AREA[i]),
+			.BASELINE(BASELINE[i]),
+			.SBASELINE(SBASELINE[i]),
+			.PEAK(PEAK[i]),
+			.SATURATED(SATURATED[i])
+			);
   end
 endgenerate
 
 generate for (i=1; i<10; i=i+2)
   begin: areahi
-shwr_integral area(.RESET(LCL_RESET),
-		   .CLK120(CLK120),
-		   .TRIGGERED(TRIGGERED),
-		   .HILO(1),
-		   .ADC(ADCD[i]),
-		   .ADCD(ADCDR[i]),
-		   .INTEGRAL(AREA[i]),
-		   .BASELINE(BASELINE[i]),
-		   .SBASELINE(SBASELINE[i]),
-		   .PEAK(PEAK[i]),
-		   .SATURATED(SATURATED[i])
-		   );
+     shwr_integral area(.RESET(LCL_RESET),
+			.CLK120(CLK120),
+			.TRIGGERED(TRIGGERED),
+			.HILO(1),
+			.ADC(ADCD[i]),
+			.ADCD(ADCDR[i]),
+			.INTEGRAL(AREA[i]),
+			.BASELINE(BASELINE[i]),
+			.SBASELINE(SBASELINE[i]),
+			.PEAK(PEAK[i]),
+			.SATURATED(SATURATED[i])
+			);
   end
 endgenerate
 
@@ -236,7 +236,13 @@ always @(posedge CLK120) begin
    else
      begin
 
-        // Delay SHWR_BUF_WNUM by two clock cycles. This is necessary to
+	// Send SHWR_TRIG_FAST signal for AMIGA & possibly other use
+	// For now this is just a copy of TRIGGERED, but keep separate so
+	// we can add extra logic to this pulse, like shortening if from the
+	// current ~10us.
+	SHWR_TRIG_FAST <= TRIGGERED;
+
+	// Delay SHWR_BUF_WNUM by two clock cycles. This is necessary to
         // compensate for timing delays within the time tagging module so that
         // it associates the trigger with the correct buffer.
         TMP_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM;
@@ -250,18 +256,18 @@ always @(posedge CLK120) begin
 
         // Form composite trigger for storing muon in muon buffer        
         MUON_PRETRIG <= (MUON_PRETRIG1 << `MUON_BUF_TRIG_SB1_SHIFT) |
-                       (MUON_PRETRIG2 << `MUON_BUF_TRIG_SB2_SHIFT) | 
-                       (MUON_PRETRIG3 <<`MUON_BUF_TRIG_SB3_SHIFT) | 
-                       (MUON_PRETRIG4 <<`MUON_BUF_TRIG_SB4_SHIFT) |
-                       (MUON_EXT_TRIG[`MUON_EXT_TRIG_DELAY] <<
-                       `MUON_BUF_TRIG_EXT_SHIFT);
+			(MUON_PRETRIG2 << `MUON_BUF_TRIG_SB2_SHIFT) | 
+			(MUON_PRETRIG3 <<`MUON_BUF_TRIG_SB3_SHIFT) | 
+			(MUON_PRETRIG4 <<`MUON_BUF_TRIG_SB4_SHIFT) |
+			(MUON_EXT_TRIG[`MUON_EXT_TRIG_DELAY] <<
+			 `MUON_BUF_TRIG_EXT_SHIFT);
 
         // Form external trigger on upward transition
         TRIG_IN_PREV <= TRIG_IN;
         EXT_TRIG <= TRIG_IN & !TRIG_IN_PREV;
 
         SOME_TRIG_OR <= |SOME_TRIG;
-	        
+	
         // Handle prescaling of shower triggers
         if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) begin
            if (COMPATIBILITY_SB_TRIG) begin
@@ -287,11 +293,13 @@ always @(posedge CLK120) begin
 
 	// Repetitive code block that scrubs the filtered ADC data,
 	// delays ADC data, and loads shower memory.
-	`include "adc_filt_delay_block.vh"
+`include "adc_filt_delay_block.vh"
         
         // Make offset to data in current buffer to read available
         LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0] 
-          <= LCL_SHWR_BUF_STARTN[SHWR_BUF_RNUM];
+  <= LCL_SHWR_BUF_STARTN[SHWR_BUF_RNUM];
+        // Blocking assignment here is on purpose. Don't change without
+        // a careful test!
         LCL_SHWR_BUF_STARTT[31:`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH] = 0;
 
         // Adjust for logic delay
@@ -324,10 +332,10 @@ always @(posedge CLK120) begin
                 | ((PRESCALED_COMPAT_EXT_TRIG <<
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
-                | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB))
-                | ((LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_LED));
+              | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
+                 (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB))
+              | ((LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT) & 
+                 (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_LED));
               
               if (SOME_TRIG) begin
                  TRIGGERED <= 1;
@@ -337,8 +345,8 @@ always @(posedge CLK120) begin
                  SHWR_DEAD_DLYD[0] <= 1;
 
                  // Trigger ID of first trigger. 
-                   LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] 
-                     <= SOME_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);
+                 LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] 
+                   <= SOME_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);
 		 SOME_TRIG <= 0;
               end
            end // if (!TRIGGERED && !DEAD)
@@ -356,85 +364,86 @@ always @(posedge CLK120) begin
            if (TRIGGERED) begin
               
               // "or" of delayed triggers
-             SOME_DLYD_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
-                                  `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
-                                 (SHWR_BUF_TRIG_MASK & 
-                                  `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
-               | ((PRESCALED_COMPAT_EXT_TRIG << 
-                   `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
+              SOME_DLYD_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
+                                  (SHWR_BUF_TRIG_MASK & 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
+		| ((PRESCALED_COMPAT_EXT_TRIG << 
+                    `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
-                | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
+              | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
+                 (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
 
               LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM]
                 <= LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] |
                    (SOME_DLYD_TRIG<<8) |  
 		   (LED_TRG_FLAG << (`SHWR_BUF_TRIG_LED_SHIFT+8));             
- 
+	      
               // Delay this action to the end of the buffer
  	      SHWR_TRIG_DLYD[0] <= 0;
               for (DELAY = 0; DELAY<`SHWR_TRIG_DLY; DELAY=DELAY+1)
 	        SHWR_TRIG_DLYD[DELAY+1] <= SHWR_TRIG_DLYD[DELAY];
               
               // If rising edge, we have a trigger and are at the end of the buffer
+	      // Need to add some protection here to prevent clearing at same time.
               if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
 	        begin
                    // Mark buffer as full and switch to the next one
-	           SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
-                                          (1<<LCL_SHWR_BUF_WNUM);
-	           SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
-	           LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
                    SHWR_TRIGGER <= 1;
-                   SHWR_INTR <= 1;
-                   SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
-                   TRIGGERED <= 0;
-                   
-                   // Save address to start of trace
-                   LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
+			SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
+                                               (1<<LCL_SHWR_BUF_WNUM);
+			SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
+			LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
+			SHWR_INTR <= 1;
+			SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
+			TRIGGERED <= 0;
 
-		   // Save computed values that we will load in registers
-		   LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[0] | (PEAK[0] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[0] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[1] | (PEAK[1] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[1] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[2] | (PEAK[2] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[2] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[3] | (PEAK[3] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[3] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[4] | (PEAK[4] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[4] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[5] | (PEAK[5] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[5] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[6] | (PEAK[6] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[6] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[7] | (PEAK[7] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[7] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[8] | (PEAK[8] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[8] << `SHWR_SATURATED_SHIFT);
-		   LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
-		     <= AREA[9] | (PEAK[9] << `SHWR_PEAK_SHIFT) |
-		       (SATURATED[9] << `SHWR_SATURATED_SHIFT);
+			// Save address to start of trace
+			LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
 
-		   LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
-		     <= BASELINE[0] | (BASELINE[1] << 16);
-		   LCL_SHWR_BASELINE1[LCL_SHWR_BUF_WNUM]
-		     <= BASELINE[2] | (BASELINE[3] << 16);
-		   LCL_SHWR_BASELINE2[LCL_SHWR_BUF_WNUM]
-		     <= BASELINE[4] | (BASELINE[5] << 16);
-		   LCL_SHWR_BASELINE3[LCL_SHWR_BUF_WNUM]
-		     <= BASELINE[6] | (BASELINE[7] << 16);
-		   LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
-		     <= BASELINE[8] | (BASELINE[9] << 16);
-			   
+			// Save computed values that we will load in registers
+			LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[0] | (PEAK[0] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[0] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[1] | (PEAK[1] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[1] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[2] | (PEAK[2] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[2] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[3] | (PEAK[3] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[3] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[4] | (PEAK[4] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[4] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[5] | (PEAK[5] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[5] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[6] | (PEAK[6] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[6] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[7] | (PEAK[7] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[7] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[8] | (PEAK[8] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[8] << `SHWR_SATURATED_SHIFT);
+			LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
+			  <= AREA[9] | (PEAK[9] << `SHWR_PEAK_SHIFT) |
+			     (SATURATED[9] << `SHWR_SATURATED_SHIFT);
+
+			LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
+			  <= BASELINE[0] | (BASELINE[1] << 16);
+			LCL_SHWR_BASELINE1[LCL_SHWR_BUF_WNUM]
+			  <= BASELINE[2] | (BASELINE[3] << 16);
+			LCL_SHWR_BASELINE2[LCL_SHWR_BUF_WNUM]
+			  <= BASELINE[4] | (BASELINE[5] << 16);
+			LCL_SHWR_BASELINE3[LCL_SHWR_BUF_WNUM]
+			  <= BASELINE[6] | (BASELINE[7] << 16);
+			LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
+			  <= BASELINE[8] | (BASELINE[9] << 16);
+		   
                 end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1])
            end
            else
@@ -443,26 +452,29 @@ always @(posedge CLK120) begin
 
         
         // Process clearing of shower buf full flag
-        PREV_SHWR_CONTROL_WRITTEN <= LCL_SHWR_CONTROL_WRITTEN;
-        if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
-          begin
-             SHWR_BUF_RESET  
-               = (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
-             if ((SHWR_BUF_RESET != 0) 
-                 && (LCL_SHWR_BUF_CONTROL == SHWR_BUF_RNUM))
-               begin
-                  LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_RNUM] <= 0;
-                  SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS & 
-                                         ~SHWR_BUF_RESET;
-                  SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL-1;
-                  SHWR_BUF_RNUM <= SHWR_BUF_RNUM+1;
-                  // Reset shwr intr pending if resetting last filled buffer
-	          if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
-               end
-          end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
+
+             PREV_SHWR_CONTROL_WRITTEN <= LCL_SHWR_CONTROL_WRITTEN;
+	     if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
+		 begin
+                    // Blocking assignment here is on purpose, so be careful  
+		    SHWR_BUF_RESET  
+		      = (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
+		    if ((SHWR_BUF_RESET != 0) 
+			&& (LCL_SHWR_BUF_CONTROL == SHWR_BUF_RNUM))
+		      begin
+			 LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_RNUM] <= 0;
+			 SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS & 
+						~SHWR_BUF_RESET;
+			 SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL-1;
+			 SHWR_BUF_RNUM <= SHWR_BUF_RNUM+1;
+			 // Reset shwr intr pending if resetting last filled buffer
+			 if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
+		      end
+		 end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
+	  end
         else
           SHWR_BUF_RESET <= 0;
-                
+        
         // Process loading information into status registers
         
         // Load ID register with compile date. 
@@ -487,8 +499,8 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-	P6X[1] <= TRIG_IN;
-	P6X[2] <= EXT_TRIG;
+	P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
+	P6X[2] <= SHWR_BUF_RESET;
 	P6X[3] <= SOME_TRIG_OR;
         
      end // else: !if(LCL_RESET)
