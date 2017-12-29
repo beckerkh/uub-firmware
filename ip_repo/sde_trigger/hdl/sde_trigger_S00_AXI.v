@@ -57,7 +57,7 @@ module sde_trigger_S00_AXI #
     output reg SHWR_INTR,      // Remains high until no full buffers
     output wire MUON_INTR,     // Remains high until no full buffers
     output wire TRIG_OUT,       // External trigger output
-    output reg [5:1] P6X,       // Test points P65 through P61
+    output reg [3:1] P6X,       // Test points P63 through P61
     output wire LED,
                 
     // User ports ends

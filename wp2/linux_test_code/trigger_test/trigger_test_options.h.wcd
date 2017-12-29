@@ -4,7 +4,7 @@
 //
 // 06-Feb-2017 DFN Initial version extracted from trigger_test.h
 
-#define STAND_ALONE
+//#define STAND_ALONE
 #define MAX_EVENTS 1000
 
 //#define ADJUST_BASELINE
@@ -13,8 +13,8 @@
 //#define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
 #define USE_FAKE_GPS
-#define DO_LED_PULSE
-#define DO_LED_NOW
+//#define DO_LED_PULSE
+//#define DO_LED_NOW
 #define LED_DELAY0 50
 #define LED_DELAY1 100
 #define LED_PULSWID0 10
@@ -38,7 +38,7 @@
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
-  #define LED_TRIGGER
+//  #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 //#define MUON_SIPM_CAL

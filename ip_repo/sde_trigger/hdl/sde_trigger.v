@@ -74,7 +74,7 @@ module sde_trigger #
     output wire [`MUON_BUF_NUM_WIDTH-1:0] MUON_BUF_RNUM,
     output wire [`MUON_EVT_CTR_WIDTH-1:0] MUON_EVT_CTR,
     output wire TRIG_OUT, // External trigger output
-    output wire [5:1] P6X,  // Test point outputs
+    output wire [3:1] P6X,  // Test point outputs
     output wire LED,
    
     // User ports ends

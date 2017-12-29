@@ -281,15 +281,24 @@ void trigger_test()
   nevents = 0;
   while (nevents < MAX_EVENTS) {
 
-#ifdef STAND_ALONE   // Seems to be a conflict on Linux
+#ifdef STAND_ALONE   // Seems to be a conflict on Linux#
 #ifdef TOGGLE_WATCHDOG
+    map_ifs();
     write_ifc(3, 3);
     write_ifc(3, 2);
 #endif
 #endif
+#ifdef TOGGLE_ADCPWD
+    printf("Toggling ADCPWD\n");
+    map_ifc();
+    write_ifc(1, 2);  // Toggle ADCPWD (ex P64)
+    write_ifc(2, 0);  // Toggle P65 in opposite phase
+    write_ifc(1, 0);
+    write_ifc(2, 1);
+#endif
 
 #ifdef DO_LED_PULSE
-     disable_trigger_intr();
+//     disable_trigger_intr();
 
 #ifdef DO_LED_NOW
     led_timer = led_timer+1;
@@ -322,7 +331,7 @@ void trigger_test()
         write_trig(LED_CONTROL_ADDR, led_control);
       }
 #endif
-    enable_trigger_intr();
+//    enable_trigger_intr();
 #endif
 
 #ifdef TRIGGER_POLLED

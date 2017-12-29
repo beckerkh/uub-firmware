@@ -65,8 +65,8 @@ void map_registers()
      printf("Error - while trying to map interface dfn registers\n");
      exit(1);
    }
-   //   int status = read_ifc(2);
-   //printf("ifc_regs = %x  ifc_reg[2] = %x\n", ifc_regs, status);
+      int status = read_ifc(2);
+   printf("ifc_regs = %x  ifc_reg[2] = %x\n", ifc_regs, status);
 
  tstctl_regs=(u32 *)mmap(NULL, size,
 			    PROT_READ | PROT_WRITE, MAP_SHARED,

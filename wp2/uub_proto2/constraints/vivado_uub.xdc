@@ -10,6 +10,7 @@
 
 # 25-Feb-2016 DFN Remove adcX_p[12] - overflow from pins
 # 21-Jun-2016 DFN Rename TP to P6X to correspond to board designations
+# 11-Dec-2017 DFN Rename P6X[4] to ADC_PD, and P6X[5] to P65
 
 set_property IOSTANDARD LVCMOS33 [get_ports TRIG_IN]
 set_property IOSTANDARD LVCMOS33 [get_ports TRIG_OUT]
@@ -47,8 +48,8 @@ set_property IOSTANDARD LVCMOS25 [get_ports RADIO_CTS]
 set_property IOSTANDARD LVCMOS33 [get_ports {P6X[1]}]
 set_property IOSTANDARD LVCMOS25 [get_ports {P6X[2]}]
 set_property IOSTANDARD LVCMOS25 [get_ports {P6X[3]}]
-set_property IOSTANDARD LVCMOS25 [get_ports {P6X[4]}]
-set_property IOSTANDARD LVCMOS25 [get_ports {P6X[5]}]
+set_property IOSTANDARD LVCMOS25 [get_ports ADC_PWD]
+set_property IOSTANDARD LVCMOS25 [get_ports P65]
 
 
 #****** 
@@ -196,7 +197,7 @@ set_property PACKAGE_PIN U19 [get_ports RADIO_CTS]
 set_property PACKAGE_PIN W10 [get_ports {P6X[1]}]
 set_property PACKAGE_PIN H15 [get_ports {P6X[2]}]
 set_property PACKAGE_PIN R15 [get_ports {P6X[3]}]
-set_property PACKAGE_PIN H17 [get_ports {P6X[4]}]
-set_property PACKAGE_PIN H18 [get_ports {P6X[5]}]
+set_property PACKAGE_PIN H17 [get_ports ADC_PWD]
+set_property PACKAGE_PIN H18 [get_ports P65]
 
 

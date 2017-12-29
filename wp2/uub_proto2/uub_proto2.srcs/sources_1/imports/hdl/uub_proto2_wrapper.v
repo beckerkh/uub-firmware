@@ -1,7 +1,7 @@
 //Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-//Date        : Fri Dec  9 11:24:20 2016
+//Date        : Wed Dec 13 14:28:38 2017
 //Host        : dfn-x3100.auger.mtu.edu running 64-bit Scientific Linux release 6.8 (Carbon)
 //Command     : generate_target uub_proto2_wrapper.bd
 //Design      : uub_proto2_wrapper
@@ -20,6 +20,7 @@ module uub_proto2_wrapper
     ADC3_CK_P,
     ADC4_CK_N,
     ADC4_CK_P,
+    ADC_PWD,
     DDR_addr,
     DDR_ba,
     DDR_cas_n,
@@ -48,6 +49,7 @@ module uub_proto2_wrapper
     GPS_TX,
     LED_ASY,
     LED_FLG,
+    P65,
     P6X,
     RADIO_CTS,
     RADIO_RST_IN,
@@ -82,6 +84,7 @@ module uub_proto2_wrapper
   input ADC3_CK_P;
   input ADC4_CK_N;
   input ADC4_CK_P;
+  output ADC_PWD;
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -110,7 +113,8 @@ module uub_proto2_wrapper
   output GPS_TX;
   output [0:0]LED_ASY;
   input LED_FLG;
-  output [5:1]P6X;
+  output P65;
+  output [3:1]P6X;
   input RADIO_CTS;
   input RADIO_RST_IN;
   output RADIO_RST_OUT;
@@ -145,6 +149,7 @@ module uub_proto2_wrapper
   wire ADC3_CK_P;
   wire ADC4_CK_N;
   wire ADC4_CK_P;
+  wire ADC_PWD;
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
   wire DDR_cas_n;
@@ -173,7 +178,8 @@ module uub_proto2_wrapper
   wire GPS_TX;
   wire [0:0]LED_ASY;
   wire LED_FLG;
-  wire [5:1]P6X;
+  wire P65;
+  wire [3:1]P6X;
   wire RADIO_CTS;
   wire RADIO_RST_IN;
   wire RADIO_RST_OUT;
@@ -209,6 +215,7 @@ module uub_proto2_wrapper
         .ADC3_CK_P(ADC3_CK_P),
         .ADC4_CK_N(ADC4_CK_N),
         .ADC4_CK_P(ADC4_CK_P),
+        .ADC_PWD(ADC_PWD),
         .DDR_addr(DDR_addr),
         .DDR_ba(DDR_ba),
         .DDR_cas_n(DDR_cas_n),
@@ -237,6 +244,7 @@ module uub_proto2_wrapper
         .GPS_TX(GPS_TX),
         .LED_ASY(LED_ASY),
         .LED_FLG(LED_FLG),
+        .P65(P65),
         .P6X(P6X),
         .RADIO_CTS(RADIO_CTS),
         .RADIO_RST_IN(RADIO_RST_IN),

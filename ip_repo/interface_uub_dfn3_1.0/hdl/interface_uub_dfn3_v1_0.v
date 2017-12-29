@@ -22,6 +22,8 @@ module interface_uub_dfn3_v1_0 #
     input wire RADIO_RST_IN,
     input wire USB_IFAULT,
     output wire RADIO_RST_OUT,
+    output wire ADC_PWD,
+    output wire P65,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -84,7 +86,9 @@ module interface_uub_dfn3_v1_0 #
       .WATCHDOG(WATCHDOG),
       .RADIO_RST_IN(RADIO_RST_IN),
       .USB_IFAULT(USB_FAULT),
-      .RADIO_RST_OUT(RADIO_RST_OUT)
+      .RADIO_RST_OUT(RADIO_RST_OUT),
+      .ADC_PWD(ADC_PWD),
+      .P65(P65)
       );
 
    // Add user logic here

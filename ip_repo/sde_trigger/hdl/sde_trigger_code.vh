@@ -14,13 +14,6 @@
 // 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by two clock cycles wrt
 //                 SHWR_TRIGGER
 // 18-Nov-2016 DFN Add mode to alternate SIPM calibration data in mu buffers
-// 21-Nov-2017 DFN Add saving EVT_ID separately for each buffer
-// 22-Nov-2017 DFN Add SHWR_TRIG_FAST for AMIGA; Try to add protection against
-//                 incrementing full buffer mask at end of event and clearing
-//                 it at the same time from AXI.  Requires AXI bus be 2x or
-//                 more slower than trigger clock.  Need to test duration
-//                 of control bit set signal, or keep some history to delay
-//                 the control operation.
 //                  
 `include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
@@ -305,7 +298,9 @@ always @(posedge CLK120) begin
         // Make offset to data in current buffer to read available
         LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0] 
   <= LCL_SHWR_BUF_STARTN[SHWR_BUF_RNUM];
-        LCL_SHWR_BUF_STARTT[31:`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH] <= 0;
+        // Blocking assignment here is on purpose. Don't change without
+        // a careful test!
+        LCL_SHWR_BUF_STARTT[31:`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH] = 0;
 
         // Adjust for logic delay
         LCL_SHWR_BUF_START <= ((LCL_SHWR_BUF_STARTT+12) 
@@ -394,20 +389,15 @@ always @(posedge CLK120) begin
               if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
 	        begin
                    // Mark buffer as full and switch to the next one
-                   SHWR_TRIGGER <= 1;
-		   if (SHWR_TRIGGER == 1)
-		     begin
 			SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
                                                (1<<LCL_SHWR_BUF_WNUM);
 			SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
 			LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
+                   SHWR_TRIGGER <= 1;
 			SHWR_INTR <= 1;
 			SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
 			TRIGGERED <= 0;
 
-			// Save event ID of this event
-			LCL_SHWR_EVT_IDN[LCL_SHWR_BUF_WNUM] <= SHWR_EVT_ID;
-			
 			// Save address to start of trace
 			LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
 
@@ -453,7 +443,6 @@ always @(posedge CLK120) begin
 			  <= BASELINE[6] | (BASELINE[7] << 16);
 			LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
 			  <= BASELINE[8] | (BASELINE[9] << 16);
-		     end
 		   
                 end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1])
            end
@@ -464,16 +453,12 @@ always @(posedge CLK120) begin
         
         // Process clearing of shower buf full flag
 
-	if (SHWR_TRIGGER == 0)
-	  begin
              PREV_SHWR_CONTROL_WRITTEN <= LCL_SHWR_CONTROL_WRITTEN;
-	     // This had been going on falling edge.  Did we really want that?
-	     // Try other edge.
-	     //  if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
-	     if ((!PREV_SHWR_CONTROL_WRITTEN & LCL_SHWR_CONTROL_WRITTEN) == 1)
+	     if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
 		 begin
+                    // Blocking assignment here is on purpose, so be careful  
 		    SHWR_BUF_RESET  
-		      <= (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
+		      = (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
 		    if ((SHWR_BUF_RESET != 0) 
 			&& (LCL_SHWR_BUF_CONTROL == SHWR_BUF_RNUM))
 		      begin
@@ -486,7 +471,6 @@ always @(posedge CLK120) begin
 			 if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
 		      end
 		 end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
-	  end
         else
           SHWR_BUF_RESET <= 0;
         
@@ -510,16 +494,13 @@ always @(posedge CLK120) begin
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_NFULL_SHIFT+`SHWR_BUF_NUM_WIDTH:
                             `SHWR_BUF_NFULL_SHIFT] <= SHWR_BUF_NUM_FULL;
         LCL_SHWR_BUF_STATUS[`SHWR_EVT_ID_SHIFT-1:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
-        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] 
-	  <= LCL_SHWR_EVT_IDN[SHWR_BUF_RNUM];
+        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] <= SHWR_EVT_ID;
 
-        // Send debug output to test pins P61 through P65
+        // Send debug output to test pins P61 through P63
 
-	P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
-	P6X[2] <= SHWR_BUF_RESET;
+	P6X[1] <= LED;
+	P6X[2] <= LED_TRG_FLAG;
 	P6X[3] <= SOME_TRIG_OR;
-	P6X[4] <= SHWR_INTR;
-	P6X[5] <= SHWR_TRIGGER;
         
      end // else: !if(LCL_RESET)
 end

@@ -23,21 +23,15 @@ void config_trigger()
 #ifdef SB_TRIGGER
   int sb_trig_enab, thrssd;
 #endif
-#ifdef LED_TRIGGER
-  int led_trig_enab;
-#endif
+//#ifdef LED_TRIGGER
+//  int led_trig_enab;
+//#endif
 #endif
 
 #ifdef MUON_TRIGGERS
   int muon_trig_enab, muon_trigger_mask;
   int muon_status, toread_muon_buf_num, cur_muon_buf_num;
 #endif
-#ifdef DO_LED_PULSE
-  int led_control, led_timer, led_pulsewid, led_delay;
-  int seconds, prev_seconds, nanosec;
-  double time, dt, prev_time;
-#endif
-
 
 #ifdef SHWR_TRIGGERS
   // Enable the shower triggers for this test
@@ -155,9 +149,11 @@ void config_trigger()
   if ((trigger_mask & SHWR_BUF_TRIG_LED) != 0)
     printf(" LED");
   printf("\n");
+  #if defined(SB_TRIGGER)  || defined(COMPAT_SB_TRIGGER)
   printf("Trigger_test: Shower trigger thresholds = %d %d %d %d\n",
 	 (int) (TRIG_THR0), (int) (TRIG_THR1), (int) (TRIG_THR2), 
 	 (int) (TRIG_SSD));
+  #endif
 
   // Flush any stale shower buffers
   shwr_status = read_trig(SHWR_BUF_STATUS_ADDR);
@@ -178,6 +174,8 @@ void config_trigger()
     }
   write_trig(SHWR_BUF_TRIG_MASK_ADDR, trigger_mask);
   status = read_trig(SHWR_BUF_TRIG_MASK_ADDR);
+  printf("trigger_test: Trigger mask, wrote %x read %x\n",
+	   trigger_mask, status);
   if (status != trigger_mask) 
     printf("trigger_test: Error setting trigger mask, wrote %x read %x\n",
 	   trigger_mask, status);
