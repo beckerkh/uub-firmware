@@ -11,9 +11,9 @@
 //#define TOGGLE_WATCHDOG
 //#define USE_FAKE_MUON
 //#define USE_FAKE_SIGNAL
-//#define USE_FAKE_GPS
-//#define DO_LED_PULSE
-//#define DO_LED_NOW
+#define USE_FAKE_GPS
+#define DO_LED_PULSE
+#define DO_LED_NOW
 #define LED_DELAY0 50
 #define LED_DELAY1 100
 #define LED_PULSWID0 10
@@ -22,7 +22,7 @@
 #define TRIG_THR0 4095
 #define TRIG_THR1 3000
 #define TRIG_THR2 3000
-#define TRIG_SSD 1000
+#define TRIG_SSD 400
 #define LPMT_THR0 0   // Software large PMT threshold for small PMT cal
 #define LPMT_THR1 0
 #define LPMT_THR2 0
@@ -31,13 +31,13 @@
 
 #ifdef SHWR_TRIGGERS 
 //  #define COMPAT_SB_TRIGGER
-  #define SB_TRIGGER
-  #define SSD_AND	
-  #define SSD_DELAY 4
+//  #define SB_TRIGGER
+//  #define SSD_AND	
+//  #define SSD_DELAY 5
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
-//  #define LED_TRIGGER
+  #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 //#define MUON_SIPM_CAL

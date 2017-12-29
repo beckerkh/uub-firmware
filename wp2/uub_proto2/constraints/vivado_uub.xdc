@@ -48,7 +48,7 @@ set_property IOSTANDARD LVCMOS25 [get_ports RADIO_CTS]
 set_property IOSTANDARD LVCMOS33 [get_ports {P6X[1]}]
 set_property IOSTANDARD LVCMOS25 [get_ports {P6X[2]}]
 set_property IOSTANDARD LVCMOS25 [get_ports {P6X[3]}]
-set_property IOSTANDARD LVCMOS25 [get_ports ADC_PD]
+set_property IOSTANDARD LVCMOS25 [get_ports ADC_PWD]
 set_property IOSTANDARD LVCMOS25 [get_ports P65]
 
 
@@ -197,7 +197,7 @@ set_property PACKAGE_PIN U19 [get_ports RADIO_CTS]
 set_property PACKAGE_PIN W10 [get_ports {P6X[1]}]
 set_property PACKAGE_PIN H15 [get_ports {P6X[2]}]
 set_property PACKAGE_PIN R15 [get_ports {P6X[3]}]
-set_property PACKAGE_PIN H17 [get_ports ADC_PD]
+set_property PACKAGE_PIN H17 [get_ports ADC_PWD]
 set_property PACKAGE_PIN H18 [get_ports P65]
 
 

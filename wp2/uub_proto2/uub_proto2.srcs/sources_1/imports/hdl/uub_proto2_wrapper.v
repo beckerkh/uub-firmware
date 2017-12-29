@@ -20,7 +20,7 @@ module uub_proto2_wrapper
     ADC3_CK_P,
     ADC4_CK_N,
     ADC4_CK_P,
-    ADC_PD,
+    ADC_PWD,
     DDR_addr,
     DDR_ba,
     DDR_cas_n,
@@ -84,7 +84,7 @@ module uub_proto2_wrapper
   input ADC3_CK_P;
   input ADC4_CK_N;
   input ADC4_CK_P;
-  output ADC_PD;
+  output ADC_PWD;
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -149,7 +149,7 @@ module uub_proto2_wrapper
   wire ADC3_CK_P;
   wire ADC4_CK_N;
   wire ADC4_CK_P;
-  wire ADC_PD;
+  wire ADC_PWD;
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
   wire DDR_cas_n;

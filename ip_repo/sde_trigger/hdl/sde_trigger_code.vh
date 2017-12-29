@@ -498,8 +498,8 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-	P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
-	P6X[2] <= SHWR_BUF_RESET;
+	P6X[1] <= LED;
+	P6X[2] <= LED_TRG_FLAG;
 	P6X[3] <= SOME_TRIG_OR;
         
      end // else: !if(LCL_RESET)
