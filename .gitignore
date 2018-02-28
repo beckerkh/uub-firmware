@@ -38,10 +38,16 @@ wp2/uub_proto2/bd/uub_proto2/hdl/
 wp2/uub_proto2/bd/uub_proto2/ip/
 wp2/uub_proto2/bd/uub_proto2/ui/
 wp2/uub_proto2/bd/uub_proto2/uub_proto2_ooc.xdc
-wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/
 wp2/uub_proto2/uub_proto2.sdk/test_periph_dfn/Debug/makefile
 wp2/uub_proto2/uub_proto2.sdk/test_periph_dfn/Debug/src/
 wp2/uub_proto2/uub_proto2.sdk/uub_proto2/
 wp2/uub_proto2/uub_proto2.sdk/uub_proto2_wrapper.hdf
 wp2/uub_proto2/uub_proto2.srcs/sources_1/ipshared/
 
+# Skip most of the files here except for explictly included ones
+wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/
+!wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/ps7_cortexa9_0/include/xil_assert.h
+!wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/ps7_cortexa9_0/include/xil_types.h
+!wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/ps7_cortexa9_0/include/xparameters.h
+!wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/ps7_cortexa9_0/include/xstatus.h
+!wp2/uub_proto2/uub_proto2.sdk/standalone_bsp_0/ps7_cortexa9_0/libsrc/standalone_v5_1/src/xparameters_ps.h
