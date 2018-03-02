@@ -1,1 +1,1 @@
-../../uub_proto2/uub_proto2.sdk/uub_proto2/drivers/test_control_v1_0/src/test_control.h
+../../../ip_repo/test_control_1.0/drivers/test_control_v1_0/src/test_control.h
