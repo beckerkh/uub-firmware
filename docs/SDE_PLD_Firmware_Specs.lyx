@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-March 11, 2017
+March 20, 2018
 \end_layout
 
 \begin_layout Author
@@ -170,6 +170,12 @@ anded
  with WCD trigger; tune parameters of baseline tracking & integral computations;
  correct error in MUON_BUF_STATUS register bit offsets; added SHWR_EVT_CTR
  to SHWR_BUF_STATUS register.
+\end_layout
+
+\begin_layout Description
+20-Mar-2018 Update documentation to include some information about the trigger
+ interrupt module; add documentation of the ADC_PWD output; add documentation
+ of the test control module; update documentation of the interface module.
 \end_layout
 
 \begin_layout Section
@@ -680,11 +686,12 @@ Register Usage
 \begin_layout Standard
 The register address space of the trigger circuitry occupies 256 control
  registers and 5 interrupt control registers.
- The base address of the trigger module is 0x43c2
+ The base address of the trigger module is SDE_TRIGGER_BASE = 0x43c2
 \begin_inset space \space{}
 \end_inset
 
-0000, while that of the trigger interrupt module is 0x43c1
+0000, while that of the trigger interrupt module is SDE_TRIGGER_INTR_BASE
+ = 0x43c1
 \begin_inset space \space{}
 \end_inset
 
@@ -754,11 +761,13 @@ The compatibility mode triggers operate on a signal that has been filtered
 \end_layout
 
 \begin_layout Verbatim
+
 int fir[21] = {5,0,12,22,0,-61,-96,0,256,551,681,551,256,0,-96,-61,0,22,12,0,5};
  
 \end_layout
 
 \begin_layout Verbatim
+
 int filt[2048], unfilt[2048];
 \end_layout
 
@@ -767,26 +776,32 @@ int filt[2048], unfilt[2048];
 \end_layout
 
 \begin_layout Verbatim
+
 for (i=21; i<2048; i++) 
 \end_layout
 
 \begin_layout Verbatim
+
 { 
 \end_layout
 
 \begin_layout Verbatim
+
   filt[i] = 0;
 \end_layout
 
 \begin_layout Verbatim
+
   for (j=0; j<21; j++)
 \end_layout
 
 \begin_layout Verbatim
+
     filt[i] = filt[i] + unfilt[i-21+j]*fir[j]; 
 \end_layout
 
 \begin_layout Verbatim
+
 }
 \end_layout
 
@@ -800,6 +815,7 @@ The code snippet below indicates how to use the bit masks and shifts defined
 \end_layout
 
 \begin_layout Verbatim
+
 int wrt_word, rd_word, value1, value2;
 \end_layout
 
@@ -808,10 +824,12 @@ int wrt_word, rd_word, value1, value2;
 \end_layout
 
 \begin_layout Verbatim
+
 // Prepare information to load multi-field register
 \end_layout
 
 \begin_layout Verbatim
+
 wrt_word = (value1 & VALUE1_MASK) << VALUE1_SHIFT;
 \end_layout
 
@@ -820,14 +838,17 @@ wrt_word = (value1 & VALUE1_MASK) << VALUE1_SHIFT;
 \end_layout
 
 \begin_layout Verbatim
+
 // Extract information from word read from multi-field register
 \end_layout
 
 \begin_layout Verbatim
+
 value1 = (rd_word & VALUE1_MASK) >> VALUE1_SHIFT;
 \end_layout
 
 \begin_layout Verbatim
+
 value2 = (rd_word & VALUE2_MASK) >> VALUE2_SHIFT;
 \end_layout
 
@@ -12263,7 +12284,7 @@ Clear the dead time occurred flag
 \end_layout
 
 \begin_layout Standard
-The base address of the time tagging module is 0x43c3
+The base address of the time tagging module is TIME_TAGGING_BASE = 0x43c3
 \begin_inset space \space{}
 \end_inset
 
@@ -12289,7 +12310,7 @@ Interface module
 
 \begin_layout Standard
 Some miscellaneous and test functions are grouped together in an interface
- module with base address 0x43c0
+ module with base address INTERFACE_UUB_BASE = 0x43c0
 \begin_inset space \space{}
 \end_inset
 
@@ -12300,7 +12321,7 @@ Some miscellaneous and test functions are grouped together in an interface
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="2">
+<lyxtabular version="3" rows="10" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top">
@@ -12405,7 +12426,7 @@ Bit 10 - Radio reset in
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -12425,6 +12446,26 @@ Bit 0 - Radio reset out
 </cell>
 </row>
 <row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - ADC Power Down
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -12438,47 +12479,7 @@ Bit 0 - Radio reset out
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bit 0 - Generate fake GPS PPS if 1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Bit 1 - Generate fake data if 1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Bit 2 - Generate fake muon data if 1
+Bit 0 - Test point P65
 \end_layout
 
 \end_inset
@@ -12532,16 +12533,352 @@ Bit 1 - Enable WATCHDOG output
 \end_layout
 
 \begin_layout Subsection
+Test Control Module
+\end_layout
+
+\begin_layout Standard
+The test control module allows enabling of some test features.
+ It is at base address TEST_CONTROL_BASE = 0x43c4
+\begin_inset space \space{}
+\end_inset
+
+0000
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Register
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Generate fake GPS PPS if 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - Generate fake data if 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 2 - Generate fake muon data if 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Trigger Interrupt Module
+\end_layout
+
+\begin_layout Standard
+The trigger interrupt module is located at base address SDE_TRIGGER_INTR_BASE
+ = 0x43c1
+\begin_inset space \space{}
+\end_inset
+
+0000.
+ The following registers are defined:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Register
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Global trigger interrupt enable if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Enable shower trigger interrupt if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - Enable muon buffer interrupt if set
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Shower trigger interrupt detected
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - Muon buffer trigger detected
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Shower trigger interrupt acknowledge
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - Muon buffer interrupt acknowledge
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 0 - Shower trigger interrupt pending
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bit 1 - Muon buffer interrupt pending
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 AXI DMA controller
 \end_layout
 
 \begin_layout Standard
 The AXI DMA controller for the shower & muon memories is located at base
- address 0x7e20
+ address XPAR_AXICDMA_0_BASEADDR = 0x7e20
 \begin_inset space \space{}
 \end_inset
 
 0000.
+ Please refer to the Xilinx AXI CDMA documentation for more information.
 \end_layout
 
 \end_body
