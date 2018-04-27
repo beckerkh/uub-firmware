@@ -120,16 +120,10 @@ void trigger_test()
   double time, dt, prev_time;
 #endif
   int i;
+  int prev_read = -1;
 
   // Map registers & memory buffers
   map_registers();
-
-  /* for (i=0; i<10; i++) */
-  /*   { */
-  /*     printf("trig_regs=%x ttag_regs=%x ifc_regs=%x tstctl_regs=%x\n",  */
-  /* 	     trig_regs, ttag_regs, ifc_regs, tstctl_regs); */
-  /*     sleep(1); */
-  /*   } */
 
   // Select any special test options.
   int test_options = 0;
@@ -158,6 +152,18 @@ void trigger_test()
       if (status != test_options) 
 	printf("trigger_test: Error setting test options, wrote %x read %x\n",
 	       test_options, status);
+
+      write_tstctl(1, 0);  // Mode=0 is used as RESET
+      write_tstctl(1, FAKE_SIGNAL_MODE);
+      status = read_tstctl(1);
+      //	  status = read_ifc(2);
+      //	  printf("ifc_reg = %x  ifc_reg[2] = %x\n",ifc_regs, status);
+      //	  write_ifc(2, test_options);
+      //	  status = read_ifc(2);
+	  
+      if (status != FAKE_SIGNAL_MODE) 
+	printf("trigger_test: Error setting test mode, wrote %x read %x\n",
+	       FAKE_SIGNAL_MODE, status);
     }
 
   // Set up trigger
@@ -281,9 +287,9 @@ void trigger_test()
   nevents = 0;
   while (nevents < MAX_EVENTS) {
 
-#ifdef STAND_ALONE   // Seems to be a conflict on Linux#
+#ifdef STAND_ALONE   // Seems to be a conflict on Linux
 #ifdef TOGGLE_WATCHDOG
-    map_ifs();
+    map_ifc();
     write_ifc(3, 3);
     write_ifc(3, 2);
 #endif
@@ -298,7 +304,7 @@ void trigger_test()
 #endif
 
 #ifdef DO_LED_PULSE
-//     disable_trigger_intr();
+    //     disable_trigger_intr();
 
 #ifdef DO_LED_NOW
     led_timer = led_timer+1;
@@ -331,7 +337,7 @@ void trigger_test()
         write_trig(LED_CONTROL_ADDR, led_control);
       }
 #endif
-//    enable_trigger_intr();
+    //    enable_trigger_intr();
 #endif
 
 #ifdef TRIGGER_POLLED
@@ -346,9 +352,27 @@ void trigger_test()
         full_shwr_bufs = SHWR_BUF_FULL_MASK & 
           (status >> SHWR_BUF_FULL_SHIFT);
         num_full = 0x7 & (status >> SHWR_BUF_NFULL_SHIFT);
-        printf("Shower buf writing %d  to read %d  full %x  num full=%d\n",
+#ifndef VERBOSE_BUFFERS
+        if (nevents%1000 == 0)
+          printf("Trigger_test: Read %d events\n");
+        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+          {
+            printf("Shower buf writing %d  to read %d  full %x  num full=%d",
+                   cur_shwr_buf_num,toread_shwr_buf_num,
+                   full_shwr_bufs,num_full);
+            printf(" ******** ERROR *******");
+            printf("\n");  
+          }
+#endif
+#ifdef VERBOSE_BUFFERS
+        printf("Shower buf writing %d  to read %d  full %x  num full=%d",
                cur_shwr_buf_num,toread_shwr_buf_num,
                full_shwr_bufs,num_full);
+        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+          printf(" ******** ERROR *******");
+        printf("\n");  
+#endif
+        prev_read = toread_shwr_buf_num;
  
         // Do readout of buffer here ....
         read_shw_buffers();  // Read buffers to local memory

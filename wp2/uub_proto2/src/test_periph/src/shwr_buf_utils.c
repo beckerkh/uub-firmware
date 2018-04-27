@@ -5,6 +5,8 @@
 #include "trigger_test_options.h"
 #include "trigger_test.h"
 
+//#define VERBOSE
+
 extern u32 *mem_addr, *mem_ptr;
 extern u32 start_offset;
 extern int toread_shwr_buf_num;
@@ -56,8 +58,10 @@ void read_shw_buffers()
 
   delta_tics = tics-pps_tics;
   if (delta_tics < 0) delta_tics = delta_tics + TTAG_TICS_MASK +1;
+#ifdef VERBOSE
   printf("pps_tics=%d seconds=%d tics=%d delta_tics=%d\n",
 	 pps_tics, seconds, tics, delta_tics);
+#endif
 
   // Does not yet account for rollover of seconds
   time = (double) seconds + 8.3333 * (double) delta_tics / 1.e9;
@@ -65,7 +69,9 @@ void read_shw_buffers()
   prev_time = time;
 
   trig_id = read_trig(SHWR_BUF_TRIG_ID_ADDR);
+#ifdef VERBOSE
   printf("trigger_test: Trigger ID = %x ==", trig_id);
+  //  printf("trigger_test: Trigger ID =");
   if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
     printf(" SB");
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
@@ -82,8 +88,9 @@ void read_shw_buffers()
     printf(" COMPAT_SB_DLYD");
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_EXT<<8)) != 0)
     printf(" EXT_DLYD");
-  //    printf(" T = %f  DT = %f", time, dt);
+  printf("  T = %f  DT = %f", time, dt);
   printf("\n");
+#endif
 
   // Read calculated peak, area, baseline.
 
@@ -105,9 +112,11 @@ void read_shw_buffers()
       saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT) & 1;
     }
 
+#ifdef VERBOSE
   printf("trigger_test: Read peaks %d %d %d %d %d %d %d %d %d %d\n",
 	 peak[0], peak[1], peak[2], peak[3], peak[4],
 	 peak[5], peak[6], peak[7], peak[8], peak[9]);   
+#endif
   v[0] = read_trig(SHWR_BASELINE0_ADDR);
   v[1] = read_trig(SHWR_BASELINE1_ADDR);
   v[2] = read_trig(SHWR_BASELINE2_ADDR);
@@ -118,11 +127,12 @@ void read_shw_buffers()
       baseline[2*i] = v[i] & 0xffff;
       baseline[2*i+1] = (v[i] >> 16) & 0xffff;
     }
+#ifdef VERBOSE
   printf("trigger_test: Read baselines %d %d %d %d %d %d %d %d %d %d\n",
 	 baseline[0], baseline[1], baseline[2], baseline[3],
 	 baseline[4], baseline[5], baseline[6], baseline[7],
 	 baseline[8], baseline[9]);
-
+#endif
 
   start_offset = read_trig(SHWR_BUF_START_ADDR);
 
@@ -336,6 +346,7 @@ void print_shw_buffers()
   trig = 1;
 
   //#define DETAIL_PRINT
+  //#define PRINT_EVENT
 
 #ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
 #ifdef COMPAT_SB_TRIGGER
@@ -344,15 +355,18 @@ void print_shw_buffers()
     if (trig == 0) {
       if ((filt_adc[0][i] > TRIG_THR0) || (filt_adc[1][i] > TRIG_THR1) ||
 	  (filt_adc[2][i] > TRIG_THR2)) {
+	trig = i;
+#ifdef DETAIL_PRINT
 	printf("Trigger point - adcs = %d %d %d\n",
 	       filt_adc[0][i], filt_adc[1][i], filt_adc[2][i]);
-	trig = i;
 	printf("trigger_test: Event should trigger at bin %d = 0x%x\n",trig,trig);
+#endif
       }
     }
   }
   if (trig == 0) 
-    printf("trigger_test: Event should not have triggered\n");
+       printf("trigger_test: Event should not have triggered - peaks=%d %d %d\n",
+           peak[1],peak[3],peak[5]);
 #ifdef DETAIL_PRINT
   trig2 = 0;
   for (i=0; i<SHWR_MEM_WORDS; i++) {
@@ -362,12 +376,12 @@ void print_shw_buffers()
   	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
   	for (j=-3; j<=3; j++)
   	  {
-  	printf("trigger_test: bin=%x filt_adcs=%4d %4d %4d\n", trig2+j,
-  	       filt_adc[0][trig2+j], filt_adc[1][trig2+j],
-  	       filt_adc[2][trig2+j]);
-  	printf("trigger_test: bin=%x      adcs=%4d %4d %4d %4d\n", trig2+j,
-  	       adc[1][trig2+j], adc[3][trig2+j],
-  	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
+	    printf("trigger_test: bin=%x filt_adcs=%4d %4d %4d\n", trig2+j,
+		   filt_adc[0][trig2+j], filt_adc[1][trig2+j],
+		   filt_adc[2][trig2+j]);
+	    printf("trigger_test: bin=%x      adcs=%4d %4d %4d %4d\n", trig2+j,
+		   adc[1][trig2+j], adc[3][trig2+j],
+		   adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
   	  }
       }
     }
@@ -391,7 +405,8 @@ void print_shw_buffers()
     }
   }
   if (trig == 0) 
-    printf("trigger_test: Event should not have triggered\n");
+    printf("trigger_test: Event should not have triggered - peaks=%d %d %d %d\n",
+           peak[1],peak[3],peak[5],peak[9]);
 
 #ifdef DETAIL_PRINT
   trig2 = 0;
@@ -402,9 +417,9 @@ void print_shw_buffers()
   	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
   	for (j=-3; j<=3; j++)
   	  {
-  	printf("trigger_test: bin=%x adcs=%4d %4d %4d %4d\n", trig2+j,
-  	       adc[1][trig2+j], adc[3][trig2+j],
-  	       adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
+	    printf("trigger_test: bin=%x adcs=%4d %4d %4d %4d\n", trig2+j,
+		   adc[1][trig2+j], adc[3][trig2+j],
+		   adc[5][trig2+j], adc[9][trig2+j-SSD_DELAY]);
   	  }
       }
     }
@@ -418,21 +433,21 @@ void print_shw_buffers()
   // Apply secondary software trigger threshold on large PMTs.  Allows
   // filtering of data for small PMT calibration.  Note this is applied
   // to the baseline subtracted peak.
-
+#ifdef PRINT_EVENT
   if ((peak[0] > LPMT_THR0) || 
       (peak[2] > LPMT_THR1) ||
       (peak[4] > LPMT_THR2))
     {
 
-  printf("\n>>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>\n");
+      printf("\n>>>>>>>>>> BEGINNING OF EVENT HEADER >>>>>>>>>>\n");
 
-  // Output a few lines header with the FPGA calculated area, peak, etc.
-  for (i=0; i<10; i++)
-    {
-      printf("%1d %1d %4d %4d %d\n", 
-	     i, saturated[i], baseline[i], peak[i], area[i]);
-    }
-  printf("<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<\n");
+      // Output a few lines header with the FPGA calculated area, peak, etc.
+      for (i=0; i<10; i++)
+	{
+	  printf("%1d %1d %4d %4d %d\n", 
+		 i, saturated[i], baseline[i], peak[i], area[i]);
+	}
+      printf("<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<\n");
 
 	
       printf("\n>>>>>>>>>> BEGINNING OF EVENT >>>>>>>>>>\n");
@@ -481,4 +496,5 @@ void print_shw_buffers()
     printf("trigger_test: Event failed large PMT threshold requirement\n");
     nevents--;
   }
+#endif //PRINT_EVENT
 }

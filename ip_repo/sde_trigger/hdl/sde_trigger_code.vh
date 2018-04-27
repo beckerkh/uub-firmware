@@ -197,7 +197,9 @@ led_control led_control1(.RESET(LCL_RESET),
                          );
 
 // Stretch trigger out signal
-stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
+//stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
+// Just for testing....
+stretch stretch_trgout(.CLK(CLK120),.IN(COMPATIBILITY_SB_TRIG),.OUT(TRIG_OUT));
 
 
 
@@ -498,10 +500,8 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-	P6X[1] <= LED;
-	P6X[2] <= LED_TRG_FLAG;
-	P6X[3] <= SOME_TRIG_OR;
-        
+        P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
+	P6X[2] <= |SHWR_BUF_RESET;
      end // else: !if(LCL_RESET)
 end
 

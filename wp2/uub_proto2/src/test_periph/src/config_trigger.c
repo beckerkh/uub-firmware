@@ -23,9 +23,6 @@ void config_trigger()
 #ifdef SB_TRIGGER
   int sb_trig_enab, thrssd;
 #endif
-//#ifdef LED_TRIGGER
-//  int led_trig_enab;
-//#endif
 #endif
 
 #ifdef MUON_TRIGGERS
@@ -174,8 +171,6 @@ void config_trigger()
     }
   write_trig(SHWR_BUF_TRIG_MASK_ADDR, trigger_mask);
   status = read_trig(SHWR_BUF_TRIG_MASK_ADDR);
-  printf("trigger_test: Trigger mask, wrote %x read %x\n",
-	   trigger_mask, status);
   if (status != trigger_mask) 
     printf("trigger_test: Error setting trigger mask, wrote %x read %x\n",
 	   trigger_mask, status);
