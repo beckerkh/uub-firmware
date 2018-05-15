@@ -6,6 +6,7 @@
 //                 to be restored later
 // 11-Apr-2016 DFN Add simple polled DMA
 // 29-Apr-2016 DFN Implement TRIGGER_INTERRUPT
+// 30-Apr-2018 DFN Implement split shower & muon interrupts
 
 #include "trigger_test_options.h"
 #include "trigger_test.h"
@@ -21,14 +22,18 @@ volatile u32 shwr_mem_ptr[5];
 volatile u32 muon_mem_ptr[2];
 u32 shwr_mem_addr[5];
 u32 muon_mem_addr[2];
-int nevents;
+volatile static int nevents = 0;
+volatile static int missed_events = 0;
 
 // Shower memory buffers
-u32 shw_mem0[SHWR_MEM_WORDS] __attribute__((aligned(64)));
-u32 shw_mem1[SHWR_MEM_WORDS] __attribute__((aligned(64)));
-u32 shw_mem2[SHWR_MEM_WORDS] __attribute__((aligned(64)));
-u32 shw_mem3[SHWR_MEM_WORDS] __attribute__((aligned(64)));
-u32 shw_mem4[SHWR_MEM_WORDS] __attribute__((aligned(64)));
+volatile int readto_shw_buf_num = 0;
+volatile int full_shw_rd_bufs[4] = {0,0,0,0};
+volatile int unpack_shw_buf_num = 0;
+u32 shw_mem0[4][SHWR_MEM_WORDS] __attribute__((aligned(64)));
+u32 shw_mem1[4][SHWR_MEM_WORDS] __attribute__((aligned(64)));
+u32 shw_mem2[4][SHWR_MEM_WORDS] __attribute__((aligned(64)));
+u32 shw_mem3[4][SHWR_MEM_WORDS] __attribute__((aligned(64)));
+u32 shw_mem4[4][SHWR_MEM_WORDS] __attribute__((aligned(64)));
 
 // ADC traces & extra bits
 u32 shw_mem[5][SHWR_MEM_WORDS];
@@ -54,8 +59,10 @@ int toread_muon_buf_num;
 int status;
 
 #ifdef DMA
-static XAxiCdma AxiCdmaInstance;	// Instance of the XAxiCdma 
-static  XAxiCdma_Config *DmaCfgPtr;
+static XAxiCdma AxiCdmaInstance0;	// Instance of the XAxiCdma 0
+static  XAxiCdma_Config *DmaCfgPtr0;
+static XAxiCdma AxiCdmaInstance1;	// Instance of the XAxiCdma 1
+static  XAxiCdma_Config *DmaCfgPtr1;
 #endif
 
 #ifdef TRIGGER_INTERRUPT
@@ -63,12 +70,20 @@ static XScuGic IntController;	// Instance of the Interrupt Controller
 static XScuGic_Config *IntCfgPtr;  // The config. parameters of the controller
 #endif
 
-volatile static int DMA_Error = 0;	/* Dma Error occurs */
+volatile static int Shwr_DMA_Error = 0;	/* Dma Error occurs */
+volatile static int Muon_DMA_Error = 0;	/* Dma Error occurs */
 volatile static int Shwr_Data_Read = 0;
 volatile static int Muon_Data_Read = 0;
-volatile static int DMA_Done = 0;
+volatile static int Shwr_DMA_Done = 0;
+volatile static int Muon_DMA_Done = 0;
+volatile static int prev_read = -1;
+volatile static int ave_num_full = 0;
+volatile static int ave_num_used = 0;
+volatile static int max_num_full = 0;
+volatile static int max_num_used = 0;
 
 #ifdef SCATTER_GATHER
+// Needs update for separated muon/shower DMAs
 XAxiCdma_Bd BdTemplate;
 XAxiCdma_Bd *BdPtr;
 XAxiCdma_Bd *BdCurPtr;
@@ -120,7 +135,10 @@ void trigger_test()
   double time, dt, prev_time;
 #endif
   int i;
-  int prev_read = -1;
+
+  //readto_shw_buf_num = 0;
+//full_shwr_rd_bufs = 0;
+//unpackfrom_shw_buf_num = 0;
 
   // Map registers & memory buffers
   map_registers();
@@ -182,22 +200,38 @@ void trigger_test()
 
  #ifdef DMA
   // Initialize the XAxiCdma device.
-  DmaCfgPtr = XAxiCdma_LookupConfig(XPAR_ZYNC_BLOCK_AXI_CDMA_0_DEVICE_ID);
+  DmaCfgPtr0 = XAxiCdma_LookupConfig(XPAR_ZYNC_BLOCK_AXI_CDMA_0_DEVICE_ID);
   if (status != XST_SUCCESS)
     {
-      printf("trigger_test: Failed to initialize XAxiCdma device.\n");
+      printf("trigger_test: Failed to lookup XAxiCdma device 0.\n");
+      return;
+    }
+  // Initialize the XAxiCdma device.
+  DmaCfgPtr1 = XAxiCdma_LookupConfig(XPAR_ZYNC_BLOCK_AXI_CDMA_1_DEVICE_ID);
+  if (status != XST_SUCCESS)
+    {
+      printf("trigger_test: Failed to lookup XAxiCdma device 1.\n");
       return;
     }
   
-  status = XAxiCdma_CfgInitialize(&AxiCdmaInstance, DmaCfgPtr,
-                                  DmaCfgPtr->BaseAddress);
+  status = XAxiCdma_CfgInitialize(&AxiCdmaInstance0, DmaCfgPtr0,
+                                  DmaCfgPtr0->BaseAddress);
   if (status != XST_SUCCESS) 
     {
-      printf("trigger_test: Failed to initialize XAxiCdma device.\n");
+      printf("trigger_test: Failed to initialize XAxiCdma device0.\n");
+      return;
+    }
+
+  status = XAxiCdma_CfgInitialize(&AxiCdmaInstance1, DmaCfgPtr1,
+                                  DmaCfgPtr1->BaseAddress);
+  if (status != XST_SUCCESS) 
+    {
+      printf("trigger_test: Failed to initialize XAxiCdma device 1.\n");
       return;
     }
 
 #ifdef SCATTER_GATHER
+  // Need to update this for 2 DMA controllers!
   // Set up BD ring
   BdCount = XAxiCdma_BdRingCntCalc(XAXICDMA_BD_MINIMUM_ALIGNMENT,
                                    sizeof(bd_space),(unsigned int) bd_space);
@@ -222,8 +256,10 @@ void trigger_test()
   // Set up interrupt system
 #ifndef DMA_INTERRUPT
   // Disable DMA interrupts, we use polling mode for DMA completion
-  XAxiCdma_IntrDisable(&AxiCdmaInstance, XAXICDMA_XR_IRQ_ALL_MASK);
+  XAxiCdma_IntrDisable(&AxiCdmaInstance0, XAXICDMA_XR_IRQ_ALL_MASK);
+  XAxiCdma_IntrDisable(&AxiCdmaInstance1, XAXICDMA_XR_IRQ_ALL_MASK);
 #endif
+#endif  //DMA
 
 #ifdef TRIGGER_INTERRUPT
   // Initialize the interrupt controller driver so that it is ready to use.
@@ -253,31 +289,42 @@ void trigger_test()
   // Enable interrupts in the ARM
   Xil_ExceptionEnable();
 
-  //	 Connect a device driver handler that will be called when an
+  //	 Connect device driver handler that will be called when an
   //	 interrupt for the device occurs, the device driver handler performs
   //	 the specific interrupt processing for the device  
   status = 
     XScuGic_Connect(&IntController,
-                    XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_IRQ_INTR,
-                    (Xil_ExceptionHandler)sde_trigger_handler,
+                    XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_SHWR_IRQ_INTR,
+                    (Xil_ExceptionHandler)sde_shwr_intr_handler,
                     (void *)&IntController);
   if (status != XST_SUCCESS)
     {
-      printf("trigger_test: Failed to connect to sde_trigger_handler\n");
+      printf("trigger_test: Failed to connect to sde_shwr_intr__handler\n");
       return;
     }
 
-  // Enable interrupts from the sde_trigger module.
-  SDE_TRIGGER_EnableInterrupts((int *) SDE_TRIGGER_INTR_BASE, 
-                               (1<<SHWR_TRIGGER_INTR_BIT) |
-                               (1<<MUON_TRIGGER_INTR_BIT));
+  status = 
+    XScuGic_Connect(&IntController,
+                    XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_MUON_IRQ_INTR,
+                    (Xil_ExceptionHandler)sde_muon_intr_handler,
+                    (void *)&IntController);
+  if (status != XST_SUCCESS)
+    {
+      printf("trigger_test: Failed to connect to sde_muon_intr__handler\n");
+      return;
+    }
+
+  // Enable shower interrupts from the sde_trigger module.
+  SDE_TRIGGER_EnableInterrupts((int *) SDE_SHWR_TRIGGER_INTR_BASE, 1);
+  SDE_TRIGGER_EnableInterrupts((int *) SDE_MUON_TRIGGER_INTR_BASE, 1); 
 	
   // Enable the interrupt from the trigger at the interrupt controller
   XScuGic_Enable(&IntController,
-		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_IRQ_INTR); 
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_SHWR_IRQ_INTR); 
+  XScuGic_Enable(&IntController,
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_MUON_IRQ_INTR); 
 
 #endif  //TRIGGER_INTERRUPT
-#endif  //DMA
 
   config_trigger();  // Configure triggers
              
@@ -362,6 +409,7 @@ void trigger_test()
                    full_shwr_bufs,num_full);
             printf(" ******** ERROR *******");
             printf("\n");  
+            exit(1);
           }
 #endif
 #ifdef VERBOSE_BUFFERS
@@ -369,31 +417,37 @@ void trigger_test()
                cur_shwr_buf_num,toread_shwr_buf_num,
                full_shwr_bufs,num_full);
         if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
-          printf(" ******** ERROR *******");
-        printf("\n");  
+          {
+            printf(" ******** ERROR *******");
+            printf("\n");
+            exit(1);
+          }
+        printf("\n");
 #endif
         prev_read = toread_shwr_buf_num;
  
         // Do readout of buffer here ....
         read_shw_buffers();  // Read buffers to local memory
+    	nevents++;
 
         // Reset full flag
         cntrl_word = toread_shwr_buf_num;
         write_trig(SHWR_BUF_CONTROL_ADDR,cntrl_word);
 
         // Indicate data has been read
-        Shwr_Data_Read = 1;
+        full_shw_rd_bufs[readto_shw_buf_num] = 1;
+        readto_shw_buf_num = (readto_shw_buf_num+1)%4;
       }
 #endif // TRIGGER_POLLED
 
-    if (Shwr_Data_Read != 0)
+    if (full_shw_rd_bufs[unpack_shw_buf_num] != 0)
       {
         unpack_shw_buffers(); // Unpack the buffers
-        Shwr_Data_Read = 0;
+        full_shw_rd_bufs[unpack_shw_buf_num] = 0;
         check_shw_buffers();  // Do sanity check of shower buffers
         print_shw_buffers();  // Print out the buffer
-	nevents++;
       }
+    unpack_shw_buf_num = (unpack_shw_buf_num+1)%4;
 
 #ifdef TRIGGER_POLLED
     // Is an interrupt pending?
@@ -450,22 +504,48 @@ void trigger_test()
 
 
 #if defined(SIMPLE) && defined(DMA)
-int do_simple_polled_dma(u32 *SrcPtr, u32 *DestPtr, int length)
+int do_simple_polled_shwr_dma(u32 *SrcPtr, u32 *DestPtr, int length)
 {
   status = 
-    XAxiCdma_SimpleTransfer(&AxiCdmaInstance, (int) SrcPtr,
+    XAxiCdma_SimpleTransfer(&AxiCdmaInstance0, (int) SrcPtr,
                             (int) DestPtr, length, NULL, NULL);
   if (status != XST_SUCCESS) return XST_FAILURE;
 
   // Wait until the DMA transfer is done
-  while (XAxiCdma_IsBusy(&AxiCdmaInstance));
+  while (XAxiCdma_IsBusy(&AxiCdmaInstance0));
 
   // If the hardware has errors, this example fails
   // This is a poll example, no interrupt handler is involved.
   // Therefore, error conditions are not cleared by the driver.
-  int DMA_Error = XAxiCdma_GetError(&AxiCdmaInstance);
-  if (DMA_Error != 0x0) {
-    printf("trigger_test: AXI DMA error\n");
+  int Shwr_DMA_Error = XAxiCdma_GetError(&AxiCdmaInstance0);
+  if (Shwr_DMA_Error != 0x0) {
+    printf("trigger_test: AXI shwr DMA error\n");
+    return XST_FAILURE;
+  }
+
+  // Invalidate the DestBuffer before receiving the data, in case the
+  // Data Cache is enabled
+  Xil_DCacheInvalidateRange((int) DestPtr, length);		
+
+  return XST_SUCCESS;
+}
+
+int do_simple_polled_muon_dma(u32 *SrcPtr, u32 *DestPtr, int length)
+{
+  status = 
+    XAxiCdma_SimpleTransfer(&AxiCdmaInstance1, (int) SrcPtr,
+                            (int) DestPtr, length, NULL, NULL);
+  if (status != XST_SUCCESS) return XST_FAILURE;
+
+  // Wait until the DMA transfer is done
+  while (XAxiCdma_IsBusy(&AxiCdmaInstance1));
+
+  // If the hardware has errors, this example fails
+  // This is a poll example, no interrupt handler is involved.
+  // Therefore, error conditions are not cleared by the driver.
+  int Muon_DMA_Error = XAxiCdma_GetError(&AxiCdmaInstance1);
+  if (Muon_DMA_Error != 0x0) {
+    printf("trigger_test: AXI muon DMA error\n");
     return XST_FAILURE;
   }
 
@@ -478,12 +558,15 @@ int do_simple_polled_dma(u32 *SrcPtr, u32 *DestPtr, int length)
 #endif
 
 #ifdef TRIGGER_INTERRUPT
-void sde_trigger_handler(void *CallbackRef)
+void sde_shwr_intr_handler(void *CallbackRef)
 {
   int cur_shwr_buf_num = 0;
   int full_shwr_bufs = 0;
   int cntrl_word = 0;
   int num_full;
+  int num_used;
+  double ave_full;
+  double ave_used;
 
   // Is an interrupt pending?  Should be if we get here.
   status = read_trig(SHWR_BUF_STATUS_ADDR);
@@ -494,24 +577,82 @@ void sde_trigger_handler(void *CallbackRef)
       cur_shwr_buf_num = SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT);
       full_shwr_bufs = SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT);
       num_full = 0x7 & (status >> SHWR_BUF_NFULL_SHIFT);
-      printf("trigger_test: Shwr intr writing %d  to read %d  full %x  num full=%d\n",
-             cur_shwr_buf_num,toread_shwr_buf_num,full_shwr_bufs,num_full);
+      ave_num_full += num_full;
+      if (num_full > max_num_full) max_num_full = num_full;
+#ifndef VERBOSE_BUFFERS
+        if ((nevents+missed_events)%1000 == 0)
+        {
+        	ave_full = (double)ave_num_full/1000.;
+        	ave_num_full = 0;
+                ave_used = (double)ave_num_used/1000.;
+                ave_num_used = 0;
+            printf("Trigger_test: Shwr intr Rd %d Msd %d events",
+                   nevents, missed_events);
+            printf(" Ave/max full %f %d Ave/max used %f %d\n",
+                   ave_full, max_num_full, ave_used, max_num_used);
+            max_num_full = 0;
+            max_num_used = 0;
+        }
+        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+          {
+            printf("Shwr intr writing %d  to read %d  full %x  num full=%d",
+                   cur_shwr_buf_num,toread_shwr_buf_num,
+                   full_shwr_bufs,num_full);
+            printf(" ******** ERROR *******");
+            printf("\n");  
+            exit(1);
+          }
+#endif
+#ifdef VERBOSE_BUFFERS
+        printf("Shwr intr writing %d  to read %d  full %x  num full=%d",
+               cur_shwr_buf_num,toread_shwr_buf_num,
+               full_shwr_bufs,num_full);
+        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+          {
+            printf(" ******** ERROR *******");
+            printf("\n");
+            exit(1);
+          }
+        printf("\n");
+#endif
+        prev_read = toread_shwr_buf_num;
 
-      // If room, read buffers to local memory
-      if (Shwr_Data_Read == 0) 
-        read_shw_buffers();
-      else
-        printf("trigger_test: Local memory buffer not free\n");
+        // Keep track of local memory usage
+        num_used = full_shw_rd_bufs[0] + full_shw_rd_bufs[1]
+          +  full_shw_rd_bufs[2] + full_shw_rd_bufs[3];
+        ave_num_used += num_used;
+        if (num_used > max_num_used) max_num_used = num_used;
+ 
+        // If room, read buffers to local memory
+        if (full_shw_rd_bufs[readto_shw_buf_num] == 0)
+          {
+            read_shw_buffers();
+            nevents++;
+            // Indicate buffer available using a shared variable
+            full_shw_rd_bufs[readto_shw_buf_num] = 1;
+            readto_shw_buf_num = (readto_shw_buf_num+1)%4;
+          }
+        else
+          missed_events++;
 
       // Reset full flag
       cntrl_word = toread_shwr_buf_num;
       write_trig(SHWR_BUF_CONTROL_ADDR,cntrl_word);
     }
-  // Indicate the interrupt has been processed using a shared variable
-  Shwr_Data_Read = 1;
 
   // Acknowledge the trigger to allow further interrupts
-  SDE_TRIGGER_ACK((int *) SDE_TRIGGER_INTR_BASE, 1<<SHWR_TRIGGER_INTR_BIT);
+  SDE_TRIGGER_ACK((int *) SDE_SHWR_TRIGGER_INTR_BASE, 1);
+
+}
+
+void sde_muon_intr_handler(void *CallbackRef)
+{
+  int cur_muon_buf_num = 0;
+  int full_muon_bufs = 0;
+  int cntrl_word = 0;
+  int num_full;
+
+
 
   // Is an interrupt pending?  Should be if we get here.
   status = read_trig(MUON_BUF_STATUS_ADDR);
@@ -539,7 +680,7 @@ void sde_trigger_handler(void *CallbackRef)
   Muon_Data_Read = 1;
 
   // Acknowledge the trigger to allow further interrupts
-  SDE_TRIGGER_ACK((int *) SDE_TRIGGER_INTR_BASE, 1<<MUON_TRIGGER_INTR_BIT);
+  SDE_TRIGGER_ACK((int *) SDE_MUON_TRIGGER_INTR_BASE, 1);
 }
 #endif  // TRIGGER_INTERRUPT
 
@@ -613,7 +754,8 @@ int do_scatter_gather_polled_shwr_dma()
            (unsigned int)mem_addr);
     return XST_FAILURE;
   }
-  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) shw_mem0);
+  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) 
+                                    &shw_mem0[readto_shw_buf_num][0]);
   if(status != XST_SUCCESS) {
     printf("trigger_test: Set dst addr failed %d, %x/%x\r\n",
            status, (unsigned int)BdCurPtr,
@@ -637,7 +779,8 @@ int do_scatter_gather_polled_shwr_dma()
            (unsigned int)mem_addr);
     return XST_FAILURE;
   }
-  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) shw_mem1);
+  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) 
+                                    &shw_mem1[readto_shw_buf_num][0]);
   if(status != XST_SUCCESS) {
     printf("trigger_test: Set dst addr failed %d, %x/%x\r\n",
            status, (unsigned int)BdCurPtr,
@@ -661,7 +804,8 @@ int do_scatter_gather_polled_shwr_dma()
            (unsigned int)mem_addr);
     return XST_FAILURE;
   }
-  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) shw_mem2);
+  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) 
+                                    &shw_mem2[readto_shw_buf_num][0]);
   if(status != XST_SUCCESS) {
     printf("trigger_test: Set dst addr failed %d, %x/%x\r\n",
            status, (unsigned int)BdCurPtr,
@@ -685,7 +829,8 @@ int do_scatter_gather_polled_shwr_dma()
            (unsigned int)mem_addr);
     return XST_FAILURE;
   }
-  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) shw_mem3);
+  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) 
+                                    &shw_mem3[readto_shw_buf_num][0]);
   if(status != XST_SUCCESS) {
     printf("trigger_test: Set dst addr failed %d, %x/%x\r\n",
            status, (unsigned int)BdCurPtr,
@@ -709,7 +854,8 @@ int do_scatter_gather_polled_shwr_dma()
            (unsigned int)mem_addr);
     return XST_FAILURE;
   }
-  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) shw_mem4);
+  status = XAxiCdma_BdSetDstBufAddr(BdCurPtr, (unsigned int) 
+                                    &shw_mem4[readto_shw_buf_num]);
   if(status != XST_SUCCESS) {
     printf("trigger_test: Set dst addr failed %d, %x/%x\r\n",
            status, (unsigned int)BdCurPtr,
@@ -838,17 +984,23 @@ int do_scatter_gather_polled_muon_dma()
  void enable_trigger_intr()
  {
 #ifdef TRIGGER_INTERRUPT
-  // Enable the interrupt from the trigger at the interrupt controller
+   // Enable the interrupt from the trigger at the interrupt controller
+   // For now do both shower and muon enable together
   XScuGic_Enable(&IntController,
-		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_IRQ_INTR); 
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_SHWR_IRQ_INTR); 
+  XScuGic_Enable(&IntController,
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_MUON_IRQ_INTR); 
 #endif  //TRIGGER_INTERRUPT
  }
 
  void disable_trigger_intr()
  {
 #ifdef TRIGGER_INTERRUPT
-  // Disable the interrupt from the trigger at the interrupt controller
+   // Disable the interrupt from the trigger at the interrupt controller
+   // For now do both shower and muon disable together
   XScuGic_Disable(&IntController,
-		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_IRQ_INTR); 
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_SHWR_IRQ_INTR); 
+  XScuGic_Disable(&IntController,
+		 XPAR_FABRIC_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_MUON_IRQ_INTR); 
 #endif  //TRIGGER_INTERRUPT
  }

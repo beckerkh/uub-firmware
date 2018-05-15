@@ -9,6 +9,7 @@
 // 21-Jun-16 DFN Remove EXTx_DATA; add test point outputs
 // 24-Jun-16 DFN Add externally filtered PMT inputs
 // 22-Nov-17 DFN Add SHWR_TRIG_FAST
+// 28-Apr-18 DFN Split shower & muon interrupt modules
 
 `timescale 1 ns / 1 ps
 
@@ -126,7 +127,31 @@ module sde_trigger #
     output wire [1 : 0] s_axi_intr_rresp,
     output wire  s_axi_intr_rvalid,
     input wire  s_axi_intr_rready,
-    output wire  irq
+    output wire  SHWR_IRQ,
+
+        // Ports of Axi Slave Bus Interface S1_AXI_INTR
+    input wire  s1_axi_intr_aclk,
+    input wire  s1_axi_intr_aresetn,
+    input wire [C_S_AXI_INTR_ADDR_WIDTH-1 : 0] s1_axi_intr_awaddr,
+    input wire [2 : 0] s1_axi_intr_awprot,
+    input wire  s1_axi_intr_awvalid,
+    output wire  s1_axi_intr_awready,
+    input wire [C_S_AXI_INTR_DATA_WIDTH-1 : 0] s1_axi_intr_wdata,
+    input wire [(C_S_AXI_INTR_DATA_WIDTH/8)-1 : 0] s1_axi_intr_wstrb,
+    input wire  s1_axi_intr_wvalid,
+    output wire  s1_axi_intr_wready,
+    output wire [1 : 0] s1_axi_intr_bresp,
+    output wire  s1_axi_intr_bvalid,
+    input wire  s1_axi_intr_bready,
+    input wire [C_S_AXI_INTR_ADDR_WIDTH-1 : 0] s1_axi_intr_araddr,
+    input wire [2 : 0] s1_axi_intr_arprot,
+    input wire  s1_axi_intr_arvalid,
+    output wire  s1_axi_intr_arready,
+    output wire [C_S_AXI_INTR_DATA_WIDTH-1 : 0] s1_axi_intr_rdata,
+    output wire [1 : 0] s1_axi_intr_rresp,
+    output wire  s1_axi_intr_rvalid,
+    input wire  s1_axi_intr_rready,
+    output wire  MUON_IRQ
     );
 
    wire          MUON_INTR;
@@ -208,7 +233,7 @@ module sde_trigger #
 		              .C_IRQ_SENSITIVITY(C_IRQ_SENSITIVITY),
 		              .C_IRQ_ACTIVE_STATE(C_IRQ_ACTIVE_STATE)
 	                      ) 
-   sde_trigger_S_AXI_INTR_inst (
+   sde_trigger_S_AXI_INTR_shwr (
 		                .S_AXI_ACLK(s_axi_intr_aclk),
 		                .S_AXI_ARESETN(s_axi_intr_aresetn),
 		                .S_AXI_AWADDR(s_axi_intr_awaddr),
@@ -230,11 +255,48 @@ module sde_trigger #
 		                .S_AXI_RRESP(s_axi_intr_rresp),
 		                .S_AXI_RVALID(s_axi_intr_rvalid),
 		                .S_AXI_RREADY(s_axi_intr_rready),
-		                .irq(irq),
-                                .SHWR_INTR(SHWR_INTR),
-                                .MUON_INTR(MUON_INTR),
+		                .irq(SHWR_IRQ),
+                                .INTR(SHWR_INTR),
                                 .CLK120(CLK120)
 	                        );
+
+      // Instantiation of Axi Bus Interface S_AXI_INTR
+   sde_trigger_S_AXI_INTR # ( 
+		              .C_S_AXI_DATA_WIDTH(C_S_AXI_INTR_DATA_WIDTH),
+		              .C_S_AXI_ADDR_WIDTH(C_S_AXI_INTR_ADDR_WIDTH),
+		              .C_INTR_SENSITIVITY(C_INTR_SENSITIVITY),
+		              .C_INTR_ACTIVE_STATE(C_INTR_ACTIVE_STATE),
+		              .C_IRQ_SENSITIVITY(C_IRQ_SENSITIVITY),
+		              .C_IRQ_ACTIVE_STATE(C_IRQ_ACTIVE_STATE)
+	                      ) 
+   sde_trigger_S_AXI_INTR_muon (
+		                .S_AXI_ACLK(s1_axi_intr_aclk),
+		                .S_AXI_ARESETN(s1_axi_intr_aresetn),
+		                .S_AXI_AWADDR(s1_axi_intr_awaddr),
+		                .S_AXI_AWPROT(s1_axi_intr_awprot),
+		                .S_AXI_AWVALID(s1_axi_intr_awvalid),
+		                .S_AXI_AWREADY(s1_axi_intr_awready),
+		                .S_AXI_WDATA(s1_axi_intr_wdata),
+		                .S_AXI_WSTRB(s1_axi_intr_wstrb),
+		                .S_AXI_WVALID(s1_axi_intr_wvalid),
+		                .S_AXI_WREADY(s1_axi_intr_wready),
+		                .S_AXI_BRESP(s1_axi_intr_bresp),
+		                .S_AXI_BVALID(s1_axi_intr_bvalid),
+		                .S_AXI_BREADY(s1_axi_intr_bready),
+		                .S_AXI_ARADDR(s1_axi_intr_araddr),
+		                .S_AXI_ARPROT(s1_axi_intr_arprot),
+		                .S_AXI_ARVALID(s1_axi_intr_arvalid),
+		                .S_AXI_ARREADY(s1_axi_intr_arready),
+		                .S_AXI_RDATA(s1_axi_intr_rdata),
+		                .S_AXI_RRESP(s1_axi_intr_rresp),
+		                .S_AXI_RVALID(s1_axi_intr_rvalid),
+		                .S_AXI_RREADY(s1_axi_intr_rready),
+		                .irq(MUON_IRQ),
+                                .INTR(MUON_INTR),
+                                .CLK120(CLK120)
+	                        );
+
+ 
 
    // Add user logic here
 

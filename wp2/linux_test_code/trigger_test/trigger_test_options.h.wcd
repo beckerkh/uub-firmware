@@ -49,8 +49,8 @@
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
 // to process any full buffers.  TRIGGER_POLLED is the only option that
 // works in Linux currently.
-#define TRIGGER_POLLED
-//#define TRIGGER_INTERRUPT
+//#define TRIGGER_POLLED
+#define TRIGGER_INTERRUPT
 
 // PDT mode. Read shower/muon buffers using simple memory mapped access.
 // This is the only option that works in Linux currently.

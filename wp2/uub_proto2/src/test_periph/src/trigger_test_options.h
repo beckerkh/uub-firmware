@@ -5,23 +5,25 @@
 // 06-Feb-2017 DFN Initial version extracted from trigger_test.h
 
 #define STAND_ALONE
-#define MAX_EVENTS 1000
+#define MAX_EVENTS 1000000000
+//#define VERBOSE_BUFFERS  // Print more buffer status if set
 
 //#define ADJUST_BASELINE
 //#define TOGGLE_WATCHDOG
-#define TOGGLE_ADCPWD
+//#define TOGGLE_ADCPWD
 //#define USE_FAKE_MUON
-//#define USE_FAKE_SIGNAL
+#define USE_FAKE_SIGNAL
+#define FAKE_SIGNAL_MODE 25
 #define USE_FAKE_GPS
-#define DO_LED_PULSE
-#define DO_LED_NOW
+//#define DO_LED_PULSE
+//#define DO_LED_NOW
 #define LED_DELAY0 50
 #define LED_DELAY1 100
 #define LED_PULSWID0 10
 #define LED_PULSWID1 20
 
 #define TRIG_THR0 4095
-#define TRIG_THR1 2000
+#define TRIG_THR1 300
 #define TRIG_THR2 4095
 #define TRIG_SSD 4000
 #define LPMT_THR0 0000   // Software large PMT threshold for small PMT cal
@@ -31,14 +33,14 @@
 #define SHWR_TRIGGERS
 
 #ifdef SHWR_TRIGGERS 
-//  #define COMPAT_SB_TRIGGER
+  #define COMPAT_SB_TRIGGER
 //  #define SB_TRIGGER
 //  #define SSD_AND	
-//  #define SSD_DELAY 5
+  #define SSD_DELAY 5
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER
-  #define LED_TRIGGER
+//  #define LED_TRIGGER
 #endif
 //#define MUON_TRIGGERS
 //#define MUON_SIPM_CAL
@@ -47,12 +49,12 @@
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
 // to process any full buffers.  TRIGGER_POLLED is the only option that
 // works in Linux currently.
-#define TRIGGER_POLLED
-//#define TRIGGER_INTERRUPT
+//#define TRIGGER_POLLED
+#define TRIGGER_INTERRUPT
 
 // PDT mode. Read shower/muon buffers using simple memory mapped access.
 // This is the only option that works in Linux currently.
-#define PDT
+ #define PDT
 
 // If DMA & SIMPLE are defined then readout polls for completion of read from 
 // each of the memory blocks before continuing.  This is sufficient to test

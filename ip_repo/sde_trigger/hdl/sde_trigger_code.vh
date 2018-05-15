@@ -14,7 +14,12 @@
 // 26-Sep-2016 DFN Delay SHWR_BUF_WNUM output by two clock cycles wrt
 //                 SHWR_TRIGGER
 // 18-Nov-2016 DFN Add mode to alternate SIPM calibration data in mu buffers
-//                  
+// 21-Nov-2017 DFN Add saving EVT_ID separately for each buffer
+// 22-Nov-2017 DFN Add SHWR_TRIG_FAST for AMIGA; Add protection against
+//                 incrementing full buffer mask at end of event and clearing
+//                 it at the same time from AXI.  Requires AXI bus be 2x or
+//                 more slower than trigger clock.
+
 `include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
 // Generate compatibility mode triggers.
@@ -350,7 +355,7 @@ always @(posedge CLK120) begin
                  LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM] 
                    <= SOME_TRIG |  (LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT);
 		 SOME_TRIG <= 0;
-              end
+              end // if (SOME_TRIG)
            end // if (!TRIGGERED && !DEAD)
 
            // Process dead time
@@ -387,92 +392,96 @@ always @(posedge CLK120) begin
 	        SHWR_TRIG_DLYD[DELAY+1] <= SHWR_TRIG_DLYD[DELAY];
               
               // If rising edge, we have a trigger and are at the end of the buffer
-	      // Need to add some protection here to prevent clearing at same time.
               if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
 	        begin
                    // Mark buffer as full and switch to the next one
-			SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
-                                               (1<<LCL_SHWR_BUF_WNUM);
-			SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
-			LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
                    SHWR_TRIGGER <= 1;
-			SHWR_INTR <= 1;
-			SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
-			TRIGGERED <= 0;
+ 		   SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS |
+                                          (1<<LCL_SHWR_BUF_WNUM);
+		   SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL+1;
+		   LCL_SHWR_BUF_WNUM <= LCL_SHWR_BUF_WNUM+1;
+		   SHWR_INTR <= 1;
+		   SHWR_EVT_CTR <= SHWR_EVT_CTR+1;
+		   TRIGGERED <= 0;
 
-			// Save address to start of trace
-			LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
-
-			// Save computed values that we will load in registers
-			LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[0] | (PEAK[0] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[0] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[1] | (PEAK[1] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[1] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[2] | (PEAK[2] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[2] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[3] | (PEAK[3] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[3] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[4] | (PEAK[4] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[4] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[5] | (PEAK[5] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[5] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[6] | (PEAK[6] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[6] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[7] | (PEAK[7] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[7] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[8] | (PEAK[8] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[8] << `SHWR_SATURATED_SHIFT);
-			LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
-			  <= AREA[9] | (PEAK[9] << `SHWR_PEAK_SHIFT) |
-			     (SATURATED[9] << `SHWR_SATURATED_SHIFT);
-
-			LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
-			  <= BASELINE[0] | (BASELINE[1] << 16);
-			LCL_SHWR_BASELINE1[LCL_SHWR_BUF_WNUM]
-			  <= BASELINE[2] | (BASELINE[3] << 16);
-			LCL_SHWR_BASELINE2[LCL_SHWR_BUF_WNUM]
-			  <= BASELINE[4] | (BASELINE[5] << 16);
-			LCL_SHWR_BASELINE3[LCL_SHWR_BUF_WNUM]
-			  <= BASELINE[6] | (BASELINE[7] << 16);
-			LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
-			  <= BASELINE[8] | (BASELINE[9] << 16);
+		   // Save event ID of this event
+		   LCL_SHWR_EVT_IDN[LCL_SHWR_BUF_WNUM] <= SHWR_EVT_ID;
 		   
-                end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY] < SHWR_TRIG_DLYD[`SHWR_TRIG_DLY-1])
-           end
+		   // Save address to start of trace
+		   LCL_SHWR_BUF_STARTN[LCL_SHWR_BUF_WNUM] <= SHWR_ADDR;
+
+		   // Save computed values that we will load in registers
+		   LCL_SHWR_PEAK_AREA0[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[0] | (PEAK[0] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[0] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA1[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[1] | (PEAK[1] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[1] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA2[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[2] | (PEAK[2] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[2] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA3[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[3] | (PEAK[3] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[3] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA4[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[4] | (PEAK[4] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[4] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA5[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[5] | (PEAK[5] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[5] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA6[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[6] | (PEAK[6] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[6] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA7[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[7] | (PEAK[7] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[7] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA8[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[8] | (PEAK[8] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[8] << `SHWR_SATURATED_SHIFT);
+		   LCL_SHWR_PEAK_AREA9[LCL_SHWR_BUF_WNUM] 
+		     <= AREA[9] | (PEAK[9] << `SHWR_PEAK_SHIFT) |
+			(SATURATED[9] << `SHWR_SATURATED_SHIFT);
+
+		   LCL_SHWR_BASELINE0[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[0] | (BASELINE[1] << 16);
+		   LCL_SHWR_BASELINE1[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[2] | (BASELINE[3] << 16);
+		   LCL_SHWR_BASELINE2[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[4] | (BASELINE[5] << 16);
+		   LCL_SHWR_BASELINE3[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[6] | (BASELINE[7] << 16);
+		   LCL_SHWR_BASELINE4[LCL_SHWR_BUF_WNUM]
+		     <= BASELINE[8] | (BASELINE[9] << 16);
+                end // if (SHWR_TRIG_DLYD[`SHWR_TRIG_DLY])
+           end // if (TRIGGERED)
            else
              SHWR_TRIGGER <= 0;
-        end 
-
+        end  // if ((SHWR_BUF_NUM_FULL < `SHWR_MEM_NBUF-1)
         
         // Process clearing of shower buf full flag
-
+        if (!SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
+ 	  begin
              PREV_SHWR_CONTROL_WRITTEN <= LCL_SHWR_CONTROL_WRITTEN;
-	     if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
-		 begin
-                    // Blocking assignment here is on purpose, so be careful  
-		    SHWR_BUF_RESET  
-		      = (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
-		    if ((SHWR_BUF_RESET != 0) 
-			&& (LCL_SHWR_BUF_CONTROL == SHWR_BUF_RNUM))
-		      begin
-			 LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_RNUM] <= 0;
-			 SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS & 
-						~SHWR_BUF_RESET;
-			 SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL-1;
-			 SHWR_BUF_RNUM <= SHWR_BUF_RNUM+1;
-			 // Reset shwr intr pending if resetting last filled buffer
-			 if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
-		      end
-		 end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
+             // Note that this is active on the trailing edge of write when
+             // all data are stable.
+	     if (PREV_SHWR_CONTROL_WRITTEN && !LCL_SHWR_CONTROL_WRITTEN)
+	       begin
+                  // Blocking assignment here is on purpose, so be careful  
+                  SHWR_BUF_RESET  
+		    = (1<<LCL_SHWR_BUF_CONTROL) & SHWR_BUF_FULL_FLAGS;
+		  if ((SHWR_BUF_RESET != 0) 
+		      && (LCL_SHWR_BUF_CONTROL == SHWR_BUF_RNUM))
+		    begin
+		       LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_RNUM] <= 0;
+		       SHWR_BUF_FULL_FLAGS <= SHWR_BUF_FULL_FLAGS & 
+					      ~SHWR_BUF_RESET;
+		       SHWR_BUF_NUM_FULL <= SHWR_BUF_NUM_FULL-1;
+		       SHWR_BUF_RNUM <= SHWR_BUF_RNUM+1;
+		       // Reset shwr intr pending if resetting last filled buffer
+		       if (SHWR_BUF_NUM_FULL == 1) SHWR_INTR <= 0;
+		    end
+	       end // if ((PREV_SHWR_CONTROL_WRITTEN & !LCL_SHWR_CONTROL_WRITTEN) == 1)
+	  end  // if (!SHWR_TRIG_DLYD[`SHWR_TRIG_DLY]) 
         else
           SHWR_BUF_RESET <= 0;
         
@@ -496,12 +505,16 @@ always @(posedge CLK120) begin
         LCL_SHWR_BUF_STATUS[`SHWR_BUF_NFULL_SHIFT+`SHWR_BUF_NUM_WIDTH:
                             `SHWR_BUF_NFULL_SHIFT] <= SHWR_BUF_NUM_FULL;
         LCL_SHWR_BUF_STATUS[`SHWR_EVT_ID_SHIFT-1:`SHWR_BUF_NOTUSED_SHIFT] <= 0;
-        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] <= SHWR_EVT_ID;
+        LCL_SHWR_BUF_STATUS[31:`SHWR_EVT_ID_SHIFT] 
+	  <= LCL_SHWR_EVT_IDN[SHWR_BUF_RNUM];
 
         // Send debug output to test pins P61 through P63
 
         P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
-	P6X[2] <= |SHWR_BUF_RESET;
+        //	P6X[2] <= |SHWR_BUF_RESET;
+        P6X[2] = PREV_SHWR_CONTROL_WRITTEN & ~LCL_SHWR_CONTROL_WRITTEN;
+        
+        
      end // else: !if(LCL_RESET)
 end
 

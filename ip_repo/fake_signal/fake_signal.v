@@ -10,6 +10,7 @@
 //                 corrections.
 // 24-Apr-2018 DFN Modify add various random spacings selected by MODE;
 //                 add RESET input
+// 04-May-2018 DFN Add ramp mode (=6) to aid in data integrity checking.
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
@@ -97,7 +98,7 @@ module fake_signal
              LOOP <= 0;
              MUON_COUNT <= 0;
              PULSE <= 0;
-             RANDOM <= 13'hF;
+             RANDOM <= 13'hf;
              RANDOM_DONE <= 13'hf;
              COUNT <= 0;
           end
@@ -111,18 +112,23 @@ module fake_signal
 
         // Pattern of pulses suitable for testing shower triggers
         if (USE_FAKE_SHWR) begin
-	   if (SHWR_PULSE_DELAY >= THIS_DELAY) 
-             begin
-                SHWR_PULSE_DELAY <= 0;
-                THIS_DELAY <= RANDOM_DONE;
-             end
-           else
-	     SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
+           if (MODE != 6) begin
+	      if (SHWR_PULSE_DELAY >= THIS_DELAY) 
+                begin
+                   SHWR_PULSE_DELAY <= 0;
+                   THIS_DELAY <= RANDOM_DONE;
+                end
+              else
+	        SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
 
-	   if (SHWR_PULSE_DELAY < `SIGNAL_WIDTH)
-	     SHWR_PULSE <= `MAX_SIGNAL;
-	   else
-	     SHWR_PULSE <= 0;
+	      if (SHWR_PULSE_DELAY < `SIGNAL_WIDTH)
+	        SHWR_PULSE <= `MAX_SIGNAL;
+	      else
+	        SHWR_PULSE <= 0;
+           end // if (MODE != 6)
+           else begin // This is ramp mode
+             SHWR_PULSE <= (SHWR_PULSE+1) & 12'h7ff;
+           end
         end
 
         // Pattern of pulses suitable for testing muon triggers  

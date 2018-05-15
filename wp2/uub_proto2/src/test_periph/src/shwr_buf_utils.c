@@ -1,4 +1,4 @@
-// Utility routines for reading, unpacking, checking shower buffers.
+// Utility routines for reading, unpacking, checking shower buffers.mem
 //
 // 25-May-2016 DFN Initial version extracted from trigger_test.c
 
@@ -8,7 +8,7 @@
 //#define VERBOSE
 
 extern u32 *mem_addr, *mem_ptr;
-extern u32 start_offset;
+extern u32 start_offset[4];
 extern int toread_shwr_buf_num;
 extern int status;
 
@@ -18,9 +18,9 @@ extern XScuGic IntController;	// Instance of the Interrupt Controller
 extern XScuGic_Config *IntCfgPtr;    // The configuration parameters of the controller
 extern XAxiCdma_Config *DmaCfgPtr;
 
-extern int DMA_Error;	/* Dma Error occurs */
+extern int Shwr_DMA_Error;	/* Dma Error occurs */
 extern int Shwr_Data_Read;
-extern int DMA_Done;
+extern int Shwr_DMA_Done;
 #endif
 
 #ifdef SCATTER_GATHER
@@ -34,6 +34,7 @@ extern u32 bd_space[512] __attribute__((aligned(64)));;
 #endif
 
 extern int nevents;
+int peaks[4][10], areas[4][10], baselines[4][10], saturateds[4][10];
 int peak[10], area[10], baseline[10], saturated[10];
 
 static double prev_time = 0;
@@ -44,9 +45,8 @@ void read_shw_buffers()
   int trig_id, pps_tics, v[10];
   int seconds, tics, delta_tics;
   double time, dt;
-#ifdef PDT
   int i;
-#endif
+
 
   pps_tics = read_ttag(TTAG_SHWR_PPS_TICS_ADDR);
   seconds = read_ttag(TTAG_SHWR_SECONDS_ADDR);
@@ -107,15 +107,15 @@ void read_shw_buffers()
   v[9] = read_trig(SHWR_PEAK_AREA9_ADDR);
   for (i=0; i<10; i++)
     {
-      peak[i] = (v[i] >> SHWR_PEAK_SHIFT) & SHWR_PEAK_MASK;
-      area[i] = (v[i] & SHWR_AREA_MASK);
-      saturated[i] = (v[i] >> SHWR_SATURATED_SHIFT) & 1;
+      peaks[readto_shw_buf_num][i] = (v[i] >> SHWR_PEAK_SHIFT) & SHWR_PEAK_MASK;
+      areas[readto_shw_buf_num][i] = (v[i] & SHWR_AREA_MASK);
+      saturateds[readto_shw_buf_num][i] = (v[i] >> SHWR_SATURATED_SHIFT) & 1;
     }
 
 #ifdef VERBOSE
-  printf("trigger_test: Read peaks %d %d %d %d %d %d %d %d %d %d\n",
-	 peak[0], peak[1], peak[2], peak[3], peak[4],
-	 peak[5], peak[6], peak[7], peak[8], peak[9]);   
+  //  printf("trigger_test: Read peaks %d %d %d %d %d %d %d %d %d %d\n",
+  //	 peak[0], peak[1], peak[2], peak[3], peak[4],
+  //	 peak[5], peak[6], peak[7], peak[8], peak[9]);   
 #endif
   v[0] = read_trig(SHWR_BASELINE0_ADDR);
   v[1] = read_trig(SHWR_BASELINE1_ADDR);
@@ -124,17 +124,17 @@ void read_shw_buffers()
   v[4] = read_trig(SHWR_BASELINE4_ADDR);
   for (i=0; i<5; i++)
     {
-      baseline[2*i] = v[i] & 0xffff;
-      baseline[2*i+1] = (v[i] >> 16) & 0xffff;
+      baselines[readto_shw_buf_num][2*i] = v[i] & 0xffff;
+      baselines[readto_shw_buf_num][2*i+1] = (v[i] >> 16) & 0xffff;
     }
 #ifdef VERBOSE
-  printf("trigger_test: Read baselines %d %d %d %d %d %d %d %d %d %d\n",
-	 baseline[0], baseline[1], baseline[2], baseline[3],
-	 baseline[4], baseline[5], baseline[6], baseline[7],
-	 baseline[8], baseline[9]);
+  // printf("trigger_test: Read baselines %d %d %d %d %d %d %d %d %d %d\n",
+  //	 baseline[0], baseline[1], baseline[2], baseline[3],
+  //	 baseline[4], baseline[5], baseline[6], baseline[7],
+  //	 baseline[8], baseline[9]);
 #endif
 
-  start_offset = read_trig(SHWR_BUF_START_ADDR);
+  start_offset[readto_shw_buf_num] = read_trig(SHWR_BUF_START_ADDR);
 
 #ifdef PDT
 
@@ -144,7 +144,7 @@ void read_shw_buffers()
   mem_ptr = mem_addr;
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      shw_mem0[i] = *mem_ptr;
+      shw_mem0[readto_shw_buf_num][i] = *mem_ptr;
       mem_ptr++;
       if (mem_ptr >= mem_addr+SHWR_MEM_WORDS)
 	mem_ptr = mem_ptr-SHWR_MEM_WORDS;
@@ -156,7 +156,7 @@ void read_shw_buffers()
   mem_ptr = mem_addr;
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      shw_mem1[i] = *mem_ptr;
+      shw_mem1[readto_shw_buf_num][i] = *mem_ptr;
       mem_ptr++;
       if (mem_ptr >= mem_addr+SHWR_MEM_WORDS) 
 	mem_ptr = mem_ptr-SHWR_MEM_WORDS;
@@ -168,7 +168,7 @@ void read_shw_buffers()
   mem_ptr = mem_addr;
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      shw_mem2[i] = *mem_ptr;
+      shw_mem2[readto_shw_buf_num][i] = *mem_ptr;
       mem_ptr++;
       if (mem_ptr >= mem_addr+SHWR_MEM_WORDS) 
 	mem_ptr = mem_ptr-SHWR_MEM_WORDS;
@@ -180,7 +180,7 @@ void read_shw_buffers()
   mem_ptr = mem_addr;
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      shw_mem3[i] = *mem_ptr;
+      shw_mem3[readto_shw_buf_num][i] = *mem_ptr;
       mem_ptr++;
       if (mem_ptr >= mem_addr+SHWR_MEM_WORDS) 
 	mem_ptr = mem_ptr-SHWR_MEM_WORDS;
@@ -192,7 +192,7 @@ void read_shw_buffers()
   mem_ptr = mem_addr;
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      shw_mem4[i] = *mem_ptr;
+      shw_mem4[readto_shw_buf_num][i] = *mem_ptr;
       mem_ptr++;
       if (mem_ptr >= mem_addr+SHWR_MEM_WORDS) 
 	mem_ptr = mem_ptr-SHWR_MEM_WORDS;
@@ -205,36 +205,41 @@ void read_shw_buffers()
   mem_addr = (u32*) shwr_mem_ptr[0];
   mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
   mem_ptr = mem_addr;
-  status = do_simple_polled_dma(mem_ptr, shw_mem0, 4*SHWR_MEM_WORDS);
-  if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
+  status = do_simple_polled_shwr_dma(mem_ptr, &shw_mem0[readto_shw_buf_num][0],
+                                     4*SHWR_MEM_WORDS);
+  if (status != XST_SUCCESS) printf("Error doing simple polled shwr DMA");
  
   // Shower buffer 1
   mem_addr = (u32*) shwr_mem_ptr[1];
   mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
   mem_ptr = mem_addr;
-  status = do_simple_polled_dma(mem_ptr, shw_mem1, 4*SHWR_MEM_WORDS);
-  if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
+  status = do_simple_polled_shwr_dma(mem_ptr, &shw_mem1[readto_shw_buf_num][0],
+                                     4*SHWR_MEM_WORDS);
+  if (status != XST_SUCCESS) printf("Error doing simple polled shwr DMA");
 
   // Shower buffer 2
   mem_addr = (u32*) shwr_mem_ptr[2];
   mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
   mem_ptr = mem_addr;
-  status = do_simple_polled_dma(mem_ptr, shw_mem2, 4*SHWR_MEM_WORDS);
-  if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
+  status = do_simple_polled_shwr_dma(mem_ptr, &shw_mem2[readto_shw_buf_num][0],
+                                     4*SHWR_MEM_WORDS);
+  if (status != XST_SUCCESS) printf("Error doing simple polled shwr DMA");
 
   // Shower buffer 3
   mem_addr = (u32*) shwr_mem_ptr[3];
   mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
   mem_ptr = mem_addr;
-  status = do_simple_polled_dma(mem_ptr, shw_mem3, 4*SHWR_MEM_WORDS);
-  if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
+  status = do_simple_polled_shwr_dma(mem_ptr, &shw_mem3[readto_shw_buf_num][0],
+                                     4*SHWR_MEM_WORDS);
+  if (status != XST_SUCCESS) printf("Error doing simple polled shwr DMA");
 
   // Shower buffer 4
   mem_addr = (u32*) shwr_mem_ptr[4];
   mem_addr = mem_addr + toread_shwr_buf_num * SHWR_MEM_WORDS;
   mem_ptr = mem_addr;
-  status = do_simple_polled_dma(mem_ptr, shw_mem4, 4*SHWR_MEM_WORDS);
-  if (status != XST_SUCCESS) printf("Error doing simple polled DMA");
+  status = do_simple_polled_shwr_dma(mem_ptr, &shw_mem4[readto_shw_buf_num][0],
+                                     4*SHWR_MEM_WORDS);
+  if (status != XST_SUCCESS) printf("Error doing simple polled shwr DMA");
 #endif  
 
 #ifdef SCATTER_GATHER
@@ -249,47 +254,55 @@ void unpack_shw_buffers()
   int i, j;
   int filt0, filt1, filt2;
 
+  for (i=0; i<10; i++)
+    {
+      peak[i] = peaks[unpack_shw_buf_num][i];
+      area[i] = areas[unpack_shw_buf_num][i];
+      saturated[i] = saturateds[unpack_shw_buf_num][i];
+      baseline[i] = baselines[unpack_shw_buf_num][i];
+    }
+
   for (i=0; i<SHWR_MEM_WORDS; i++)
     {
-      j = i + start_offset;
+      j = i + start_offset[unpack_shw_buf_num];
       if (j >= SHWR_MEM_WORDS) j = j - SHWR_MEM_WORDS;
 
-      shw_mem[0][i] = shw_mem0[j];
-      shw_mem[1][i] = shw_mem1[j];
-      shw_mem[2][i] = shw_mem2[j];
-      shw_mem[3][i] = shw_mem3[j];
-      shw_mem[4][i] = shw_mem4[j];
+      shw_mem[0][i] = shw_mem0[unpack_shw_buf_num][j];
+      shw_mem[1][i] = shw_mem1[unpack_shw_buf_num][j];
+      shw_mem[2][i] = shw_mem2[unpack_shw_buf_num][j];
+      shw_mem[3][i] = shw_mem3[unpack_shw_buf_num][j];
+      shw_mem[4][i] = shw_mem4[unpack_shw_buf_num][j];
 
-      adc[0][i] = shw_mem0[j] & ADC_MASK;
-      adc[1][i] = (shw_mem0[j] >> 16) & ADC_MASK;
+      adc[0][i] = shw_mem0[unpack_shw_buf_num][j] & ADC_MASK;
+      adc[1][i] = (shw_mem0[unpack_shw_buf_num][j] >> 16) & ADC_MASK;
 
-      adc[2][i] = shw_mem1[j] & ADC_MASK;
-      adc[3][i] = (shw_mem1[j] >> 16) & ADC_MASK;
+      adc[2][i] = shw_mem1[unpack_shw_buf_num][j] & ADC_MASK;
+      adc[3][i] = (shw_mem1[unpack_shw_buf_num][j] >> 16) & ADC_MASK;
 
-      adc[4][i] = shw_mem2[j] & ADC_MASK;
-      adc[5][i] = (shw_mem2[j] >> 16) & ADC_MASK;
+      adc[4][i] = shw_mem2[unpack_shw_buf_num][j] & ADC_MASK;
+      adc[5][i] = (shw_mem2[unpack_shw_buf_num][j] >> 16) & ADC_MASK;
 
-      adc[6][i] = shw_mem3[j] & ADC_MASK;
-      adc[7][i] = (shw_mem3[j] >> 16) & ADC_MASK;
+      adc[6][i] = shw_mem3[unpack_shw_buf_num][j] & ADC_MASK;
+      adc[7][i] = (shw_mem3[unpack_shw_buf_num][j] >> 16) & ADC_MASK;
 
-      adc[8][i] = shw_mem4[j] & ADC_MASK;
-      adc[9][i] = (shw_mem4[j] >> 16) & ADC_MASK;
+      adc[8][i] = shw_mem4[unpack_shw_buf_num][j] & ADC_MASK;
+      adc[9][i] = (shw_mem4[unpack_shw_buf_num][j] >> 16) & ADC_MASK;
 
-      flags[i] = (shw_mem4[j] >> (ADC_WIDTH+16)) & 0xf;
+      flags[i] = (shw_mem4[unpack_shw_buf_num][j] >> (ADC_WIDTH+16)) & 0xf;
 
-      filt0 = (shw_mem0[j] >> (ADC_WIDTH   )) & 0xf;
-      filt1 = (shw_mem0[j] >> (ADC_WIDTH+16)) & 0xf;
-      filt2 = (shw_mem1[j] >> (ADC_WIDTH   )) & 0xf;
+      filt0 = (shw_mem0[unpack_shw_buf_num][j] >> (ADC_WIDTH   )) & 0xf;
+      filt1 = (shw_mem0[unpack_shw_buf_num][j] >> (ADC_WIDTH+16)) & 0xf;
+      filt2 = (shw_mem1[unpack_shw_buf_num][j] >> (ADC_WIDTH   )) & 0xf;
       filt_adc[0][i] = filt0 + 16*(filt1 + 16*filt2);
         
-      filt0 = (shw_mem1[j] >> (ADC_WIDTH+16)) & 0xf;
-      filt1 = (shw_mem2[j] >> (ADC_WIDTH   )) & 0xf;
-      filt2 = (shw_mem2[j] >> (ADC_WIDTH+16)) & 0xf;
+      filt0 = (shw_mem1[unpack_shw_buf_num][j] >> (ADC_WIDTH+16)) & 0xf;
+      filt1 = (shw_mem2[unpack_shw_buf_num][j] >> (ADC_WIDTH   )) & 0xf;
+      filt2 = (shw_mem2[unpack_shw_buf_num][j] >> (ADC_WIDTH+16)) & 0xf;
       filt_adc[1][i] = filt0 + 16*(filt1 + 16*filt2);
 
-      filt0 = (shw_mem3[j] >> (ADC_WIDTH   )) & 0xf;
-      filt1 = (shw_mem3[j] >> (ADC_WIDTH+16)) & 0xf;
-      filt2 = (shw_mem4[j] >> (ADC_WIDTH   )) & 0xf;
+      filt0 = (shw_mem3[unpack_shw_buf_num][j] >> (ADC_WIDTH   )) & 0xf;
+      filt1 = (shw_mem3[unpack_shw_buf_num][j] >> (ADC_WIDTH+16)) & 0xf;
+      filt2 = (shw_mem4[unpack_shw_buf_num][j] >> (ADC_WIDTH   )) & 0xf;
       filt_adc[2][i] = filt0 + 16*(filt1 + 16*filt2);
         
     }
@@ -340,13 +353,17 @@ void check_shw_buffers()
 }
 
 void print_shw_buffers()
+
+// The "peak" and "header print" code needs updating to handle multiple
+// shower buffers possible with interrupt mode.
+
 {
   int i, j, trig, first, last, trig2;
 
   trig = 1;
 
-  //#define DETAIL_PRINT
-  //#define PRINT_EVENT
+  //  #define DETAIL_PRINT
+  //  #define PRINT_EVENT
 
 #ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
 #ifdef COMPAT_SB_TRIGGER

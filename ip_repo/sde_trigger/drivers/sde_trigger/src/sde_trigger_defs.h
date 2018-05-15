@@ -70,8 +70,8 @@
  #define MUON_MEM_NBUF (1<<MUON_BUF_NUM_WIDTH) // Num. muon memory buffers
  #define MUON_EVT_CTR_WIDTH 4   // Width of muon event counter (for ttag)
  
- #define SHWR_TRIGGER_INTR_BIT 0 // Shower trigger bit in interrupt regs.  
- #define MUON_TRIGGER_INTR_BIT 1 // Muon trigger bit in interrupt regs.  
+ //#define SHWR_TRIGGER_INTR_BIT 0 // Shower trigger bit in interrupt regs.  
+ //#define MUON_TRIGGER_INTR_BIT 1 // Muon trigger bit in interrupt regs.  
 
 
 // Define "Addresses" of trigger registers

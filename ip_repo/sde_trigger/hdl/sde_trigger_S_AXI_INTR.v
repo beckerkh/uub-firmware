@@ -1,5 +1,8 @@
 // 29-Feb-2016 DFN Replace C_NUM_OF_INTR by hard coded 2.  Had too many problems
-//                 with parameter being changed to 1. 
+//                 with parameter being changed to 1.
+// 28-Apr-2018 DFN Modify to handle just one of shower/muon interrpts.
+//                 Now 2 instances of this code are instantiated, one each
+//                 for shower & muon interrupts
 
 `timescale 1 ns / 1 ps
 
@@ -29,8 +32,7 @@ module sde_trigger_S_AXI_INTR #
    (
     // Users to add ports here
 
-    input wire SHWR_INTR,
-    input wire MUON_INTR,
+    input wire INTR,
     input wire CLK120,
 
     // User ports ends
@@ -116,12 +118,12 @@ module sde_trigger_S_AXI_INTR #
    //------------------------------------------------
    //-- Number of Slave Registers 5
    reg [0 : 0] reg_global_intr_en;
-   reg [1 :0] reg_intr_en;
-   reg [1 :0] reg_intr_sts;
-   reg [1 :0] reg_intr_ack;
-   reg [1 :0] reg_intr_pending;
-   reg [1 :0] intr;
-   reg [1 :0] det_intr;
+   reg [0 :0] reg_intr_en;
+   reg [0 :0] reg_intr_sts;
+   reg [0 :0] reg_intr_ack;
+   reg [0 :0] reg_intr_pending;
+   reg [0 :0] intr;
+   reg [0 :0] det_intr;
    wire                           intr_reg_rden;
    wire                           intr_reg_wren;
    reg [C_S_AXI_DATA_WIDTH-1:0]   reg_data_out;
@@ -225,9 +227,6 @@ module sde_trigger_S_AXI_INTR #
    // and the slave is ready to accept the write address and write data.
    assign intr_reg_wren = axi_wready && S_AXI_WVALID && axi_awready && S_AXI_AWVALID;
    
-   generate
-      for(i=0; i<= 1; i=i+1)
-	begin : gen_intr_reg
 	   
 	   // Global interrupt enable register
 	   always @( posedge S_AXI_ACLK )
@@ -247,55 +246,54 @@ module sde_trigger_S_AXI_INTR #
 	     begin
 	        if ( S_AXI_ARESETN == 1'b0)
 	          begin
-	             reg_intr_en[i] <= 1'b0;
+	             reg_intr_en[0] <= 1'b0;
 	          end
 	        else if (intr_reg_wren && axi_awaddr[4:2] == 3'h1)
 	          begin
-	             reg_intr_en[i] <= S_AXI_WDATA[i];
+	             reg_intr_en[0] <= S_AXI_WDATA[0];
 	          end
 	     end
 	   
 	   // Interrupt status register
 	   always @( posedge S_AXI_ACLK )
 	     begin
-	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[i] == 1'b1)
+	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[0] == 1'b1)
 	          begin
-	             reg_intr_sts[i] <= 1'b0;
+	             reg_intr_sts[0] <= 1'b0;
 	          end
 	        else
 	          begin
-	             reg_intr_sts[i] <= det_intr[i];
+	             reg_intr_sts[0] <= det_intr[0];
 	          end
 	     end
 	   
 	   // Interrupt acknowledgement register
 	   always @( posedge S_AXI_ACLK )
 	     begin
-	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[i] == 1'b1)
+	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[0] == 1'b1)
 	          begin
-	             reg_intr_ack[i] <= 1'b0;
+	             reg_intr_ack[0] <= 1'b0;
 	          end
 	        else if (intr_reg_wren && axi_awaddr[4:2] == 3'h3)
 	          begin
-	             reg_intr_ack[i] <= S_AXI_WDATA[i];
+	             reg_intr_ack[0] <= S_AXI_WDATA[0];
 	          end
 	     end
 	   
 	   // Interrupt pending register
 	   always @( posedge S_AXI_ACLK )
 	     begin
-	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[i] == 1'b1)
+	        if ( S_AXI_ARESETN == 1'b0 || reg_intr_ack[0] == 1'b1)
 	          begin
-	             reg_intr_pending[i] <= 1'b0;
+	             reg_intr_pending[0] <= 1'b0;
 	          end
 	        else
 	          begin
-	             reg_intr_pending[i] <= reg_intr_sts[i] & reg_intr_en[i];
+	             reg_intr_pending[0] <= reg_intr_sts[0] & reg_intr_en[0];
 	          end
 	     end
 	   
-	end
-   endgenerate
+
    // Implement write response logic generation
    // The write response and response valid signals are asserted by the slave
    // when axi_wready, S_AXI_WVALID, axi_wready and S_AXI_WVALID are asserted.

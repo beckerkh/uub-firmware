@@ -58,7 +58,8 @@ void print_muon_buffers();
 #if defined(DMA) && defined(SIMPLE)
 int do_simple_polled_dma(u32 *src, u32 *dest, int length);
 #endif
-void sde_trigger_handler(void *CallbackRef);
+void sde_shwr_intr_handler(void *CallbackRef);
+void sde_muon_intr_handler(void *CallbackRef);
 
 #ifdef SCATTER_GATHER
 #define NUM_SHWR_BDS_TO_TRANSFER	5
@@ -131,11 +132,15 @@ extern u32 shwr_mem_addr[5];
 extern u32 muon_mem_addr[2];
 
 // Shower memory buffers
-extern u32 shw_mem0[SHWR_MEM_WORDS];
-extern u32 shw_mem1[SHWR_MEM_WORDS];
-extern u32 shw_mem2[SHWR_MEM_WORDS];
-extern u32 shw_mem3[SHWR_MEM_WORDS];
-extern u32 shw_mem4[SHWR_MEM_WORDS];
+extern volatile int readto_shw_buf_num;
+extern volatile int full_shw_rd_bufs[4];
+extern volatile int unpack_shw_buf_num;
+
+extern u32 shw_mem0[4][SHWR_MEM_WORDS];
+extern u32 shw_mem1[4][SHWR_MEM_WORDS];
+extern u32 shw_mem2[4][SHWR_MEM_WORDS];
+extern u32 shw_mem3[4][SHWR_MEM_WORDS];
+extern u32 shw_mem4[4][SHWR_MEM_WORDS];
 
 // ADC traces & extra bits
 extern u32 shw_mem[5][SHWR_MEM_WORDS];

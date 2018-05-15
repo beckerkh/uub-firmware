@@ -6,6 +6,7 @@
 // 07-Jun-2016 DFN Added work around for missing entries in xparameters.h.
 //                 Note that xparameters.h must be included before this
 //                 header file in application programs.
+// 29-Apr-2018 DFN Modify for separate shower & muon interrupts
 
 /****************** Include Files ********************/
 #include "xil_types.h"
@@ -95,8 +96,16 @@ void SDE_TRIGGER_ACK(void * baseaddr_p, u32 data);
   #define XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S_AXI_INTR_BASEADDR 0x43c10000
 #endif
 
-#ifndef SDE_TRIGGER_INTR_BASE
- #define SDE_TRIGGER_INTR_BASE XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S_AXI_INTR_BASEADDR
+#ifndef XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S1_AXI_INTR_BASEADDR
+  #define XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S1_AXI_INTR_BASEADDR 0x43c50000
+#endif
+
+#ifndef SDE_SHWR_TRIGGER_INTR_BASE
+ #define SDE_SHWR_TRIGGER_INTR_BASE XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S_AXI_INTR_BASEADDR
+#endif
+
+#ifndef SDE_MUON_TRIGGER_INTR_BASE
+ #define SDE_MUON_TRIGGER_INTR_BASE XPAR_TRIGGER_MEMORY_BLOCK_SDE_TRIGGER_0_S1_AXI_INTR_BASEADDR
 #endif
 
 #ifndef SDE_TRIGGER_BASE
