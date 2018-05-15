@@ -36,7 +36,7 @@ hw_handoff/
 wp1/uub_proto2/uub_proto2.sdk/test_periph_dfn_bsp/ps7_cortexa9_0/
 wp2/uub_proto2/bd/uub_proto2/hdl/
 wp2/uub_proto2/bd/uub_proto2/ip/
-wp2/uub_proto2/bd/uub_proto2/ui/
+#wp2/uub_proto2/bd/uub_proto2/ui/
 wp2/uub_proto2/bd/uub_proto2/uub_proto2_ooc.xdc
 wp2/uub_proto2/uub_proto2.sdk/test_periph_dfn/Debug/makefile
 wp2/uub_proto2/uub_proto2.sdk/test_periph_dfn/Debug/src/
