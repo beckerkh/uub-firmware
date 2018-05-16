@@ -202,9 +202,9 @@ led_control led_control1(.RESET(LCL_RESET),
                          );
 
 // Stretch trigger out signal
-//stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
+stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
 // Just for testing....
-stretch stretch_trgout(.CLK(CLK120),.IN(COMPATIBILITY_SB_TRIG),.OUT(TRIG_OUT));
+//stretch stretch_trgout(.CLK(CLK120),.IN(COMPATIBILITY_SB_TRIG),.OUT(TRIG_OUT));
 
 
 
