@@ -57,6 +57,7 @@ module sde_trigger_S00_AXI #
     output reg SHWR_INTR,      // Remains high until no full buffers
     output wire MUON_INTR,     // Remains high until no full buffers
     output wire TRIG_OUT,       // External trigger output
+    //output reg TRIG_OUT,// "reg" for debug - restore to "wire" for std code
     output reg [3:1] P6X,       // Test points P63 through P61
     output wire LED,
                 
@@ -166,16 +167,16 @@ module sde_trigger_S00_AXI #
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG2_THR2;
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG2_SSD;
    reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG2_ENAB;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR0;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR1;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR2;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_SSD;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_ENAB;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR0;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR1;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR2;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_SSD;
-   reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_ENAB;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR0;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR1;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_THR2;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_SSD;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG3_ENAB;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR0;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR1;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_THR2;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_SSD;
+   // reg [C_S_AXI_DATA_WIDTH-1:0]   MUON_TRIG4_ENAB;
    reg [C_S_AXI_DATA_WIDTH-1:0]   COMPATIBILITY_AMIGA_TRIG;
    reg [C_S_AXI_DATA_WIDTH-1:0]   COMPATIBILITY_MOPS_TRIG_MIN0;
    reg [C_S_AXI_DATA_WIDTH-1:0]   COMPATIBILITY_MOPS_TRIG_MIN1;
@@ -389,16 +390,16 @@ module sde_trigger_S00_AXI #
 	     MUON_TRIG2_THR2 <= 0;
 	     MUON_TRIG2_SSD <= 0;
 	     MUON_TRIG2_ENAB <= 0;
-	     MUON_TRIG3_THR0 <= 0;
-	     MUON_TRIG3_THR1 <= 0;
-	     MUON_TRIG3_THR2 <= 0;
-	     MUON_TRIG3_SSD <= 0;
-	     MUON_TRIG3_ENAB <= 0;
-	     MUON_TRIG4_THR0 <= 0;
-	     MUON_TRIG4_THR1 <= 0;
-	     MUON_TRIG4_THR2 <= 0;
-	     MUON_TRIG4_SSD <= 0;
-	     MUON_TRIG4_ENAB <= 0;
+	     // MUON_TRIG3_THR0 <= 0;
+	     // MUON_TRIG3_THR1 <= 0;
+	     // MUON_TRIG3_THR2 <= 0;
+	     // MUON_TRIG3_SSD <= 0;
+	     // MUON_TRIG3_ENAB <= 0;
+	     // MUON_TRIG4_THR0 <= 0;
+	     // MUON_TRIG4_THR1 <= 0;
+	     // MUON_TRIG4_THR2 <= 0;
+	     // MUON_TRIG4_SSD <= 0;
+	     // MUON_TRIG4_ENAB <= 0;
 	     COMPATIBILITY_AMIGA_TRIG <= 0;
 	     COMPATIBILITY_MOPS_TRIG_MIN0 <= 0;
 	     COMPATIBILITY_MOPS_TRIG_MIN1 <= 0;
@@ -496,26 +497,26 @@ module sde_trigger_S00_AXI #
 	            MUON_TRIG2_SSD <= S_AXI_WDATA;
 	          `MUON_TRIG2_ENAB_ADDR :
 	            MUON_TRIG2_ENAB <= S_AXI_WDATA;
-	          `MUON_TRIG3_THR0_ADDR :
-	            MUON_TRIG3_THR0 <= S_AXI_WDATA;
-	          `MUON_TRIG3_THR1_ADDR :
-	            MUON_TRIG3_THR1 <= S_AXI_WDATA;
-	          `MUON_TRIG3_THR2_ADDR :
-	            MUON_TRIG3_THR2 <= S_AXI_WDATA;
-	          `MUON_TRIG3_SSD_ADDR :
-	            MUON_TRIG3_SSD <= S_AXI_WDATA;
-	          `MUON_TRIG3_ENAB_ADDR :
-	            MUON_TRIG3_ENAB <= S_AXI_WDATA;
-	          `MUON_TRIG4_THR0_ADDR :
-	            MUON_TRIG4_THR0 <= S_AXI_WDATA;
-	          `MUON_TRIG4_THR1_ADDR :
-	            MUON_TRIG4_THR1 <= S_AXI_WDATA;
-	          `MUON_TRIG4_THR2_ADDR :
-	            MUON_TRIG4_THR2 <= S_AXI_WDATA;
-	          `MUON_TRIG4_SSD_ADDR :
-	            MUON_TRIG4_SSD <= S_AXI_WDATA;
-	          `MUON_TRIG4_ENAB_ADDR :
-	            MUON_TRIG4_ENAB <= S_AXI_WDATA;
+	          // `MUON_TRIG3_THR0_ADDR :
+	          //   MUON_TRIG3_THR0 <= S_AXI_WDATA;
+	          // `MUON_TRIG3_THR1_ADDR :
+	          //   MUON_TRIG3_THR1 <= S_AXI_WDATA;
+	          // `MUON_TRIG3_THR2_ADDR :
+	          //   MUON_TRIG3_THR2 <= S_AXI_WDATA;
+	          // `MUON_TRIG3_SSD_ADDR :
+	          //   MUON_TRIG3_SSD <= S_AXI_WDATA;
+	          // `MUON_TRIG3_ENAB_ADDR :
+	          //   MUON_TRIG3_ENAB <= S_AXI_WDATA;
+	          // `MUON_TRIG4_THR0_ADDR :
+	          //   MUON_TRIG4_THR0 <= S_AXI_WDATA;
+	          // `MUON_TRIG4_THR1_ADDR :
+	          //   MUON_TRIG4_THR1 <= S_AXI_WDATA;
+	          // `MUON_TRIG4_THR2_ADDR :
+	          //   MUON_TRIG4_THR2 <= S_AXI_WDATA;
+	          // `MUON_TRIG4_SSD_ADDR :
+	          //   MUON_TRIG4_SSD <= S_AXI_WDATA;
+	          // `MUON_TRIG4_ENAB_ADDR :
+	          //   MUON_TRIG4_ENAB <= S_AXI_WDATA;
 	          `COMPATIBILITY_AMIGA_TRIG_ADDR :
 	            COMPATIBILITY_AMIGA_TRIG <= S_AXI_WDATA;
 	          `COMPATIBILITY_MOPS_TRIG_MIN0_ADDR :
@@ -660,26 +661,26 @@ module sde_trigger_S00_AXI #
                        <= MUON_TRIG2_SSD;
 	             MUON_TRIG2_ENAB 
                        <= MUON_TRIG2_ENAB;
-	             MUON_TRIG3_THR0
-                       <= MUON_TRIG3_THR0;
-	             MUON_TRIG3_THR1 
-                       <= MUON_TRIG3_THR1;
-	             MUON_TRIG3_THR2 
-                       <= MUON_TRIG3_THR2;
-	             MUON_TRIG3_SSD 
-                       <= MUON_TRIG3_SSD;
-	             MUON_TRIG3_ENAB 
-                       <= MUON_TRIG3_ENAB;
-	             MUON_TRIG4_THR0
-                       <= MUON_TRIG4_THR0;
-	             MUON_TRIG4_THR1 
-                       <= MUON_TRIG4_THR1;
-	             MUON_TRIG4_THR2 
-                       <= MUON_TRIG4_THR2;
-	             MUON_TRIG4_SSD 
-                       <= MUON_TRIG4_SSD;
-	             MUON_TRIG4_ENAB 
-                       <= MUON_TRIG4_ENAB;
+	             // MUON_TRIG3_THR0
+                     //   <= MUON_TRIG3_THR0;
+	             // MUON_TRIG3_THR1 
+                     //   <= MUON_TRIG3_THR1;
+	             // MUON_TRIG3_THR2 
+                     //   <= MUON_TRIG3_THR2;
+	             // MUON_TRIG3_SSD 
+                     //   <= MUON_TRIG3_SSD;
+	             // MUON_TRIG3_ENAB 
+                     //   <= MUON_TRIG3_ENAB;
+	             // MUON_TRIG4_THR0
+                     //   <= MUON_TRIG4_THR0;
+	             // MUON_TRIG4_THR1 
+                     //   <= MUON_TRIG4_THR1;
+	             // MUON_TRIG4_THR2 
+                     //   <= MUON_TRIG4_THR2;
+	             // MUON_TRIG4_SSD 
+                     //   <= MUON_TRIG4_SSD;
+	             // MUON_TRIG4_ENAB 
+                     //   <= MUON_TRIG4_ENAB;
 	             COMPATIBILITY_AMIGA_TRIG 
                        <= COMPATIBILITY_AMIGA_TRIG;
 	             COMPATIBILITY_MOPS_TRIG_MIN0 
@@ -936,26 +937,26 @@ module sde_trigger_S00_AXI #
                  reg_data_out <= MUON_TRIG2_SSD;
 	       `MUON_TRIG2_ENAB_ADDR :
                  reg_data_out <= MUON_TRIG2_ENAB;
-	       `MUON_TRIG3_THR0_ADDR :
-                 reg_data_out <= MUON_TRIG3_THR0;
-	       `MUON_TRIG3_THR1_ADDR :
-                 reg_data_out <= MUON_TRIG3_THR1;
-	       `MUON_TRIG3_THR2_ADDR :
-                 reg_data_out <= MUON_TRIG3_THR2;
-	       `MUON_TRIG3_SSD_ADDR :
-                 reg_data_out <= MUON_TRIG3_SSD;
-	       `MUON_TRIG3_ENAB_ADDR :
-                 reg_data_out <= MUON_TRIG3_ENAB;
-	       `MUON_TRIG4_THR0_ADDR :
-                 reg_data_out <= MUON_TRIG4_THR0;
-	       `MUON_TRIG4_THR1_ADDR :
-                 reg_data_out <= MUON_TRIG4_THR1;
-	       `MUON_TRIG4_THR2_ADDR :
-                 reg_data_out <= MUON_TRIG4_THR2;
-	       `MUON_TRIG4_SSD_ADDR :
-                 reg_data_out <= MUON_TRIG4_SSD;
-	       `MUON_TRIG4_ENAB_ADDR :
-                 reg_data_out <= MUON_TRIG4_ENAB;
+	       // `MUON_TRIG3_THR0_ADDR :
+               //   reg_data_out <= MUON_TRIG3_THR0;
+	       // `MUON_TRIG3_THR1_ADDR :
+               //   reg_data_out <= MUON_TRIG3_THR1;
+	       // `MUON_TRIG3_THR2_ADDR :
+               //   reg_data_out <= MUON_TRIG3_THR2;
+	       // `MUON_TRIG3_SSD_ADDR :
+               //   reg_data_out <= MUON_TRIG3_SSD;
+	       // `MUON_TRIG3_ENAB_ADDR :
+               //   reg_data_out <= MUON_TRIG3_ENAB;
+	       // `MUON_TRIG4_THR0_ADDR :
+               //   reg_data_out <= MUON_TRIG4_THR0;
+	       // `MUON_TRIG4_THR1_ADDR :
+               //   reg_data_out <= MUON_TRIG4_THR1;
+	       // `MUON_TRIG4_THR2_ADDR :
+               //   reg_data_out <= MUON_TRIG4_THR2;
+	       // `MUON_TRIG4_SSD_ADDR :
+               //   reg_data_out <= MUON_TRIG4_SSD;
+	       // `MUON_TRIG4_ENAB_ADDR :
+               //   reg_data_out <= MUON_TRIG4_ENAB;
 	       `COMPATIBILITY_AMIGA_TRIG_ADDR :
                  reg_data_out <= COMPATIBILITY_AMIGA_TRIG;
 	       `COMPATIBILITY_MOPS_TRIG_MIN0_ADDR :

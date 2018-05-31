@@ -11,29 +11,14 @@ extern u32 *mem_addr, *mem_ptr;
 extern u32 start_offset[4];
 extern int toread_shwr_buf_num;
 extern int status;
-
-#ifdef DMA
-extern XAxiCdma AxiCdmaInstance;	// Instance of the XAxiCdma 
-extern XScuGic IntController;	// Instance of the Interrupt Controller
-extern XScuGic_Config *IntCfgPtr;    // The configuration parameters of the controller
-extern XAxiCdma_Config *DmaCfgPtr;
-
-extern int Shwr_DMA_Error;	/* Dma Error occurs */
-extern int Shwr_Data_Read;
-extern int Shwr_DMA_Done;
-#endif
-
-#ifdef SCATTER_GATHER
-extern XAxiCdma_Bd BdTemplate;
-extern XAxiCdma_Bd *BdPtr;
-extern XAxiCdma_Bd *BdCurPtr;
-extern int BdCount;
-extern u8 *SrcBufferPtr;
-extern int Index;
-extern u32 bd_space[512] __attribute__((aligned(64)));;
-#endif
-
 extern int nevents;
+extern int compat_sb_count;
+extern int compat_tot_count;
+extern int sb_count;
+extern int compat_sb_dlyd_count;
+extern int compat_tot_dlyd_count;
+extern int sb_dlyd_count;
+
 int peaks[4][10], areas[4][10], baselines[4][10], saturateds[4][10];
 int peak[10], area[10], baseline[10], saturated[10];
 
@@ -59,8 +44,8 @@ void read_shw_buffers()
   delta_tics = tics-pps_tics;
   if (delta_tics < 0) delta_tics = delta_tics + TTAG_TICS_MASK +1;
 #ifdef VERBOSE
-  printf("pps_tics=%d seconds=%d tics=%d delta_tics=%d\n",
-	 pps_tics, seconds, tics, delta_tics);
+//  printf("pps_tics=%d seconds=%d tics=%d delta_tics=%d\n",
+//	 pps_tics, seconds, tics, delta_tics);
 #endif
 
   // Does not yet account for rollover of seconds
@@ -76,6 +61,8 @@ void read_shw_buffers()
     printf(" SB");
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
     printf(" COMPAT_SB");
+  if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_TOT) != 0)
+    printf(" COMPAT_TOT");
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0)
     printf(" EXT");
   if ((trig_id & SHWR_BUF_TRIG_LED) != 0)
@@ -86,11 +73,28 @@ void read_shw_buffers()
     printf(" SB_DLYD");
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_SB<<8)) != 0)
     printf(" COMPAT_SB_DLYD");
+  if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_TOT<<8)) != 0)
+     printf(" COMPAT_TOT_DLYD");
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_EXT<<8)) != 0)
     printf(" EXT_DLYD");
   printf("  T = %f  DT = %f", time, dt);
   printf("\n");
 #endif
+
+  if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
+    sb_count++;
+  if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
+    compat_sb_count++;
+  if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_TOT) != 0)
+    compat_tot_count++;
+  if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
+    sb_count++;
+  if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_SB<<8)) != 0)
+    compat_sb_dlyd_count++;
+  if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_TOT<<8)) != 0)
+    compat_tot_dlyd_count++;
+if ((trig_id & (SHWR_BUF_TRIG_SB<<8)) != 0)
+    compat_sb_dlyd_count++;
 
   // Read calculated peak, area, baseline.
 
@@ -311,45 +315,51 @@ void unpack_shw_buffers()
 void check_shw_buffers()
 {
 
-  /*   int i, corrupt, trig; */
-  /* #ifdef RAMP */
-  /*   int j; */
-  /* #endif */
+  int i, corrupt;
+#ifdef RAMP
+  int j;
+#endif
 
-  /*   corrupt = 0; */
-  /*   for (i=1; i<SHWR_MEM_WORDS; i++) */
-  /*     { */
-  /*       if (flags[i] >= 15) corrupt = 1; */
-  /*       if (flags[i] == 0) */
-  /* 	{ */
-  /* 	  if (flags[i-1] != 14)  */
-  /* 	    corrupt = 1; */
-  /* 	} else { */
-  /* 	if (flags[i] != flags[i-1]+1)  */
-  /* 	  corrupt = 1; */
-  /*       } */
-  /*       if (corrupt != 0) */
-  /* 	{    */
-  /* 	  printf("trigger_test: Corrupt buffer: time bin %x  flags=%x %x\n", */
-  /* 		 i,flags[i],flags[i-1]); */
-  /* 	  return; */
-  /*         } */
-  /*     } */
+  corrupt = 0;
+  for (i=1; i<SHWR_MEM_WORDS; i++)
+    {
+      if ((flags[i]&7) >= 7) corrupt = 1;
+      if ((flags[i]&7) == 0)
+        {
+          if ((flags[i-1]&7) != 6)
+            corrupt = 1;
+        }
+      else {
+        if ((flags[i]&7) != ((flags[i-1]&7)+1))
+          corrupt = 1;
+      }
+      if (corrupt != 0)
+        {
+          printf("trigger_test: Corrupt buffer: time bin %d  flags=%x %x  bufs=%d %d\n",
+                 i,flags[i]&7,flags[i-1]&7,readto_shw_buf_num, unpack_shw_buf_num);
+          return;
+        }
+      /* if (i <= 4) */
+      /*   { */
+      /*     printf("trigger_test: time bin %d  flags=%x %x  bufs=%d %d\n", */
+      /*            i,flags[i]&7,flags[i-1]&7,readto_shw_buf_num, unpack_shw_buf_num); */
+      /*   } */
+    }
 
-  /* #ifdef RAMP */
-  /*   for (i=1; i<SHWR_MEM_WORDS; i++) */
-  /*     { */
-  /*       for (j=0; j<10; j++) */
-  /* 	{ */
-  /* 	  if ((adc[j][i]+1 != adc[j][i-1]) && (adc[j][i] != 0xfff)) */
-  /* 	    { */
-  /* 	      printf("trigger_test: Corrupted value ADC %d  @time bin %d = %x", */
-  /* 		     j,i-1,adc[j][i-1]); */
-  /* 	      printf("  @time bin %d = %x\n",i,adc[j][i]); */
-  /* 	    } */
-  /* 	} */
-  /*     } */
-  /* #endif */
+  #ifdef RAMP
+    for (i=1; i<SHWR_MEM_WORDS; i++)
+      {
+        for (j=1; j<10; j+=2)
+  	{
+  	  if ((adc[j][i] != adc[j][i-1]+1) && (adc[j][i] != 200))
+  	    {
+  	      printf("trigger_test: Corrupted value ADC %d  @time bin %d = %d",
+  		     j,i-1,adc[j][i-1]);
+  	      printf("  @time bin %d = %d\n",i,adc[j][i]);
+  	    }
+  	}
+      }
+  #endif
 }
 
 void print_shw_buffers()
@@ -381,14 +391,18 @@ void print_shw_buffers()
       }
     }
   }
+
+#ifdef VERBOSE
   if (trig == 0) 
        printf("trigger_test: Event should not have triggered - peaks=%d %d %d\n",
            peak[1],peak[3],peak[5]);
+#endif
+
 #ifdef DETAIL_PRINT
   trig2 = 0;
   for (i=0; i<SHWR_MEM_WORDS; i++) {
     if (trig2 == 0) {
-      if (flags[i] != 0) {
+      if ((flags[i]&8) != 0) {
   	trig2 = i-12;
   	printf("trigger_test: Event triggered at bin %d = 0x%x\n",trig2,trig2);
   	for (j=-3; j<=3; j++)

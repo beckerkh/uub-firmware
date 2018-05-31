@@ -4,6 +4,7 @@
 //
 // 18-Nov-2016 DFN Initial version
 // 03-Mar-2017 DFN Update to allow different time constants for lo/hi gain
+// 18-May-2018 DFN Select faster PEAK calculation option
 
 `include "sde_trigger_defs.vh"
 
@@ -162,10 +163,10 @@ module shwr_integral(
 	       if ((ADCD > LPEAK) && (ADCD > RBASELINE)) begin
 		  LPEAK <= ADCD;
 		  if (ADCD >= `SHWR_SATURATED_LEVEL) SATURATED <= 1;
-//		  PEAK <= ADCD - RBASELINE;  // Simple version if speed prob.
-		  PEAK <= ADCD 
-			  - ((LBASELINE + `ONE_HALF - SAG)
-			     >> `BASELINE_FRAC_WIDTH);
+		  PEAK <= ADCD - RBASELINE;  // Simple version if speed prob.
+//		  PEAK <= ADCD  // This version seems to cause timing probs.
+//			  - ((LBASELINE + `ONE_HALF - SAG)
+//			     >> `BASELINE_FRAC_WIDTH);
 	       end
 		   
 	       // Accumulate integral, making sure it can't go negative.

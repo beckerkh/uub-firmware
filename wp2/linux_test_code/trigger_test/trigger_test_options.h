@@ -3,6 +3,7 @@
 // versions, allowing trigger_test.h to be common.
 //
 // 06-Feb-2017 DFN Initial version extracted from trigger_test.h
+// 17-mAY-2018 DFN Add compatibility tot trigger option
 
 //#define STAND_ALONE
 #define MAX_EVENTS 1000000000
@@ -34,6 +35,7 @@
 
 #ifdef SHWR_TRIGGERS 
   #define COMPAT_SB_TRIGGER
+  #define COMPAT_TOT_TRIGGER
 //  #define SB_TRIGGER
 //  #define SSD_AND	
 //  #define SSD_DELAY 5
@@ -49,7 +51,7 @@
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
 // to process any full buffers.  TRIGGER_POLLED is the only option that
 // works in Linux currently.
-#define TRIGGER_POLLED
+//#define TRIGGER_POLLED
 //#define TRIGGER_INTERRUPT
 
 // PDT mode. Read shower/muon buffers using simple memory mapped access.

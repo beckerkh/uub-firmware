@@ -11,10 +11,11 @@
 // 24-Apr-2018 DFN Modify add various random spacings selected by MODE;
 //                 add RESET input
 // 04-May-2018 DFN Add ramp mode (=6) to aid in data integrity checking.
+// 24-May-2018 DFN Add random 22 and 23 modes
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
-`define SIGNAL_WIDTH 100
+`define SIGNAL_WIDTH 30
 
 `define MUON_DELAY 20000 // Desired pulse spacing in usec
 `define MUON_DELAY2 10000 // 2nd pulse spacing
@@ -82,6 +83,8 @@ module fake_signal
                   15: RANDOM <= {RANDOM[13:0], RANDOM[14]^RANDOM[13]};
                   18: RANDOM <= {RANDOM[16:0], RANDOM[17]^RANDOM[10]};
                   21: RANDOM <= {RANDOM[19:0], RANDOM[20]^RANDOM[18]};
+                  22: RANDOM <= {RANDOM[20:0], RANDOM[21]^RANDOM[20]};
+                  23: RANDOM <= {RANDOM[21:0], RANDOM[22]^RANDOM[17]};
                   25: RANDOM <= {RANDOM[23:0], RANDOM[24]^RANDOM[21]};
                   28: RANDOM <= {RANDOM[26:0], RANDOM[27]^RANDOM[24]};
                   31: RANDOM <= {RANDOM[29:0], RANDOM[30]^RANDOM[27]};
@@ -117,12 +120,13 @@ module fake_signal
                 begin
                    SHWR_PULSE_DELAY <= 0;
                    THIS_DELAY <= RANDOM_DONE;
+                   SHWR_PULSE <= 0;
                 end
               else
 	        SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
 
 	      if (SHWR_PULSE_DELAY < `SIGNAL_WIDTH)
-	        SHWR_PULSE <= `MAX_SIGNAL;
+	        SHWR_PULSE <= `SIGNAL_BINS;
 	      else
 	        SHWR_PULSE <= 0;
            end // if (MODE != 6)

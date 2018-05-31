@@ -5,6 +5,10 @@
 //
 // 22-Nov-2016 DFN Initial version split off from sde_trigger_code.vh because
 //                 that file was getting too large.
+// 24-May-2018 DFN Change blocking assignment to FILTB_PMTx in 3 locations.
+//                 Don't see valid reason for blocking assignment.  Also
+//                 change sequence number to range 0-6 to leave one bit
+//                 to flag trigger bin.
 
 // Clip filtered signals to remain within 12 bit range
 if (FILT_PMT0[`ADC_WIDTH+1] == 1)
@@ -12,21 +16,21 @@ if (FILT_PMT0[`ADC_WIDTH+1] == 1)
 else if (FILT_PMT0[`ADC_WIDTH] == 1)
   FILTB_PMT0 <= (1 << `ADC_WIDTH) -1;
 else
-  FILTB_PMT0 = FILT_PMT0[`ADC_WIDTH-1:0];
+  FILTB_PMT0 <= FILT_PMT0[`ADC_WIDTH-1:0];
 
 if (FILT_PMT1[`ADC_WIDTH+1] == 1)
   FILTB_PMT1 <= 0;
 else if (FILT_PMT1[`ADC_WIDTH] == 1)
   FILTB_PMT1 <= (1 << `ADC_WIDTH) -1;
 else
-  FILTB_PMT1 = FILT_PMT1[`ADC_WIDTH-1:0];
+  FILTB_PMT1 <= FILT_PMT1[`ADC_WIDTH-1:0];
 
 if (FILT_PMT2[`ADC_WIDTH+1] == 1)
   FILTB_PMT2 <= 0;
 else if (FILT_PMT2[`ADC_WIDTH] == 1)
   FILTB_PMT2 <= (1 << `ADC_WIDTH) -1;
 else
-  FILTB_PMT2 = FILT_PMT2[`ADC_WIDTH-1:0];
+  FILTB_PMT2 <= FILT_PMT2[`ADC_WIDTH-1:0];
 
 // Keep a copy of unclipped filtered signal in sync with clipped one.
 FILTD_PMT0 <= FILT_PMT0;
@@ -129,15 +133,11 @@ SHWR_DATA4[31:`ADC_WIDTH+16] <= ADC_EXTRA;
  SHWR_DATA4[`SHWR_SATURATED_SHIFT:`SHWR_SATURATED_SHIFT] <= SATURATED[2];
 `endif
     
-// Some debugging for now in ADC_EXTRA in place of seq. number
-ADC_EXTRA <= COMPATIBILITY_SB_TRIG |
-	     (SB_TRIG << 1) |
-	     (LED_TRG_FLAG << 2) |
-	     (TRIGGERED << 3);
+// Put sequence number and trigger indicator in ADC_EXTRA
+ADC_EXTRA[3:3] <= TRIGGERED;
+if (ADC_EXTRA[2:0] == 6)
+  ADC_EXTRA[2:0] <= 0;
+else
+  ADC_EXTRA[2:0] <= ADC_EXTRA[2:0]+1;
 
-// Put sequence number in ADC_EXTRA
-//        if (ADC_EXTRA == 14)
-//          ADC_EXTRA <= 0;
-//        else
-//          ADC_EXTRA <= ADC_EXTRA+1;
 

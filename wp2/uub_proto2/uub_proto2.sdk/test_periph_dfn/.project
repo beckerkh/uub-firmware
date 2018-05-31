@@ -30,10 +30,5 @@
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/test_periph/src</locationURI>
 		</link>
-		<link>
-			<name>trigger_test_options.h</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/src/test_periph/src/trigger_test_options.h</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>

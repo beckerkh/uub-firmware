@@ -132,15 +132,16 @@ extern u32 shwr_mem_addr[5];
 extern u32 muon_mem_addr[2];
 
 // Shower memory buffers
+#define NUM_BUFFERS 8
 extern volatile int readto_shw_buf_num;
-extern volatile int full_shw_rd_bufs[4];
+extern volatile int full_shw_rd_bufs[NUM_BUFFERS];
 extern volatile int unpack_shw_buf_num;
 
-extern u32 shw_mem0[4][SHWR_MEM_WORDS];
-extern u32 shw_mem1[4][SHWR_MEM_WORDS];
-extern u32 shw_mem2[4][SHWR_MEM_WORDS];
-extern u32 shw_mem3[4][SHWR_MEM_WORDS];
-extern u32 shw_mem4[4][SHWR_MEM_WORDS];
+extern u32 shw_mem0[NUM_BUFFERS][SHWR_MEM_WORDS];
+extern u32 shw_mem1[NUM_BUFFERS][SHWR_MEM_WORDS];
+extern u32 shw_mem2[NUM_BUFFERS][SHWR_MEM_WORDS];
+extern u32 shw_mem3[NUM_BUFFERS][SHWR_MEM_WORDS];
+extern u32 shw_mem4[NUM_BUFFERS][SHWR_MEM_WORDS];
 
 // ADC traces & extra bits
 extern u32 shw_mem[5][SHWR_MEM_WORDS];

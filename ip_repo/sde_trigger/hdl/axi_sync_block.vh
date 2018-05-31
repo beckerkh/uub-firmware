@@ -22,7 +22,7 @@
         else
           AXI_MUON_CONTROL_WRITTEN <= 0;
         AXI_REG_WRITE <= slv_reg_wren;
-	P6X[3] <= AXI_SHWR_CONTROL_WRITTEN;
+//	P6X[3] <= AXI_SHWR_CONTROL_WRITTEN;
      end
 
    // Synchronization with AXI registers for cases where glitches would be

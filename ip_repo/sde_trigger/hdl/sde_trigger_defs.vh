@@ -9,7 +9,11 @@
 // 17-Sep-16 DFN Move time tagging definitions to time_tagging_defs.vh
 // 08-Nov-16 DFN Increase max SSD delay in single bin triggers.
 // 15-Nov-16 DFN Add documentation on what each ADC channel is used for
-// 09-Mar-17 DFN Add option to AND SSD trigger with WCD trigger in addition to default OR mode
+// 09-Mar-17 DFN Add option to AND SSD trigger with WCD trigger in 
+//               addition to default OR mode
+// 24-May-18 DFN Add definitions for compatibility tot trigger; change SAG
+//               calculations to be nominal RC sag for the V2 circuit,
+//               neglecting any sag from PMT base coupling.
 //
 // ADC channel usage:
 //  0 Low gain WCD PMT1
@@ -67,10 +71,6 @@
  `define MUON_MEM_NBUF (1<<`MUON_BUF_NUM_WIDTH) // Num. muon memory buffers
  `define MUON_EVT_CTR_WIDTH 4   // Width of muon event counter (for ttag)
  
- //`define SHWR_TRIGGER_INTR_BIT 0 // Shower trigger bit in interrupt regs.  
- //`define MUON_TRIGGER_INTR_BIT 1 // Muon trigger bit in interrupt regs.  
-
-
 // Define "Addresses" of trigger registers
 // The first 128 registers are used in compatibility mode and are assigned, 
 // as much as possible, to be the same as the pre-upgrade trigger registers.
@@ -122,6 +122,13 @@
 `define COMPATIBILITY_TOT_TRIG_THR2_ADDR 058
 `define COMPATIBILITY_TOT_TRIG_ENAB_ADDR 060
 `define COMPATIBILITY_TOT_TRIG_OCC_ADDR 062
+ `define COMPATIBILITY_TOT_TRIG_ENAB_SHIFT 3
+ `define COMPATIBILITY_TOT_TRIG_ENAB_WIDTH 3
+ `define COMPATIBILITY_TOT_TRIG_INCL_PMT0 (1<<`COMPATIBILITY_TOT_TRIG_ENAB_SHIFT)
+ `define COMPATIBILITY_TOT_TRIG_INCL_PMT1 (2<<`COMPATIBILITY_TOT_TRIG_ENAB_SHIFT)
+ `define COMPATIBILITY_TOT_TRIG_INCL_PMT2 (4<<`COMPATIBILITY_TOT_TRIG_ENAB_SHIFT)
+ `define COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT 6
+ `define COMPATIBILITY_TOT_TRIG_COINC_LVL_WIDTH 2
 
 `define COMPATIBILITY_TOTD_TRIG_THR0_ADDR 064
 `define COMPATIBILITY_TOTD_TRIG_THR1_ADDR 065
@@ -229,17 +236,17 @@
 `define MUON_TRIG2_SSD_ADDR 148
 `define MUON_TRIG2_ENAB_ADDR 149
 
-`define MUON_TRIG3_THR0_ADDR 150
-`define MUON_TRIG3_THR1_ADDR 151
-`define MUON_TRIG3_THR2_ADDR 152
-`define MUON_TRIG3_SSD_ADDR 153
-`define MUON_TRIG3_ENAB_ADDR 154
+// `define MUON_TRIG3_THR0_ADDR 150
+// `define MUON_TRIG3_THR1_ADDR 151
+// `define MUON_TRIG3_THR2_ADDR 152
+// `define MUON_TRIG3_SSD_ADDR 153
+// `define MUON_TRIG3_ENAB_ADDR 154
 
-`define MUON_TRIG4_THR0_ADDR 155
-`define MUON_TRIG4_THR1_ADDR 156
-`define MUON_TRIG4_THR2_ADDR 157
-`define MUON_TRIG4_SSD_ADDR 158
-`define MUON_TRIG4_ENAB_ADDR 159
+// `define MUON_TRIG4_THR0_ADDR 155
+// `define MUON_TRIG4_THR1_ADDR 156
+// `define MUON_TRIG4_THR2_ADDR 157
+// `define MUON_TRIG4_SSD_ADDR 158
+// `define MUON_TRIG4_ENAB_ADDR 159
 
  `define MUON_TRIG_ENAB_SHIFT 0
  `define MUON_TRIG_ENAB_WIDTH 4
@@ -274,14 +281,14 @@
 `define MUON_BUF_TRIG_MASK_ADDR 162
   `define MUON_BUF_TRIG_SB1_SHIFT 0
   `define MUON_BUF_TRIG_SB2_SHIFT 1
-  `define MUON_BUF_TRIG_SB3_SHIFT 2
-  `define MUON_BUF_TRIG_SB4_SHIFT 3
+  // `define MUON_BUF_TRIG_SB3_SHIFT 2
+  // `define MUON_BUF_TRIG_SB4_SHIFT 3
   `define MUON_BUF_TRIG_EXT_SHIFT 4
   `define MUON_BUF_SIPM_CAL_SHIFT 5
   `define MUON_BUF_TRIG_SB1 (1 << `MUON_BUF_TRIG_SB1_SHIFT)
   `define MUON_BUF_TRIG_SB2 (1 << `MUON_BUF_TRIG_SB2_SHIFT)
-  `define MUON_BUF_TRIG_SB3 (1 << `MUON_BUF_TRIG_SB3_SHIFT)
-  `define MUON_BUF_TRIG_SB4 (1 << `MUON_BUF_TRIG_SB4_SHIFT)
+  // `define MUON_BUF_TRIG_SB3 (1 << `MUON_BUF_TRIG_SB3_SHIFT)
+  // `define MUON_BUF_TRIG_SB4 (1 << `MUON_BUF_TRIG_SB4_SHIFT)
   `define MUON_BUF_TRIG_EXT (1 << `MUON_BUF_TRIG_EXT_SHIFT)
   `define MUON_BUF_SIPM_CAL (1 << `MUON_BUF_SIPM_CAL_SHIFT)
   `define MUON_NUM_TRIGS 5  // Don't include SIPM_CAL
@@ -368,11 +375,11 @@
  `define BASELINE_FRAC_INCR 8    // ~Step size when following baseline
  `define BASELINE_FRAC_WIDTH 20  // Extra bits when computing baseline sag
  `define BASELINEL_SAG_SHIFT1 15 // Frac. multipliers to account for RC decay
- `define BASELINEL_SAG_SHIFT2 18 // Set for 1000 nF front-end block cap.
- `define BASELINEL_SAG_SHIFT3 19 // Low gain channels
- `define BASELINEH_SAG_SHIFT1 14 // High gain channels
+ `define BASELINEL_SAG_SHIFT2 20 // Set for 1000 nF front-end block cap.
+ `define BASELINEL_SAG_SHIFT3 21 // Low gain channels - 274 Ohm input
+ `define BASELINEH_SAG_SHIFT1 14 // High gain channels - 100 Ohm input
  `define BASELINEH_SAG_SHIFT2 16 
- `define BASELINEH_SAG_SHIFT3 18 
+ `define BASELINEH_SAG_SHIFT3 17 
 
 // Addresses to sample instantaneous filtered PMT values for setup, test, etc.
 `define FILT_PMT0_TEST_ADDR 247

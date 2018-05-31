@@ -19,6 +19,7 @@
 //                 incrementing full buffer mask at end of event and clearing
 //                 it at the same time from AXI.  Requires AXI bus be 2x or
 //                 more slower than trigger clock.
+// 16-May-2018 DFN Add tot_40mhz trigger.
 
 `include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
@@ -43,6 +44,30 @@ single_bin_40mhz
                            `COMPATIBILITY_SB_TRIG_COINC_LVL_SHIFT]),
 	    .TRIG(COMPATIBILITY_SB_TRIG)
 	    );
+
+tot_40mhz
+  tot_40mhz1(.ENABLE40(ENABLE40),
+	     .CLK120(CLK120),
+             .RESET(SHWR_TRIGGER),
+	     .ADC0(FILTB_PMT0),
+	     .ADC1(FILTB_PMT1),
+	     .ADC2(FILTB_PMT2),
+	     .THRES0(COMPATIBILITY_TOT_TRIG_THR0[`ADC_WIDTH-1:0]),
+	     .THRES1(COMPATIBILITY_TOT_TRIG_THR1[`ADC_WIDTH-1:0]),
+	     .THRES2(COMPATIBILITY_TOT_TRIG_THR2[`ADC_WIDTH-1:0]),
+	     .TRIG_ENABLE(COMPATIBILITY_TOT_TRIG_ENAB
+                          [`COMPATIBILITY_TOT_TRIG_ENAB_SHIFT+
+                           `COMPATIBILITY_TOT_TRIG_ENAB_WIDTH-1:
+                           `COMPATIBILITY_TOT_TRIG_ENAB_SHIFT]),
+	     .MULTIPLICITY(COMPATIBILITY_TOT_TRIG_ENAB
+                           [`COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT+
+                            `COMPATIBILITY_TOT_TRIG_COINC_LVL_WIDTH-1:
+                            `COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT]),
+             .OCCUPANCY(COMPATIBILITY_TOT_TRIG_OCC),
+	     .TRIG(COMPATIBILITY_TOT_TRIG),
+             .DEBUG(COMPATIBILITY_TOT_DEBUG)
+	     );	
+
 
 // Generate full bandwidth triggers
 
@@ -94,36 +119,36 @@ muon_trigger
                 .TRIG(MUON_PRETRIG2),
                 .DEBUG(MUON2_DEBUG)
   	        );
-muon_trigger
-  muon_trigger3(.RESET(LCL_RESET),
-                .CLK120(CLK120),
-	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-                .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .TRIG_THR0(MUON_TRIG3_THR0[`ADC_WIDTH-1:0]),
-	        .TRIG_THR1(MUON_TRIG3_THR1[`ADC_WIDTH-1:0]),
-	        .TRIG_THR2(MUON_TRIG3_THR2[`ADC_WIDTH-1:0]),
-	        .TRIG_SSD(MUON_TRIG3_SSD[`ADC_WIDTH-1:0]),
-	        .TRIG_ENAB(MUON_TRIG3_ENAB),
-                .TRIG(MUON_PRETRIG3),
-                .DEBUG(MUON3_DEBUG)
-  	        );
-muon_trigger
-  muon_trigger4(.RESET(LCL_RESET),
-                .CLK120(CLK120),
-	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-                .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-	        .TRIG_THR0(MUON_TRIG4_THR0[`ADC_WIDTH-1:0]),
-	        .TRIG_THR1(MUON_TRIG4_THR1[`ADC_WIDTH-1:0]),
-	        .TRIG_THR2(MUON_TRIG4_THR2[`ADC_WIDTH-1:0]),
-	        .TRIG_SSD(MUON_TRIG4_SSD[`ADC_WIDTH-1:0]),
-	        .TRIG_ENAB(MUON_TRIG4_ENAB),
-                .TRIG(MUON_PRETRIG4),
-                .DEBUG(MUON4_DEBUG)
-  	        );
+// muon_trigger
+//   muon_trigger3(.RESET(LCL_RESET),
+//                 .CLK120(CLK120),
+// 	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+//                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .TRIG_THR0(MUON_TRIG3_THR0[`ADC_WIDTH-1:0]),
+// 	        .TRIG_THR1(MUON_TRIG3_THR1[`ADC_WIDTH-1:0]),
+// 	        .TRIG_THR2(MUON_TRIG3_THR2[`ADC_WIDTH-1:0]),
+// 	        .TRIG_SSD(MUON_TRIG3_SSD[`ADC_WIDTH-1:0]),
+// 	        .TRIG_ENAB(MUON_TRIG3_ENAB),
+//                 .TRIG(MUON_PRETRIG3),
+//                 .DEBUG(MUON3_DEBUG)
+//   	        );
+// muon_trigger
+//   muon_trigger4(.RESET(LCL_RESET),
+//                 .CLK120(CLK120),
+// 	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+//                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
+// 	        .TRIG_THR0(MUON_TRIG4_THR0[`ADC_WIDTH-1:0]),
+// 	        .TRIG_THR1(MUON_TRIG4_THR1[`ADC_WIDTH-1:0]),
+// 	        .TRIG_THR2(MUON_TRIG4_THR2[`ADC_WIDTH-1:0]),
+// 	        .TRIG_SSD(MUON_TRIG4_SSD[`ADC_WIDTH-1:0]),
+// 	        .TRIG_ENAB(MUON_TRIG4_ENAB),
+//                 .TRIG(MUON_PRETRIG4),
+//                 .DEBUG(MUON4_DEBUG)
+//   	        );
 
 muon_buffers
   muon_buffers1(.RESET(LCL_RESET),
@@ -203,10 +228,6 @@ led_control led_control1(.RESET(LCL_RESET),
 
 // Stretch trigger out signal
 stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
-// Just for testing....
-//stretch stretch_trgout(.CLK(CLK120),.IN(COMPATIBILITY_SB_TRIG),.OUT(TRIG_OUT));
-
-
 
 always @(posedge CLK120) begin
    LCL_RESET <= ((LCL_COMPATIBILITY_GLOBAL_CONTROL &
@@ -231,8 +252,10 @@ always @(posedge CLK120) begin
         TRIGGERED <= 0;
         SOME_TRIG <= 0;
         COMPAT_SB_TRIG_COUNTER <= 0;
+        COMPAT_TOT_TRIG_COUNTER <= 0;
         COMPAT_EXT_TRIG_COUNTER <= 0;
         PRESCALED_COMPAT_SB_TRIG <= 0;
+        PRESCALED_COMPAT_TOT_TRIG <= 0;
         PRESCALED_COMPAT_EXT_TRIG <= 0;
         for (DEADDLY = 0; DEADDLY<=`SHWR_DEAD_DLY; DEADDLY=DEADDLY+1)
 	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
@@ -242,6 +265,9 @@ always @(posedge CLK120) begin
      end
    else
      begin
+
+        // Debugging code.  Std. code uses stretch module above always loop.
+        //  TRIG_OUT <= FILT_PMT0 > 300;
 
 	// Send SHWR_TRIG_FAST signal for AMIGA & possibly other use
 	// For now this is just a copy of TRIGGERED, but keep separate so
@@ -264,10 +290,14 @@ always @(posedge CLK120) begin
         // Form composite trigger for storing muon in muon buffer        
         MUON_PRETRIG <= (MUON_PRETRIG1 << `MUON_BUF_TRIG_SB1_SHIFT) |
 			(MUON_PRETRIG2 << `MUON_BUF_TRIG_SB2_SHIFT) | 
-			(MUON_PRETRIG3 <<`MUON_BUF_TRIG_SB3_SHIFT) | 
-			(MUON_PRETRIG4 <<`MUON_BUF_TRIG_SB4_SHIFT) |
 			(MUON_EXT_TRIG[`MUON_EXT_TRIG_DELAY] <<
 			 `MUON_BUF_TRIG_EXT_SHIFT);
+        // MUON_PRETRIG <= (MUON_PRETRIG1 << `MUON_BUF_TRIG_SB1_SHIFT) |
+	// 		(MUON_PRETRIG2 << `MUON_BUF_TRIG_SB2_SHIFT) | 
+	// 		(MUON_PRETRIG3 <<`MUON_BUF_TRIG_SB3_SHIFT) | 
+	// 		(MUON_PRETRIG4 <<`MUON_BUF_TRIG_SB4_SHIFT) |
+	// 		(MUON_EXT_TRIG[`MUON_EXT_TRIG_DELAY] <<
+	// 		 `MUON_BUF_TRIG_EXT_SHIFT);
 
         // Form external trigger on upward transition
         TRIG_IN_PREV <= TRIG_IN;
@@ -287,6 +317,17 @@ always @(posedge CLK120) begin
         else
           PRESCALED_COMPAT_SB_TRIG <= COMPATIBILITY_SB_TRIG;
 
+        if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_TOT) begin
+           if (COMPATIBILITY_TOT_TRIG) begin
+              COMPAT_TOT_TRIG_COUNTER <= COMPAT_TOT_TRIG_COUNTER + 1;
+              if (COMPAT_TOT_TRIG_COUNTER == 0) PRESCALED_COMPAT_TOT_TRIG <= 1;
+           end
+           else
+             PRESCALED_COMPAT_TOT_TRIG <= 0;
+        end
+        else
+          PRESCALED_COMPAT_TOT_TRIG <= COMPATIBILITY_TOT_TRIG;
+
         if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT) begin
            if (EXT_TRIG) begin
               COMPAT_EXT_TRIG_COUNTER <= COMPAT_EXT_TRIG_COUNTER + 1;
@@ -303,7 +344,7 @@ always @(posedge CLK120) begin
 `include "adc_filt_delay_block.vh"
         
         // Make offset to data in current buffer to read available
-        LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0] 
+        LCL_SHWR_BUF_STARTT[`SHWR_MEM_BUF_SHIFT+`SHWR_BUF_NUM_WIDTH-1:0]
   <= LCL_SHWR_BUF_STARTN[SHWR_BUF_RNUM];
         // Blocking assignment here is on purpose. Don't change without
         // a careful test!
@@ -335,10 +376,14 @@ always @(posedge CLK120) begin
               SOME_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
                               `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
                              (SHWR_BUF_TRIG_MASK & 
-                              `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
-                | ((PRESCALED_COMPAT_EXT_TRIG <<
-                    `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
-                   (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
+                              `COMPATIBILITY_SHWR_BUF_TRIG_SB))
+                |  ((PRESCALED_COMPAT_TOT_TRIG << 
+                     `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
+                    (SHWR_BUF_TRIG_MASK & 
+                     `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
+              | ((PRESCALED_COMPAT_EXT_TRIG <<
+                  `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
+                 (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
               | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB))
               | ((LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT) & 
@@ -374,7 +419,11 @@ always @(posedge CLK120) begin
               SOME_DLYD_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
                                   (SHWR_BUF_TRIG_MASK & 
-                                   `COMPATIBILITY_SHWR_BUF_TRIG_SB)) 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_SB))
+                |  ((PRESCALED_COMPAT_TOT_TRIG << 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
+                                  (SHWR_BUF_TRIG_MASK & 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
 		| ((PRESCALED_COMPAT_EXT_TRIG << 
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
@@ -510,10 +559,9 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-        P6X[1] <= LCL_SHWR_CONTROL_WRITTEN;
-        //	P6X[2] <= |SHWR_BUF_RESET;
-        P6X[2] = PREV_SHWR_CONTROL_WRITTEN & ~LCL_SHWR_CONTROL_WRITTEN;
-        
+        P6X[1] <= COMPATIBILITY_SB_TRIG;
+        P6X[2] <= COMPATIBILITY_TOT_TRIG;
+        P6X[3] <= COMPATIBILITY_TOT_DEBUG;
         
      end // else: !if(LCL_RESET)
 end

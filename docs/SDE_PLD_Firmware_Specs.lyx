@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-April 27, 2018
+May 25, 2018
 \end_layout
 
 \begin_layout Author
@@ -186,6 +186,18 @@ l fake signal features.
 \begin_layout Description
 29-Apr-2018 Update documentation to describe split of shower and muon interrupts
  and DMA.
+\end_layout
+
+\begin_layout Description
+16-May-2018 Update documentation to include compatibility time-over-threshold
+ trigger.
+\end_layout
+
+\begin_layout Description
+25-May-2018 Update fake data description to include 2 additional random
+ timing modes and a sawtooth ramp mode; clarify 40 MHz clock use for compatibili
+ty triggers; reduce number of muon triggers from 4 to 2 to aid in meeting
+ timing constraints.
 \end_layout
 
 \begin_layout Section
@@ -695,13 +707,18 @@ Register Usage
 
 \begin_layout Standard
 The register address space of the trigger circuitry occupies 256 control
- registers and 5 interrupt control registers.
+ registers and 10 interrupt control registers.
  The base address of the trigger module is SDE_TRIGGER_BASE = 0x43c2
 \begin_inset space \space{}
 \end_inset
 
-0000, while that of the trigger interrupt module is SDE_TRIGGER_INTR_BASE
- = 0x43c1
+0000, while that of the shower trigger interrupt module is SDE_SHWR_TRIGGER_INTR
+_BASE = 0x43c1
+\begin_inset space \space{}
+\end_inset
+
+0000 and the muon trigger interrupt module is at SDE_MUON_TRIGGER_INTR_BASE
+ = 0x43c5
 \begin_inset space \space{}
 \end_inset
 
@@ -760,7 +777,9 @@ Width
 The compatibility mode triggers operate on a signal that has been filtered
  using a FIR Nyquist filter with a 20 MHz cutoff to approximate the frequency
  response of the previous electronics.
- These triggers sample every 3rd bin of the filtered signal.
+ The more complex of these triggers (eg.
+ all but the compatibility single bin trigger) sample every 3rd bin of the
+ filtered signal.
  The filtered signals are saved in the shower buffers, in otherwise unused
  bits, to allow access for debugging purposes.
  They may be stripped out before sending the data from the local station
@@ -771,13 +790,11 @@ The compatibility mode triggers operate on a signal that has been filtered
 \end_layout
 
 \begin_layout Verbatim
-
 int fir[21] = {5,0,12,22,0,-61,-96,0,256,551,681,551,256,0,-96,-61,0,22,12,0,5};
  
 \end_layout
 
 \begin_layout Verbatim
-
 int filt[2048], unfilt[2048];
 \end_layout
 
@@ -786,32 +803,26 @@ int filt[2048], unfilt[2048];
 \end_layout
 
 \begin_layout Verbatim
-
 for (i=21; i<2048; i++) 
 \end_layout
 
 \begin_layout Verbatim
-
 { 
 \end_layout
 
 \begin_layout Verbatim
-
   filt[i] = 0;
 \end_layout
 
 \begin_layout Verbatim
-
   for (j=0; j<21; j++)
 \end_layout
 
 \begin_layout Verbatim
-
     filt[i] = filt[i] + unfilt[i-21+j]*fir[j]; 
 \end_layout
 
 \begin_layout Verbatim
-
 }
 \end_layout
 
@@ -825,7 +836,6 @@ The code snippet below indicates how to use the bit masks and shifts defined
 \end_layout
 
 \begin_layout Verbatim
-
 int wrt_word, rd_word, value1, value2;
 \end_layout
 
@@ -834,12 +844,10 @@ int wrt_word, rd_word, value1, value2;
 \end_layout
 
 \begin_layout Verbatim
-
 // Prepare information to load multi-field register
 \end_layout
 
 \begin_layout Verbatim
-
 wrt_word = (value1 & VALUE1_MASK) << VALUE1_SHIFT;
 \end_layout
 
@@ -848,17 +856,14 @@ wrt_word = (value1 & VALUE1_MASK) << VALUE1_SHIFT;
 \end_layout
 
 \begin_layout Verbatim
-
 // Extract information from word read from multi-field register
 \end_layout
 
 \begin_layout Verbatim
-
 value1 = (rd_word & VALUE1_MASK) >> VALUE1_SHIFT;
 \end_layout
 
 \begin_layout Verbatim
-
 value2 = (rd_word & VALUE2_MASK) >> VALUE2_SHIFT;
 \end_layout
 
@@ -1332,29 +1337,30 @@ Require 2 consecutive bins above threshold if set
 \begin_layout Subsection
 \noindent
 
-\color cyan
-Time-over-threshold trigger
+\color black
+Compatibility Time-over-threshold trigger
 \end_layout
 
 \begin_layout Standard
 \noindent
 
-\color cyan
-The time-over-threshold trigger first applies trigger conditions of the
- type used for the single bin trigger to individual bins, then counts the
- number of bins within a sliding window which meet those conditions.
+\color black
+The compatibility time-over-threshold trigger first applies trigger conditions
+ of the type used for the compatibility single bin trigger to individual
+ bins, then counts the number of bins within a sliding window which meet
+ those conditions.
  If the occupancy exceeds a specified value, a time-over-threshold shower
  trigger is generated.
+ This trigger operates on the 40 MHz down-sampled traces.
 \end_layout
 
 \begin_layout Standard
 \noindent
 
-\color cyan
-A block of 7 registers controls each time-over-threshold trigger instance.
+\color black
+A block of 7 registers controls the compatibility time-over-threshold trigger
+ instance.
  
-\color inherit
-
 \begin_inset Separator latexpar
 \end_inset
 
@@ -1365,11 +1371,10 @@ A block of 7 registers controls each time-over-threshold trigger instance.
 \noindent
 \align center
 
-\color cyan
+\color black
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="5">
+<lyxtabular version="3" rows="6" columns="4">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -1380,7 +1385,7 @@ A block of 7 registers controls each time-over-threshold trigger instance.
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Name
 \end_layout
 
@@ -1391,18 +1396,7 @@ Name
 
 \begin_layout Plain Layout
 
-\color cyan
-Address
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1413,7 +1407,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Width
 \end_layout
 
@@ -1424,7 +1418,7 @@ Width
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Description
 \end_layout
 
@@ -1437,8 +1431,8 @@ Description
 
 \begin_layout Plain Layout
 
-\color cyan
-THR0
+\color black
+COMPATIBILITY_TOT_TRIG_THR0_ADDR
 \end_layout
 
 \end_inset
@@ -1448,18 +1442,7 @@ THR0
 
 \begin_layout Plain Layout
 
-\color cyan
-base+0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1470,8 +1453,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1481,7 +1464,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Threshold for PMT0
 \end_layout
 
@@ -1494,8 +1477,8 @@ Threshold for PMT0
 
 \begin_layout Plain Layout
 
-\color cyan
-THR1
+\color black
+COMPATIBILITY_TOT_TRIG_THR1_ADDR
 \end_layout
 
 \end_inset
@@ -1505,18 +1488,7 @@ THR1
 
 \begin_layout Plain Layout
 
-\color cyan
-base+1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1527,8 +1499,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1538,7 +1510,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Threshold for PMT1
 \end_layout
 
@@ -1551,8 +1523,8 @@ Threshold for PMT1
 
 \begin_layout Plain Layout
 
-\color cyan
-THR2
+\color black
+COMPATIBILITY_TOT_TRIG_THR2_ADDR
 \end_layout
 
 \end_inset
@@ -1562,18 +1534,7 @@ THR2
 
 \begin_layout Plain Layout
 
-\color cyan
-base+2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1584,8 +1545,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1595,7 +1556,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Threshold for PMT2
 \end_layout
 
@@ -1608,6 +1569,8 @@ Threshold for PMT2
 
 \begin_layout Plain Layout
 
+\color black
+COMPATIBILITY_TOT_TRIG_ENABLE_ADDR
 \end_layout
 
 \end_inset
@@ -1617,18 +1580,7 @@ Threshold for PMT2
 
 \begin_layout Plain Layout
 
-\color cyan
-base+3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1639,64 +1591,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-12
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-Not longer used
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-ENABLE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-base+4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-R/W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 10
 \end_layout
 
@@ -1707,7 +1602,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Control bits for the trigger
 \end_layout
 
@@ -1715,70 +1610,13 @@ Control bits for the trigger
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-WID
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-base+5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-R/W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-Width in bins of sliding window (see below!)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\color cyan
-OCC
+\color black
+COMPATIBILITY_TOT_TRIG_OCC_ADDR
 \end_layout
 
 \end_inset
@@ -1788,18 +1626,7 @@ OCC
 
 \begin_layout Plain Layout
 
-\color cyan
-base+6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1810,7 +1637,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 7
 \end_layout
 
@@ -1821,7 +1648,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Occupancy required for trigger
 \end_layout
 
@@ -1838,7 +1665,7 @@ Occupancy required for trigger
 \begin_layout Standard
 \noindent
 
-\color cyan
+\color black
 The bit usage for the ENABLE register is the same as for the single bin
  trigger above.
 \end_layout
@@ -1846,38 +1673,14 @@ The bit usage for the ENABLE register is the same as for the single bin
 \begin_layout Standard
 \noindent
 
-\color cyan
+\color black
 The sub-trigger that feeds the time-over-threshold occupancy logic is the
  logical OR of the enabled multiplicity and pulse height sum sub-triggers.
-\end_layout
+ The width of the sliding window is fixed at 
+\begin_inset Formula $3\mu s,$
+\end_inset
 
-\begin_layout Standard
-
-\shape italic
-\color cyan
-Note: Previously implemented trigger instances B and C are not present in
- code versions
-\shape default
- 
-\shape italic
-x260210y and later
-\shape default
-.
-\end_layout
-
-\begin_layout Standard
-
-\shape italic
-\color cyan
-Note: The maximum WID and OCC is reduced to 127 starting with code versions
- x270711y.
-\end_layout
-
-\begin_layout Standard
-
-\shape italic
-\color cyan
-Note: WID is fixed at 120 bins starting with code versions x121211y.
+ 120 (40 MHz) bins.
 \end_layout
 
 \begin_layout Subsection
@@ -5527,7 +5330,7 @@ Compatibility single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 1
 \end_layout
 
@@ -5539,7 +5342,7 @@ Compatibility single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOT
 \end_layout
 
@@ -5551,7 +5354,7 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOT
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 Time-over-threshold trigger
 \end_layout
 
@@ -5751,7 +5554,7 @@ Pre-scale compatibility single bin trigger by 256 if set
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 7
 \end_layout
 
@@ -5772,8 +5575,8 @@ Pre-scale compatibility single bin trigger by 256 if set
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
-Pre-scale time-over-threshold A trigger if set
+\color black
+Pre-scale time-over-threshold trigger if set
 \end_layout
 
 \end_inset
@@ -6101,7 +5904,7 @@ Initial single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 1
 \end_layout
 
@@ -6113,7 +5916,7 @@ Initial single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOT
 \end_layout
 
@@ -6125,7 +5928,7 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOT
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 Initial time-over-threshold A trigger
 \end_layout
 
@@ -6327,7 +6130,7 @@ Additional single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 9
 \end_layout
 
@@ -6339,7 +6142,7 @@ Additional single bin trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOT_DLYD
 \end_layout
 
@@ -6351,7 +6154,7 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOT_DLYD
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 Additional time-over-threshold A trigger
 \end_layout
 
@@ -8168,8 +7971,7 @@ x
 \begin_inset Quotes erd
 \end_inset
 
- is either 1, 2, 3, or 4, corresponding to which of the 4 simple triggers
- is desired.
+ is either 1 or 2, corresponding to which of the 4 simple triggers is desired.
  A signal amplitude must be strictly greater than its respective threshold
  for the trigger to fire.
  The multiplicity must be greater than or equal to the specified multiplicity.
@@ -8559,7 +8361,7 @@ The following bits are defined in the MUON_BUF_TRIG_MASK register.
 
 \color black
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="3">
+<lyxtabular version="3" rows="5" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -8656,68 +8458,6 @@ MUON_BUF_TRIG_SB2
 
 \color black
 Enable muon simple threshold 2 trigger if set
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-MUON_BUF_TRIG_SB3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color black
-Enable muon simple threshold 3 trigger if set
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-MUON_BUF_TRIG_SB4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color black
-Enable muon simple threshold 4 trigger if set
 \end_layout
 
 \end_inset
@@ -12689,7 +12429,7 @@ The mode bits are described in the following table.
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="15" columns="2">
+<lyxtabular version="3" rows="18" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -12858,6 +12598,26 @@ Fixed rate:
 \begin_inset Text
 
 \begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sawtooth ramp
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 11
 \end_layout
 
@@ -12941,6 +12701,54 @@ Random timing:
 \begin_layout Plain Layout
 Random timing: 
 \begin_inset Formula $0-17.5\ \mathrm{ms}$
+\end_inset
+
+ spacing
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random timing: 
+\begin_inset Formula $0-35\ \mathrm{ms}$
+\end_inset
+
+ spacing
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random timing: 
+\begin_inset Formula $0-70\ \mathrm{ms}$
 \end_inset
 
  spacing

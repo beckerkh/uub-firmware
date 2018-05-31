@@ -9,6 +9,7 @@
 //                 that file was getting too large.
 // 21-Nov-2017 DFN Add temporary EVT_ID registers to keep unique version for
 //                 each shower buffer
+// 16-May-2018 DFN Add registers to keep track of compatibility ToT triggers
 
 // Shower buffer handling registers
 reg [`SHWR_TRIG_DLY:0] SHWR_TRIG_DLYD; // Trigger delayed to end of buf
@@ -96,13 +97,17 @@ reg [31:0] SOME_TRIG;
 reg [31:0] SOME_DLYD_TRIG;
 reg [7:0] COMPAT_SB_TRIG_COUNTER;
 reg [7:0] COMPAT_EXT_TRIG_COUNTER;
+reg [7:0] COMPAT_TOT_TRIG_COUNTER;
 reg PRESCALED_COMPAT_SB_TRIG;
 reg PRESCALED_COMPAT_EXT_TRIG;
+reg PRESCALED_COMPAT_TOT_TRIG;
 reg TRIG_IN_PREV;
 reg EXT_TRIG;
 reg [1:0] ENABLE40;
 wire COMPATIBILITY_SB_TRIG;
+wire COMPATIBILITY_TOT_TRIG;
 wire SB_TRIG;
+wire COMPATIBILITY_TOT_DEBUG;
 
 // Other registers
 reg LCL_RESET;

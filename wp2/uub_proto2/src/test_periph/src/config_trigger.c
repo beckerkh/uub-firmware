@@ -3,6 +3,7 @@
 // header files.
 //
 // 07-Feb-2017 DFN Original version
+// 17-May-2018 DFN Add compat_tot trigger
 
 #include "trigger_test_options.h"
 #include "trigger_test.h"
@@ -19,6 +20,9 @@ void config_trigger()
 
 #ifdef COMPAT_SB_TRIGGER
   int compat_sb_trig_enab;
+#endif
+#ifdef COMPAT_TOT_TRIGGER
+  int compat_tot_trig_enab, occ;
 #endif
 #ifdef SB_TRIGGER
   int sb_trig_enab, thrssd;
@@ -64,6 +68,45 @@ void config_trigger()
   if (status != compat_sb_trig_enab)
     printf("trigger_test: Trigger enable error - wrote %x read %x\n", 
 	   compat_sb_trig_enab, status);
+#endif
+
+#ifdef COMPAT_TOT_TRIGGER
+  write_trig(COMPATIBILITY_TOT_TRIG_THR0_ADDR,(int) TRIG_THR0);
+  write_trig(COMPATIBILITY_TOT_TRIG_THR1_ADDR,(int) TRIG_THR1);
+  write_trig(COMPATIBILITY_TOT_TRIG_THR2_ADDR,(int) TRIG_THR2);
+  thr0 = read_trig(COMPATIBILITY_TOT_TRIG_THR0_ADDR);
+  thr1 = read_trig(COMPATIBILITY_TOT_TRIG_THR1_ADDR);
+  thr2 = read_trig(COMPATIBILITY_TOT_TRIG_THR2_ADDR);
+  if (thr0 != TRIG_THR0) 
+    printf("trigger_test: Trigger threshold 0 error - wrote %d read %d\n",
+	   TRIG_THR0,thr0);
+  if (thr1 != TRIG_THR1) 
+    printf("trigger_test: Trigger threshold 1 error - wrote %d read %d\n",
+	   TRIG_THR1,thr1);
+  if (thr2 != TRIG_THR2) 
+    printf("trigger_test: Trigger threshold 2 error - wrote %d read %d\n",
+	   TRIG_THR2,thr2);
+
+  write_trig(COMPATIBILITY_TOT_TRIG_OCC_ADDR,(int) COMPAT_TOT_TRIG_OCC);
+  occ = read_trig(COMPATIBILITY_TOT_TRIG_OCC_ADDR);
+  if (occ != COMPAT_TOT_TRIG_OCC)
+    printf("trigger_test: ToT trigger occupancy error - wrote %d read %d\n",
+           COMPAT_TOT_TRIG_OCC,occ);
+
+  // Define which PMTs to include & coincidence level required
+  compat_tot_trig_enab = 0;
+    if (TRIG_THR0 != 4095)
+      compat_tot_trig_enab |=  COMPATIBILITY_TOT_TRIG_INCL_PMT0;
+    if (TRIG_THR1 != 4095)
+      compat_tot_trig_enab |=  COMPATIBILITY_TOT_TRIG_INCL_PMT1;
+    if (TRIG_THR2 != 4095)
+      compat_tot_trig_enab |=  COMPATIBILITY_TOT_TRIG_INCL_PMT2;
+    compat_tot_trig_enab |= 1 << COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT;
+  write_trig(COMPATIBILITY_TOT_TRIG_ENAB_ADDR, compat_tot_trig_enab);
+  status = read_trig(COMPATIBILITY_TOT_TRIG_ENAB_ADDR);
+  if (status != compat_tot_trig_enab)
+    printf("trigger_test: Trigger enable error - wrote %x read %x\n", 
+	   compat_tot_trig_enab, status);
 #endif
 
 #ifdef SB_TRIGGER
@@ -122,6 +165,12 @@ void config_trigger()
 #ifdef PRESCALE_COMPAT_SB_TRIG
   trigger_mask = trigger_mask | COMPAT_PRESCALE_SHWR_BUF_TRIG_SB;
 #endif
+#ifdef COMPAT_TOT_TRIGGER
+  trigger_mask = trigger_mask | COMPATIBILITY_SHWR_BUF_TRIG_TOT;
+#endif
+#ifdef PRESCALE_COMPAT_TOT_TRIG
+  trigger_mask = trigger_mask | COMPAT_PRESCALE_SHWR_BUF_TRIG_TOT;
+#endif
 #ifdef EXT_TRIGGER
   trigger_mask = trigger_mask |  COMPATIBILITY_SHWR_BUF_TRIG_EXT;
 #endif
@@ -137,6 +186,8 @@ void config_trigger()
     printf(" SB");
   if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0) 
     printf(" COMPAT_SB");
+  if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_TOT) != 0) 
+    printf(" COMPAT_TOT");
   if ((trigger_mask & COMPATIBILITY_SHWR_BUF_TRIG_EXT) != 0) 
     printf(" EXT");
   if ((trigger_mask & COMPAT_PRESCALE_SHWR_BUF_TRIG_SB) != 0) 
@@ -146,7 +197,7 @@ void config_trigger()
   if ((trigger_mask & SHWR_BUF_TRIG_LED) != 0)
     printf(" LED");
   printf("\n");
-  #if defined(SB_TRIGGER)  || defined(COMPAT_SB_TRIGGER)
+#if defined(SB_TRIGGER)  || defined(COMPAT_SB_TRIGGER) || defined(COMPAT_TOT_TRIGGER)
   printf("Trigger_test: Shower trigger thresholds = %d %d %d %d\n",
 	 (int) (TRIG_THR0), (int) (TRIG_THR1), (int) (TRIG_THR2), 
 	 (int) (TRIG_SSD));

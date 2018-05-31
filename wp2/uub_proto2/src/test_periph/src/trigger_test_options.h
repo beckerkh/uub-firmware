@@ -14,6 +14,7 @@
 //#define USE_FAKE_MUON
 #define USE_FAKE_SIGNAL
 #define FAKE_SIGNAL_MODE 25
+//#define RAMP
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
 //#define DO_LED_NOW
@@ -23,7 +24,7 @@
 #define LED_PULSWID1 20
 
 #define TRIG_THR0 4095
-#define TRIG_THR1 300
+#define TRIG_THR1 1123
 #define TRIG_THR2 4095
 #define TRIG_SSD 4000
 #define LPMT_THR0 0000   // Software large PMT threshold for small PMT cal
@@ -33,7 +34,9 @@
 #define SHWR_TRIGGERS
 
 #ifdef SHWR_TRIGGERS 
-  #define COMPAT_SB_TRIGGER
+//  #define COMPAT_SB_TRIGGER
+  #define COMPAT_TOT_TRIGGER
+  #define COMPAT_TOT_TRIG_OCC 5
 //  #define SB_TRIGGER
 //  #define SSD_AND	
   #define SSD_DELAY 5
@@ -49,8 +52,8 @@
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
 // to process any full buffers.  TRIGGER_POLLED is the only option that
 // works in Linux currently.
-//#define TRIGGER_POLLED
-#define TRIGGER_INTERRUPT
+#define TRIGGER_POLLED
+//#define TRIGGER_INTERRUPT
 
 // PDT mode. Read shower/muon buffers using simple memory mapped access.
 // This is the only option that works in Linux currently.
