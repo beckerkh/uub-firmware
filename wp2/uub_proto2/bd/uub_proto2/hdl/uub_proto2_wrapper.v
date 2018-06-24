@@ -1,8 +1,8 @@
 //Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2015.2 (lin64) Build 1266856 Fri Jun 26 16:35:25 MDT 2015
-//Date        : Wed Dec 13 14:28:38 2017
-//Host        : dfn-x3100.auger.mtu.edu running 64-bit Scientific Linux release 6.8 (Carbon)
+//Date        : Sat Jun 23 19:40:51 2018
+//Host        : dfn-t30.auger.mtu.edu running 64-bit Scientific Linux release 7.5 (Nitrogen)
 //Command     : generate_target uub_proto2_wrapper.bd
 //Design      : uub_proto2_wrapper
 //Purpose     : IP block netlist
@@ -21,6 +21,10 @@ module uub_proto2_wrapper
     ADC4_CK_N,
     ADC4_CK_P,
     ADC_PWD,
+    AMIGA_CLOCK_OUT,
+    AMIGA_LTS_OUT,
+    AMIGA_RX,
+    AMIGA_TX,
     DDR_addr,
     DDR_ba,
     DDR_cas_n,
@@ -73,11 +77,7 @@ module uub_proto2_wrapper
     ext0_dat,
     ext1_ctl,
     ext1_dat,
-    hconf,
-    AMIGA_LTS_OUT,
-    AMIGA_CLOCK_OUT,
-    AMIGA_RX,
-    AMIGA_TX);
+    hconf);
   input ADC0_CK_N;
   input ADC0_CK_P;
   input ADC1_CK_N;
@@ -89,6 +89,10 @@ module uub_proto2_wrapper
   input ADC4_CK_N;
   input ADC4_CK_P;
   output ADC_PWD;
+  output AMIGA_CLOCK_OUT;
+  output AMIGA_LTS_OUT;
+  input AMIGA_RX;
+  output AMIGA_TX;
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -138,14 +142,10 @@ module uub_proto2_wrapper
   input [11:0]adc4_n;
   input [11:0]adc4_p;
   output [7:0]ext0_ctl;
-  output [7:4]ext0_dat;
+  output [3:0]ext0_dat;
   output [7:0]ext1_ctl;
   output [7:0]ext1_dat;
   input [7:0]hconf;
-  output AMIGA_LTS_OUT;
-  output AMIGA_CLOCK_OUT;
-  output AMIGA_TX;
-  input AMIGA_RX;
 
   wire ADC0_CK_N;
   wire ADC0_CK_P;
@@ -158,6 +158,10 @@ module uub_proto2_wrapper
   wire ADC4_CK_N;
   wire ADC4_CK_P;
   wire ADC_PWD;
+  wire AMIGA_CLOCK_OUT;
+  wire AMIGA_LTS_OUT;
+  wire AMIGA_RX;
+  wire AMIGA_TX;
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
   wire DDR_cas_n;
@@ -207,15 +211,10 @@ module uub_proto2_wrapper
   wire [11:0]adc4_n;
   wire [11:0]adc4_p;
   wire [7:0]ext0_ctl;
-  wire [7:4]ext0_dat;
+  wire [3:0]ext0_dat;
   wire [7:0]ext1_ctl;
   wire [7:0]ext1_dat;
   wire [7:0]hconf;
-  wire AMIGA_LTS_OUT;
-  wire AMIGA_CLOCK_OUT;
-  wire AMIGA_TX;
-  wire AMIGA_RX;
-
 
   uub_proto2 uub_proto2_i
        (.ADC0_CK_N(ADC0_CK_N),
@@ -229,6 +228,10 @@ module uub_proto2_wrapper
         .ADC4_CK_N(ADC4_CK_N),
         .ADC4_CK_P(ADC4_CK_P),
         .ADC_PWD(ADC_PWD),
+        .AMIGA_CLOCK_OUT(AMIGA_CLOCK_OUT),
+        .AMIGA_LTS_OUT(AMIGA_LTS_OUT),
+        .AMIGA_RX(AMIGA_RX),
+        .AMIGA_TX(AMIGA_TX),
         .DDR_addr(DDR_addr),
         .DDR_ba(DDR_ba),
         .DDR_cas_n(DDR_cas_n),
@@ -281,9 +284,5 @@ module uub_proto2_wrapper
         .ext0_dat(ext0_dat),
         .ext1_ctl(ext1_ctl),
         .ext1_dat(ext1_dat),
-        .hconf(hconf),
-        .AMIGA_LTS_OUT(AMIGA_LTS_OUT),
-        .AMIGA_CLOCK_OUT(AMIGA_CLOCK_OUT),
-        .AMIGA_TX(AMIGA_TX),
-        .AMIGA_RX(AMIGA_RX));
+        .hconf(hconf));
 endmodule

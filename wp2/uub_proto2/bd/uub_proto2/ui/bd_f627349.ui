@@ -1,92 +1,96 @@
 {
    guistr: "# # String gsaved with Nlview 6.4.12  2014-12-16 bk=1.3272 VDI=35 GEI=35 GUI=JA:1.8
 #  -string -flagsOSRD
-preplace port MUON_MEM0P -pg 1 -y 400 -defaultsOSRD
-preplace port SHWR_MEM4 -pg 1 -y 1530 -defaultsOSRD
-preplace port DDR -pg 1 -y 1200 -defaultsOSRD
-preplace port SHWR_MEM4P -pg 1 -y 520 -defaultsOSRD
-preplace port MUON_MEM0 -pg 1 -y 1000 -defaultsOSRD
-preplace port MUON_MEM1 -pg 1 -y 1020 -defaultsOSRD
-preplace port M06_AXI -pg 1 -y 380 -defaultsOSRD
-preplace port RADIO_RTS -pg 1 -y 1260 -defaultsOSRD
-preplace port SHWR_MEM3P -pg 1 -y 500 -defaultsOSRD
-preplace port M01_AXI -pg 1 -y 280 -defaultsOSRD
-preplace port MUON_INT -pg 1 -y 2120 -defaultsOSRD
-preplace port SHWR_MEM2P -pg 1 -y 480 -defaultsOSRD
-preplace port M04_AXI -pg 1 -y 340 -defaultsOSRD
-preplace port MUON_INTR_IFC -pg 1 -y 560 -defaultsOSRD
-preplace port M03_AXI -pg 1 -y 320 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -y 1220 -defaultsOSRD
-preplace port SHWR_MEM1P -pg 1 -y 460 -defaultsOSRD
-preplace port M05_AXI -pg 1 -y 360 -defaultsOSRD
-preplace port SHWR_MEM0 -pg 1 -y 1450 -defaultsOSRD
-preplace port M02_AXI -pg 1 -y 300 -defaultsOSRD
-preplace port FCLK_CLK0 -pg 1 -y 1340 -defaultsOSRD
-preplace port MUON_MEM1P -pg 1 -y 420 -defaultsOSRD
-preplace port SHWR_MEM1 -pg 1 -y 1470 -defaultsOSRD
-preplace port FCLK_CLK1 -pg 1 -y 1360 -defaultsOSRD
-preplace port SHWR_MEM0P -pg 1 -y 440 -defaultsOSRD
-preplace port SHWR_MEM2 -pg 1 -y 1490 -defaultsOSRD
-preplace port GPS_UART_INT -pg 1 -y 2100 -defaultsOSRD
-preplace port RADIO_CTS -pg 1 -y 1430 -defaultsOSRD
-preplace port SHWR_MEM3 -pg 1 -y 1510 -defaultsOSRD
-preplace portBus SHWR_INT -pg 1 -y 2080 -defaultsOSRD
-preplace portBus peripheral_aresetn -pg 1 -y 1960 -defaultsOSRD
-preplace portBus peripheral_reset -pg 1 -y 1930 -defaultsOSRD
-preplace inst axi_cdma_0 -pg 1 -lvl 1 -y 1330 -defaultsOSRD
-preplace inst axi_cdma_1 -pg 1 -lvl 1 -y 910 -defaultsOSRD
-preplace inst xlconcat_0 -pg 1 -lvl 2 -y 2100 -defaultsOSRD
-preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -y 1930 -defaultsOSRD
-preplace inst axi_interconnect_0 -pg 1 -lvl 3 -y 410 -defaultsOSRD
-preplace inst axi_interconnect_1 -pg 1 -lvl 2 -y 1500 -defaultsOSRD
-preplace inst axi_interconnect_2 -pg 1 -lvl 2 -y 1020 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 3 -y 1280 -defaultsOSRD
+preplace port MUON_MEM0P -pg 1 -y 1720 -defaultsOSRD
+preplace port SHWR_MEM4 -pg 1 -y 270 -defaultsOSRD
+preplace port DDR -pg 1 -y 930 -defaultsOSRD
+preplace port SHWR_MEM4P -pg 1 -y 1840 -defaultsOSRD
+preplace port MUON_MEM0 -pg 1 -y 720 -defaultsOSRD
+preplace port MUON_MEM1 -pg 1 -y 740 -defaultsOSRD
+preplace port M06_AXI -pg 1 -y 1700 -defaultsOSRD
+preplace port RADIO_RTS -pg 1 -y 990 -defaultsOSRD
+preplace port SHWR_MEM3P -pg 1 -y 1820 -defaultsOSRD
+preplace port M01_AXI -pg 1 -y 1600 -defaultsOSRD
+preplace port AMIGA_UART_INT -pg 1 -y 1460 -defaultsOSRD
+preplace port MUON_INT -pg 1 -y 1440 -defaultsOSRD
+preplace port AMIGA_UART_IFC -pg 1 -y 1900 -defaultsOSRD
+preplace port SHWR_MEM2P -pg 1 -y 1800 -defaultsOSRD
+preplace port M04_AXI -pg 1 -y 1660 -defaultsOSRD
+preplace port MUON_INTR_IFC -pg 1 -y 1880 -defaultsOSRD
+preplace port M03_AXI -pg 1 -y 1640 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -y 950 -defaultsOSRD
+preplace port SHWR_MEM1P -pg 1 -y 1780 -defaultsOSRD
+preplace port M05_AXI -pg 1 -y 1680 -defaultsOSRD
+preplace port SHWR_MEM0 -pg 1 -y 190 -defaultsOSRD
+preplace port M02_AXI -pg 1 -y 1620 -defaultsOSRD
+preplace port FCLK_CLK0 -pg 1 -y 1010 -defaultsOSRD
+preplace port MUON_MEM1P -pg 1 -y 1740 -defaultsOSRD
+preplace port SHWR_MEM1 -pg 1 -y 210 -defaultsOSRD
+preplace port FCLK_CLK1 -pg 1 -y 1090 -defaultsOSRD
+preplace port SHWR_MEM0P -pg 1 -y 1760 -defaultsOSRD
+preplace port SHWR_MEM2 -pg 1 -y 230 -defaultsOSRD
+preplace port GPS_UART_INT -pg 1 -y 1410 -defaultsOSRD
+preplace port RADIO_CTS -pg 1 -y 2370 -defaultsOSRD
+preplace port SHWR_MEM3 -pg 1 -y 250 -defaultsOSRD
+preplace portBus SHWR_INT -pg 1 -y 1390 -defaultsOSRD
+preplace portBus peripheral_aresetn -pg 1 -y 2300 -defaultsOSRD
+preplace portBus peripheral_reset -pg 1 -y 2280 -defaultsOSRD
+preplace inst axi_cdma_0 -pg 1 -lvl 2 -y 1400 -defaultsOSRD
+preplace inst axi_cdma_1 -pg 1 -lvl 2 -y 1600 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 1 -y 1420 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -y 2400 -defaultsOSRD
+preplace inst axi_interconnect_0 -pg 1 -lvl 3 -y 1740 -defaultsOSRD
+preplace inst axi_interconnect_1 -pg 1 -lvl 3 -y 240 -defaultsOSRD
+preplace inst axi_interconnect_2 -pg 1 -lvl 3 -y 740 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 2 -y 1070 -defaultsOSRD
 preplace netloc axi_interconnect_0_M09_AXI 1 3 1 N
-preplace netloc axi_interconnect_2_M01_AXI 1 2 2 N 1020 NJ
-preplace netloc processing_system7_0_DDR 1 3 1 N
-preplace netloc axi_interconnect_2_M02_AXI 1 2 1 1010
-preplace netloc axi_cdma_0_M_AXI 1 1 1 N
+preplace netloc axi_interconnect_2_M01_AXI 1 3 1 N
+preplace netloc processing_system7_0_DDR 1 2 2 970 1020 NJ
+preplace netloc axi_interconnect_2_M02_AXI 1 1 3 430 870 NJ 930 1300
+preplace netloc axi_cdma_0_M_AXI 1 2 1 910
+preplace netloc axi_interconnect_1_M05_AXI 1 1 3 420 860 NJ 550 1300
 preplace netloc axi_interconnect_0_M13_AXI 1 3 1 N
 preplace netloc axi_interconnect_0_M12_AXI 1 3 1 N
-preplace netloc axi_interconnect_1_M01_AXI 1 2 2 N 1470 NJ
-preplace netloc axi_interconnect_1_M05_AXI 1 2 1 1000
-preplace netloc axi_interconnect_1_M04_AXI 1 2 2 N 1530 NJ
-preplace netloc processing_system7_0_M_AXI_GP0 1 2 2 1020 1120 1530
+preplace netloc axi_interconnect_1_M01_AXI 1 3 1 N
+preplace netloc axi_interconnect_1_M04_AXI 1 3 1 N
+preplace netloc processing_system7_0_M_AXI_GP0 1 2 1 920
 preplace netloc axi_interconnect_0_M10_AXI 1 3 1 N
 preplace netloc axi_interconnect_0_M02_AXI 1 3 1 N
-preplace netloc trigger_memory_0_IRQ 1 0 2 NJ 2080 N
-preplace netloc processing_system7_0_UART0_RTSN 1 3 1 N
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 3 500 1840 NJ 1840 1510
+preplace netloc trigger_memory_0_IRQ 1 0 1 N
+preplace netloc processing_system7_0_UART0_RTSN 1 2 2 940 1040 NJ
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 2 430 1680 890
 preplace netloc axi_interconnect_0_M07_AXI 1 3 1 N
-preplace netloc axi_interconnect_1_M02_AXI 1 2 2 N 1490 NJ
-preplace netloc axi_cdma_1_M_AXI_SG 1 1 1 N
-preplace netloc axi_cdma_1_M_AXI 1 1 1 N
-preplace netloc MUON_INT_1 1 0 2 NJ 2120 450
-preplace netloc axi_cdma_0_cdma_introut 1 1 1 450
+preplace netloc axi_interconnect_1_M02_AXI 1 3 1 N
+preplace netloc axi_cdma_1_M_AXI_SG 1 2 1 900
+preplace netloc axi_cdma_1_M_AXI 1 2 1 960
+preplace netloc MUON_INT_1 1 0 1 200
+preplace netloc axi_cdma_0_cdma_introut 1 0 3 200 1310 NJ 1480 880
 preplace netloc axi_interconnect_0_M08_AXI 1 3 1 N
 preplace netloc axi_interconnect_0_M04_AXI 1 3 1 N
-preplace netloc xlconcat_0_dout 1 2 1 1020
+preplace netloc xlconcat_0_dout 1 1 1 410
 preplace netloc axi_interconnect_0_M15_AXI 1 3 1 N
-preplace netloc processing_system7_0_FIXED_IO 1 3 1 N
+preplace netloc processing_system7_0_FIXED_IO 1 2 2 950 1030 NJ
 preplace netloc axi_interconnect_0_M05_AXI 1 3 1 N
-preplace netloc axi_interconnect_0_M00_AXI 1 0 4 190 1220 NJ 1220 NJ 1130 1540
-preplace netloc proc_sys_reset_0_peripheral_reset 1 2 2 N 1930 NJ
-preplace netloc proc_sys_reset_0_peripheral_aresetn 1 0 4 180 1240 460 1210 980 1960 NJ
-preplace netloc axi_interconnect_1_M03_AXI 1 2 2 N 1510 NJ
+preplace netloc axi_interconnect_0_M00_AXI 1 1 3 430 1290 NJ 1290 1320
+preplace netloc proc_sys_reset_0_peripheral_reset 1 2 2 NJ 2400 1310
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 1 3 430 1490 990 2300 NJ
+preplace netloc axi_interconnect_0_M16_AXI 1 3 1 N
+preplace netloc axi_interconnect_1_M03_AXI 1 3 1 N
 preplace netloc axi_interconnect_0_M01_AXI 1 3 1 N
-preplace netloc axi_cdma_0_M_AXI_SG 1 1 1 N
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 4 170 1250 490 1250 990 1440 1540
+preplace netloc axi_cdma_0_M_AXI_SG 1 2 1 930
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 3 420 1700 980 1010 NJ
 preplace netloc axi_interconnect_0_M06_AXI 1 3 1 N
-preplace netloc axi_interconnect_1_M00_AXI 1 2 2 N 1450 NJ
-preplace netloc axi_interconnect_2_M00_AXI 1 2 2 N 1000 NJ
-preplace netloc axi_interconnect_0_M14_AXI 1 0 4 190 830 NJ 830 NJ 830 1530
-preplace netloc GPS_UART_INT_1 1 0 2 NJ 2100 N
-preplace netloc processing_system7_0_FCLK_CLK1 1 3 1 N
-preplace netloc RADIO_CTS_1 1 0 4 NJ 1230 NJ 1240 NJ 1430 1520
+preplace netloc axi_interconnect_1_M00_AXI 1 3 1 N
+preplace netloc axi_interconnect_2_M00_AXI 1 3 1 N
+preplace netloc axi_interconnect_0_M14_AXI 1 1 3 440 1690 NJ 1300 1300
+preplace netloc GPS_UART_INT_1 1 0 1 N
+preplace netloc processing_system7_0_FCLK_CLK1 1 2 2 950 1090 NJ
+preplace netloc RADIO_CTS_1 1 0 3 NJ 1300 NJ 880 890
 preplace netloc axi_interconnect_0_M11_AXI 1 3 1 N
 preplace netloc axi_interconnect_0_M03_AXI 1 3 1 N
-preplace netloc axi_cdma_1_cdma_introut 1 1 1 470
-levelinfo -pg 1 140 320 800 1283 1560
+preplace netloc AMIGA_UART_INT_1 1 0 1 180
+preplace netloc axi_cdma_1_cdma_introut 1 0 3 210 1320 NJ 1520 880
+levelinfo -pg 1 160 300 660 1150 1350
 ",
 }
 0

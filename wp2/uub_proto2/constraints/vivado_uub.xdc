@@ -11,6 +11,7 @@
 # 25-Feb-2016 DFN Remove adcX_p[12] - overflow from pins
 # 21-Jun-2016 DFN Rename TP to P6X to correspond to board designations
 # 11-Dec-2017 DFN Rename P6X[4] to ADC_PD, and P6X[5] to P65
+# 19-Jun-2018 DFN Merge in AMIGA changes to ext0.
 
 set_property IOSTANDARD LVCMOS33 [get_ports TRIG_IN]
 set_property IOSTANDARD LVCMOS33 [get_ports TRIG_OUT]
@@ -23,6 +24,10 @@ set_property IOSTANDARD LVCMOS33 [get_ports RADIO_RST_IN]
 set_property IOSTANDARD LVCMOS33 [get_ports RADIO_RST_OUT]
 set_property IOSTANDARD LVCMOS33 [get_ports USB_IFAULT]
 
+set_property IOSTANDARD LVCMOS33 [get_ports AMIGA_LTS_OUT]
+set_property IOSTANDARD LVCMOS33 [get_ports AMIGA_CLOCK_OUT]
+set_property IOSTANDARD LVCMOS33 [get_ports AMIGA_RX]
+set_property IOSTANDARD LVCMOS33 [get_ports AMIGA_TX]
 set_property IOSTANDARD LVCMOS33 [get_ports {ext0_dat[*]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {ext0_ctl[*]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {ext1_dat[*]}]
@@ -135,10 +140,14 @@ set_property PACKAGE_PIN U11 [get_ports {hconf[5]}]
 set_property PACKAGE_PIN U12 [get_ports {hconf[6]}]
 set_property PACKAGE_PIN U10 [get_ports {hconf[7]}]
 
-set_property PACKAGE_PIN AB10 [get_ports {ext0_dat[0]}]
-set_property PACKAGE_PIN Y11 [get_ports {ext0_dat[1]}]
-set_property PACKAGE_PIN AA9 [get_ports {ext0_dat[2]}]
-set_property PACKAGE_PIN Y9 [get_ports {ext0_dat[3]}]
+set_property PACKAGE_PIN AB10 [get_ports AMIGA_LTS_OUT]
+set_property PACKAGE_PIN Y11  [get_ports AMIGA_CLOCK_OUT]
+set_property PACKAGE_PIN AA9  [get_ports AMIGA_RX]
+set_property PACKAGE_PIN Y9   [get_ports AMIGA_TX]
+#set_property PACKAGE_PIN AB10 [get_ports {ext0_dat[0]}]
+#set_property PACKAGE_PIN Y11 [get_ports {ext0_dat[1]}]
+#set_property PACKAGE_PIN AA9 [get_ports {ext0_dat[2]}]
+#set_property PACKAGE_PIN Y9 [get_ports {ext0_dat[3]}]
 set_property PACKAGE_PIN Y6 [get_ports {ext0_dat[4]}]
 set_property PACKAGE_PIN AA7 [get_ports {ext0_dat[5]}]
 set_property PACKAGE_PIN AB2 [get_ports {ext0_dat[6]}]
