@@ -13,7 +13,11 @@
 //#define TOGGLE_ADCPWD
 //#define USE_FAKE_MUON
 #define USE_FAKE_SIGNAL
-#define FAKE_SIGNAL_MODE 25
+#define PMT0_DLY 0
+#define PMT1_DLY 3
+#define PMT2_DLY 0
+#define FAKE_SIGNAL_WIDTH 2
+#define FAKE_SIGNAL_MODE (25 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<16))
 //#define RAMP
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
@@ -23,10 +27,10 @@
 #define LED_PULSWID0 10
 #define LED_PULSWID1 20
 
-#define TRIG_THR0 4095
+#define TRIG_THR0 1123
 #define TRIG_THR1 1123
 #define TRIG_THR2 4095
-#define TRIG_SSD 4000
+#define TRIG_SSD 4095
 #define LPMT_THR0 0000   // Software large PMT threshold for small PMT cal
 #define LPMT_THR1 0000
 #define LPMT_THR2 0000
@@ -35,10 +39,13 @@
 
 #ifdef SHWR_TRIGGERS 
 //  #define COMPAT_SB_TRIGGER
-  #define COMPAT_TOT_TRIGGER
-  #define COMPAT_TOT_TRIG_OCC 5
-//  #define SB_TRIGGER
+//  #define COMPAT_TOT_TRIGGER
+//  #define COMPAT_TOT_TRIG_OCC 5
+  #define SB_TRIGGER
 //  #define SSD_AND	
+  #define SB_COINC_LVL 2
+  #define SB_COINC_OVLP 3
+  #define SB_CONSEC_BINS 1
   #define SSD_DELAY 5
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER

@@ -5,6 +5,7 @@
 // 17-Sep-2016 DFN Initial version
 // 19-Nov-2016 DFN Remove unneccessary WCD delay
 // 09-Mar-2017 DFN Add ability to "AND" SSD trigger with WCD trigger.
+// 15-Jun-2018 DFN Fix bug in overlap logic; did not actually work before.
 
 `include "sde_trigger_defs.vh"
 
@@ -65,12 +66,17 @@ module single_bin_120mhz(
    reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADC1_TRIG3;
    reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADC2_TRIG3;
    reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADCSSD_TRIG3;
+ 
+   reg [`SB_TRIG_COINC_OVLP_MAX:0]        ADC0_TRIG4;
+   reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADC1_TRIG4;
+   reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADC2_TRIG4;
+   reg [`SB_TRIG_COINC_OVLP_MAX:0] 	  ADCSSD_TRIG4;
 
-   reg 					  ADC0_TRIG4;
-   reg 					  ADC1_TRIG4;
-   reg 					  ADC2_TRIG4;
-   reg 					  ADCSSD_TRIG4;
+   reg 					  ADC0_TRIG5;
+   reg 					  ADC1_TRIG5;
+   reg 					  ADC2_TRIG5;
    reg 					  ADCSSD_TRIG5;
+   reg 					  ADCSSD_TRIG6;
    
    reg [`SB_TRIG_COINC_OVLP_WIDTH-1:0] 	  COINC_OVLP;
    reg [`SB_TRIG_CONSEC_BINS_WIDTH-1:0]   CONSEC_BINS; // # consec. bins - 1
@@ -166,31 +172,41 @@ module single_bin_120mhz(
          ADCSSD_TRIG2 <= ADCSSD_TRIG1 && !ADCSSD_TRIG1L;
 
          // Widen pulse to increase overlap
-         for (OVLP_IDX=0; OVLP_IDX<=`SB_TRIG_COINC_OVLP_MAX;
+         ADC0_TRIG3 <= {ADC0_TRIG3[`SB_TRIG_COINC_OVLP_MAX-1:0],ADC0_TRIG2};
+         ADC1_TRIG3 <= {ADC1_TRIG3[`SB_TRIG_COINC_OVLP_MAX-1:0],ADC1_TRIG2};
+         ADC2_TRIG3 <= {ADC2_TRIG3[`SB_TRIG_COINC_OVLP_MAX-1:0],ADC2_TRIG2};
+         ADCSSD_TRIG3
+           <= {ADCSSD_TRIG3[`SB_TRIG_COINC_OVLP_MAX-1:0],ADCSSD_TRIG2};
+
+         for (OVLP_IDX=0; OVLP_IDX<=`SB_TRIG_COINC_OVLP_MAX; 
               OVLP_IDX=OVLP_IDX+1) begin
-            ADC0_TRIG3[OVLP_IDX] <= ADC0_TRIG2 && (OVLP_IDX <= COINC_OVLP);
-            ADC1_TRIG3[OVLP_IDX] <= ADC1_TRIG2 && (OVLP_IDX <= COINC_OVLP);
-            ADC2_TRIG3[OVLP_IDX] <= ADC2_TRIG2 && (OVLP_IDX <= COINC_OVLP);
-            ADCSSD_TRIG3[OVLP_IDX] <= ADCSSD_TRIG2 && (OVLP_IDX <= COINC_OVLP);
+            ADC0_TRIG4[OVLP_IDX] <=
+            (ADC0_TRIG3[OVLP_IDX] & (OVLP_IDX <= COINC_OVLP));
+            ADC1_TRIG4[OVLP_IDX] <=
+            (ADC1_TRIG3[OVLP_IDX] & (OVLP_IDX <= COINC_OVLP));
+            ADC2_TRIG4[OVLP_IDX] <=
+            (ADC2_TRIG3[OVLP_IDX] & (OVLP_IDX <= COINC_OVLP));
+            ADCSSD_TRIG4[OVLP_IDX] <=
+            (ADCSSD_TRIG3[OVLP_IDX] & (OVLP_IDX <= COINC_OVLP));
          end
-         ADC0_TRIG4 <= |ADC0_TRIG3;
-         ADC1_TRIG4 <= |ADC1_TRIG3;
-         ADC2_TRIG4 <= |ADC2_TRIG3;
-         ADCSSD_TRIG4 <= |ADCSSD_TRIG3;
+         ADC0_TRIG5 <= |ADC0_TRIG4;
+         ADC1_TRIG5 <= |ADC1_TRIG4;
+         ADC2_TRIG5 <= |ADC2_TRIG4;
+         ADCSSD_TRIG5 <= |ADCSSD_TRIG4;
          
          // Finally, apply multiplicity condition
 	 if (MULTIPLICITY != 0)
 	   begin
 	      if (SSD_AND)
 		begin
-		   ADCSSD_TRIG5 <= ADCSSD_TRIG4;
-   		   SUM_PMT_TRIGS <= ADC0_TRIG4 + ADC1_TRIG4 + ADC2_TRIG4;
-		   TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && ADCSSD_TRIG5;
+		   ADCSSD_TRIG6 <= ADCSSD_TRIG5;
+   		   SUM_PMT_TRIGS <= ADC0_TRIG5 + ADC1_TRIG5 + ADC2_TRIG5;
+		   TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY) && ADCSSD_TRIG6;
 		end
 	      else
 		begin
-   		   SUM_PMT_TRIGS1 <= ADC0_TRIG4 + ADC1_TRIG4;
-		   SUM_PMT_TRIGS2 <= ADC2_TRIG4 + ADCSSD_TRIG4;
+   		   SUM_PMT_TRIGS1 <= ADC0_TRIG5 + ADC1_TRIG5;
+		   SUM_PMT_TRIGS2 <= ADC2_TRIG5 + ADCSSD_TRIG5;
    		   SUM_PMT_TRIGS <= SUM_PMT_TRIGS1 + SUM_PMT_TRIGS2;
 		   TRIG1 <= (SUM_PMT_TRIGS >= MULTIPLICITY);
 		end
@@ -201,7 +217,11 @@ module single_bin_120mhz(
          TRIG <= TRIG1 && !TRIG1L;
 
          // Debugging returns
-         DEBUG[4:0] <= 0;
+         DEBUG[0:0] = ADC0_TRIG4[0];
+         DEBUG[1:1] = ADC0_TRIG4[1];
+         DEBUG[2:2] = ADC0_TRIG5;
+         DEBUG[3:3] = SUM_PMT_TRIGS;
+         DEBUG[4:4] = TRIG1;
          
       end // if (RESET)
    end // always @ (posedge CLK120)

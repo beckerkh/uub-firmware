@@ -22,7 +22,7 @@ module test_control_v1_0 #
     output wire PPS,
     output wire USE_FAKE_SHWR,
     output wire USE_FAKE_MUON,
-    output wire[4:0] FAKE_MODE,
+    output wire[31:0] FAKE_MODE,
     
     // User ports ends
     // Do not modify the ports beyond this line

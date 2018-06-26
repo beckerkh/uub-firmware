@@ -43,7 +43,7 @@ if { [get_projects -quiet] eq "" } {
 set design_name uub_proto2
 
 # This script was generated for a remote BD.
-set str_bd_folder /afs/auger.mtu.edu/common/scratch/dfnitz/git_clones/uub-firmware-alternate/amiga2/wp2/uub_proto2/bd
+set str_bd_folder /afs/auger.mtu.edu/common/scratch/dfnitz/git_clones/uub-firmware/wp2/uub_proto2/bd
 set str_bd_filepath ${str_bd_folder}/${design_name}/${design_name}.bd
 
 # Check if remote design exists on disk

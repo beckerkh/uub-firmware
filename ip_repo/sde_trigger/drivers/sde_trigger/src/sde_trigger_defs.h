@@ -17,6 +17,7 @@
 // 24-May-18 DFN Add definitions for compatibility tot trigger; change SAG
 //               calculations to be nominal RC sag for the V2 circuit,
 //               neglecting any sag from PMT base coupling.
+// 21-Jun-18 DFN Add definitions for compatibility totd trigger.
 //
 // ADC channel usage:
 //  0 Low gain WCD PMT1
@@ -35,10 +36,11 @@
 
 // Debug definitions -- may have a problem with defines nested very deeply
 // so don't nest the DEBUG defines.
-// #define ANY_DEBUG 1  // Enable if any of the following is set.
+ #define ANY_DEBUG 1  // Enable if any of the following is set.
 // #define HIGAIN_INTEGRAL_DEBUG 1  // Only enable one of LO/HI GAIN_DEBUG
 // #define LOGAIN_INTEGRAL_DEBUG 1
-//   #define MXDGAIN_INTEGRAL_DEBUG 1
+// #define MXDGAIN_INTEGRAL_DEBUG 1
+ #define COMPAT_TOTD_DEBUG 1
 // End of debug enable definitions
 
  #define ADC_WIDTH 12 // Number of bits per ADC
@@ -143,6 +145,13 @@
 #define COMPATIBILITY_TOTD_TRIG_OCC_ADDR 72
 #define COMPATIBILITY_TOTD_TRIG_FD_ADDR 73
 #define COMPATIBILITY_TOTD_TRIG_FN_ADDR 74
+ #define COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT 3
+ #define COMPATIBILITY_TOTD_TRIG_ENAB_WIDTH 3
+ #define COMPATIBILITY_TOTD_TRIG_INCL_PMT0 (1<<COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT)
+ #define COMPATIBILITY_TOTD_TRIG_INCL_PMT1 (2<<COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT)
+ #define COMPATIBILITY_TOTD_TRIG_INCL_PMT2 (4<<COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT)
+ #define COMPATIBILITY_TOTD_TRIG_COINC_LVL_SHIFT 6
+ #define COMPATIBILITY_TOTD_TRIG_COINC_LVL_WIDTH 2
 
 #define COMPATIBILITY_SCALAR_A_THR0_ADDR 80
 #define COMPATIBILITY_SCALAR_A_THR1_ADDR 81

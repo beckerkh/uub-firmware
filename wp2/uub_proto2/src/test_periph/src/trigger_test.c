@@ -191,7 +191,7 @@ void trigger_test()
       //	  write_ifc(2, test_options);
       //	  status = read_ifc(2);
 	  
-      if (status != FAKE_SIGNAL_MODE) 
+      if (status != FAKE_SIGNAL_MODE)
 	printf("trigger_test: Error setting test mode, wrote %x read %x\n",
 	       FAKE_SIGNAL_MODE, status);
     }

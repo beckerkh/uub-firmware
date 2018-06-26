@@ -428,11 +428,13 @@ void print_shw_buffers()
     if (trig == 0) {
       if ((adc[1][i] > TRIG_THR0) || (adc[3][i] > TRIG_THR1) ||
 	  (adc[5][i] > TRIG_THR2) || (adc[9][i-SSD_DELAY] > TRIG_SSD)) {
-	printf("Trigger point - adcs = %d %d %d %d\n",
+    		trig = i;
+#ifdef VERBOSE
+    	  printf("Trigger point - adcs = %d %d %d %d\n",
 	       adc[1][i], adc[3][i], adc[5][i], adc[9][i-SSD_DELAY]);
-	trig = i;
 	printf("trigger_test: Event should trigger at bin %d = 0x%x\n",trig,trig);
-      }
+#endif
+	}
     }
   }
   if (trig == 0) 

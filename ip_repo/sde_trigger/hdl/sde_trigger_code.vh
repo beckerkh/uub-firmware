@@ -66,6 +66,34 @@ tot_40mhz
              .OCCUPANCY(COMPATIBILITY_TOT_TRIG_OCC),
 	     .TRIG(COMPATIBILITY_TOT_TRIG),
              .DEBUG(COMPATIBILITY_TOT_DEBUG)
+	     );
+
+totd_40mhz
+  totd_40mhz1(.ENABLE40(ENABLE40),
+	     .CLK120(CLK120),
+             .RESET(SHWR_TRIGGER),
+	     .ADC0(FILTB_PMT0),
+	     .ADC1(FILTB_PMT1),
+	     .ADC2(FILTB_PMT2),
+             .BASELINE0(BASELINE[0]), 
+             .BASELINE1(BASELINE[1]), 
+             .BASELINE2(BASELINE[2]), 
+	     .THRES0(COMPATIBILITY_TOTD_TRIG_THR0[`ADC_WIDTH-1:0]),
+	     .THRES1(COMPATIBILITY_TOTD_TRIG_THR1[`ADC_WIDTH-1:0]),
+	     .THRES2(COMPATIBILITY_TOTD_TRIG_THR2[`ADC_WIDTH-1:0]),
+	     .TRIG_ENABLE(COMPATIBILITY_TOTD_TRIG_ENAB
+                          [`COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT+
+                           `COMPATIBILITY_TOTD_TRIG_ENAB_WIDTH-1:
+                           `COMPATIBILITY_TOTD_TRIG_ENAB_SHIFT]),
+	     .MULTIPLICITY(COMPATIBILITY_TOTD_TRIG_ENAB
+                           [`COMPATIBILITY_TOTD_TRIG_COINC_LVL_SHIFT+
+                            `COMPATIBILITY_TOTD_TRIG_COINC_LVL_WIDTH-1:
+                            `COMPATIBILITY_TOTD_TRIG_COINC_LVL_SHIFT]),
+              .OCCUPANCY(COMPATIBILITY_TOTD_TRIG_OCC),
+              .FD(COMPATIBILITY_TOTD_TRIG_FD),
+              .FN(COMPATIBILITY_TOTD_TRIG_FN),
+	     .TRIG(COMPATIBILITY_TOTD_TRIG),
+             .DEBUG(COMPATIBILITY_TOTD_DEBUG)
 	     );	
 
 
@@ -559,10 +587,10 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-        P6X[1] <= COMPATIBILITY_SB_TRIG;
-        P6X[2] <= COMPATIBILITY_TOT_TRIG;
-        P6X[3] <= COMPATIBILITY_TOT_DEBUG;
-        
+        P6X[1] <= SB_TRIG_DEBUG[0];
+        P6X[2] <= SB_TRIG_DEBUG[1];
+        P6X[3] <= SB_TRIG_DEBUG[2];
+         
      end // else: !if(LCL_RESET)
 end
 

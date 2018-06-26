@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-May 25, 2018
+June 15, 2018
 \end_layout
 
 \begin_layout Author
@@ -198,6 +198,10 @@ l fake signal features.
  timing modes and a sawtooth ramp mode; clarify 40 MHz clock use for compatibili
 ty triggers; reduce number of muon triggers from 4 to 2 to aid in meeting
  timing constraints.
+\end_layout
+
+\begin_layout Description
+15-Jun-2018 Add more options to the fake data module.
 \end_layout
 
 \begin_layout Section
@@ -12295,7 +12299,7 @@ The test control module allows enabling of some test features.
 0000.
  Starting with FPGA version 11270418 register 1 contains mode bits to customize
  somewhat the behavior of the fake data.
- The mode bits apply only to the fake shower data.
+ The 5 low order mode bits apply only to the fake shower data.
  The fake muon data is generated with alternating separations of 
 \begin_inset Formula $20\ \mathrm{ms}$
 \end_inset
@@ -12305,13 +12309,16 @@ The test control module allows enabling of some test features.
 \end_inset
 
 , irrespective of the mode bits.
+ The 10 higher order mode bits allow differential delays (in 8.33 ns steps)
+ between the ADCs to be specified, while another 8 allow specification of
+ the pulse width.
  Note that now the fake data generator must be reset before using it.
 \end_layout
 
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top">
@@ -12396,7 +12403,7 @@ Bit 2 - Generate fake muon data if 1
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -12405,11 +12412,131 @@ Bit 2 - Generate fake muon data if 1
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 4:0 - Fake data mode bits
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 6:5 - WCD PMT0 delay
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 8:7 - WCD PMT1 delay
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 10:9 - WCD PMT2 delay
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 12:11 - Small PMT/SIPM cal delay
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bits 14:13 SSD PMT delay
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fake data mode bits
+Bits 23:16 Pulse width 
 \end_layout
 
 \end_inset

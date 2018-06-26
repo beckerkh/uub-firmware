@@ -141,10 +141,10 @@ void config_trigger()
     sb_trig_enab |=  SB_TRIG_INCL_PMT2;
   if (TRIG_SSD != 4095)
     sb_trig_enab |=  SB_TRIG_INCL_SSD;
-  sb_trig_enab |=  1 << SB_TRIG_COINC_LVL_SHIFT;
+  sb_trig_enab |=  SB_COINC_LVL << SB_TRIG_COINC_LVL_SHIFT;
   sb_trig_enab |=  SSD_DELAY << SB_TRIG_SSD_DELAY_SHIFT;
-  sb_trig_enab |=  3 << SB_TRIG_COINC_OVLP_SHIFT;
-  sb_trig_enab |=  1 << SB_TRIG_CONSEC_BINS_SHIFT;
+  sb_trig_enab |=  SB_COINC_OVLP << SB_TRIG_COINC_OVLP_SHIFT;
+  sb_trig_enab |=  SB_CONSEC_BINS << SB_TRIG_CONSEC_BINS_SHIFT;
 #ifdef SSD_AND
   sb_trig_enab |= 1 << SB_TRIG_SSD_AND_SHIFT; 
 #endif

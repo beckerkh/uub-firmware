@@ -22,7 +22,7 @@ module test_control_v1_0_S00_AXI #
     output wire PPS,
     output reg USE_FAKE_SHWR,
     output reg USE_FAKE_MUON,
-    output reg[4:0] FAKE_MODE,
+    output reg[31:0] FAKE_MODE,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -387,7 +387,7 @@ module test_control_v1_0_S00_AXI #
         USE_FAKE_PPS <= slv_reg0[0];
 	USE_FAKE_SHWR <= slv_reg0[1];
 	USE_FAKE_MUON <= slv_reg0[2];
-        FAKE_MODE <= slv_reg1[4:0];
+        FAKE_MODE <= slv_reg1[31:0];
      end
 
    mux1 ppsmux(.SEL_B(USE_FAKE_PPS), .D({TRUE_PPS,FAKE_PPS}), .Q(PPS));
