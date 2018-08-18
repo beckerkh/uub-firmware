@@ -22,12 +22,14 @@ volatile u32 shwr_mem_ptr[5];
 volatile u32 muon_mem_ptr[2];
 u32 shwr_mem_addr[5];
 u32 muon_mem_addr[2];
-volatile static int nevents = 0;
-volatile static int missed_events = 0;
+volatile int nevents = 0;
+volatile int missed_events = 0;
 volatile int compat_sb_count = 0;
 volatile int compat_sb_dlyd_count = 0;
 volatile int compat_tot_count = 0;
 volatile int compat_tot_dlyd_count = 0;
+volatile int compat_totd_count = 0;
+volatile int compat_totd_dlyd_count = 0;
 volatile int sb_count = 0;
 volatile int sb_dlyd_count = 0;
 
@@ -432,18 +434,24 @@ void trigger_test()
           (status >> SHWR_BUF_FULL_SHIFT);
         num_full = 0x7 & (status >> SHWR_BUF_NFULL_SHIFT);
 #ifndef VERBOSE_BUFFERS
-        if (nevents%1000 == 0)
+        if (nevents%EVENT_COUNT_INTERVAL == 0)
           {
           printf("Trigger_test: Read %d events\n");
-          printf("Trigger_test: Counts - Compat SB %d  Compat ToT %d  SB %d",
-                 compat_sb_count, compat_tot_count, sb_count);
-          printf(" Compat SB dlyd %d  Compat ToT dlyd %d  SB dlyd %d\n",
-                 compat_sb_dlyd_count, compat_tot_dlyd_count, sb_dlyd_count);
+          printf("Trigger_test: Counts - Compat SB %d  Compat ToT %d",
+                 compat_sb_count, compat_tot_count);
+          printf("  Compat ToTd %d  SB %d",
+                 compat_totd_count, sb_count);
+          printf("  Compat SB dlyd %d  Compat ToT dlyd %d",
+                 compat_sb_dlyd_count, compat_tot_dlyd_count);
+          printf("  Compat ToTd dlyd %d  SB dlyd %d\n",
+                 compat_totd_dlyd_count, sb_dlyd_count);
           compat_sb_count = 0;
           compat_tot_count = 0;
+          compat_totd_count = 0;
           sb_count = 0;
           compat_sb_dlyd_count = 0;
           compat_tot_dlyd_count = 0;
+          compat_totd_dlyd_count = 0;
           sb_dlyd_count = 0;
           }
         if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
@@ -627,11 +635,11 @@ void sde_shwr_intr_handler(void *CallbackRef)
       ave_num_full += num_full;
       if (num_full > max_num_full) max_num_full = num_full;
 #ifndef VERBOSE_BUFFERS
-        if ((nevents+missed_events)%1000 == 0)
+        if ((nevents+missed_events)%EVENT_COUNT_INTERVAL == 0)
         {
-        	ave_full = (double)ave_num_full/1000.;
+          ave_full = (double)ave_num_full/double(EVENT_COUNT_INTERVAL);
         	ave_num_full = 0;
-                ave_used = (double)ave_num_used/1000.;
+                ave_used = (double)ave_num_used/double(EVENT_COUNT_INTERVAL);
                 ave_num_used = 0;
             printf("Trigger_test: Shwr intr Rd %d Msd %d events",
                    nevents, missed_events);
@@ -639,15 +647,22 @@ void sde_shwr_intr_handler(void *CallbackRef)
                    ave_full, max_num_full, ave_used, max_num_used);
             max_num_full = 0;
             max_num_used = 0;
-          printf("Trigger_test: Counts - Compat SB %d  Compat ToT %d  SB %d",
-                 compat_sb_count, compat_tot_count, sb_count);
-          printf(" Compat SB dlyd %d  Compat ToT dlyd %d  SB dlyd %d\n",
-                 compat_sb_dlyd_count, compat_tot_dlyd_count, sb_dlyd_count);
+
+          printf("Trigger_test: Counts - Compat SB %d  Compat ToT %d",
+                 compat_sb_count, compat_tot_count);
+          printf("  Compat ToTd %d  SB %d",
+                 compat_totd_count, sb_count);
+          printf("  Compat SB dlyd %d  Compat ToT dlyd %d",
+                 compat_sb_dlyd_count, compat_tot_dlyd_count);
+          printf("  Compat ToTd dlyd %d  SB dlyd %d\n",
+                 compat_totd_dlyd_count, sb_dlyd_count);
           compat_sb_count = 0;
           compat_tot_count = 0;
+          compat_totd_count = 0;
           sb_count = 0;
           compat_sb_dlyd_count = 0;
           compat_tot_dlyd_count = 0;
+          compat_totd_dlyd_count = 0;
           sb_dlyd_count = 0;
         }
         if (toread_shwr_buf_num != ((prev_read+1) & 0x3))

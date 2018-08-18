@@ -63,7 +63,7 @@ tot_40mhz
                            [`COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT+
                             `COMPATIBILITY_TOT_TRIG_COINC_LVL_WIDTH-1:
                             `COMPATIBILITY_TOT_TRIG_COINC_LVL_SHIFT]),
-             .OCCUPANCY(COMPATIBILITY_TOT_TRIG_OCC),
+             .OCCUPANCY(COMPATIBILITY_TOT_TRIG_OCC[`WIDTH_BITS-3:0]),
 	     .TRIG(COMPATIBILITY_TOT_TRIG),
              .DEBUG(COMPATIBILITY_TOT_DEBUG)
 	     );
@@ -89,9 +89,10 @@ totd_40mhz
                            [`COMPATIBILITY_TOTD_TRIG_COINC_LVL_SHIFT+
                             `COMPATIBILITY_TOTD_TRIG_COINC_LVL_WIDTH-1:
                             `COMPATIBILITY_TOTD_TRIG_COINC_LVL_SHIFT]),
-              .OCCUPANCY(COMPATIBILITY_TOTD_TRIG_OCC),
-              .FD(COMPATIBILITY_TOTD_TRIG_FD),
-              .FN(COMPATIBILITY_TOTD_TRIG_FN),
+              .OCCUPANCY(COMPATIBILITY_TOTD_TRIG_OCC[`WIDTH_BITS-3:0]),
+              .FD(COMPATIBILITY_TOTD_TRIG_FD[`COMPATIBILITY_TOTD_FD_BITS-1:0]),
+              .FN(COMPATIBILITY_TOTD_TRIG_FN[`COMPATIBILITY_TOTD_FN_BITS-1:0]),
+              .INT(COMPATIBILITY_TOTD_TRIG_INT[`COMPATIBILITY_INTEGRAL_BITS-1:0]),
 	     .TRIG(COMPATIBILITY_TOTD_TRIG),
              .DEBUG(COMPATIBILITY_TOTD_DEBUG)
 	     );	
@@ -281,9 +282,11 @@ always @(posedge CLK120) begin
         SOME_TRIG <= 0;
         COMPAT_SB_TRIG_COUNTER <= 0;
         COMPAT_TOT_TRIG_COUNTER <= 0;
+        COMPAT_TOTD_TRIG_COUNTER <= 0;
         COMPAT_EXT_TRIG_COUNTER <= 0;
         PRESCALED_COMPAT_SB_TRIG <= 0;
         PRESCALED_COMPAT_TOT_TRIG <= 0;
+        PRESCALED_COMPAT_TOTD_TRIG <= 0;
         PRESCALED_COMPAT_EXT_TRIG <= 0;
         for (DEADDLY = 0; DEADDLY<=`SHWR_DEAD_DLY; DEADDLY=DEADDLY+1)
 	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
@@ -356,6 +359,17 @@ always @(posedge CLK120) begin
         else
           PRESCALED_COMPAT_TOT_TRIG <= COMPATIBILITY_TOT_TRIG;
 
+                if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_TOTD) begin
+           if (COMPATIBILITY_TOTD_TRIG) begin
+              COMPAT_TOTD_TRIG_COUNTER <= COMPAT_TOTD_TRIG_COUNTER + 1;
+              if (COMPAT_TOTD_TRIG_COUNTER == 0) PRESCALED_COMPAT_TOTD_TRIG <= 1;
+           end
+           else
+             PRESCALED_COMPAT_TOTD_TRIG <= 0;
+        end
+        else
+          PRESCALED_COMPAT_TOTD_TRIG <= COMPATIBILITY_TOTD_TRIG;
+
         if (SHWR_BUF_TRIG_MASK & `COMPAT_PRESCALE_SHWR_BUF_TRIG_EXT) begin
            if (EXT_TRIG) begin
               COMPAT_EXT_TRIG_COUNTER <= COMPAT_EXT_TRIG_COUNTER + 1;
@@ -384,7 +398,7 @@ always @(posedge CLK120) begin
         LCL_SHWR_BUF_TRIG_ID <= LCL_SHWR_BUF_TRIG_IDN[SHWR_BUF_RNUM];
         
         // Create enable for downsampling the data.
-        if (ENABLE40 == 2)
+        if (ENABLE40 >= 2)
 	  ENABLE40 <= 0;
         else
 	  ENABLE40 <= ENABLE40+1;
@@ -409,6 +423,10 @@ always @(posedge CLK120) begin
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
                     (SHWR_BUF_TRIG_MASK & 
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
+                |  ((PRESCALED_COMPAT_TOTD_TRIG << 
+                     `COMPATIBILITY_SHWR_BUF_TRIG_TOTD_SHIFT) &
+                    (SHWR_BUF_TRIG_MASK & 
+                     `COMPATIBILITY_SHWR_BUF_TRIG_TOTD)) 
               | ((PRESCALED_COMPAT_EXT_TRIG <<
                   `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
@@ -452,6 +470,10 @@ always @(posedge CLK120) begin
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
                                   (SHWR_BUF_TRIG_MASK & 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
+                |  ((PRESCALED_COMPAT_TOTD_TRIG << 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_TOTD_SHIFT) &
+                                  (SHWR_BUF_TRIG_MASK & 
+                                   `COMPATIBILITY_SHWR_BUF_TRIG_TOTD)) 
 		| ((PRESCALED_COMPAT_EXT_TRIG << 
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))

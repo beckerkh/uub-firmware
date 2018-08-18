@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-June 15, 2018
+August 16 2018
 \end_layout
 
 \begin_layout Author
@@ -202,6 +202,11 @@ ty triggers; reduce number of muon triggers from 4 to 2 to aid in meeting
 
 \begin_layout Description
 15-Jun-2018 Add more options to the fake data module.
+\end_layout
+
+\begin_layout Description
+16-Aug-2018 Update documentation to include compatibility time-over-threshold-de
+convolved (ToTd) trigger.
 \end_layout
 
 \begin_layout Section
@@ -1690,45 +1695,37 @@ The sub-trigger that feeds the time-over-threshold occupancy logic is the
 \begin_layout Subsection
 \noindent
 
-\color cyan
-Time-over-threshold trigger (deconvoluted)
+\color black
+Time-over-threshold trigger (deconvolved)
 \end_layout
 
 \begin_layout Standard
 \noindent
 
-\color cyan
-The time-over-threshold-deconvoluted trigger first deconvolutes the typical
- exponential fall from the FADC trace, secondly applies a pulse height window
- to each deconvoluted trace, and thirdly counts the number of bins within
- a sliding window which meet pulse height window conditions.
+\color black
+The compatibility time-over-threshold-deconvolved trigger first deconvolutes
+ the typical exponential fall from the FADC trace, secondly applies a pulse
+ height window to each deconvoluted trace, and thirdly counts the number
+ of bins within a 
+\begin_inset Formula $3\mu\mathrm{s}$
+\end_inset
+
+ sliding window which meet pulse height window conditions.
  Finally, if the occupancy exceeds a specified value in the required multiplicit
-y of deconvoluted traces, a time-over-threshold-deconvoluted shower trigger
+y of deconvolved traces, a time-over-threshold-deconvolved shower trigger
  is generated.
- Please note that the order of operations is not the same as for the time-over-t
-hreshold trigger above.
+ Please note that the order of operations is not the same as for the compatibili
+ty time-over-threshold trigger above.
  
 \end_layout
 
 \begin_layout Standard
 \noindent
 
-\emph on
-\color cyan
-Also note that as of version x161012y the signal integral condition in the
- MOPS trigger registers is also applied to the ToTd trigger, and that the
- same threshold for the integral applies.
-\end_layout
-
-\begin_layout Standard
-\noindent
-
-\color cyan
+\color black
 A block of 11 registers controls the time-over-threshold-deconvoluted trigger
  instance.
  
-\color inherit
-
 \begin_inset Separator latexpar
 \end_inset
 
@@ -1739,11 +1736,10 @@ A block of 11 registers controls the time-over-threshold-deconvoluted trigger
 \noindent
 \align center
 
-\color cyan
+\color black
 \begin_inset Tabular
-<lyxtabular version="3" rows="12" columns="5">
+<lyxtabular version="3" rows="12" columns="4">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -1754,7 +1750,7 @@ A block of 11 registers controls the time-over-threshold-deconvoluted trigger
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Name
 \end_layout
 
@@ -1765,18 +1761,7 @@ Name
 
 \begin_layout Plain Layout
 
-\color cyan
-Address
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1787,7 +1772,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Width
 \end_layout
 
@@ -1798,7 +1783,7 @@ Width
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Description
 \end_layout
 
@@ -1811,8 +1796,8 @@ Description
 
 \begin_layout Plain Layout
 
-\color cyan
-THR0
+\color black
+COMPATIBILITY_TOTD_TRIG_THR0_ADDR
 \end_layout
 
 \end_inset
@@ -1822,18 +1807,7 @@ THR0
 
 \begin_layout Plain Layout
 
-\color cyan
-base+0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1844,8 +1818,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1855,7 +1829,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Lower threshold for PMT0
 \end_layout
 
@@ -1868,8 +1842,8 @@ Lower threshold for PMT0
 
 \begin_layout Plain Layout
 
-\color cyan
-THR1
+\color black
+COMPATIBILITY_TOTD_TRIG_THR1_ADDR
 \end_layout
 
 \end_inset
@@ -1879,18 +1853,7 @@ THR1
 
 \begin_layout Plain Layout
 
-\color cyan
-base+1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1901,8 +1864,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1912,7 +1875,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Lower threshold for PMT1
 \end_layout
 
@@ -1925,8 +1888,8 @@ Lower threshold for PMT1
 
 \begin_layout Plain Layout
 
-\color cyan
-THR2
+\color black
+COMPATIBILITY_TOTD_TRIG_THR2_ADDR
 \end_layout
 
 \end_inset
@@ -1936,18 +1899,7 @@ THR2
 
 \begin_layout Plain Layout
 
-\color cyan
-base+2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -1958,8 +1910,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -1969,7 +1921,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Lower threshold for PMT2
 \end_layout
 
@@ -1982,8 +1934,8 @@ Lower threshold for PMT2
 
 \begin_layout Plain Layout
 
-\color cyan
-UP0
+\color black
+COMPATIBILITY_TOTD_TRIG_UP0_ADDR
 \end_layout
 
 \end_inset
@@ -1993,18 +1945,7 @@ UP0
 
 \begin_layout Plain Layout
 
-\color cyan
-base+3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2015,8 +1956,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -2026,7 +1967,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Upper threshold for PMT0
 \end_layout
 
@@ -2039,8 +1980,8 @@ Upper threshold for PMT0
 
 \begin_layout Plain Layout
 
-\color cyan
-UP1
+\color black
+COMPATIBILITY_TOTD_TRIG_UP1_ADDR
 \end_layout
 
 \end_inset
@@ -2050,18 +1991,7 @@ UP1
 
 \begin_layout Plain Layout
 
-\color cyan
-base+4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2072,8 +2002,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -2083,7 +2013,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Upper threshold for PMT1
 \end_layout
 
@@ -2096,8 +2026,8 @@ Upper threshold for PMT1
 
 \begin_layout Plain Layout
 
-\color cyan
-UP2
+\color black
+COMPATIBILITY_TOTD_TRIG_UP2_ADDR
 \end_layout
 
 \end_inset
@@ -2107,18 +2037,7 @@ UP2
 
 \begin_layout Plain Layout
 
-\color cyan
-base+5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2129,8 +2048,8 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-10
+\color black
+12
 \end_layout
 
 \end_inset
@@ -2140,7 +2059,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Upper threshold for PMT2
 \end_layout
 
@@ -2153,8 +2072,8 @@ Upper threshold for PMT2
 
 \begin_layout Plain Layout
 
-\color cyan
-ENABLE
+\color black
+COMPATIBILITY_TOTD_TRIG_ENABLE_ADDR
 \end_layout
 
 \end_inset
@@ -2164,18 +2083,7 @@ ENABLE
 
 \begin_layout Plain Layout
 
-\color cyan
-base+6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2186,7 +2094,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 8
 \end_layout
 
@@ -2197,7 +2105,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Control bits for the trigger
 \end_layout
 
@@ -2210,8 +2118,8 @@ Control bits for the trigger
 
 \begin_layout Plain Layout
 
-\color cyan
-WID
+\color black
+COMPATIBILITY_TOTD_TRIG_OCC_ADDR
 \end_layout
 
 \end_inset
@@ -2221,18 +2129,7 @@ WID
 
 \begin_layout Plain Layout
 
-\color cyan
-base+7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2243,7 +2140,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 7
 \end_layout
 
@@ -2254,64 +2151,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
-Width in bins of sliding window (see below!)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-OCC
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-base+8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-R/W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
-7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 Occupancy required for trigger
 \end_layout
 
@@ -2324,8 +2164,8 @@ Occupancy required for trigger
 
 \begin_layout Plain Layout
 
-\color cyan
-FD
+\color black
+COMPATIBILITY_TOTD_TRIG_FD_ADDR
 \end_layout
 
 \end_inset
@@ -2335,18 +2175,7 @@ FD
 
 \begin_layout Plain Layout
 
-\color cyan
-base+9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
+\color black
 R/W
 \end_layout
 
@@ -2357,7 +2186,7 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 6
 \end_layout
 
@@ -2368,8 +2197,54 @@ R/W
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Decay constant - binary fraction
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+COMPATIBILITY_TOTD_TRIG_FN_ADDR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+R/W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+Normalizer - binary fixed point
 \end_layout
 
 \end_inset
@@ -2381,8 +2256,8 @@ Decay constant - binary fraction
 
 \begin_layout Plain Layout
 
-\color cyan
-FN
+\color black
+COMPATIBILITY_TOTD_TRIG_INT_ADDR
 \end_layout
 
 \end_inset
@@ -2391,19 +2266,6 @@ FN
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\color cyan
-base+a
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\color cyan
 R/W
 \end_layout
 
@@ -2413,9 +2275,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\color cyan
-6
+24
 \end_layout
 
 \end_inset
@@ -2424,9 +2284,7 @@ R/W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\color cyan
-Normalizer - binary fixed point
+Integral of the signal for each PMT
 \end_layout
 
 \end_inset
@@ -2441,7 +2299,7 @@ Normalizer - binary fixed point
 
 \begin_layout Standard
 
-\color cyan
+\color black
 Note that the THRx and OCC conditions are satisfied when the signal is strictly
  greater than (
 \begin_inset Formula $>$
@@ -2453,16 +2311,34 @@ Note that the THRx and OCC conditions are satisfied when the signal is strictly
 \end_inset
 
 ) the register value.
- Thus writing 1023 to an UPx register disables that constraint.
+ Thus writing 4095 to an UPx register disables that constraint.
+ Note that the integral is the sum of 25 ns (not 8.3 ns!) bins, referenced
+ to the signal 
+\begin_inset Formula $6\mu\mathrm{s}$
+\end_inset
+
+ previous.
+ In addition, the integral is decayed to 0 with a 
+\begin_inset Formula $\approx50\mu\mathrm{s}$
+\end_inset
+
+ time constant to ensure recovery from any overflow.
+ Similarly, the OCC refers to the count of 25 ns (not 8.3 ns!) bins.
+\end_layout
+
+\begin_layout Standard
+
+\color black
+With respect to the pre-upgrade electronics, the OCC, FD, FN register values
+ remain the same, while the value loaded into the INT register should be
+ increased by a factor of 4.
 \end_layout
 
 \begin_layout Standard
 \noindent
 
-\color cyan
+\color black
 The bit usage for the ENABLE register is shown below.
-\color inherit
-
 \begin_inset Separator latexpar
 \end_inset
 
@@ -2473,7 +2349,7 @@ The bit usage for the ENABLE register is shown below.
 \noindent
 \align center
 
-\color cyan
+\color black
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="2">
 <features tabularvalignment="middle">
@@ -2485,7 +2361,7 @@ The bit usage for the ENABLE register is shown below.
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Bit(s)
 \end_layout
 
@@ -2496,7 +2372,7 @@ Bit(s)
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Description
 \end_layout
 
@@ -2509,7 +2385,7 @@ Description
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 0
 \end_layout
 
@@ -2520,7 +2396,7 @@ Description
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Not used
 \end_layout
 
@@ -2533,7 +2409,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 1
 \end_layout
 
@@ -2544,7 +2420,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Not used
 \end_layout
 
@@ -2557,7 +2433,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 2
 \end_layout
 
@@ -2568,7 +2444,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Not used
 \end_layout
 
@@ -2581,7 +2457,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 3
 \end_layout
 
@@ -2592,7 +2468,7 @@ Not used
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Include PMT0 in multiplicity logic if set
 \end_layout
 
@@ -2605,7 +2481,7 @@ Include PMT0 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 4
 \end_layout
 
@@ -2616,7 +2492,7 @@ Include PMT0 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Include PMT1 in multiplicity logic if set
 \end_layout
 
@@ -2629,7 +2505,7 @@ Include PMT1 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 5
 \end_layout
 
@@ -2640,7 +2516,7 @@ Include PMT1 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Include PMT2 in multiplicity logic if set
 \end_layout
 
@@ -2653,7 +2529,7 @@ Include PMT2 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 7:6
 \end_layout
 
@@ -2664,7 +2540,7 @@ Include PMT2 in multiplicity logic if set
 
 \begin_layout Plain Layout
 
-\color cyan
+\color black
 Coincidence level for multiplicity logic sub-trigger
 \end_layout
 
@@ -2680,7 +2556,7 @@ Coincidence level for multiplicity logic sub-trigger
 
 \begin_layout Standard
 
-\color cyan
+\color black
 FD is obtained from 
 \begin_inset Formula $FD=e^{-\Delta t/\tau}$
 \end_inset
@@ -2710,14 +2586,14 @@ FD is obtained from
 
 \begin_layout Standard
 
-\color cyan
+\color black
 The following logic can be used to obtain the values of FD and FN to load
  in the registers.
 \end_layout
 
 \begin_layout Standard
 
-\color cyan
+\color black
 \begin_inset Formula 
 \[
 FD=(int)\,(64.*e^{-\Delta t/\tau}+0.5)
@@ -2730,7 +2606,7 @@ FD=(int)\,(64.*e^{-\Delta t/\tau}+0.5)
 
 \begin_layout Standard
 
-\color cyan
+\color black
 \begin_inset Formula 
 \[
 FN=(int)\,(1024./(64.-FD)+0.5)
@@ -2739,19 +2615,6 @@ FN=(int)\,(1024./(64.-FD)+0.5)
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-
-\color cyan
-This trigger is present in code versions x040410y and later.
-\end_layout
-
-\begin_layout Standard
-
-\shape italic
-\color cyan
-Note: WID is fixed at 120 bins starting with code versions x121211y.
 \end_layout
 
 \begin_layout Subsection

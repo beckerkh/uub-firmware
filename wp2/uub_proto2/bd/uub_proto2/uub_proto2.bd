@@ -1676,10 +1676,6 @@
         <spirit:internalPortReference spirit:componentRef="test_control_0" spirit:portRef="FAKE_PPS"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>zync_block_FCLK_CLK1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="zync_block" spirit:portRef="FCLK_CLK1"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>ADC2_CK_P_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="ADC2_CK_P"/>
         <spirit:internalPortReference spirit:componentRef="adc_inputs" spirit:portRef="IBUF_CK2_P"/>
@@ -4982,24 +4978,6 @@
         </spirit:portMaps>
       </spirit:busInterface>
       <spirit:busInterface>
-        <spirit:name>CLK.FCLK_CLK1</spirit:name>
-        <spirit:displayName>Clk</spirit:displayName>
-        <spirit:description>Clock</spirit:description>
-        <spirit:busType spirit:library="signal" spirit:name="clock" spirit:vendor="xilinx.com" spirit:version="1.0"/>
-        <spirit:abstractionType spirit:library="signal" spirit:name="clock_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
-        <spirit:slave/>
-        <spirit:portMaps>
-          <spirit:portMap>
-            <spirit:logicalPort>
-              <spirit:name>CLK</spirit:name>
-            </spirit:logicalPort>
-            <spirit:physicalPort>
-              <spirit:name>FCLK_CLK1</spirit:name>
-            </spirit:physicalPort>
-          </spirit:portMap>
-        </spirit:portMaps>
-      </spirit:busInterface>
-      <spirit:busInterface>
         <spirit:name>RST.PERIPHERAL_ARESETN</spirit:name>
         <spirit:displayName>Reset</spirit:displayName>
         <spirit:description>Reset</spirit:description>
@@ -5047,12 +5025,6 @@
       <spirit:ports>
         <spirit:port>
           <spirit:name>FCLK_CLK0</spirit:name>
-          <spirit:wire>
-            <spirit:direction>out</spirit:direction>
-          </spirit:wire>
-        </spirit:port>
-        <spirit:port>
-          <spirit:name>FCLK_CLK1</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
           </spirit:wire>
@@ -5208,7 +5180,7 @@
           <spirit:configurableElementValue spirit:referenceId="PCW_APU_PERIPHERAL_FREQMHZ">333.5</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_QSPI_PERIPHERAL_FREQMHZ">60</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_SPI_PERIPHERAL_FREQMHZ">100</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_FPGA0_PERIPHERAL_FREQMHZ">50</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_FPGA0_PERIPHERAL_FREQMHZ">40</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_FPGA1_PERIPHERAL_FREQMHZ">200.000000</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_USE_M_AXI_GP1">0</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_USE_S_AXI_GP0">0</spirit:configurableElementValue>
@@ -5218,7 +5190,7 @@
           <spirit:configurableElementValue spirit:referenceId="PCW_USE_EXPANDED_IOP">1</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_UART0_BAUD_RATE">9600</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_UART1_BAUD_RATE">115200</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="PCW_EN_CLK1_PORT">1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="PCW_EN_CLK1_PORT">0</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_IRQ_F2P_INTR">1</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_IMPORT_BOARD_PRESET">Z:/cao-projets/SPB16X/lagorio/Auger/Document_travail/xilinx/edk_20140221/ps7_system_prj.xml</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="PCW_PRESET_BANK1_VOLTAGE">LVCMOS 1.8V</spirit:configurableElementValue>
@@ -5378,47 +5350,6 @@
         <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="UART0_CTSN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>proc_sys_reset_0_peripheral_aresetn</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="peripheral_aresetn"/>
-        <spirit:externalPortReference spirit:portRef="peripheral_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="axi_cdma_0" spirit:portRef="s_axi_lite_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="axi_cdma_1" spirit:portRef="s_axi_lite_aresetn"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="S00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="S01_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M01_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M02_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M03_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M04_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M05_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="S00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M01_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M02_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M03_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M04_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M05_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M06_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M07_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M08_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M09_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M10_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M11_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M12_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M13_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M14_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M15_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M02_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="S01_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M01_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="S00_ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="ARESETN"/>
-        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M16_ARESETN"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>proc_sys_reset_0_peripheral_reset</spirit:name>
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="peripheral_reset"/>
         <spirit:externalPortReference spirit:portRef="peripheral_reset"/>
@@ -5471,11 +5402,6 @@
         <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M16_ACLK"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>processing_system7_0_FCLK_CLK1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="FCLK_CLK1"/>
-        <spirit:externalPortReference spirit:portRef="FCLK_CLK1"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>processing_system7_0_FCLK_RESET0_N</spirit:name>
         <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="FCLK_RESET0_N"/>
         <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="ext_reset_in"/>
@@ -5520,6 +5446,51 @@
         <spirit:name>xlconcat_0_dout</spirit:name>
         <spirit:internalPortReference spirit:componentRef="xlconcat_0" spirit:portRef="dout"/>
         <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="IRQ_F2P"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>proc_sys_reset_0_interconnect_aresetn</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="interconnect_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M16_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M15_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M14_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M13_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M12_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M11_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M10_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M09_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M08_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M07_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M06_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M05_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M04_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M03_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M02_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M01_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="M00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="S00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_0" spirit:portRef="ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M05_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M04_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M03_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M02_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M01_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="M00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="S01_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="S00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_1" spirit:portRef="ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M02_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="S01_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M01_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="M00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="S00_ARESETN"/>
+        <spirit:internalPortReference spirit:componentRef="axi_interconnect_2" spirit:portRef="ARESETN"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>proc_sys_reset_0_peripheral_aresetn</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="proc_sys_reset_0" spirit:portRef="peripheral_aresetn"/>
+        <spirit:externalPortReference spirit:portRef="peripheral_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="axi_cdma_1" spirit:portRef="s_axi_lite_aresetn"/>
+        <spirit:internalPortReference spirit:componentRef="axi_cdma_0" spirit:portRef="s_axi_lite_aresetn"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

@@ -14,9 +14,11 @@ extern int status;
 extern int nevents;
 extern int compat_sb_count;
 extern int compat_tot_count;
+extern int compat_totd_count;
 extern int sb_count;
 extern int compat_sb_dlyd_count;
 extern int compat_tot_dlyd_count;
+extern int compat_totd_dlyd_count;
 extern int sb_dlyd_count;
 
 int peaks[4][10], areas[4][10], baselines[4][10], saturateds[4][10];
@@ -87,12 +89,16 @@ void read_shw_buffers()
     compat_sb_count++;
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_TOT) != 0)
     compat_tot_count++;
+  if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_TOTD) != 0)
+    compat_totd_count++;
   if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
     sb_count++;
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_SB<<8)) != 0)
     compat_sb_dlyd_count++;
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_TOT<<8)) != 0)
     compat_tot_dlyd_count++;
+  if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_TOTD<<8)) != 0)
+    compat_totd_dlyd_count++;
 if ((trig_id & (SHWR_BUF_TRIG_SB<<8)) != 0)
     compat_sb_dlyd_count++;
 
@@ -373,7 +379,7 @@ void print_shw_buffers()
   trig = 1;
 
   //  #define DETAIL_PRINT
-  //  #define PRINT_EVENT
+  #define PRINT_EVENT
 
 #ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
 #ifdef COMPAT_SB_TRIGGER

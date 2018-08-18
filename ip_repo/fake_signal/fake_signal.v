@@ -15,6 +15,7 @@
 // 14-Jun-2018 DFN Add differential delay options
 // 15-Jun-2018 DFN Add signal width options to MODE
 // 25-Jun-2018 DFN Add exponential decay options to MODE
+// 09-Jul-2018 DFN Add signal size options to MODE
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
@@ -26,8 +27,6 @@
 `define MUON_DLYCOUNT2 (`CLOCK_FREQ * `MUON_DELAY2)
 
 `define PEDESTAL 200         // Signal pedestal
-`define MAX_SIGNAL 2047      // Maximum signal size
-`define SIGNAL_BINS (`MAX_SIGNAL-`PEDESTAL)
 
 `define RANDOM_BITS 32 // Large to allow selection of duration
 `define DELAY_BITS 32  // Overkill but saves changing if change delays
@@ -71,6 +70,9 @@ module fake_signal
    reg [7:0]             MUON_COUNT;
    reg                   LOOP;
    reg                   EXP_DECAY;
+   reg [11:0]            MAX_SIGNAL;
+   reg [11:0]            SIGNAL_BINS;
+      
       
    reg [`RANDOM_BITS-1:0] RANDOM_DONE;  // Generated random number
    reg [`RANDOM_BITS-1:0] RANDOM;
@@ -78,7 +80,9 @@ module fake_signal
    
    always @(posedge CLK)
      begin
-        EXP_DECAY <= MODE[24];
+        EXP_DECAY <= MODE[19];
+        MAX_SIGNAL <= MODE >> 20;
+        SIGNAL_BINS <= MAX_SIGNAL - `PEDESTAL;
 
         case (MODE[4:0])
           11,15,18,21,25,28,31: begin
@@ -98,6 +102,7 @@ module fake_signal
                   25: RANDOM <= {RANDOM[23:0], RANDOM[24]^RANDOM[21]};
                   28: RANDOM <= {RANDOM[26:0], RANDOM[27]^RANDOM[24]};
                   31: RANDOM <= {RANDOM[29:0], RANDOM[30]^RANDOM[27]};
+                  default: RANDOM <= RANDOM;
                 endcase
                 COUNT <= COUNT+1;
              end
@@ -135,12 +140,12 @@ module fake_signal
               else
 	        SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
 
- 	      if (SHWR_PULSE_DELAY < MODE[23:16]) begin
+ 	      if (SHWR_PULSE_DELAY < MODE[18:11]) begin
                  if (!EXP_DECAY)
-	           SHWR_PULSE <= `SIGNAL_BINS;
+	           SHWR_PULSE <= SIGNAL_BINS;
                  else begin
                     if (SHWR_PULSE_DELAY == 0)
-                      SHWR_PULSE <= `SIGNAL_BINS;
+                      SHWR_PULSE <= SIGNAL_BINS;
                     else
                       SHWR_PULSE = (SHWR_PULSE * `DECAY_60NS) >> 10;
                  end      
@@ -181,7 +186,7 @@ module fake_signal
            end
            
 	   if (MUON_PULSE_DELAY < 4)
-	     MUON_PULSE <= `SIGNAL_BINS;
+	     MUON_PULSE <= SIGNAL_BINS;
 	   else
 	     MUON_PULSE <= 0;
         end

@@ -58,8 +58,8 @@ module muon_buffers(
    wire                              LCL_MUON_CONTROL_WRITTEN;
    reg                               PREV_MUON_CONTROL_WRITTEN;
    reg [`MUON_MEM_NBUF-1:0]          MUON_BUF_RESET;
-   reg [31:0]                        DATA0_PIPELINE[0:`MUON_TRIG_PIPELINE_DLY];
-   reg [31:0]                        DATA1_PIPELINE[0:`MUON_TRIG_PIPELINE_DLY];
+   reg [27:0]                        DATA0_PIPELINE[0:`MUON_TRIG_PIPELINE_DLY];
+   reg [27:0]                        DATA1_PIPELINE[0:`MUON_TRIG_PIPELINE_DLY];
    reg [31:0]                        MUON_DATA0_TMP0, MUON_DATA0_TMP1;
    reg [31:0]                        MUON_DATA1_TMP0, MUON_DATA1_TMP1;
    reg [`MUON_MEM_ADDR_WIDTH-1:0]    MUON_ADDRT;

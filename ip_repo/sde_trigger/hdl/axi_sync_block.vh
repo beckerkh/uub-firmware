@@ -28,8 +28,12 @@
    // Synchronization with AXI registers for cases where glitches would be
    // problematic.  This should not be necessary for semi-static control registers.
 
-   synchronizer_32bit compatibility_global_control_sync
-     (.ASYNC_IN(COMPATIBILITY_GLOBAL_CONTROL),
+//   synchronizer_32bit compatibility_global_control_sync
+//     (.ASYNC_IN(COMPATIBILITY_GLOBAL_CONTROL),
+//      .CLK(CLK120),
+//      .SYNC_OUT(LCL_COMPATIBILITY_GLOBAL_CONTROL));
+   synchronizer_1bit compatibility_global_control_sync
+     (.ASYNC_IN(COMPATIBILITY_GLOBAL_CONTROL[0]),
       .CLK(CLK120),
       .SYNC_OUT(LCL_COMPATIBILITY_GLOBAL_CONTROL));
    synchronizer_32bit shwr_buf_control_sync(.ASYNC_IN(SHWR_BUF_CONTROL),
@@ -122,6 +126,7 @@
                  4'b0000,ADC4[`ADC_WIDTH-1:0]}),
       .CLK(S_AXI_ACLK),.SYNC_OUT(ADC4_TEST));
 
+`ifdef KEEP_FILTD
    // Test filtered ADC outputs
    synchronizer_32bit filt_pmt0_test_sync
      (.ASYNC_IN({2'b00,FILTD_PMT0,4'b0000,FILTB_PMT0}),
@@ -132,7 +137,8 @@
    synchronizer_32bit filt_pmt2_test_sync
      (.ASYNC_IN({2'b00,FILTD_PMT2,4'b0000,FILTB_PMT2}),
       .CLK(S_AXI_ACLK),.SYNC_OUT(FILT_PMT2_TEST));
-
+`endif //  `ifdef KEEP_FILTD
+ 
    // These are mostly redundant, but may be useful for debugging
    // synchronizer_32bit shwr_buf_start0_sync
    //   (.ASYNC_IN(LCL_SHWR_BUF_START0),
