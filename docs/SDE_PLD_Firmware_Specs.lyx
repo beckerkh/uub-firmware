@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-August 16 2018
+August 16, 2018
 \end_layout
 
 \begin_layout Author
@@ -5235,7 +5235,7 @@ Time-over-threshold trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 2
 \end_layout
 
@@ -5247,7 +5247,7 @@ Time-over-threshold trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOTD
 \end_layout
 
@@ -5259,8 +5259,8 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOTD
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
-Time-over-threshold deconvoluted trigger
+\color black
+Time-over-threshold deconvolved trigger
 \end_layout
 
 \end_inset
@@ -5456,7 +5456,7 @@ Pre-scale time-over-threshold trigger if set
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 8
 \end_layout
 
@@ -5477,8 +5477,8 @@ Pre-scale time-over-threshold trigger if set
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
-Pre-scale time-over-threshold deconvoluted trigger if set
+\color black
+Pre-scale time-over-threshold deconvolved trigger if set
 \end_layout
 
 \end_inset
@@ -5809,7 +5809,7 @@ Initial time-over-threshold A trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 2
 \end_layout
 
@@ -5821,7 +5821,7 @@ Initial time-over-threshold A trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOTD
 \end_layout
 
@@ -5833,7 +5833,7 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOTD
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 Initial time-over-threshold deconvoluted trigger
 \end_layout
 
@@ -6035,7 +6035,7 @@ Additional time-over-threshold A trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 10
 \end_layout
 
@@ -6047,7 +6047,7 @@ Additional time-over-threshold A trigger
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 COMPATIBILITY_SHWR_BUF_TRIG_TOTD_DLYD
 \end_layout
 
@@ -6059,7 +6059,7 @@ COMPATIBILITY_SHWR_BUF_TRIG_TOTD_DLYD
 \begin_layout Plain Layout
 
 \size footnotesize
-\color cyan
+\color black
 Additional time-over-threshold deconvoluted trigger
 \end_layout
 
