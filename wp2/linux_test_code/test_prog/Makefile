@@ -1,11 +1,11 @@
-ifdef ARM
+#ifdef ARM
    CC=arm-xilinx-linux-gnueabi-gcc
-endif
+#endif
 
 
 cflags=-I.
 
-all: reg regf test0 addr
+all: reg regf test0 addr gpsio
 
 test0: test0.c read_evt.c 
 	$(CC) -o test0 test0.c read_evt.c $(cflags) -lrt
@@ -19,6 +19,9 @@ regf: reg_file.c
 addr: addr.c
 	$(CC) -o addr addr.c $(cflags) 
 
+gpsio: gpsio.c
+	$(CC) -o gpsio gpsio.c $(cflags) 
+
 
 clean:;
-	rm reg regf test0 addr
+	rm reg regf test0 addr gpsio

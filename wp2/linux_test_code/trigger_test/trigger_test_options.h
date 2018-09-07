@@ -8,7 +8,7 @@
 
 
 //#define STAND_ALONE
-#define MAX_EVENTS 1000
+#define MAX_EVENTS 200
 #define EVENT_COUNT_INTERVAL 100
 //#define VERBOSE_BUFFERS  // Print more buffer status if set
 
@@ -16,14 +16,14 @@
 //#define TOGGLE_WATCHDOG
 //#define TOGGLE_ADCPWD
 //#define USE_FAKE_MUON
-#define USE_FAKE_SIGNAL
+//#define USE_FAKE_SIGNAL
 #define PMT0_DLY 0
 #define PMT1_DLY 3
 #define PMT2_DLY 0
 #define FAKE_SIGNAL_WIDTH 30
 #define SIGNAL_HT 300
 #define EXP_DECAY 1
-#define FAKE_SIGNAL_MODE (11 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<11) | (EXP_DECAY<<19) | (SIGNAL_HT<<20))
+#define FAKE_SIGNAL_MODE (7 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<11) | (EXP_DECAY<<19) | (SIGNAL_HT<<20))
 //#define RAMP
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
@@ -33,9 +33,9 @@
 #define LED_PULSWID0 10
 #define LED_PULSWID1 20
 
-#define TRIG_THR0 250
-#define TRIG_THR1 250
-#define TRIG_THR2 4095
+#define TRIG_THR0 2000
+#define TRIG_THR1 2000
+#define TRIG_THR2 2000
 #define TRIG_SSD 4095
 #define LPMT_THR0 0000   // Software large PMT threshold for small PMT cal
 #define LPMT_THR1 0000
@@ -44,20 +44,20 @@
 #define SHWR_TRIGGERS
 
 #ifdef SHWR_TRIGGERS 
-//  #define COMPAT_SB_TRIGGER
+  #define COMPAT_SB_TRIGGER
 //  #define COMPAT_TOT_TRIGGER
-//    #define COMPAT_TOT_TRIG_OCC 5
-  #define COMPAT_TOTD_TRIGGER
-    #define COMPAT_TOTD_TRIG_OCC 2
-    #define COMPAT_TOTD_FD 42  // 60ns decay constant
-    #define COMPAT_TOTD_FN 47
-    #define COMPAT_TOTD_UP0 4095
-    #define COMPAT_TOTD_UP1 4095
-    #define COMPAT_TOTD_UP2 4095
-    #define COMPAT_TOTD_INT  300
+//  #define COMPAT_TOT_TRIG_OCC 10
+  // #define COMPAT_TOTD_TRIGGER
+  //   #define COMPAT_TOTD_TRIG_OCC 2
+  //   #define COMPAT_TOTD_FD 42  // 60ns decay constant
+  //   #define COMPAT_TOTD_FN 47
+  //   #define COMPAT_TOTD_UP0 4095
+  //   #define COMPAT_TOTD_UP1 4095
+  //   #define COMPAT_TOTD_UP2 4095
+  //   #define COMPAT_TOTD_INT  300
   #define SB_TRIGGER
 //  #define SSD_AND	
-  #define SB_COINC_LVL 2
+  #define SB_COINC_LVL 3
   #define SB_COINC_OVLP 3
   #define SB_CONSEC_BINS 1
   #define SSD_DELAY 5

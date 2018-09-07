@@ -20,8 +20,10 @@
 
 volatile u32 shwr_mem_ptr[5];
 volatile u32 muon_mem_ptr[2];
+volatile u32 fake_event_ptr[2];
 u32 shwr_mem_addr[5];
 u32 muon_mem_addr[2];
+u32 fake_event_addr[2];
 volatile int nevents = 0;
 volatile int missed_events = 0;
 volatile int compat_sb_count = 0;
@@ -150,6 +152,11 @@ void trigger_test()
   double time, dt, prev_time;
 #endif
   int i;
+#ifdef USE_FAKE_SIGNAL
+  int fake_adc[3];
+  FILE *fake_event_file;
+  u32 *mem_ptr0, *mem_ptr1;
+#endif
 
   for (i=0; i<NUM_BUFFERS; i++)
     full_shw_rd_bufs[i] = 0;
@@ -168,6 +175,28 @@ void trigger_test()
   // Select fake or true signals
 #ifdef USE_FAKE_SIGNAL
   test_options = test_options | 2;
+      // FAKE_SIGNAL_MODE & 0x1f == 7 means load fake data!
+      if ((FAKE_SIGNAL_MODE & 0x1f) == 7) 
+    {
+      fake_event_file = fopen("fake_event.txt","R");
+      if (fake_event_file == 0) {
+        printf("Unable to open input file fake_event.txt");
+        return;
+        mem_ptr0 = (u32*) fake_event_ptr[0];
+        mem_ptr1 = (u32*) fake_event_ptr[1];
+        for (i=0; i<SHWR_MEM_DEPTH; i++)
+          {
+            fscanf(fake_event_file,"%d %d %d", 
+                   &fake_adc[0], &fake_adc[1], &fake_adc[2]);
+            //
+            *mem_ptr0 = fake_adc[0] | (fake_adc[1] << 16);
+            *mem_ptr1 = fake_adc[2];
+            mem_ptr0++;
+            mem_ptr1++;
+          }
+        fclose(fake_event_file);
+      }
+  }
 #endif
 #ifdef USE_FAKE_MUON
   test_options = test_options | 4;
@@ -186,6 +215,7 @@ void trigger_test()
 	       test_options, status);
 
       write_tstctl(1, 0);  // Mode=0 is used as RESET
+
       write_tstctl(1, FAKE_SIGNAL_MODE);
       status = read_tstctl(1);
       //	  status = read_ifc(2);

@@ -22,11 +22,16 @@ void map_registers()
   muon_mem_addr[0] = TRIGGER_MEMORY_MUON0_BASE;
   muon_mem_addr[1] = TRIGGER_MEMORY_MUON1_BASE;
 
+  fake_event_addr[0] = FAKE_EVENT0_BASE;
+  fake_event_addr[1] = FAKE_EVENT1_BASE;
+
 #ifdef STAND_ALONE
   for (imem=0; imem<5; imem++)
     shwr_mem_ptr[imem] = shwr_mem_addr[imem];
   for (imem=0; imem<2; imem++)
     muon_mem_ptr[imem] = muon_mem_addr[imem];
+  for (imem=0; imem<2; imem++)
+    fake_event_ptr[imem] = fake_event_addr[imem];
 
 #else
   // Open register addresses for read/write
@@ -103,7 +108,20 @@ void map_registers()
   	exit(1);
       }
     }
-  printf("Finished mapping shower/muon buffers\n");
+
+  size = SHWR_MEM_DEPTH;
+  for (imem=0; imem<2; imem++)
+    {
+      fake_event_ptr[imem] = (u32)mmap(NULL, size,
+  					    PROT_READ, MAP_SHARED,
+  					    fd,fake_event_addr[imem]);
+      if (fake_event_ptr[imem] == (u32)MAP_FAILED){
+  	printf("Error - while trying to map fake event memory %d\n", imem);
+  	exit(1);
+      }
+    }
+
+  printf("Finished mapping shower/muon/fake-event buffers\n");
   close(fd); // Can close fd now
 #endif
 }

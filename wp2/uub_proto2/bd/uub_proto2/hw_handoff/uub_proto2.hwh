@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Aug 17 17:14:47 2018" VIVADOVERSION="2015.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Sep  7 15:06:58 2018" VIVADOVERSION="2015.2">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z020" NAME="uub_proto2" PACKAGE="clg484" SPEEDGRADE="-1"/>
 
@@ -171,7 +171,7 @@
     </PORT>
     <PORT DIR="I" NAME="GPS_PPS" SIGIS="undef" SIGNAME="External_Ports_GPS_PPS">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="test_control_0" PORT="TRUE_PPS"/>
+        <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="TRUE_PPS"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="TRIG_OUT" SIGIS="undef" SIGNAME="trigger_memory_block_sde_trigger_0_TRIG_OUT">
@@ -189,12 +189,12 @@
         <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="P6X"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="7" NAME="ext1_dat" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+    <PORT DIR="O" LEFT="7" NAME="ext1_ctl" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
       <CONNECTIONS>
         <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="7" NAME="ext1_ctl" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+    <PORT DIR="O" LEFT="7" NAME="ext1_dat" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
       <CONNECTIONS>
         <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
       </CONNECTIONS>
@@ -319,7 +319,7 @@
         </PORT>
         <PORT DIR="O" LEFT="23" NAME="SYNC_OUT" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_0_SYNC_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC0_IN"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC0_IN"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -349,7 +349,7 @@
         </PORT>
         <PORT DIR="O" LEFT="23" NAME="SYNC_OUT" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_1_SYNC_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC1_IN"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC1_IN"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -379,7 +379,7 @@
         </PORT>
         <PORT DIR="O" LEFT="23" NAME="SYNC_OUT" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_2_SYNC_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC2_IN"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC2_IN"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -409,7 +409,7 @@
         </PORT>
         <PORT DIR="O" LEFT="23" NAME="SYNC_OUT" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_3_SYNC_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC3_IN"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC3_IN"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -439,7 +439,7 @@
         </PORT>
         <PORT DIR="O" LEFT="23" NAME="SYNC_OUT" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_4_SYNC_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC4_IN"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC4_IN"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -763,14 +763,14 @@
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
-        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ" VALUE="40322578"/>
+        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ" VALUE="50000000"/>
         <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="4"/>
         <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_BAUDRATE" VALUE="9600"/>
         <PARAMETER NAME="C_DATA_BITS" VALUE="8"/>
         <PARAMETER NAME="C_USE_PARITY" VALUE="0"/>
         <PARAMETER NAME="C_ODD_PARITY" VALUE="0"/>
-        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ_d" VALUE="40.322578"/>
+        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ_d" VALUE="50.0"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_uartlite_0_0"/>
         <PARAMETER NAME="PARITY" VALUE="No_Parity"/>
         <PARAMETER NAME="USE_BOARD_FLOW" VALUE="false"/>
@@ -780,7 +780,7 @@
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x42C0FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -893,7 +893,7 @@
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M05_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
           <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
@@ -944,14 +944,14 @@
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
-        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ" VALUE="40322578"/>
+        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ" VALUE="50000000"/>
         <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="4"/>
         <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_BAUDRATE" VALUE="9600"/>
         <PARAMETER NAME="C_DATA_BITS" VALUE="8"/>
         <PARAMETER NAME="C_USE_PARITY" VALUE="0"/>
         <PARAMETER NAME="C_ODD_PARITY" VALUE="0"/>
-        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ_d" VALUE="40.322578"/>
+        <PARAMETER NAME="C_S_AXI_ACLK_FREQ_HZ_d" VALUE="50.0"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_uartlite_1_0"/>
         <PARAMETER NAME="PARITY" VALUE="No_Parity"/>
         <PARAMETER NAME="USE_BOARD_FLOW" VALUE="false"/>
@@ -961,7 +961,7 @@
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x42C1FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -1074,7 +1074,7 @@
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M16_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
           <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
@@ -1085,8 +1085,8 @@
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
@@ -1133,90 +1133,7 @@
         </PORT>
         <PORT DIR="O" NAME="CLK1PPS" SIGIS="undef" SIGNAME="clock_1pps_0_CLK1PPS">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="FAKE_PPS"/>
-          </CONNECTIONS>
-        </PORT>
-      </PORTS>
-      <BUSINTERFACES/>
-    </MODULE>
-    <MODULE FULLNAME="/fake_signal_0" HWVERSION="1.0" INSTANCE="fake_signal_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="fake_signal" VLNV="user.org:user:fake_signal:1.0">
-      <DOCUMENTS/>
-      <PARAMETERS>
-        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_fake_signal_0_0"/>
-        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-      </PARAMETERS>
-      <PORTS>
-        <PORT DIR="I" NAME="USE_FAKE_SHWR" SIGIS="undef" SIGNAME="test_control_0_USE_FAKE_SHWR">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="USE_FAKE_SHWR"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="USE_FAKE_MUON" SIGIS="undef" SIGNAME="test_control_0_USE_FAKE_MUON">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="USE_FAKE_MUON"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="31" NAME="MODE" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_FAKE_MODE">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="FAKE_MODE"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC0_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_0_SYNC_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_0" PORT="SYNC_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC1_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_1_SYNC_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_1" PORT="SYNC_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC2_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_2_SYNC_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_2" PORT="SYNC_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC3_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_3_SYNC_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_3" PORT="SYNC_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC4_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_4_SYNC_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_4" PORT="SYNC_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT CLKFREQUENCY="120000000" DIR="I" NAME="CLK" SIGIS="clk" SIGNAME="util_ds_buf_0_IBUF_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="util_ds_buf_0" PORT="IBUF_OUT"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="23" NAME="ADC0_OUT" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC0_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC0"/>
-            <CONNECTION INSTANCE="filter_block_xlslice_2" PORT="Din"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="23" NAME="ADC1_OUT" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC1_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC1"/>
-            <CONNECTION INSTANCE="filter_block_xlslice_4" PORT="Din"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="23" NAME="ADC2_OUT" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC2_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC2"/>
-            <CONNECTION INSTANCE="filter_block_xlslice_6" PORT="Din"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="23" NAME="ADC3_OUT" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC3_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC3"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="23" NAME="ADC4_OUT" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC4_OUT">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC4"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="FAKE_PPS"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -1933,9 +1850,9 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC0_OUT">
+        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC0_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC0_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC0_OUT"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="filter_block_xlslice_2_Dout">
@@ -1981,9 +1898,9 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC1_OUT">
+        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC1_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC1_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC1_OUT"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="filter_block_xlslice_4_Dout">
@@ -2029,9 +1946,9 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC2_OUT">
+        <PORT DIR="I" LEFT="23" NAME="Din" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC2_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC2_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC2_OUT"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="11" NAME="Dout" RIGHT="0" SIGIS="undef" SIGNAME="filter_block_xlslice_6_Dout">
@@ -2073,8 +1990,8 @@
         <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="4"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_interface_uub_dfn3_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C00000"/>
-        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C0FFFF"/>
+        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C10000"/>
+        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C1FFFF"/>
       </PARAMETERS>
       <PORTS>
         <PORT DIR="I" NAME="CLK120" SIGIS="undef" SIGNAME="util_ds_buf_0_IBUF_OUT">
@@ -2117,7 +2034,7 @@
             <CONNECTION INSTANCE="External_Ports" PORT="P65"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -2241,7 +2158,7 @@
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -2268,15 +2185,1272 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
-    <MODULE FULLNAME="/test_control_0" HWVERSION="1.0" INSTANCE="test_control_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="test_control" VLNV="user.org:user:test_control:1.0">
+    <MODULE FULLNAME="/test_control_block/axi_bram_ctrl_0" HWVERSION="4.0" INSTANCE="test_control_block_axi_bram_ctrl_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY_CNTLR" MODTYPE="axi_bram_ctrl" VLNV="xilinx.com:ip:axi_bram_ctrl:4.0">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_bram_ctrl;v=v4_0;d=pg078-axi-bram-ctrl.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_BRAM_INST_MODE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="C_MEMORY_DEPTH" VALUE="2048"/>
+        <PARAMETER NAME="C_BRAM_ADDR_WIDTH" VALUE="11"/>
+        <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="13"/>
+        <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="C_S_AXI_PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="C_SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_ADDR_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_bram_ctrl_0_2"/>
+        <PARAMETER NAME="BMG_INSTANCE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="MEM_DEPTH" VALUE="2048"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+        <PARAMETER NAME="EDK_SPECIAL" VALUE="BRAM_CTRL"/>
+        <PARAMETER NAME="C_S_AXI_BASEADDR" VALUE="0x4E000000"/>
+        <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x4E001FFF"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_aresetn" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_awid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="12" NAME="s_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_awlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_awburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_awcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_awready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="s_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_wready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_bid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_bvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_bready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_arid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="12" NAME="s_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_arlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_arburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_arcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_arready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_rid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="s_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_rready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_AXI_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_rst_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="rsta"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_clk_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="clka"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_en_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="ena"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="bram_we_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="wea"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="12" NAME="bram_addr_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="addra"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="bram_wrdata_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="dina"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="bram_rddata_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="douta"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M17_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
+          <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="13"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
+          <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="s_axi_araddr"/>
+            <PORTMAP PHYSICAL="s_axi_arburst"/>
+            <PORTMAP PHYSICAL="s_axi_arcache"/>
+            <PORTMAP PHYSICAL="s_axi_arid"/>
+            <PORTMAP PHYSICAL="s_axi_arlen"/>
+            <PORTMAP PHYSICAL="s_axi_arlock"/>
+            <PORTMAP PHYSICAL="s_axi_arprot"/>
+            <PORTMAP PHYSICAL="s_axi_arready"/>
+            <PORTMAP PHYSICAL="s_axi_arsize"/>
+            <PORTMAP PHYSICAL="s_axi_arvalid"/>
+            <PORTMAP PHYSICAL="s_axi_awaddr"/>
+            <PORTMAP PHYSICAL="s_axi_awburst"/>
+            <PORTMAP PHYSICAL="s_axi_awcache"/>
+            <PORTMAP PHYSICAL="s_axi_awid"/>
+            <PORTMAP PHYSICAL="s_axi_awlen"/>
+            <PORTMAP PHYSICAL="s_axi_awlock"/>
+            <PORTMAP PHYSICAL="s_axi_awprot"/>
+            <PORTMAP PHYSICAL="s_axi_awready"/>
+            <PORTMAP PHYSICAL="s_axi_awsize"/>
+            <PORTMAP PHYSICAL="s_axi_awvalid"/>
+            <PORTMAP PHYSICAL="s_axi_bid"/>
+            <PORTMAP PHYSICAL="s_axi_bready"/>
+            <PORTMAP PHYSICAL="s_axi_bresp"/>
+            <PORTMAP PHYSICAL="s_axi_bvalid"/>
+            <PORTMAP PHYSICAL="s_axi_rdata"/>
+            <PORTMAP PHYSICAL="s_axi_rid"/>
+            <PORTMAP PHYSICAL="s_axi_rlast"/>
+            <PORTMAP PHYSICAL="s_axi_rready"/>
+            <PORTMAP PHYSICAL="s_axi_rresp"/>
+            <PORTMAP PHYSICAL="s_axi_rvalid"/>
+            <PORTMAP PHYSICAL="s_axi_wdata"/>
+            <PORTMAP PHYSICAL="s_axi_wlast"/>
+            <PORTMAP PHYSICAL="s_axi_wready"/>
+            <PORTMAP PHYSICAL="s_axi_wstrb"/>
+            <PORTMAP PHYSICAL="s_axi_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="test_control_block_axi_bram_ctrl_0_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="INITIATOR">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="bram_addr_a"/>
+            <PORTMAP PHYSICAL="bram_clk_a"/>
+            <PORTMAP PHYSICAL="bram_wrdata_a"/>
+            <PORTMAP PHYSICAL="bram_rddata_a"/>
+            <PORTMAP PHYSICAL="bram_en_a"/>
+            <PORTMAP PHYSICAL="bram_rst_a"/>
+            <PORTMAP PHYSICAL="bram_we_a"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/test_control_block/axi_bram_ctrl_1" HWVERSION="4.0" INSTANCE="test_control_block_axi_bram_ctrl_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY_CNTLR" MODTYPE="axi_bram_ctrl" VLNV="xilinx.com:ip:axi_bram_ctrl:4.0">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_bram_ctrl;v=v4_0;d=pg078-axi-bram-ctrl.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_BRAM_INST_MODE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="C_MEMORY_DEPTH" VALUE="2048"/>
+        <PARAMETER NAME="C_BRAM_ADDR_WIDTH" VALUE="11"/>
+        <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="13"/>
+        <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="C_S_AXI_PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="C_SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_ADDR_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="ECC_TYPE" VALUE="Hamming"/>
+        <PARAMETER NAME="USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_bram_ctrl_0_3"/>
+        <PARAMETER NAME="BMG_INSTANCE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="MEM_DEPTH" VALUE="2048"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+        <PARAMETER NAME="EDK_SPECIAL" VALUE="BRAM_CTRL"/>
+        <PARAMETER NAME="C_S_AXI_BASEADDR" VALUE="0x50000000"/>
+        <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x50001FFF"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_aresetn" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_awid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="12" NAME="s_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_awlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_awburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_awcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_awready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="s_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_wready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_bid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_bvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_bready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_arid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="12" NAME="s_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_arlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_arburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_arcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_arready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_rid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="s_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_rready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_AXI_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_rst_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="rsta"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_clk_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="clka"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_en_a" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="ena"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="bram_we_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="wea"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="12" NAME="bram_addr_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="addra"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="bram_wrdata_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="dina"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="bram_rddata_a" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="douta"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M18_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
+          <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="13"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
+          <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="s_axi_araddr"/>
+            <PORTMAP PHYSICAL="s_axi_arburst"/>
+            <PORTMAP PHYSICAL="s_axi_arcache"/>
+            <PORTMAP PHYSICAL="s_axi_arid"/>
+            <PORTMAP PHYSICAL="s_axi_arlen"/>
+            <PORTMAP PHYSICAL="s_axi_arlock"/>
+            <PORTMAP PHYSICAL="s_axi_arprot"/>
+            <PORTMAP PHYSICAL="s_axi_arready"/>
+            <PORTMAP PHYSICAL="s_axi_arsize"/>
+            <PORTMAP PHYSICAL="s_axi_arvalid"/>
+            <PORTMAP PHYSICAL="s_axi_awaddr"/>
+            <PORTMAP PHYSICAL="s_axi_awburst"/>
+            <PORTMAP PHYSICAL="s_axi_awcache"/>
+            <PORTMAP PHYSICAL="s_axi_awid"/>
+            <PORTMAP PHYSICAL="s_axi_awlen"/>
+            <PORTMAP PHYSICAL="s_axi_awlock"/>
+            <PORTMAP PHYSICAL="s_axi_awprot"/>
+            <PORTMAP PHYSICAL="s_axi_awready"/>
+            <PORTMAP PHYSICAL="s_axi_awsize"/>
+            <PORTMAP PHYSICAL="s_axi_awvalid"/>
+            <PORTMAP PHYSICAL="s_axi_bid"/>
+            <PORTMAP PHYSICAL="s_axi_bready"/>
+            <PORTMAP PHYSICAL="s_axi_bresp"/>
+            <PORTMAP PHYSICAL="s_axi_bvalid"/>
+            <PORTMAP PHYSICAL="s_axi_rdata"/>
+            <PORTMAP PHYSICAL="s_axi_rid"/>
+            <PORTMAP PHYSICAL="s_axi_rlast"/>
+            <PORTMAP PHYSICAL="s_axi_rready"/>
+            <PORTMAP PHYSICAL="s_axi_rresp"/>
+            <PORTMAP PHYSICAL="s_axi_rvalid"/>
+            <PORTMAP PHYSICAL="s_axi_wdata"/>
+            <PORTMAP PHYSICAL="s_axi_wlast"/>
+            <PORTMAP PHYSICAL="s_axi_wready"/>
+            <PORTMAP PHYSICAL="s_axi_wstrb"/>
+            <PORTMAP PHYSICAL="s_axi_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="test_control_block_axi_bram_ctrl_1_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="INITIATOR">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="bram_addr_a"/>
+            <PORTMAP PHYSICAL="bram_clk_a"/>
+            <PORTMAP PHYSICAL="bram_wrdata_a"/>
+            <PORTMAP PHYSICAL="bram_rddata_a"/>
+            <PORTMAP PHYSICAL="bram_en_a"/>
+            <PORTMAP PHYSICAL="bram_rst_a"/>
+            <PORTMAP PHYSICAL="bram_we_a"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/test_control_block/blk_mem_gen_0" HWVERSION="8.2" INSTANCE="test_control_block_blk_mem_gen_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY" MODTYPE="blk_mem_gen" VLNV="xilinx.com:ip:blk_mem_gen:8.2">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=blk_mem_gen;v=v8_2;d=pg058-blk-mem-gen.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_XDEVICEFAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_ELABORATION_DIR" VALUE="./"/>
+        <PARAMETER NAME="C_INTERFACE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_AXI_SLAVE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BRAM_BLOCK" VALUE="1"/>
+        <PARAMETER NAME="C_ENABLE_32BIT_ADDRESS" VALUE="1"/>
+        <PARAMETER NAME="C_CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="C_HAS_AXI_ID" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_ID_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_MEM_TYPE" VALUE="2"/>
+        <PARAMETER NAME="C_BYTE_SIZE" VALUE="8"/>
+        <PARAMETER NAME="C_ALGORITHM" VALUE="1"/>
+        <PARAMETER NAME="C_PRIM_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_LOAD_INIT_FILE" VALUE="0"/>
+        <PARAMETER NAME="C_INIT_FILE_NAME" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="C_INIT_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="C_USE_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_RSTA" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_A" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_A" VALUE="0"/>
+        <PARAMETER NAME="C_INITA_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENA" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEA" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEA" VALUE="1"/>
+        <PARAMETER NAME="C_WEA_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_A" VALUE="2048"/>
+        <PARAMETER NAME="C_READ_DEPTH_A" VALUE="2048"/>
+        <PARAMETER NAME="C_ADDRA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_RSTB" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_B" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_B" VALUE="0"/>
+        <PARAMETER NAME="C_INITB_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENB" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEB" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEB" VALUE="1"/>
+        <PARAMETER NAME="C_WEB_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_B" VALUE="2048"/>
+        <PARAMETER NAME="C_READ_DEPTH_B" VALUE="2048"/>
+        <PARAMETER NAME="C_ADDRB_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_MUX_PIPELINE_STAGES" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_INPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_USE_SOFTECC" VALUE="0"/>
+        <PARAMETER NAME="C_USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_EN_ECC_PIPE" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_INJECTERR" VALUE="0"/>
+        <PARAMETER NAME="C_SIM_COLLISION_CHECK" VALUE="ALL"/>
+        <PARAMETER NAME="C_COMMON_CLK" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_COLL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_USE_URAM" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRA_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRB_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_DEEPSLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SHUTDOWN_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_RANGE" VALUE="0"/>
+        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="2"/>
+        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="0"/>
+        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     10.7492 mW"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_blk_mem_gen_0_1"/>
+        <PARAMETER NAME="Interface_Type" VALUE="Native"/>
+        <PARAMETER NAME="AXI_Type" VALUE="AXI4_Full"/>
+        <PARAMETER NAME="AXI_Slave_Type" VALUE="Memory_Slave"/>
+        <PARAMETER NAME="Use_AXI_ID" VALUE="false"/>
+        <PARAMETER NAME="AXI_ID_Width" VALUE="4"/>
+        <PARAMETER NAME="Memory_Type" VALUE="True_Dual_Port_RAM"/>
+        <PARAMETER NAME="PRIM_type_to_Implement" VALUE="BRAM"/>
+        <PARAMETER NAME="Enable_32bit_Address" VALUE="true"/>
+        <PARAMETER NAME="ecctype" VALUE="No_ECC"/>
+        <PARAMETER NAME="ECC" VALUE="false"/>
+        <PARAMETER NAME="softecc" VALUE="false"/>
+        <PARAMETER NAME="EN_SLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_DEEPSLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_SHUTDOWN_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_ECC_PIPE" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_A" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_B" VALUE="false"/>
+        <PARAMETER NAME="Use_Error_Injection_Pins" VALUE="false"/>
+        <PARAMETER NAME="Error_Injection_Type" VALUE="Single_Bit_Error_Injection"/>
+        <PARAMETER NAME="Use_Byte_Write_Enable" VALUE="true"/>
+        <PARAMETER NAME="Byte_Size" VALUE="8"/>
+        <PARAMETER NAME="Algorithm" VALUE="Minimum_Area"/>
+        <PARAMETER NAME="Primitive" VALUE="8kx2"/>
+        <PARAMETER NAME="Assume_Synchronous_Clk" VALUE="false"/>
+        <PARAMETER NAME="Write_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Write_Depth_A" VALUE="2048"/>
+        <PARAMETER NAME="Read_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_A" VALUE="Use_ENA_Pin"/>
+        <PARAMETER NAME="Write_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Read_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_B" VALUE="Use_ENB_Pin"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEA_Pin" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEB_Pin" VALUE="false"/>
+        <PARAMETER NAME="register_porta_input_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="register_portb_output_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="Pipeline_Stages" VALUE="0"/>
+        <PARAMETER NAME="Load_Init_File" VALUE="false"/>
+        <PARAMETER NAME="Coe_File" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="Fill_Remaining_Memory_Locations" VALUE="false"/>
+        <PARAMETER NAME="Remaining_Memory_Locations" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTA_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_A" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_A" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_A" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTB_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_B" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_B" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_B" VALUE="0"/>
+        <PARAMETER NAME="Reset_Type" VALUE="SYNC"/>
+        <PARAMETER NAME="Additional_Inputs_for_Power_Estimation" VALUE="false"/>
+        <PARAMETER NAME="Port_A_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_A_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_B_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_A_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Collision_Warnings" VALUE="ALL"/>
+        <PARAMETER NAME="Disable_Collision_Warnings" VALUE="false"/>
+        <PARAMETER NAME="Disable_Out_of_Range_Warnings" VALUE="false"/>
+        <PARAMETER NAME="use_bram_block" VALUE="BRAM_Controller"/>
+        <PARAMETER NAME="MEM_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clka" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_clk_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rsta" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_rst_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ena" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_en_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="wea" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_we_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addra" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_addr_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_wrdata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="douta" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="bram_rddata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clkb" SIGIS="undef" SIGNAME="util_ds_buf_0_IBUF_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_ds_buf_0" PORT="IBUF_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rstb" SIGIS="undef" SIGNAME="zync_block_proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="enb" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="3" NAME="web" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="31" NAME="addrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_EVENT_ADR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="EVENT_ADR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dinb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_xlconstant_4_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_xlconstant_4" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="doutb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_blk_mem_gen_0_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="EVENT_IN0"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="test_control_block_axi_bram_ctrl_0_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addra"/>
+            <PORTMAP PHYSICAL="clka"/>
+            <PORTMAP PHYSICAL="dina"/>
+            <PORTMAP PHYSICAL="douta"/>
+            <PORTMAP PHYSICAL="ena"/>
+            <PORTMAP PHYSICAL="rsta"/>
+            <PORTMAP PHYSICAL="wea"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="BRAM_PORTB" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addrb"/>
+            <PORTMAP PHYSICAL="clkb"/>
+            <PORTMAP PHYSICAL="dinb"/>
+            <PORTMAP PHYSICAL="doutb"/>
+            <PORTMAP PHYSICAL="enb"/>
+            <PORTMAP PHYSICAL="rstb"/>
+            <PORTMAP PHYSICAL="web"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/test_control_block/blk_mem_gen_1" HWVERSION="8.2" INSTANCE="test_control_block_blk_mem_gen_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY" MODTYPE="blk_mem_gen" VLNV="xilinx.com:ip:blk_mem_gen:8.2">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=blk_mem_gen;v=v8_2;d=pg058-blk-mem-gen.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_XDEVICEFAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_ELABORATION_DIR" VALUE="./"/>
+        <PARAMETER NAME="C_INTERFACE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_AXI_SLAVE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BRAM_BLOCK" VALUE="1"/>
+        <PARAMETER NAME="C_ENABLE_32BIT_ADDRESS" VALUE="1"/>
+        <PARAMETER NAME="C_CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="C_HAS_AXI_ID" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_ID_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_MEM_TYPE" VALUE="2"/>
+        <PARAMETER NAME="C_BYTE_SIZE" VALUE="8"/>
+        <PARAMETER NAME="C_ALGORITHM" VALUE="1"/>
+        <PARAMETER NAME="C_PRIM_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_LOAD_INIT_FILE" VALUE="0"/>
+        <PARAMETER NAME="C_INIT_FILE_NAME" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="C_INIT_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="C_USE_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_RSTA" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_A" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_A" VALUE="0"/>
+        <PARAMETER NAME="C_INITA_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENA" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEA" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEA" VALUE="1"/>
+        <PARAMETER NAME="C_WEA_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_A" VALUE="2048"/>
+        <PARAMETER NAME="C_READ_DEPTH_A" VALUE="2048"/>
+        <PARAMETER NAME="C_ADDRA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_RSTB" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_B" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_B" VALUE="0"/>
+        <PARAMETER NAME="C_INITB_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENB" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEB" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEB" VALUE="1"/>
+        <PARAMETER NAME="C_WEB_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_B" VALUE="2048"/>
+        <PARAMETER NAME="C_READ_DEPTH_B" VALUE="2048"/>
+        <PARAMETER NAME="C_ADDRB_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_MUX_PIPELINE_STAGES" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_INPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_USE_SOFTECC" VALUE="0"/>
+        <PARAMETER NAME="C_USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_EN_ECC_PIPE" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_INJECTERR" VALUE="0"/>
+        <PARAMETER NAME="C_SIM_COLLISION_CHECK" VALUE="ALL"/>
+        <PARAMETER NAME="C_COMMON_CLK" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_COLL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_USE_URAM" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRA_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRB_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_DEEPSLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SHUTDOWN_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_RANGE" VALUE="0"/>
+        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="2"/>
+        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="0"/>
+        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     10.7492 mW"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_blk_mem_gen_1_1"/>
+        <PARAMETER NAME="Interface_Type" VALUE="Native"/>
+        <PARAMETER NAME="AXI_Type" VALUE="AXI4_Full"/>
+        <PARAMETER NAME="AXI_Slave_Type" VALUE="Memory_Slave"/>
+        <PARAMETER NAME="Use_AXI_ID" VALUE="false"/>
+        <PARAMETER NAME="AXI_ID_Width" VALUE="4"/>
+        <PARAMETER NAME="Memory_Type" VALUE="True_Dual_Port_RAM"/>
+        <PARAMETER NAME="PRIM_type_to_Implement" VALUE="BRAM"/>
+        <PARAMETER NAME="Enable_32bit_Address" VALUE="true"/>
+        <PARAMETER NAME="ecctype" VALUE="No_ECC"/>
+        <PARAMETER NAME="ECC" VALUE="false"/>
+        <PARAMETER NAME="softecc" VALUE="false"/>
+        <PARAMETER NAME="EN_SLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_DEEPSLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_SHUTDOWN_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_ECC_PIPE" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_A" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_B" VALUE="false"/>
+        <PARAMETER NAME="Use_Error_Injection_Pins" VALUE="false"/>
+        <PARAMETER NAME="Error_Injection_Type" VALUE="Single_Bit_Error_Injection"/>
+        <PARAMETER NAME="Use_Byte_Write_Enable" VALUE="true"/>
+        <PARAMETER NAME="Byte_Size" VALUE="8"/>
+        <PARAMETER NAME="Algorithm" VALUE="Minimum_Area"/>
+        <PARAMETER NAME="Primitive" VALUE="8kx2"/>
+        <PARAMETER NAME="Assume_Synchronous_Clk" VALUE="false"/>
+        <PARAMETER NAME="Write_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Write_Depth_A" VALUE="2048"/>
+        <PARAMETER NAME="Read_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_A" VALUE="Use_ENA_Pin"/>
+        <PARAMETER NAME="Write_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Read_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_B" VALUE="Use_ENB_Pin"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEA_Pin" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEB_Pin" VALUE="false"/>
+        <PARAMETER NAME="register_porta_input_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="register_portb_output_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="Pipeline_Stages" VALUE="0"/>
+        <PARAMETER NAME="Load_Init_File" VALUE="false"/>
+        <PARAMETER NAME="Coe_File" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="Fill_Remaining_Memory_Locations" VALUE="false"/>
+        <PARAMETER NAME="Remaining_Memory_Locations" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTA_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_A" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_A" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_A" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTB_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_B" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_B" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_B" VALUE="0"/>
+        <PARAMETER NAME="Reset_Type" VALUE="SYNC"/>
+        <PARAMETER NAME="Additional_Inputs_for_Power_Estimation" VALUE="false"/>
+        <PARAMETER NAME="Port_A_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_A_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_B_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_A_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Collision_Warnings" VALUE="ALL"/>
+        <PARAMETER NAME="Disable_Collision_Warnings" VALUE="false"/>
+        <PARAMETER NAME="Disable_Out_of_Range_Warnings" VALUE="false"/>
+        <PARAMETER NAME="use_bram_block" VALUE="BRAM_Controller"/>
+        <PARAMETER NAME="MEM_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clka" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_clk_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rsta" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_rst_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ena" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_en_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="wea" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_we_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addra" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_addr_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_wrdata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="douta" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="bram_rddata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clkb" SIGIS="undef" SIGNAME="util_ds_buf_0_IBUF_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_ds_buf_0" PORT="IBUF_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rstb" SIGIS="undef" SIGNAME="zync_block_proc_sys_reset_0_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="enb" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="3" NAME="web" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="I" LEFT="31" NAME="addrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_EVENT_ADR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="EVENT_ADR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dinb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_xlconstant_4_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_xlconstant_4" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="doutb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_blk_mem_gen_1_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="EVENT_IN1"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="test_control_block_axi_bram_ctrl_1_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addra"/>
+            <PORTMAP PHYSICAL="clka"/>
+            <PORTMAP PHYSICAL="dina"/>
+            <PORTMAP PHYSICAL="douta"/>
+            <PORTMAP PHYSICAL="ena"/>
+            <PORTMAP PHYSICAL="rsta"/>
+            <PORTMAP PHYSICAL="wea"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="BRAM_PORTB" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addrb"/>
+            <PORTMAP PHYSICAL="clkb"/>
+            <PORTMAP PHYSICAL="dinb"/>
+            <PORTMAP PHYSICAL="doutb"/>
+            <PORTMAP PHYSICAL="enb"/>
+            <PORTMAP PHYSICAL="rstb"/>
+            <PORTMAP PHYSICAL="web"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/test_control_block/fake_signal_0" HWVERSION="1.0" INSTANCE="test_control_block_fake_signal_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="fake_signal" VLNV="user.org:user:fake_signal:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_fake_signal_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="USE_FAKE_SHWR" SIGIS="undef" SIGNAME="test_control_block_test_control_0_USE_FAKE_SHWR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="USE_FAKE_SHWR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="USE_FAKE_MUON" SIGIS="undef" SIGNAME="test_control_block_test_control_0_USE_FAKE_MUON">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="USE_FAKE_MUON"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="MODE" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_FAKE_MODE">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="FAKE_MODE"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="ADC0_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_0_SYNC_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_0" PORT="SYNC_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="ADC1_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_1_SYNC_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_1" PORT="SYNC_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="ADC2_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_2_SYNC_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_2" PORT="SYNC_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="ADC3_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_3_SYNC_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_3" PORT="SYNC_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="23" NAME="ADC4_IN" RIGHT="0" SIGIS="undef" SIGNAME="adc_inputs_ddr_synchronizer_24bit_4_SYNC_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_4" PORT="SYNC_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="EVENT_IN0" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_blk_mem_gen_0_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="doutb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="EVENT_IN1" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_blk_mem_gen_1_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="doutb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="120000000" DIR="I" NAME="CLK" SIGIS="clk" SIGNAME="util_ds_buf_0_IBUF_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="util_ds_buf_0" PORT="IBUF_OUT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="ADC0_OUT" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC0_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC0"/>
+            <CONNECTION INSTANCE="filter_block_xlslice_2" PORT="Din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="ADC1_OUT" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC1_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC1"/>
+            <CONNECTION INSTANCE="filter_block_xlslice_4" PORT="Din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="ADC2_OUT" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC2_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC2"/>
+            <CONNECTION INSTANCE="filter_block_xlslice_6" PORT="Din"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="ADC3_OUT" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC3_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC3"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="23" NAME="ADC4_OUT" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC4_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ADC4"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="EVENT_ADR" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_EVENT_ADR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="addrb"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="addrb"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/test_control_block/test_control_0" HWVERSION="1.0" INSTANCE="test_control_block_test_control_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="test_control" VLNV="user.org:user:test_control:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
         <PARAMETER NAME="C_S00_AXI_DATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="4"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_test_control_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C40000"/>
-        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C4FFFF"/>
+        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C20000"/>
+        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C2FFFF"/>
       </PARAMETERS>
       <PORTS>
         <PORT DIR="I" NAME="CLK120" SIGIS="undef" SIGNAME="util_ds_buf_0_IBUF_OUT">
@@ -2294,123 +3468,123 @@
             <CONNECTION INSTANCE="External_Ports" PORT="GPS_PPS"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="PPS" SIGIS="undef" SIGNAME="test_control_0_PPS">
+        <PORT DIR="O" NAME="PPS" SIGIS="undef" SIGNAME="test_control_block_test_control_0_PPS">
           <CONNECTIONS>
             <CONNECTION INSTANCE="time_tagging_0" PORT="pps"/>
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="ONE_PPS"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="USE_FAKE_SHWR" SIGIS="undef" SIGNAME="test_control_0_USE_FAKE_SHWR">
+        <PORT DIR="O" NAME="USE_FAKE_SHWR" SIGIS="undef" SIGNAME="test_control_block_test_control_0_USE_FAKE_SHWR">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="USE_FAKE_SHWR"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="USE_FAKE_SHWR"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="USE_FAKE_MUON" SIGIS="undef" SIGNAME="test_control_0_USE_FAKE_MUON">
+        <PORT DIR="O" NAME="USE_FAKE_MUON" SIGIS="undef" SIGNAME="test_control_block_test_control_0_USE_FAKE_MUON">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="USE_FAKE_MUON"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="USE_FAKE_MUON"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="31" NAME="FAKE_MODE" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_FAKE_MODE">
+        <PORT DIR="O" LEFT="31" NAME="FAKE_MODE" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_FAKE_MODE">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="MODE"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="MODE"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="s00_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awaddr">
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awaddr">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_awaddr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="s00_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awprot">
+        <PORT DIR="I" LEFT="2" NAME="s00_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awprot">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_awprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="s00_axi_awvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awvalid">
+        <PORT DIR="I" NAME="s00_axi_awvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_awvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="s00_axi_awready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awready">
+        <PORT DIR="O" NAME="s00_axi_awready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_awready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="31" NAME="s00_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wdata">
+        <PORT DIR="I" LEFT="31" NAME="s00_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wdata">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_wdata"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="s00_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wstrb">
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wstrb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_wstrb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="s00_axi_wvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wvalid">
+        <PORT DIR="I" NAME="s00_axi_wvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_wvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="s00_axi_wready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wready">
+        <PORT DIR="O" NAME="s00_axi_wready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_wready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="1" NAME="s00_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bresp">
+        <PORT DIR="O" LEFT="1" NAME="s00_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bresp">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_bresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="s00_axi_bvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bvalid">
+        <PORT DIR="O" NAME="s00_axi_bvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_bvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="s00_axi_bready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bready">
+        <PORT DIR="I" NAME="s00_axi_bready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_bready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="3" NAME="s00_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_araddr">
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_araddr">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_araddr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="s00_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arprot">
+        <PORT DIR="I" LEFT="2" NAME="s00_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arprot">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_arprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="s00_axi_arvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arvalid">
+        <PORT DIR="I" NAME="s00_axi_arvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_arvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="s00_axi_arready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arready">
+        <PORT DIR="O" NAME="s00_axi_arready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_arready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="31" NAME="s00_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rdata">
+        <PORT DIR="O" LEFT="31" NAME="s00_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rdata">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_rdata"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="1" NAME="s00_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rresp">
+        <PORT DIR="O" LEFT="1" NAME="s00_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rresp">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_rresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="s00_axi_rvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rvalid">
+        <PORT DIR="O" NAME="s00_axi_rvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_rvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="s00_axi_rready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rready">
+        <PORT DIR="I" NAME="s00_axi_rready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M06_AXI_rready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -2439,7 +3613,7 @@
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -2466,6 +3640,24 @@
         </BUSINTERFACE>
       </BUSINTERFACES>
     </MODULE>
+    <MODULE FULLNAME="/test_control_block/xlconstant_4" HWVERSION="1.1" INSTANCE="test_control_block_xlconstant_4" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="00000000000000000000000000000000"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_4_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="31" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_xlconstant_4_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="dinb"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="dinb"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
     <MODULE FULLNAME="/time_tagging_0" HWVERSION="1.0" INSTANCE="time_tagging_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="time_tagging" VLNV="xilinx.com:user:time_tagging:1.0">
       <DOCUMENTS/>
       <PARAMETERS>
@@ -2473,13 +3665,13 @@
         <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="6"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_time_tagging_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C30000"/>
-        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C3FFFF"/>
+        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C00000"/>
+        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C0FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" NAME="pps" SIGIS="undef" SIGNAME="test_control_0_PPS">
+        <PORT DIR="I" NAME="pps" SIGIS="undef" SIGNAME="test_control_block_test_control_0_PPS">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="PPS"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="PPS"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" NAME="clk_120m" SIGIS="undef" SIGNAME="util_ds_buf_0_IBUF_OUT">
@@ -2532,7 +3724,7 @@
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="MUON_BUF_RNUM"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -2656,7 +3848,7 @@
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -2722,7 +3914,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x4001FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -2959,7 +4151,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -3056,7 +4248,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x4201FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -3293,7 +4485,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -4588,7 +5780,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -5090,7 +6282,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -5148,7 +6340,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -5208,7 +6400,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -6490,7 +7682,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -6992,7 +8184,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -7050,7 +8242,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -7110,7 +8302,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -7684,37 +8876,37 @@
         <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="10"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_sde_trigger_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
-        <PARAMETER NAME="C_S_AXI_INTR_BASEADDR" VALUE="0x43C10000"/>
-        <PARAMETER NAME="C_S_AXI_INTR_HIGHADDR" VALUE="0x43C1FFFF"/>
-        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C20000"/>
-        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C2FFFF"/>
+        <PARAMETER NAME="C_S_AXI_INTR_BASEADDR" VALUE="0x43C30000"/>
+        <PARAMETER NAME="C_S_AXI_INTR_HIGHADDR" VALUE="0x43C3FFFF"/>
+        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C40000"/>
+        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C4FFFF"/>
         <PARAMETER NAME="C_BASEADDR" VALUE="0x43C50000"/>
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x43C5FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="23" NAME="ADC0" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC0_OUT">
+        <PORT DIR="I" LEFT="23" NAME="ADC0" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC0_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC0_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC0_OUT"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC1" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC1_OUT">
+        <PORT DIR="I" LEFT="23" NAME="ADC1" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC1_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC1_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC1_OUT"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC2" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC2_OUT">
+        <PORT DIR="I" LEFT="23" NAME="ADC2" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC2_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC2_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC2_OUT"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC3" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC3_OUT">
+        <PORT DIR="I" LEFT="23" NAME="ADC3" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC3_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC3_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC3_OUT"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="23" NAME="ADC4" RIGHT="0" SIGIS="undef" SIGNAME="fake_signal_0_ADC4_OUT">
+        <PORT DIR="I" LEFT="23" NAME="ADC4" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_fake_signal_0_ADC4_OUT">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="ADC4_OUT"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="ADC4_OUT"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="13" NAME="FILT_PMT0" RIGHT="0" SIGIS="undef" SIGNAME="filter_block_xlslice_3_Dout">
@@ -7742,9 +8934,9 @@
             <CONNECTION INSTANCE="External_Ports" PORT="TRIG_IN"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="ONE_PPS" SIGIS="undef" SIGNAME="test_control_0_PPS">
+        <PORT DIR="I" NAME="ONE_PPS" SIGIS="undef" SIGNAME="test_control_block_test_control_0_PPS">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="PPS"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="PPS"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" NAME="LED_FLG" SIGIS="undef" SIGNAME="External_Ports_LED_FLG">
@@ -7875,7 +9067,7 @@
             <CONNECTION INSTANCE="External_Ports" PORT="LED_ASY"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -7980,7 +9172,7 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M02_AXI_rready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_intr_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_intr_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -8090,7 +9282,7 @@
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="IRQ_F2P"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s1_axi_intr_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s1_axi_intr_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -8206,7 +9398,7 @@
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="10"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
@@ -8246,7 +9438,7 @@
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="5"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
@@ -8285,7 +9477,7 @@
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M15_AXI" DATAWIDTH="32" NAME="S1_AXI_INTR" TYPE="SLAVE">
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="5"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
@@ -8295,8 +9487,8 @@
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="2"/>
-          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
@@ -8363,7 +9555,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x44007FFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -8600,7 +9792,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -8697,7 +9889,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x46007FFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -8934,7 +10126,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -9031,7 +10223,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x48007FFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -9268,7 +10460,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -9365,7 +10557,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x4A007FFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -9602,7 +10794,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -9699,7 +10891,7 @@
         <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x4C007FFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -9936,7 +11128,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -11231,7 +12423,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -11733,7 +12925,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -11791,7 +12983,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -11851,7 +13043,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -13133,7 +14325,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -13635,7 +14827,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -13693,7 +14885,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -13753,7 +14945,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -15035,7 +16227,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -15537,7 +16729,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -15595,7 +16787,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -15655,7 +16847,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -16937,7 +18129,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -17439,7 +18631,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -17497,7 +18689,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -17557,7 +18749,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -18839,7 +20031,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="BUS"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -19341,7 +20533,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -19399,7 +20591,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -19459,7 +20651,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="2"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="1"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="256"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -20815,9 +22007,7 @@
             <CONNECTION INSTANCE="clock_1pps_0" PORT="CLK120"/>
             <CONNECTION INSTANCE="time_tagging_0" PORT="clk_120m"/>
             <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="CLK120"/>
-            <CONNECTION INSTANCE="test_control_0" PORT="CLK120"/>
             <CONNECTION INSTANCE="amiga_trigger_0" PORT="clock_120M"/>
-            <CONNECTION INSTANCE="fake_signal_0" PORT="CLK"/>
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_0" PORT="CLK"/>
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_1" PORT="CLK"/>
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_2" PORT="CLK"/>
@@ -20834,6 +22024,10 @@
             <CONNECTION INSTANCE="filter_block_fir_compiler_2" PORT="aclk"/>
             <CONNECTION INSTANCE="filter_block_fir_compiler_1" PORT="aclk"/>
             <CONNECTION INSTANCE="filter_block_fir_compiler_0" PORT="aclk"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="CLK120"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="clkb"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="clkb"/>
+            <CONNECTION INSTANCE="test_control_block_fake_signal_0" PORT="CLK"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -20850,8 +22044,8 @@
       <PORTS>
         <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ext1_ctl"/>
             <CONNECTION INSTANCE="External_Ports" PORT="ext1_dat"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="ext1_ctl"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -20920,12 +22114,12 @@
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x7E20FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="m_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="m_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_lite_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_lite_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -21327,7 +22521,7 @@
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PORTMAPS>
@@ -21377,7 +22571,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -21414,7 +22608,7 @@
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -21502,12 +22696,12 @@
         <PARAMETER NAME="C_HIGHADDR" VALUE="0x7E21FFFF"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="m_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="m_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="s_axi_lite_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_lite_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -21909,7 +23103,7 @@
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PORTMAPS>
@@ -21959,7 +23153,7 @@
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -21996,7 +23190,7 @@
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -22052,7 +23246,7 @@
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="NUM_SI" VALUE="1"/>
-        <PARAMETER NAME="NUM_MI" VALUE="17"/>
+        <PARAMETER NAME="NUM_MI" VALUE="19"/>
         <PARAMETER NAME="STRATEGY" VALUE="0"/>
         <PARAMETER NAME="ENABLE_ADVANCED_OPTIONS" VALUE="0"/>
         <PARAMETER NAME="ENABLE_PROTOCOL_CHECKERS" VALUE="0"/>
@@ -22539,6 +23733,26 @@
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="0" NAME="M16_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="0" NAME="M17_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="0" NAME="M18_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
           </CONNECTIONS>
@@ -23358,99 +24572,99 @@
             <CONNECTION INSTANCE="axi_uartlite_0" PORT="s_axi_wvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="3" NAME="M06_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awaddr">
+        <PORT DIR="O" LEFT="3" NAME="M06_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awaddr">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_awaddr"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_awaddr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="M06_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awprot">
+        <PORT DIR="O" LEFT="2" NAME="M06_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awprot">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_awprot"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_awprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="M06_AXI_awvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awvalid">
+        <PORT DIR="O" NAME="M06_AXI_awvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_awvalid"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_awvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="M06_AXI_awready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_awready">
+        <PORT DIR="I" NAME="M06_AXI_awready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_awready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_awready"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_awready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="31" NAME="M06_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wdata">
+        <PORT DIR="O" LEFT="31" NAME="M06_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wdata">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_wdata"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_wdata"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="3" NAME="M06_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wstrb">
+        <PORT DIR="O" LEFT="3" NAME="M06_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wstrb">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_wstrb"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_wstrb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="M06_AXI_wvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wvalid">
+        <PORT DIR="O" NAME="M06_AXI_wvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_wvalid"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_wvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="M06_AXI_wready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_wready">
+        <PORT DIR="I" NAME="M06_AXI_wready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_wready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_wready"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_wready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="1" NAME="M06_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bresp">
+        <PORT DIR="I" LEFT="1" NAME="M06_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bresp">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_bresp"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_bresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="M06_AXI_bvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bvalid">
+        <PORT DIR="I" NAME="M06_AXI_bvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_bvalid"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_bvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="M06_AXI_bready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_bready">
+        <PORT DIR="O" NAME="M06_AXI_bready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_bready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_bready"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_bready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="3" NAME="M06_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_araddr">
+        <PORT DIR="O" LEFT="3" NAME="M06_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_araddr">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_araddr"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_araddr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="M06_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arprot">
+        <PORT DIR="O" LEFT="2" NAME="M06_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arprot">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_arprot"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_arprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="M06_AXI_arvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arvalid">
+        <PORT DIR="O" NAME="M06_AXI_arvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_arvalid"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_arvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="M06_AXI_arready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_arready">
+        <PORT DIR="I" NAME="M06_AXI_arready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_arready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_arready"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_arready"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="31" NAME="M06_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rdata">
+        <PORT DIR="I" LEFT="31" NAME="M06_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rdata">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_rdata"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_rdata"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="1" NAME="M06_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rresp">
+        <PORT DIR="I" LEFT="1" NAME="M06_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rresp">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_rresp"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_rresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="M06_AXI_rvalid" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rvalid">
+        <PORT DIR="I" NAME="M06_AXI_rvalid" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_rvalid"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_rvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" NAME="M06_AXI_rready" SIGIS="undef" SIGNAME="test_control_0_s00_axi_rready">
+        <PORT DIR="O" NAME="M06_AXI_rready" SIGIS="undef" SIGNAME="test_control_block_test_control_0_s00_axi_rready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_rready"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_rready"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="11" NAME="M07_AXI_awid" RIGHT="0" SIGIS="undef" SIGNAME="trigger_memory_block_muon_memory_block_axi_crossbar_1_s_axi_awid">
@@ -24928,6 +26142,356 @@
             <CONNECTION INSTANCE="axi_uartlite_1" PORT="s_axi_wvalid"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="12" NAME="M17_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M17_AXI_arburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M17_AXI_arcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M17_AXI_arid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M17_AXI_arlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_arlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M17_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_arready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M17_AXI_arsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_arvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="12" NAME="M17_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M17_AXI_awburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M17_AXI_awcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M17_AXI_awid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M17_AXI_awlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_awlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M17_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_awready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M17_AXI_awsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_awvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M17_AXI_bid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_bready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M17_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_bvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M17_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M17_AXI_rid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_rlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_rready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M17_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_rvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M17_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_wlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M17_AXI_wready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M17_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M17_AXI_wvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_0_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="12" NAME="M18_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M18_AXI_arburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M18_AXI_arcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M18_AXI_arid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M18_AXI_arlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_arlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M18_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_arready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M18_AXI_arsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_arvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="12" NAME="M18_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M18_AXI_awburst" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M18_AXI_awcache" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M18_AXI_awid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M18_AXI_awlen" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_awlock" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M18_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_awready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M18_AXI_awsize" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_awvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M18_AXI_bid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_bready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M18_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_bvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M18_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M18_AXI_rid" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_rlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_rready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M18_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_rvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M18_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_wlast" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M18_AXI_wready" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M18_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M18_AXI_wvalid" SIGIS="undef" SIGNAME="test_control_block_axi_bram_ctrl_1_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="zync_block_processing_system7_0_M_AXI_GP0" DATAWIDTH="32" NAME="S00_AXI" TYPE="SLAVE">
@@ -25477,6 +27041,84 @@
             <PORTMAP PHYSICAL="M16_AXI_wready"/>
             <PORTMAP PHYSICAL="M16_AXI_wstrb"/>
             <PORTMAP PHYSICAL="M16_AXI_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M17_AXI" DATAWIDTH="32" NAME="M17_AXI" TYPE="MASTER">
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="M17_AXI_araddr"/>
+            <PORTMAP PHYSICAL="M17_AXI_arburst"/>
+            <PORTMAP PHYSICAL="M17_AXI_arcache"/>
+            <PORTMAP PHYSICAL="M17_AXI_arid"/>
+            <PORTMAP PHYSICAL="M17_AXI_arlen"/>
+            <PORTMAP PHYSICAL="M17_AXI_arlock"/>
+            <PORTMAP PHYSICAL="M17_AXI_arprot"/>
+            <PORTMAP PHYSICAL="M17_AXI_arready"/>
+            <PORTMAP PHYSICAL="M17_AXI_arsize"/>
+            <PORTMAP PHYSICAL="M17_AXI_arvalid"/>
+            <PORTMAP PHYSICAL="M17_AXI_awaddr"/>
+            <PORTMAP PHYSICAL="M17_AXI_awburst"/>
+            <PORTMAP PHYSICAL="M17_AXI_awcache"/>
+            <PORTMAP PHYSICAL="M17_AXI_awid"/>
+            <PORTMAP PHYSICAL="M17_AXI_awlen"/>
+            <PORTMAP PHYSICAL="M17_AXI_awlock"/>
+            <PORTMAP PHYSICAL="M17_AXI_awprot"/>
+            <PORTMAP PHYSICAL="M17_AXI_awready"/>
+            <PORTMAP PHYSICAL="M17_AXI_awsize"/>
+            <PORTMAP PHYSICAL="M17_AXI_awvalid"/>
+            <PORTMAP PHYSICAL="M17_AXI_bid"/>
+            <PORTMAP PHYSICAL="M17_AXI_bready"/>
+            <PORTMAP PHYSICAL="M17_AXI_bresp"/>
+            <PORTMAP PHYSICAL="M17_AXI_bvalid"/>
+            <PORTMAP PHYSICAL="M17_AXI_rdata"/>
+            <PORTMAP PHYSICAL="M17_AXI_rid"/>
+            <PORTMAP PHYSICAL="M17_AXI_rlast"/>
+            <PORTMAP PHYSICAL="M17_AXI_rready"/>
+            <PORTMAP PHYSICAL="M17_AXI_rresp"/>
+            <PORTMAP PHYSICAL="M17_AXI_rvalid"/>
+            <PORTMAP PHYSICAL="M17_AXI_wdata"/>
+            <PORTMAP PHYSICAL="M17_AXI_wlast"/>
+            <PORTMAP PHYSICAL="M17_AXI_wready"/>
+            <PORTMAP PHYSICAL="M17_AXI_wstrb"/>
+            <PORTMAP PHYSICAL="M17_AXI_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M18_AXI" DATAWIDTH="32" NAME="M18_AXI" TYPE="MASTER">
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="M18_AXI_araddr"/>
+            <PORTMAP PHYSICAL="M18_AXI_arburst"/>
+            <PORTMAP PHYSICAL="M18_AXI_arcache"/>
+            <PORTMAP PHYSICAL="M18_AXI_arid"/>
+            <PORTMAP PHYSICAL="M18_AXI_arlen"/>
+            <PORTMAP PHYSICAL="M18_AXI_arlock"/>
+            <PORTMAP PHYSICAL="M18_AXI_arprot"/>
+            <PORTMAP PHYSICAL="M18_AXI_arready"/>
+            <PORTMAP PHYSICAL="M18_AXI_arsize"/>
+            <PORTMAP PHYSICAL="M18_AXI_arvalid"/>
+            <PORTMAP PHYSICAL="M18_AXI_awaddr"/>
+            <PORTMAP PHYSICAL="M18_AXI_awburst"/>
+            <PORTMAP PHYSICAL="M18_AXI_awcache"/>
+            <PORTMAP PHYSICAL="M18_AXI_awid"/>
+            <PORTMAP PHYSICAL="M18_AXI_awlen"/>
+            <PORTMAP PHYSICAL="M18_AXI_awlock"/>
+            <PORTMAP PHYSICAL="M18_AXI_awprot"/>
+            <PORTMAP PHYSICAL="M18_AXI_awready"/>
+            <PORTMAP PHYSICAL="M18_AXI_awsize"/>
+            <PORTMAP PHYSICAL="M18_AXI_awvalid"/>
+            <PORTMAP PHYSICAL="M18_AXI_bid"/>
+            <PORTMAP PHYSICAL="M18_AXI_bready"/>
+            <PORTMAP PHYSICAL="M18_AXI_bresp"/>
+            <PORTMAP PHYSICAL="M18_AXI_bvalid"/>
+            <PORTMAP PHYSICAL="M18_AXI_rdata"/>
+            <PORTMAP PHYSICAL="M18_AXI_rid"/>
+            <PORTMAP PHYSICAL="M18_AXI_rlast"/>
+            <PORTMAP PHYSICAL="M18_AXI_rready"/>
+            <PORTMAP PHYSICAL="M18_AXI_rresp"/>
+            <PORTMAP PHYSICAL="M18_AXI_rvalid"/>
+            <PORTMAP PHYSICAL="M18_AXI_wdata"/>
+            <PORTMAP PHYSICAL="M18_AXI_wlast"/>
+            <PORTMAP PHYSICAL="M18_AXI_wready"/>
+            <PORTMAP PHYSICAL="M18_AXI_wstrb"/>
+            <PORTMAP PHYSICAL="M18_AXI_wvalid"/>
           </PORTMAPS>
         </BUSINTERFACE>
       </BUSINTERFACES>
@@ -29031,7 +30673,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="slowest_sync_clk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="slowest_sync_clk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -29059,6 +30701,8 @@
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_3" PORT="rstb"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_1" PORT="rstb"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_5" PORT="rstb"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_1" PORT="rstb"/>
+            <CONNECTION INSTANCE="test_control_block_blk_mem_gen_0" PORT="rstb"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
@@ -29097,6 +30741,8 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_2" PORT="M00_ARESETN"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_2" PORT="S00_ARESETN"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_2" PORT="ARESETN"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_ARESETN"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_ARESETN"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
@@ -29104,7 +30750,6 @@
             <CONNECTION INSTANCE="axi_uartlite_0" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="time_tagging_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="s00_axi_aresetn"/>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="amiga_trigger_0" PORT="resetn"/>
             <CONNECTION INSTANCE="axi_uartlite_1" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1" PORT="s_axi_aresetn"/>
@@ -29124,6 +30769,9 @@
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aresetn"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_aresetn"/>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_aresetn"/>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_1" PORT="s_axi_lite_aresetn"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="s_axi_lite_aresetn"/>
           </CONNECTIONS>
@@ -29190,7 +30838,7 @@
         <PARAMETER NAME="C_FCLK_CLK3_BUF" VALUE="false"/>
         <PARAMETER NAME="C_PACKAGE_NAME" VALUE="clg484"/>
         <PARAMETER NAME="PCW_DDR_RAM_BASEADDR" VALUE="0x00100000"/>
-        <PARAMETER NAME="PCW_DDR_RAM_HIGHADDR" VALUE="0x0FFFFFFF"/>
+        <PARAMETER NAME="PCW_DDR_RAM_HIGHADDR" VALUE="0x3FFFFFFF"/>
         <PARAMETER NAME="PCW_UART0_BASEADDR" VALUE="0xE0000000"/>
         <PARAMETER NAME="PCW_UART0_HIGHADDR" VALUE="0xE0000FFF"/>
         <PARAMETER NAME="PCW_UART1_BASEADDR" VALUE="0xE0001000"/>
@@ -29318,7 +30966,7 @@
         <PARAMETER NAME="PCW_TTC1_CLK2_PERIPHERAL_FREQMHZ" VALUE="133.333333"/>
         <PARAMETER NAME="PCW_PCAP_PERIPHERAL_FREQMHZ" VALUE="200"/>
         <PARAMETER NAME="PCW_TPIU_PERIPHERAL_FREQMHZ" VALUE="200"/>
-        <PARAMETER NAME="PCW_FPGA0_PERIPHERAL_FREQMHZ" VALUE="40"/>
+        <PARAMETER NAME="PCW_FPGA0_PERIPHERAL_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_FPGA1_PERIPHERAL_FREQMHZ" VALUE="200.000000"/>
         <PARAMETER NAME="PCW_FPGA2_PERIPHERAL_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_FPGA3_PERIPHERAL_FREQMHZ" VALUE="50"/>
@@ -29342,7 +30990,7 @@
         <PARAMETER NAME="PCW_ACT_TTC_PERIPHERAL_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_ACT_PCAP_PERIPHERAL_FREQMHZ" VALUE="208.333328"/>
         <PARAMETER NAME="PCW_ACT_TPIU_PERIPHERAL_FREQMHZ" VALUE="200.000000"/>
-        <PARAMETER NAME="PCW_ACT_FPGA0_PERIPHERAL_FREQMHZ" VALUE="40.322578"/>
+        <PARAMETER NAME="PCW_ACT_FPGA0_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
         <PARAMETER NAME="PCW_ACT_FPGA1_PERIPHERAL_FREQMHZ" VALUE="208.333328"/>
         <PARAMETER NAME="PCW_ACT_FPGA2_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
         <PARAMETER NAME="PCW_ACT_FPGA3_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
@@ -29352,7 +31000,7 @@
         <PARAMETER NAME="PCW_ACT_TTC1_CLK0_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
         <PARAMETER NAME="PCW_ACT_TTC1_CLK1_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
         <PARAMETER NAME="PCW_ACT_TTC1_CLK2_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
-        <PARAMETER NAME="PCW_CLK0_FREQ" VALUE="40322578"/>
+        <PARAMETER NAME="PCW_CLK0_FREQ" VALUE="50000000"/>
         <PARAMETER NAME="PCW_CLK1_FREQ" VALUE="208333328"/>
         <PARAMETER NAME="PCW_CLK2_FREQ" VALUE="50000000"/>
         <PARAMETER NAME="PCW_CLK3_FREQ" VALUE="50000000"/>
@@ -29366,7 +31014,7 @@
         <PARAMETER NAME="PCW_SPI_PERIPHERAL_DIVISOR0" VALUE="13"/>
         <PARAMETER NAME="PCW_CAN_PERIPHERAL_DIVISOR0" VALUE="1"/>
         <PARAMETER NAME="PCW_CAN_PERIPHERAL_DIVISOR1" VALUE="1"/>
-        <PARAMETER NAME="PCW_FCLK0_PERIPHERAL_DIVISOR0" VALUE="31"/>
+        <PARAMETER NAME="PCW_FCLK0_PERIPHERAL_DIVISOR0" VALUE="25"/>
         <PARAMETER NAME="PCW_FCLK1_PERIPHERAL_DIVISOR0" VALUE="6"/>
         <PARAMETER NAME="PCW_FCLK2_PERIPHERAL_DIVISOR0" VALUE="25"/>
         <PARAMETER NAME="PCW_FCLK3_PERIPHERAL_DIVISOR0" VALUE="25"/>
@@ -29434,13 +31082,13 @@
         <PARAMETER NAME="PCW_USE_S_AXI_HP1" VALUE="1"/>
         <PARAMETER NAME="PCW_USE_S_AXI_HP2" VALUE="0"/>
         <PARAMETER NAME="PCW_USE_S_AXI_HP3" VALUE="0"/>
-        <PARAMETER NAME="PCW_M_AXI_GP0_FREQMHZ" VALUE="40"/>
+        <PARAMETER NAME="PCW_M_AXI_GP0_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_M_AXI_GP1_FREQMHZ" VALUE="10"/>
         <PARAMETER NAME="PCW_S_AXI_GP0_FREQMHZ" VALUE="10"/>
         <PARAMETER NAME="PCW_S_AXI_GP1_FREQMHZ" VALUE="10"/>
         <PARAMETER NAME="PCW_S_AXI_ACP_FREQMHZ" VALUE="10"/>
-        <PARAMETER NAME="PCW_S_AXI_HP0_FREQMHZ" VALUE="40"/>
-        <PARAMETER NAME="PCW_S_AXI_HP1_FREQMHZ" VALUE="40"/>
+        <PARAMETER NAME="PCW_S_AXI_HP0_FREQMHZ" VALUE="50"/>
+        <PARAMETER NAME="PCW_S_AXI_HP1_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_S_AXI_HP2_FREQMHZ" VALUE="10"/>
         <PARAMETER NAME="PCW_S_AXI_HP3_FREQMHZ" VALUE="10"/>
         <PARAMETER NAME="PCW_USE_DMA0" VALUE="0"/>
@@ -30222,7 +31870,7 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="S00_AXI_wstrb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="M_AXI_GP0_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="M_AXI_GP0_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -30341,7 +31989,7 @@
         <PORT DIR="O" LEFT="7" NAME="S_AXI_HP0_WCOUNT" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="2" NAME="S_AXI_HP0_RACOUNT" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="5" NAME="S_AXI_HP0_WACOUNT" RIGHT="0" SIGIS="undef"/>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="S_AXI_HP0_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="S_AXI_HP0_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -30542,7 +32190,7 @@
         <PORT DIR="O" LEFT="7" NAME="S_AXI_HP1_WCOUNT" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="2" NAME="S_AXI_HP1_RACOUNT" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="5" NAME="S_AXI_HP1_WACOUNT" RIGHT="0" SIGIS="undef"/>
-        <PORT CLKFREQUENCY="40322578" DIR="I" NAME="S_AXI_HP1_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="S_AXI_HP1_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
           </CONNECTIONS>
@@ -30694,12 +32342,11 @@
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="cdma_introut"/>
           </CONNECTIONS>
         </PORT>
-        <PORT CLKFREQUENCY="40322578" DIR="O" NAME="FCLK_CLK0" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+        <PORT CLKFREQUENCY="50000000" DIR="O" NAME="FCLK_CLK0" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="axi_uartlite_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="time_tagging_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="s00_axi_aclk"/>
-            <CONNECTION INSTANCE="test_control_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="axi_uartlite_1" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_0" PORT="s_axi_aclk"/>
@@ -30718,6 +32365,9 @@
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aclk"/>
+            <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_aclk"/>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_aclk"/>
+            <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="slowest_sync_clk"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="m_axi_aclk"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="s_axi_lite_aclk"/>
@@ -30760,6 +32410,8 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M14_ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M15_ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M16_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_ACLK"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="FCLK_RESET0_N" SIGIS="rst" SIGNAME="zync_block_processing_system7_0_FCLK_RESET0_N">
@@ -30886,7 +32538,7 @@
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI3"/>
           <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PORTMAPS>
@@ -30945,7 +32597,7 @@
           <PARAMETER NAME="ID_WIDTH" VALUE="6"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -31004,7 +32656,7 @@
           <PARAMETER NAME="ID_WIDTH" VALUE="6"/>
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="40322578"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
           <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
@@ -31054,17 +32706,19 @@
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x42000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4201FFFF" INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x42C00000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x42C0FFFF" INSTANCE="axi_uartlite_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x42C10000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x42C1FFFF" INSTANCE="axi_uartlite_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI"/>
-        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C00000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C0FFFF" INSTANCE="interface_uub_dfn3_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
-        <MEMRANGE ADDRESSBLOCK="S_AXI_INTR_reg" BASENAME="C_S_AXI_INTR_BASEADDR" BASEVALUE="0x43C10000" HIGHNAME="C_S_AXI_INTR_HIGHADDR" HIGHVALUE="0x43C1FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_INTR"/>
-        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C20000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C2FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
-        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C30000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C3FFFF" INSTANCE="time_tagging_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
-        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C40000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C4FFFF" INSTANCE="test_control_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C00000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C0FFFF" INSTANCE="time_tagging_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C10000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C1FFFF" INSTANCE="interface_uub_dfn3_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C20000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C2FFFF" INSTANCE="test_control_block_test_control_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="S_AXI_INTR_reg" BASENAME="C_S_AXI_INTR_BASEADDR" BASEVALUE="0x43C30000" HIGHNAME="C_S_AXI_INTR_HIGHADDR" HIGHVALUE="0x43C3FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_INTR"/>
+        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C40000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C4FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
         <MEMRANGE ADDRESSBLOCK="reg0" BASENAME="C_BASEADDR" BASEVALUE="0x43C50000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x43C5FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S1_AXI_INTR"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x44000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x44007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x46000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x46007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x48000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x48007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_2" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x4A000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4A007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_3" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x4C000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4C007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_4" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x4E000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4E001FFF" INSTANCE="test_control_block_axi_bram_ctrl_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x50000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x50001FFF" INSTANCE="test_control_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x7E200000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x7E20FFFF" INSTANCE="zync_block_axi_cdma_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_LITE"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x7E210000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x7E21FFFF" INSTANCE="zync_block_axi_cdma_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_LITE"/>
       </MEMORYMAP>
@@ -31073,15 +32727,17 @@
         <PERIPHERAL INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1"/>
         <PERIPHERAL INSTANCE="axi_uartlite_0"/>
         <PERIPHERAL INSTANCE="axi_uartlite_1"/>
-        <PERIPHERAL INSTANCE="interface_uub_dfn3_0"/>
-        <PERIPHERAL INSTANCE="trigger_memory_block_sde_trigger_0"/>
         <PERIPHERAL INSTANCE="time_tagging_0"/>
-        <PERIPHERAL INSTANCE="test_control_0"/>
+        <PERIPHERAL INSTANCE="interface_uub_dfn3_0"/>
+        <PERIPHERAL INSTANCE="test_control_block_test_control_0"/>
+        <PERIPHERAL INSTANCE="trigger_memory_block_sde_trigger_0"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_0"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_1"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_2"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_3"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_4"/>
+        <PERIPHERAL INSTANCE="test_control_block_axi_bram_ctrl_0"/>
+        <PERIPHERAL INSTANCE="test_control_block_axi_bram_ctrl_1"/>
         <PERIPHERAL INSTANCE="zync_block_axi_cdma_0"/>
         <PERIPHERAL INSTANCE="zync_block_axi_cdma_1"/>
       </PERIPHERALS>

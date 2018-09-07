@@ -16,6 +16,7 @@
 // 15-Jun-2018 DFN Add signal width options to MODE
 // 25-Jun-2018 DFN Add exponential decay options to MODE
 // 09-Jul-2018 DFN Add signal size options to MODE
+// 28-Aug-2018 DFN Add read of test event from memory
 //
 
 `define CLOCK_FREQ 120        // Clock frequency in Mhz
@@ -46,12 +47,15 @@ module fake_signal
    input[23:0] ADC2_IN,
    input[23:0] ADC3_IN,
    input[23:0] ADC4_IN,
+   input[31:0] EVENT_IN0,
+   input[31:0] EVENT_IN1,
    input CLK,
    output reg[23:0] ADC0_OUT,
    output reg[23:0] ADC1_OUT,
    output reg[23:0] ADC2_OUT,
    output reg[23:0] ADC3_OUT,
-   output reg[23:0] ADC4_OUT
+   output reg[23:0] ADC4_OUT,
+   output reg[31:0] EVENT_ADR
    );
 
    reg [11:0]       FAKE_SIGNALHG;
@@ -72,8 +76,8 @@ module fake_signal
    reg                   EXP_DECAY;
    reg [11:0]            MAX_SIGNAL;
    reg [11:0]            SIGNAL_BINS;
-      
-      
+   
+   
    reg [`RANDOM_BITS-1:0] RANDOM_DONE;  // Generated random number
    reg [`RANDOM_BITS-1:0] RANDOM;
    reg [4:0]              COUNT;  // Big enough to count to RANDOM_BITS
@@ -119,6 +123,7 @@ module fake_signal
              RANDOM <= 13'hf;
              RANDOM_DONE <= 13'hf;
              COUNT <= 0;
+             EVENT_ADR <= 0;
           end
           1:  RANDOM_DONE <= `CLOCK_FREQ *10;
           2:  RANDOM_DONE <= `CLOCK_FREQ *100;
@@ -130,7 +135,7 @@ module fake_signal
 
         // Pattern of pulses suitable for testing shower triggers
         if (USE_FAKE_SHWR) begin
-           if (MODE[4:0] != 6) begin
+           if (MODE[4:0] < 6) begin
 	      if (SHWR_PULSE_DELAY >= THIS_DELAY) 
                 begin
                    SHWR_PULSE_DELAY <= 0;
@@ -154,8 +159,8 @@ module fake_signal
 	        SHWR_PULSE <= 0;
 
            end // if (MODE != 6)
-           else begin // This is ramp mode
-             SHWR_PULSE <= (SHWR_PULSE+1) & 12'h7ff;
+           else if (MODE[4:0] == 6)  begin // This is ramp mode
+              SHWR_PULSE <= (SHWR_PULSE+1) & 12'h7ff;
            end
         end
 
@@ -199,47 +204,60 @@ module fake_signal
           PULSE <= MUON_PULSE;
         else
           PULSE <= 0;
-        
-	FAKE_SIGNALHG <= PULSE + `PEDESTAL;
+
+        FAKE_SIGNALHG <= PULSE + `PEDESTAL;
 	FAKE_SIGNALLG <= (PULSE >> 5) + `PEDESTAL;
 	FAKE_SIGNAL <= (FAKE_SIGNALHG << 12) | FAKE_SIGNALLG;
 	
 	// If USE_FAKE is set, replace signal from ADCs with a fake.
 	if (USE_FAKE_SHWR || USE_FAKE_MUON) begin
-           FAKE_SIGNAL_DLYD1 <= FAKE_SIGNAL;
-           FAKE_SIGNAL_DLYD2 <= FAKE_SIGNAL_DLYD1;
-           FAKE_SIGNAL_DLYD3 <= FAKE_SIGNAL_DLYD2;
-           case (MODE[6:5])
-             1: ADC0_OUT <= FAKE_SIGNAL_DLYD1;
-             2: ADC0_OUT <= FAKE_SIGNAL_DLYD2;
-             3: ADC0_OUT <= FAKE_SIGNAL_DLYD3;
-             default: ADC0_OUT <= FAKE_SIGNAL;
-           endcase             
-           case (MODE[8:7])
-             1: ADC1_OUT <= FAKE_SIGNAL_DLYD1;
-             2: ADC1_OUT <= FAKE_SIGNAL_DLYD2;
-             3: ADC1_OUT <= FAKE_SIGNAL_DLYD3;
-             default: ADC1_OUT <= FAKE_SIGNAL;
-           endcase             
-           case (MODE[10:9])
-             1: ADC2_OUT <= FAKE_SIGNAL_DLYD1;
-             2: ADC2_OUT <= FAKE_SIGNAL_DLYD2;
-             3: ADC2_OUT <= FAKE_SIGNAL_DLYD3;
-             default: ADC2_OUT <= FAKE_SIGNAL;
-           endcase             
-           case (MODE[12:11])
-             1: ADC3_OUT <= FAKE_SIGNAL_DLYD1;
-             2: ADC3_OUT <= FAKE_SIGNAL_DLYD2;
-             3: ADC3_OUT <= FAKE_SIGNAL_DLYD3;
-             default: ADC3_OUT <= FAKE_SIGNAL;
-           endcase             
-           case (MODE[14:13])
-             1: ADC4_OUT <= FAKE_SIGNAL_DLYD1;
-             2: ADC4_OUT <= FAKE_SIGNAL_DLYD2;
-             3: ADC4_OUT <= FAKE_SIGNAL_DLYD3;
-             default: ADC3_OUT <= FAKE_SIGNAL;
-           endcase             
-	end
+           if (MODE[4:0] == 7) begin
+              EVENT_ADR <= EVENT_ADR+4;
+              ADC0_OUT[11:0] <= (EVENT_IN0[11:0] >>5) +`PEDESTAL;
+              ADC0_OUT[23:12] <= EVENT_IN0[11:0];
+              ADC1_OUT[11:0] <= (EVENT_IN0[27:16] >>5) +`PEDESTAL;
+              ADC1_OUT[23:12] <= EVENT_IN0[27:16];
+              ADC2_OUT[11:0] <= (EVENT_IN1[11:0] >>5) +`PEDESTAL;
+              ADC2_OUT[23:12] <= EVENT_IN1[11:0];
+              ADC3_OUT[11:0] <= (EVENT_IN1[27:16] >>5) +`PEDESTAL;
+              ADC3_OUT[23:12] <= EVENT_IN1[27:16];
+           end
+           else begin
+              FAKE_SIGNAL_DLYD1 <= FAKE_SIGNAL;
+              FAKE_SIGNAL_DLYD2 <= FAKE_SIGNAL_DLYD1;
+              FAKE_SIGNAL_DLYD3 <= FAKE_SIGNAL_DLYD2;
+              case (MODE[6:5])
+                1: ADC0_OUT <= FAKE_SIGNAL_DLYD1;
+                2: ADC0_OUT <= FAKE_SIGNAL_DLYD2;
+                3: ADC0_OUT <= FAKE_SIGNAL_DLYD3;
+                default: ADC0_OUT <= FAKE_SIGNAL;
+              endcase             
+              case (MODE[8:7])
+                1: ADC1_OUT <= FAKE_SIGNAL_DLYD1;
+                2: ADC1_OUT <= FAKE_SIGNAL_DLYD2;
+                3: ADC1_OUT <= FAKE_SIGNAL_DLYD3;
+                default: ADC1_OUT <= FAKE_SIGNAL;
+              endcase             
+              case (MODE[10:9])
+                1: ADC2_OUT <= FAKE_SIGNAL_DLYD1;
+                2: ADC2_OUT <= FAKE_SIGNAL_DLYD2;
+                3: ADC2_OUT <= FAKE_SIGNAL_DLYD3;
+                default: ADC2_OUT <= FAKE_SIGNAL;
+              endcase             
+              case (MODE[12:11])
+                1: ADC3_OUT <= FAKE_SIGNAL_DLYD1;
+                2: ADC3_OUT <= FAKE_SIGNAL_DLYD2;
+                3: ADC3_OUT <= FAKE_SIGNAL_DLYD3;
+                default: ADC3_OUT <= FAKE_SIGNAL;
+              endcase             
+              case (MODE[14:13])
+                1: ADC4_OUT <= FAKE_SIGNAL_DLYD1;
+                2: ADC4_OUT <= FAKE_SIGNAL_DLYD2;
+                3: ADC4_OUT <= FAKE_SIGNAL_DLYD3;
+                default: ADC3_OUT <= FAKE_SIGNAL;
+              endcase             
+	   end // else: !if(MODE[4:0] == 7)
+        end
 
 	// Otherwise just pass ADC signals through to output
 	else begin

@@ -80,7 +80,15 @@ int do_scatter_gather_polled_muon_dma();
 #endif
 
 #ifndef TEST_CONTROL_BASE
-  #define TEST_CONTROL_BASE XPAR_TEST_CONTROL_0_S00_AXI_BASEADDR
+  #define TEST_CONTROL_BASE XPAR_TEST_CONTROL_BLOCK_TEST_CONTROL_0_S00_AXI_BASEADDR
+#endif
+
+#ifndef FAKE_EVENT0_BASE
+  #define FAKE_EVENT0_BASE  XPAR_TEST_CONTROL_BLOCK_AXI_BRAM_CTRL_0_S_AXI_BASEADDR
+#endif
+
+#ifndef FAKE_EVENT1_BASE
+  #define FAKE_EVENT1_BASE   XPAR_TEST_CONTROL_BLOCK_AXI_BRAM_CTRL_1_S_AXI_BASEADDR
 #endif
 
 #ifdef STAND_ALONE
@@ -130,6 +138,8 @@ extern volatile u32 shwr_mem_ptr[5];
 extern volatile u32 muon_mem_ptr[2];
 extern u32 shwr_mem_addr[5];
 extern u32 muon_mem_addr[2];
+extern volatile u32 fake_event_ptr[2];
+extern u32 fake_event_addr[2];
 
 // Shower memory buffers
 #define NUM_BUFFERS 8
@@ -159,5 +169,9 @@ extern u32 muon_burst_start[MUONS_PER_BUF];
 extern u32 muon_buffer_start;
 extern u32 muon_buffer_end;
 extern int mu_word_count;
+
+// Fake event buffers
+//extern u32 fake_event0[SHWR_MEM_WORDS];
+//extern u32 fake_event1[SHWR_MEM_WORDS];
 
 
