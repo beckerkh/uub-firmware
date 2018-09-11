@@ -1447,12 +1447,12 @@ proc create_root_design { parentCell } {
   create_bd_addr_seg -range 0x10000 -offset 0x7E210000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs zync_block/axi_cdma_1/S_AXI_LITE/Reg] SEG_axi_cdma_1_Reg
   create_bd_addr_seg -range 0x10000 -offset 0x42C00000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs axi_uartlite_0/S_AXI/Reg] SEG_axi_uartlite_0_Reg
   create_bd_addr_seg -range 0x10000 -offset 0x42C10000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs axi_uartlite_1/S_AXI/Reg] SEG_axi_uartlite_1_Reg
-  create_bd_addr_seg -range 0x10000 -offset 0x43C10000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs interface_uub_dfn3_0/S00_AXI/S00_AXI_reg] SEG_interface_uub_dfn3_0_S00_AXI_reg
-  create_bd_addr_seg -range 0x10000 -offset 0x43C40000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs trigger_memory_block/sde_trigger_0/S00_AXI/S00_AXI_reg] SEG_sde_trigger_0_S00_AXI_reg
-  create_bd_addr_seg -range 0x10000 -offset 0x43C30000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs trigger_memory_block/sde_trigger_0/S_AXI_INTR/S_AXI_INTR_reg] SEG_sde_trigger_0_S_AXI_INTR_reg
+  create_bd_addr_seg -range 0x10000 -offset 0x43C00000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs interface_uub_dfn3_0/S00_AXI/S00_AXI_reg] SEG_interface_uub_dfn3_0_S00_AXI_reg
+  create_bd_addr_seg -range 0x10000 -offset 0x43C20000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs trigger_memory_block/sde_trigger_0/S00_AXI/S00_AXI_reg] SEG_sde_trigger_0_S00_AXI_reg
+  create_bd_addr_seg -range 0x10000 -offset 0x43C10000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs trigger_memory_block/sde_trigger_0/S_AXI_INTR/S_AXI_INTR_reg] SEG_sde_trigger_0_S_AXI_INTR_reg
   create_bd_addr_seg -range 0x10000 -offset 0x43C50000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs trigger_memory_block/sde_trigger_0/S1_AXI_INTR/reg0] SEG_sde_trigger_0_reg0
-  create_bd_addr_seg -range 0x10000 -offset 0x43C20000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs test_control_block/test_control_0/S00_AXI/S00_AXI_reg] SEG_test_control_0_S00_AXI_reg
-  create_bd_addr_seg -range 0x10000 -offset 0x43C00000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs time_tagging_0/S00_AXI/S00_AXI_reg] SEG_time_tagging_0_S00_AXI_reg
+  create_bd_addr_seg -range 0x10000 -offset 0x43C40000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs test_control_block/test_control_0/S00_AXI/S00_AXI_reg] SEG_test_control_0_S00_AXI_reg
+  create_bd_addr_seg -range 0x10000 -offset 0x43C30000 [get_bd_addr_spaces zync_block/processing_system7_0/Data] [get_bd_addr_segs time_tagging_0/S00_AXI/S00_AXI_reg] SEG_time_tagging_0_S00_AXI_reg
   
 
   # Restore current instance

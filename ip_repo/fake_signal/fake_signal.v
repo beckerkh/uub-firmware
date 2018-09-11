@@ -32,6 +32,10 @@
 `define RANDOM_BITS 32 // Large to allow selection of duration
 `define DELAY_BITS 32  // Overkill but saves changing if change delays
 `define DECAY_60NS 891 // Decay constant for 60 ns exponential decay
+`define DECAY_SHIFT1 7 // Shifts to produce 60 ns exponential decay
+`define DECAY_SHIFT2 2
+`define DECAY_BITS 10
+
 
 
 //`define MUON_PULSES          // Generate muon pulse train instead of one
@@ -68,7 +72,8 @@ module fake_signal
    reg [`DELAY_BITS-1:0] SHWR_PULSE_DELAY;
    reg [`DELAY_BITS-1:0] MUON_PULSE_DELAY;
    reg [`DELAY_BITS-1:0] THIS_DELAY;
-   reg [31:0]            SHWR_PULSE;
+   reg [11:0]            SHWR_PULSE;
+   reg [11+`DECAY_BITS:0] SHWR_PULSE1;
    reg [11:0]            MUON_PULSE;
    reg [11:0]            PULSE;
    reg [7:0]             MUON_COUNT;
@@ -140,24 +145,30 @@ module fake_signal
                 begin
                    SHWR_PULSE_DELAY <= 0;
                    THIS_DELAY <= RANDOM_DONE;
-                   SHWR_PULSE <= 0;
+                   SHWR_PULSE <= SIGNAL_BINS;
+//                   SHWR_PULSE1 <= SIGNAL_BINS * `DECAY_60NS;
+                   SHWR_PULSE1 <= (SIGNAL_BINS << `DECAY_SHIFT1) +
+                                  (SIGNAL_BINS << `DECAY_SHIFT2);
                 end
               else
 	        SHWR_PULSE_DELAY <= SHWR_PULSE_DELAY+1;
-
- 	      if (SHWR_PULSE_DELAY < MODE[18:11]) begin
+ 
+  	      if (SHWR_PULSE_DELAY < MODE[18:11]) begin
                  if (!EXP_DECAY)
-	           SHWR_PULSE <= SIGNAL_BINS;
+                   begin
+	              SHWR_PULSE <= SIGNAL_BINS;
+                   end
                  else begin
-                    if (SHWR_PULSE_DELAY == 0)
-                      SHWR_PULSE <= SIGNAL_BINS;
-                    else
-                      SHWR_PULSE = (SHWR_PULSE * `DECAY_60NS) >> 10;
+                    // SHWR_PULSE <= SHWR_PULSE1 >> 10;
+                    SHWR_PULSE <= SHWR_PULSE -
+                                  SHWR_PULSE1[11+`DECAY_BITS:`DECAY_BITS];
+                    // SHWR_PULSE1 <= SHWR_PULSE * `DECAY_60NS;
+                    SHWR_PULSE1 <= (SHWR_PULSE << `DECAY_SHIFT1) +
+                                   (SHWR_PULSE << `DECAY_SHIFT2);
                  end      
               end
-	      else
+	      else if (SHWR_PULSE_DELAY < THIS_DELAY)
 	        SHWR_PULSE <= 0;
-
            end // if (MODE != 6)
            else if (MODE[4:0] == 6)  begin // This is ramp mode
               SHWR_PULSE <= (SHWR_PULSE+1) & 12'h7ff;
