@@ -47,15 +47,15 @@ module single_bin_120mhz(
    reg [`SB_TRIG_CONSEC_BINS_MAX:0] 	  ADC2_TRIG0;
    reg [`SB_TRIG_CONSEC_BINS_MAX:0] 	  ADCSSD_TRIG0;
 
-   reg 					  ADC0_TRIG1;
-   reg 					  ADC1_TRIG1;
-   reg 					  ADC2_TRIG1;
-   reg 					  ADCSSD_TRIG1;
+   // reg 					  ADC0_TRIG1;
+   // reg 					  ADC1_TRIG1;
+   // reg 					  ADC2_TRIG1;
+   // reg 					  ADCSSD_TRIG1;
    
-   reg 					  ADC0_TRIG1L;
-   reg 					  ADC1_TRIG1L;
-   reg 					  ADC2_TRIG1L;
-   reg 					  ADCSSD_TRIG1L;
+   // reg 					  ADC0_TRIG1L;
+   // reg 					  ADC1_TRIG1L;
+   // reg 					  ADC2_TRIG1L;
+   // reg 					  ADCSSD_TRIG1L;
    
    reg 					  ADC0_TRIG2;
    reg 					  ADC1_TRIG2;
@@ -91,12 +91,12 @@ module single_bin_120mhz(
    integer                                OVLP_IDX;
    
    always @(posedge CLK120) begin
-      if (RESET) begin
-         TRIG <= 0;
-	 TRIG1 <= 0;
-	 TRIG1L <= 0;
-      end
-      else begin
+      // if (RESET) begin
+      //    TRIG <= 0;
+      //    TRIG1 <= 0;
+      //    TRIG1L <= 0;
+      // end
+      //     else begin
          THRES[0] <= TRIG_THR0;
 	 THRES[1] <= TRIG_THR1;
 	 THRES[2] <= TRIG_THR2;
@@ -155,21 +155,26 @@ module single_bin_120mhz(
          end // for (CONSEC_IDX2=0; CONSEC_IDX2<=`SB_TRIG_CONSEQ_BINS_MAX;...
 
          // Now require that all consecutive bins have satistifed the ph condition
-         ADC0_TRIG1 <= &ADC0_TRIG0;
-         ADC1_TRIG1 <= &ADC1_TRIG0;
-         ADC2_TRIG1 <= &ADC2_TRIG0;
-         ADCSSD_TRIG1 <= &ADCSSD_TRIG0;
+         // ADC0_TRIG1 <= &ADC0_TRIG0;
+         // ADC1_TRIG1 <= &ADC1_TRIG0;
+         // ADC2_TRIG1 <= &ADC2_TRIG0;
+         // ADCSSD_TRIG1 <= &ADCSSD_TRIG0;
+         ADC0_TRIG2 <= &ADC0_TRIG0;
+         ADC1_TRIG2 <= &ADC1_TRIG0;
+         ADC2_TRIG2 <= &ADC2_TRIG0;
+         ADCSSD_TRIG2 <= &ADCSSD_TRIG0;
 
          // Require transition from not trig to trig to avoid retrigger of slow pulses
-         ADC0_TRIG1L <= ADC0_TRIG1;
-         ADC1_TRIG1L <= ADC1_TRIG1;
-         ADC2_TRIG1L <= ADC2_TRIG1;
-         ADCSSD_TRIG1L <= ADCSSD_TRIG1;
+         // Hm..., don't want to do this here, want to to later
+         // ADC0_TRIG1L <= ADC0_TRIG1;
+         // ADC1_TRIG1L <= ADC1_TRIG1;
+         // ADC2_TRIG1L <= ADC2_TRIG1;
+         // ADCSSD_TRIG1L <= ADCSSD_TRIG1;
 
-         ADC0_TRIG2 <= ADC0_TRIG1 && !ADC0_TRIG1L;
-         ADC1_TRIG2 <= ADC1_TRIG1 && !ADC1_TRIG1L;
-         ADC2_TRIG2 <= ADC2_TRIG1 && !ADC2_TRIG1L;
-         ADCSSD_TRIG2 <= ADCSSD_TRIG1 && !ADCSSD_TRIG1L;
+         // ADC0_TRIG2 <= ADC0_TRIG1 && !ADC0_TRIG1L;
+         // ADC1_TRIG2 <= ADC1_TRIG1 && !ADC1_TRIG1L;
+         // ADC2_TRIG2 <= ADC2_TRIG1 && !ADC2_TRIG1L;
+         // ADCSSD_TRIG2 <= ADCSSD_TRIG1 && !ADCSSD_TRIG1L;
 
          // Widen pulse to increase overlap
          ADC0_TRIG3 <= {ADC0_TRIG3[`SB_TRIG_COINC_OVLP_MAX-1:0],ADC0_TRIG2};
@@ -213,6 +218,8 @@ module single_bin_120mhz(
 	   end
 	 else
            TRIG1 <= 0;
+         
+         // Generate trigger signal on rising edge of TRIG1
 	 TRIG1L <= TRIG1;
          TRIG <= TRIG1 && !TRIG1L;
 
@@ -223,7 +230,7 @@ module single_bin_120mhz(
          DEBUG[3:3] = SUM_PMT_TRIGS;
          DEBUG[4:4] = TRIG1;
          
-      end // if (RESET)
+//      end // if (RESET)
    end // always @ (posedge CLK120)
    
 endmodule

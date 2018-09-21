@@ -8,21 +8,21 @@
 
 
 //#define STAND_ALONE
-#define MAX_EVENTS 200
-#define EVENT_COUNT_INTERVAL 100
+#define MAX_EVENTS 1000
+#define EVENT_COUNT_INTERVAL 1
 //#define VERBOSE_BUFFERS  // Print more buffer status if set
 
 //#define ADJUST_BASELINE
 //#define TOGGLE_WATCHDOG
 //#define TOGGLE_ADCPWD
 //#define USE_FAKE_MUON
-//#define USE_FAKE_SIGNAL
+#define USE_FAKE_SIGNAL
 #define PMT0_DLY 0
 #define PMT1_DLY 3
 #define PMT2_DLY 0
 #define FAKE_SIGNAL_WIDTH 30
-#define SIGNAL_HT 300
-#define EXP_DECAY 1
+#define SIGNAL_HT 3000
+#define EXP_DECAY 0
 #define FAKE_SIGNAL_MODE (7 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<11) | (EXP_DECAY<<19) | (SIGNAL_HT<<20))
 //#define RAMP
 #define USE_FAKE_GPS
@@ -59,8 +59,8 @@
 //  #define SSD_AND	
   #define SB_COINC_LVL 3
   #define SB_COINC_OVLP 3
-  #define SB_CONSEC_BINS 1
-  #define SSD_DELAY 5
+  #define SB_CONSEC_BINS 0
+  #define SSD_DELAY 0
 //  #define EXT_TRIGGER
 //  #define PRESCALE_EXT_TRIGGER
 //  #define PRESCALE_COMPAT_SB_TRIGGER

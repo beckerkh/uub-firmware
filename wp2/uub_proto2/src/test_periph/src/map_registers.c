@@ -113,7 +113,7 @@ void map_registers()
   for (imem=0; imem<2; imem++)
     {
       fake_event_ptr[imem] = (u32)mmap(NULL, size,
-  					    PROT_READ, MAP_SHARED,
+  					    PROT_WRITE|PROT_READ, MAP_SHARED,
   					    fd,fake_event_addr[imem]);
       if (fake_event_ptr[imem] == (u32)MAP_FAILED){
   	printf("Error - while trying to map fake event memory %d\n", imem);

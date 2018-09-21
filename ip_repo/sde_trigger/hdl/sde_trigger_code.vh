@@ -20,6 +20,7 @@
 //                 it at the same time from AXI.  Requires AXI bus be 2x or
 //                 more slower than trigger clock.
 // 16-May-2018 DFN Add tot_40mhz trigger.
+// 18-Sep-2018 DFN Add stretch of trigger signals to avoid missing them
 
 `include "sde_trigger_regs.vh"  // All the reg & wire declarations
 
@@ -148,36 +149,6 @@ muon_trigger
                 .TRIG(MUON_PRETRIG2),
                 .DEBUG(MUON2_DEBUG)
   	        );
-// muon_trigger
-//   muon_trigger3(.RESET(LCL_RESET),
-//                 .CLK120(CLK120),
-// 	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-//                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .TRIG_THR0(MUON_TRIG3_THR0[`ADC_WIDTH-1:0]),
-// 	        .TRIG_THR1(MUON_TRIG3_THR1[`ADC_WIDTH-1:0]),
-// 	        .TRIG_THR2(MUON_TRIG3_THR2[`ADC_WIDTH-1:0]),
-// 	        .TRIG_SSD(MUON_TRIG3_SSD[`ADC_WIDTH-1:0]),
-// 	        .TRIG_ENAB(MUON_TRIG3_ENAB),
-//                 .TRIG(MUON_PRETRIG3),
-//                 .DEBUG(MUON3_DEBUG)
-//   	        );
-// muon_trigger
-//   muon_trigger4(.RESET(LCL_RESET),
-//                 .CLK120(CLK120),
-// 	        .ADC0(ADC0[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .ADC1(ADC1[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .ADC2(ADC2[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-//                 .ADC_SSD(ADC4[2*`ADC_WIDTH-1:`ADC_WIDTH]),
-// 	        .TRIG_THR0(MUON_TRIG4_THR0[`ADC_WIDTH-1:0]),
-// 	        .TRIG_THR1(MUON_TRIG4_THR1[`ADC_WIDTH-1:0]),
-// 	        .TRIG_THR2(MUON_TRIG4_THR2[`ADC_WIDTH-1:0]),
-// 	        .TRIG_SSD(MUON_TRIG4_SSD[`ADC_WIDTH-1:0]),
-// 	        .TRIG_ENAB(MUON_TRIG4_ENAB),
-//                 .TRIG(MUON_PRETRIG4),
-//                 .DEBUG(MUON4_DEBUG)
-//   	        );
 
 muon_buffers
   muon_buffers1(.RESET(LCL_RESET),
@@ -258,41 +229,59 @@ led_control led_control1(.RESET(LCL_RESET),
 // Stretch trigger out signal
 stretch stretch_trgout(.CLK(CLK120),.IN(SOME_TRIG_OR),.OUT(TRIG_OUT));
 
+// Stretch trigger signals
+stretch #(2) stretch_compat_sb(.CLK(CLK120),
+                               .IN(PRESCALED_COMPAT_SB_TRIG),
+                               .OUT(STRETCHED_COMPAT_SB_TRIG));
+stretch #(2) stretch_compat_tot(.CLK(CLK120),
+                                .IN(PRESCALED_COMPAT_TOT_TRIG),
+                                .OUT(STRETCHED_COMPAT_TOT_TRIG));
+stretch #(2) stretch_compat_totd(.CLK(CLK120),
+                                  .IN(PRESCALED_COMPAT_TOTD_TRIG),
+                                  .OUT(STRETCHED_COMPAT_TOTD_TRIG));
+stretch #(2) stretch_compat_ext(.CLK(CLK120),
+                                 .IN(PRESCALED_COMPAT_EXT_TRIG),
+                                 .OUT(STRETCHED_COMPAT_EXT_TRIG));
+stretch #(2) stretch_sb(.CLK(CLK120),
+                         .IN(SB_TRIG),
+                         .OUT(STRETCHED_SB_TRIG));
+
 always @(posedge CLK120) begin
    LCL_RESET <= ((LCL_COMPATIBILITY_GLOBAL_CONTROL &
                   `COMPATIBILITY_GLOBAL_CONTROL_RESET) != 0);
    if (LCL_RESET)
      begin
-        ENABLE40 <= 0;
+        //ENABLE40 <= 0;
         LCL_SHWR_BUF_WNUM <= 0;
         SHWR_BUF_NUM_FULL <= 0;
         SHWR_BUF_FULL_FLAGS <= 0;
         SHWR_BUF_RNUM <= 0;
         SHWR_EVT_CTR <= 0;
-        LCL_SHWR_BUF_TRIG_ID <= 0;
-        LCL_SHWR_BUF_TRIG_ID <= 0;
-        LCL_SHWR_BUF_STATUS <= 0;
+        //LCL_SHWR_BUF_TRIG_ID <= 0;
+        //LCL_SHWR_BUF_STATUS <= 0;
         DEAD <= 0;
         SHWR_INTR <= 0;
         SHWR_ADDR1 <= 0;
-        EXT_TRIG <= 0;
-        ADC_EXTRA <= 0;
-        SOME_DLYD_TRIG <= 0;
+        //EXT_TRIG <= 0;
+        //ADC_EXTRA <= 0;
+        //SOME_DLYD_TRIG <= 0;
         TRIGGERED <= 0;
         SOME_TRIG <= 0;
-        COMPAT_SB_TRIG_COUNTER <= 0;
-        COMPAT_TOT_TRIG_COUNTER <= 0;
-        COMPAT_TOTD_TRIG_COUNTER <= 0;
-        COMPAT_EXT_TRIG_COUNTER <= 0;
-        PRESCALED_COMPAT_SB_TRIG <= 0;
-        PRESCALED_COMPAT_TOT_TRIG <= 0;
-        PRESCALED_COMPAT_TOTD_TRIG <= 0;
-        PRESCALED_COMPAT_EXT_TRIG <= 0;
+        // COMPAT_SB_TRIG_COUNTER <= 0;
+        // COMPAT_TOT_TRIG_COUNTER <= 0;
+        // COMPAT_TOTD_TRIG_COUNTER <= 0;
+        // COMPAT_EXT_TRIG_COUNTER <= 0;
+        // PRESCALED_COMPAT_SB_TRIG <= 0;
+        // PRESCALED_COMPAT_TOT_TRIG <= 0;
+        // PRESCALED_COMPAT_TOTD_TRIG <= 0;
+        // PRESCALED_COMPAT_EXT_TRIG <= 0;
         for (DEADDLY = 0; DEADDLY<=`SHWR_DEAD_DLY; DEADDLY=DEADDLY+1)
 	  SHWR_DEAD_DLYD[DEADDLY] <= 0;
 	for (DELAY = 0; DELAY<=`SHWR_TRIG_DLY; DELAY=DELAY+1)
 	  SHWR_TRIG_DLYD[DELAY] <= 0;
 	SHWR_EVT_ID <= 0;
+        for (INDEX = 0; INDEX<`SHWR_MEM_NBUF; INDEX=INDEX+1)
+             LCL_SHWR_EVT_IDN[INDEX] <= 0;
      end
    else
      begin
@@ -402,7 +391,7 @@ always @(posedge CLK120) begin
 	  ENABLE40 <= 0;
         else
 	  ENABLE40 <= ENABLE40+1;
-        
+
         // Do we have a free buffer? If not, we can't process this trigger.
         // Note that the way this is implemented here we can only fill n-1 of
         // the buffers, or we'll end up overwriting the oldest buffer. So this
@@ -415,22 +404,22 @@ always @(posedge CLK120) begin
 
            if (!TRIGGERED && !DEAD) begin
               // "or" of first triggers
-              SOME_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
+              SOME_TRIG <=  ((STRETCHED_COMPAT_SB_TRIG << 
                               `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
                              (SHWR_BUF_TRIG_MASK & 
                               `COMPATIBILITY_SHWR_BUF_TRIG_SB))
-                |  ((PRESCALED_COMPAT_TOT_TRIG << 
+                |  ((STRETCHED_COMPAT_TOT_TRIG << 
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
                     (SHWR_BUF_TRIG_MASK & 
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
-                |  ((PRESCALED_COMPAT_TOTD_TRIG << 
+                |  ((STRETCHED_COMPAT_TOTD_TRIG << 
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOTD_SHIFT) &
                     (SHWR_BUF_TRIG_MASK & 
                      `COMPATIBILITY_SHWR_BUF_TRIG_TOTD)) 
-              | ((PRESCALED_COMPAT_EXT_TRIG <<
+              | ((STRETCHED_COMPAT_EXT_TRIG <<
                   `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
-              | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
+              | ((STRETCHED_SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB))
               | ((LED_TRG_FLAG << `SHWR_BUF_TRIG_LED_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_LED));
@@ -462,22 +451,22 @@ always @(posedge CLK120) begin
            if (TRIGGERED) begin
               
               // "or" of delayed triggers
-              SOME_DLYD_TRIG <=  ((PRESCALED_COMPAT_SB_TRIG << 
+              SOME_DLYD_TRIG <=  ((STRETCHED_COMPAT_SB_TRIG << 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_SB_SHIFT) &
                                   (SHWR_BUF_TRIG_MASK & 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_SB))
-                |  ((PRESCALED_COMPAT_TOT_TRIG << 
+                |  ((STRETCHED_COMPAT_TOT_TRIG << 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOT_SHIFT) &
                                   (SHWR_BUF_TRIG_MASK & 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOT)) 
-                |  ((PRESCALED_COMPAT_TOTD_TRIG << 
+                |  ((STRETCHED_COMPAT_TOTD_TRIG << 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOTD_SHIFT) &
                                   (SHWR_BUF_TRIG_MASK & 
                                    `COMPATIBILITY_SHWR_BUF_TRIG_TOTD)) 
-		| ((PRESCALED_COMPAT_EXT_TRIG << 
+		| ((STRETCHED_COMPAT_EXT_TRIG << 
                     `COMPATIBILITY_SHWR_BUF_TRIG_EXT_SHIFT) & 
                    (SHWR_BUF_TRIG_MASK & `COMPATIBILITY_SHWR_BUF_TRIG_EXT))
-              | ((SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
+              | ((STRETCHED_SB_TRIG << `SHWR_BUF_TRIG_SB_SHIFT) & 
                  (SHWR_BUF_TRIG_MASK & `SHWR_BUF_TRIG_SB));
 
               LCL_SHWR_BUF_TRIG_IDN[LCL_SHWR_BUF_WNUM]
@@ -609,9 +598,9 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-        P6X[1] <= SB_TRIG_DEBUG[0];
-        P6X[2] <= SB_TRIG_DEBUG[1];
-        P6X[3] <= SB_TRIG_DEBUG[2];
+        P6X[1] <= STRETCHED_SB_TRIG;
+        P6X[2] <= STRETCHED_COMPAT_SB_TRIG;
+        P6X[3] <= SB_TRIG;
          
      end // else: !if(LCL_RESET)
 end

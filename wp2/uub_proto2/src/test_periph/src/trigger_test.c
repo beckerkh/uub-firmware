@@ -155,7 +155,7 @@ void trigger_test()
 #ifdef USE_FAKE_SIGNAL
   int fake_adc[3];
   FILE *fake_event_file;
-  u32 *mem_ptr0, *mem_ptr1;
+  u32 *mem_ptr0, *mem_ptr1, *mem_addr0, *mem_addr1;
 #endif
 
   for (i=0; i<NUM_BUFFERS; i++)
@@ -178,25 +178,35 @@ void trigger_test()
       // FAKE_SIGNAL_MODE & 0x1f == 7 means load fake data!
       if ((FAKE_SIGNAL_MODE & 0x1f) == 7) 
     {
-      fake_event_file = fopen("fake_event.txt","R");
+      fake_event_file = fopen("/fake_event.txt","r");
       if (fake_event_file == 0) {
-        printf("Unable to open input file fake_event.txt");
+        printf("Unable to open input file fake_event.txt\n");
         return;
-        mem_ptr0 = (u32*) fake_event_ptr[0];
-        mem_ptr1 = (u32*) fake_event_ptr[1];
-        for (i=0; i<SHWR_MEM_DEPTH; i++)
-          {
-            fscanf(fake_event_file,"%d %d %d", 
-                   &fake_adc[0], &fake_adc[1], &fake_adc[2]);
-            //
-            *mem_ptr0 = fake_adc[0] | (fake_adc[1] << 16);
-            *mem_ptr1 = fake_adc[2];
-            mem_ptr0++;
-            mem_ptr1++;
-          }
-        fclose(fake_event_file);
       }
-  }
+      mem_ptr0 = (u32*) fake_event_ptr[0];
+      mem_ptr1 = (u32*) fake_event_ptr[1];
+      //     mem_ptr0 = mem_addr0;
+      //mem_ptr1 = mem_addr1;
+      for (i=0; i<SHWR_MEM_WORDS; i++)
+        {
+          fscanf(fake_event_file,"%d %d %d", 
+                 &fake_adc[0], &fake_adc[1], &fake_adc[2]);
+          //
+          mem_ptr0[i] = fake_adc[0] | (fake_adc[1] << 16);
+          mem_ptr1[i] = fake_adc[2];
+          //          printf("Fake event: i=%d  fake_adcs=%x %x %x ptrs=%x %x\n",
+          //     i, fake_adc[0], fake_adc[1], fake_adc[2], mem_ptr0[i], mem_ptr1[i]);
+          // fflush(stdout);
+         }
+      // fclose(fake_event_file);
+      //for (i=0; i<SHWR_MEM_WORDS; i++)
+      //  {
+          //          printf("Fake event: i=%d  fake_adcs=%x %x %x\n",
+          //       i, mem_ptr0[i]&0x3ff, mem_ptr0[i]>>16, mem_ptr1[i]);
+          //fflush(stdout);
+      //   }
+    }
+
 #endif
 #ifdef USE_FAKE_MUON
   test_options = test_options | 4;
@@ -456,6 +466,12 @@ void trigger_test()
     status = read_trig(SHWR_BUF_STATUS_ADDR);
     if ((SHWR_INTR_PEND_MASK & (status >> SHWR_INTR_PEND_SHIFT)) != 0)
       {
+        //  printf("Shower buf: Interrupt pending\n");
+        //printf("Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
+        //     status, SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT),
+        //     SHWR_BUF_RNUM_MASK & (status >> SHWR_BUF_RNUM_SHIFT), 
+        //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
+        //     0x7 & (status >> SHWR_BUF_NFULL_SHIFT));
         toread_shwr_buf_num = SHWR_BUF_RNUM_MASK & 
           (status >> SHWR_BUF_RNUM_SHIFT);
         cur_shwr_buf_num = SHWR_BUF_WNUM_MASK & 
@@ -475,46 +491,94 @@ void trigger_test()
                  compat_sb_dlyd_count, compat_tot_dlyd_count);
           printf("  Compat ToTd dlyd %d  SB dlyd %d\n",
                  compat_totd_dlyd_count, sb_dlyd_count);
-          compat_sb_count = 0;
-          compat_tot_count = 0;
-          compat_totd_count = 0;
-          sb_count = 0;
-          compat_sb_dlyd_count = 0;
-          compat_tot_dlyd_count = 0;
-          compat_totd_dlyd_count = 0;
-          sb_dlyd_count = 0;
+          //          compat_sb_count = 0;
+          //compat_tot_count = 0;
+          //compat_totd_count = 0;
+          //sb_count = 0;
+          //compat_sb_dlyd_count = 0;
+          //compat_tot_dlyd_count = 0;
+          //compat_totd_dlyd_count = 0;
+          //sb_dlyd_count = 0;
           }
-        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+        if ((toread_shwr_buf_num != ((prev_read+1) & 0x3)) && (prev_read != -1))
           {
-            printf("Shower buf writing %d  to read %d  full %x  num full=%d",
+            printf("Shower buf writing %d  to read %d  full %x  num full=%d  prev_read=%d",
                    cur_shwr_buf_num,toread_shwr_buf_num,
-                   full_shwr_bufs,num_full);
-            printf(" ******** ERROR *******");
+                   full_shwr_bufs,num_full,prev_read);
+            printf(" ******** ERROR ******* (check scope not running)");
             printf("\n");  
             exit(1);
           }
 #endif
 #ifdef VERBOSE_BUFFERS
-        printf("Shower buf writing %d  to read %d  full %x  num full=%d",
-               cur_shwr_buf_num,toread_shwr_buf_num,
-               full_shwr_bufs,num_full);
-        if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
+            printf("Shower buf writing %d  to read %d  full %x  num full=%d  prev_read=%d",
+                   cur_shwr_buf_num,toread_shwr_buf_num,
+                   full_shwr_bufs,num_full,prev_read);
+        if ((toread_shwr_buf_num != ((prev_read+1) & 0x3)) && (prev_read != -1))
           {
-            printf(" ******** ERROR *******");
+            printf(" ******** ERROR ******* (check scope not running)");
             printf("\n");
             exit(1);
           }
         printf("\n");
+        fflush(stdout);
 #endif
         prev_read = toread_shwr_buf_num;
  
         // Do readout of buffer here ....
+        //printf("Starting read_shw_buffers\n");
         read_shw_buffers();  // Read buffers to local memory
     	nevents++;
 
         // Reset full flag
+        //printf("Resetting full flag\n");
+        //fflush(stdout);
+
+        // Check status just before resetting full flag
+        //        status = read_trig(SHWR_BUF_STATUS_ADDR);
+        // printf("Shower buf: About to reset full flag\n");
+        //printf("Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
+        //     status, SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT),
+        //     SHWR_BUF_RNUM_MASK & (status >> SHWR_BUF_RNUM_SHIFT), 
+        //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
+        //     0x7 & (status >> SHWR_BUF_NFULL_SHIFT));
+
+ #ifdef USE_FAKE_SIGNAL
+      // FAKE_SIGNAL_MODE & 0x1f == 7 means load fake data!
+      if ((FAKE_SIGNAL_MODE & 0x1f) == 7) 
+      mem_ptr0 = (u32*) fake_event_ptr[0];
+      mem_ptr1 = (u32*) fake_event_ptr[1];
+       for (i=0; i<SHWR_MEM_WORDS; i++)
+        {
+          status = fscanf(fake_event_file,"%d %d %d", 
+                 &fake_adc[0], &fake_adc[1], &fake_adc[2]);
+          // printf("fscanf status=%d\n",status);
+          if (status == 3) {
+            mem_ptr0[i] = fake_adc[0] | (fake_adc[1] << 16);
+            mem_ptr1[i] = fake_adc[2];
+          }
+        }
+       if (status != 3)
+         {
+           fclose(fake_event_file);
+           fake_event_file = fopen("/fake_event.txt","r");
+           //           nevents = MAX_EVENTS;
+      }
+#endif
         cntrl_word = toread_shwr_buf_num;
         write_trig(SHWR_BUF_CONTROL_ADDR,cntrl_word);
+
+        // Check status just after resetting full flag
+        //status = read_trig(SHWR_BUF_STATUS_ADDR);
+        //printf("Shower buf: After reset full flag\n");
+        //printf("Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
+        //     status,SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT),
+        //     SHWR_BUF_RNUM_MASK & (status >> SHWR_BUF_RNUM_SHIFT), 
+        //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
+        //     0x7 & (status >> SHWR_BUF_NFULL_SHIFT));
+ 
+        //printf("Full flag reset\n");
+        //fflush(stdout);
 
         // Indicate data has been read
         full_shw_rd_bufs[readto_shw_buf_num] = 1;
@@ -524,6 +588,7 @@ void trigger_test()
 
     if (full_shw_rd_bufs[unpack_shw_buf_num] != 0)
       {
+        //printf("Starting unpack_shw_buffers\n");
         unpack_shw_buffers(); // Unpack the buffers
         //               full_shw_rd_bufs[unpack_shw_buf_num] = 0;
         check_shw_buffers();  // Do sanity check of shower buffers
@@ -536,6 +601,7 @@ void trigger_test()
 #ifdef TRIGGER_POLLED
     // Is an interrupt pending?
     muon_status = read_trig(MUON_BUF_STATUS_ADDR);
+    // printf("Checked muon buffer status\n");
     if ((MUON_INTR_PEND_MASK & (muon_status >> MUON_INTR_PEND_SHIFT)) != 0)
       {
         toread_muon_buf_num = MUON_BUF_RNUM_MASK & 
@@ -700,7 +766,7 @@ void sde_shwr_intr_handler(void *CallbackRef)
             printf("Shwr intr writing %d  to read %d  full %x  num full=%d",
                    cur_shwr_buf_num,toread_shwr_buf_num,
                    full_shwr_bufs,num_full);
-            printf(" ******** ERROR *******");
+            printf(" ******** ERROR ******* (check scope not running)");
             printf("\n");  
             exit(1);
           }
@@ -711,7 +777,7 @@ void sde_shwr_intr_handler(void *CallbackRef)
                full_shwr_bufs,num_full);
         if (toread_shwr_buf_num != ((prev_read+1) & 0x3))
           {
-            printf(" ******** ERROR *******");
+            printf(" ******** ERROR ******* (check scope not running)");
             printf("\n");
             exit(1);
           }

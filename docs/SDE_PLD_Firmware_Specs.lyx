@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-August 16, 2018
+September 21, 2018
 \end_layout
 
 \begin_layout Author
@@ -207,6 +207,10 @@ ty triggers; reduce number of muon triggers from 4 to 2 to aid in meeting
 \begin_layout Description
 16-Aug-2018 Update documentation to include compatibility time-over-threshold-de
 convolved (ToTd) trigger.
+\end_layout
+
+\begin_layout Description
+20-Sep-2018 Update fake data module documentation.
 \end_layout
 
 \begin_layout Section
@@ -12173,9 +12177,31 @@ The test control module allows enabling of some test features.
 
 , irrespective of the mode bits.
  The 10 higher order mode bits allow differential delays (in 8.33 ns steps)
- between the ADCs to be specified, while another 8 allow specification of
- the pulse width.
+ between the WCD ADCs to be specified, while another 8 allow specification
+ of the pulse width.
  Note that now the fake data generator must be reset before using it.
+\end_layout
+
+\begin_layout Standard
+It is also possible to play back a triggered event by loading a 2048 bin
+ event trace can be loaded into memory.
+ The WCD PMT0 and PMT1 signals are loaded into the memory starting at FAKE_EVENT
+0_BASE = 0x4E00
+\begin_inset space \space{}
+\end_inset
+
+0000, with the PMT0 signal in the bits 11:0, and the PMT1 signal in bits
+ 27:16.
+ The WCD PMT2 and SSD signals are loaded into the memory starting at FAKE_EVENT1
+_BASE = 0x5000
+\begin_inset space \space{}
+\end_inset
+
+0000, with the PMT2 signal in bits 11:0 and the SSD signal in bits 27:16.
+ Only the high gain channels are loaded.
+ The low gain channels are derived from the high gain channel signals.
+ The small PMT channel is not supported in this mode.
+ This feature is activated by specifying fake data mode bits [4:0] = 7.
 \end_layout
 
 \begin_layout Standard
@@ -12359,7 +12385,7 @@ Bits 10:9 - WCD PMT2 delay
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bits 12:11 - Small PMT/SIPM cal delay
+Bits 18-11 - Pulse width in 8.3ns bins
 \end_layout
 
 \end_inset
@@ -12379,7 +12405,7 @@ Bits 12:11 - Small PMT/SIPM cal delay
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bits 14:13 SSD PMT delay
+Bit 19 - Exponential shape if set
 \end_layout
 
 \end_inset
@@ -12399,7 +12425,8 @@ Bits 14:13 SSD PMT delay
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bits 23:16 Pulse width 
+Bits 31-20 Pulse height (incl.
+ pedestal) 
 \end_layout
 
 \end_inset
@@ -12419,7 +12446,7 @@ The mode bits are described in the following table.
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="18" columns="2">
+<lyxtabular version="3" rows="19" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -12502,7 +12529,7 @@ Fixed rate:
 
 \begin_layout Plain Layout
 Fixed rate: 
-\begin_inset Formula $100\ \mathrm{\mu s}$
+\begin_inset Formula $1\ \mathrm{ms}$
 \end_inset
 
  period
@@ -12526,7 +12553,7 @@ Fixed rate:
 
 \begin_layout Plain Layout
 Fixed rate: 
-\begin_inset Formula $1\ \mathrm{ms}$
+\begin_inset Formula $10\ \mathrm{ms}$
 \end_inset
 
  period
@@ -12550,7 +12577,7 @@ Fixed rate:
 
 \begin_layout Plain Layout
 Fixed rate: 
-\begin_inset Formula $10\ \mathrm{ms}$
+\begin_inset Formula $100\ \mathrm{ms}$
 \end_inset
 
  period
@@ -12574,7 +12601,7 @@ Fixed rate:
 
 \begin_layout Plain Layout
 Fixed rate: 
-\begin_inset Formula $100\ \mathrm{ms}$
+\begin_inset Formula $1\ \mathrm{s}$
 \end_inset
 
  period
@@ -12598,6 +12625,30 @@ Fixed rate:
 
 \begin_layout Plain Layout
 Sawtooth ramp
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Read fake event from memory, 
+\begin_inset Formula $2\ \mathrm{s}$
+\end_inset
+
+ period
 \end_layout
 
 \end_inset
@@ -12838,7 +12889,7 @@ Anything else
 
 \begin_layout Plain Layout
 Fixed rate: 
-\begin_inset Formula $1\ \mathrm{s}$
+\begin_inset Formula $5s\ \mathrm{s}$
 \end_inset
 
  period

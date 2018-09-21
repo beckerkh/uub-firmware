@@ -5,7 +5,7 @@
 #include "trigger_test_options.h"
 #include "trigger_test.h"
 
-//#define VERBOSE
+#define VERBOSE
 
 extern u32 *mem_addr, *mem_ptr;
 extern u32 start_offset[4];
@@ -83,8 +83,6 @@ void read_shw_buffers()
   printf("\n");
 #endif
 
-  if ((trig_id & SHWR_BUF_TRIG_SB) != 0)
-    sb_count++;
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
     compat_sb_count++;
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_TOT) != 0)
@@ -100,7 +98,7 @@ void read_shw_buffers()
   if ((trig_id & (COMPATIBILITY_SHWR_BUF_TRIG_TOTD<<8)) != 0)
     compat_totd_dlyd_count++;
 if ((trig_id & (SHWR_BUF_TRIG_SB<<8)) != 0)
-    compat_sb_dlyd_count++;
+    sb_dlyd_count++;
 
   // Read calculated peak, area, baseline.
 
@@ -529,6 +527,8 @@ void print_shw_buffers()
 	  printf("%3x %8x %8x %8x %8x %8x\n",
 		 i, (u32)shw_mem[0][i], (u32)shw_mem[1][i], (u32)shw_mem[2][i],
 		 (u32)shw_mem[3][i], (u32)shw_mem[4][i]);
+          // Need to limit how fast we load buffers to avoid segfault!
+          fflush(stdout);
 	}
       printf("<<<<<<<<<< END OF EVENT <<<<<<<<<<\n\n");
     } else {

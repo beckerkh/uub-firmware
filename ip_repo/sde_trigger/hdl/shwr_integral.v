@@ -58,20 +58,20 @@ module shwr_integral(
 `define THREE_QUARTERS (`ONE_HALF + (1 << `BASELINE_FRAC_WIDTH-2)) 
     
    always @(posedge CLK120) begin
-      if (RESET) begin
-         INTEGRAL <= 0;
-	 INTEGRALA <= 0;
-	 LBASELINE <= 250 << `BASELINE_FRAC_WIDTH;
-	 BIN_COUNT <= 0;
-	 LPEAK <= 0;
-	 PEAK <= 0;
-	 SATURATED <= 0;
-	 ADCLONG <= 0;
-	 ADCLONGD <= 0;
-	 ADCLONGD1 <= 0;
-	 SAG <= 0;
-      end
-      else begin
+      //if (RESET) begin
+         // INTEGRAL <= 0;
+	 // INTEGRALA <= 0;
+	 //LBASELINE <= 250 << `BASELINE_FRAC_WIDTH;
+	 // BIN_COUNT <= 0;
+	// LPEAK <= 0;
+	// PEAK <= 0;
+	// SATURATED <= 0;
+	// ADCLONG <= 0;
+	// ADCLONGD <= 0;
+	// ADCLONGD1 <= 0;
+	// SAG <= 0;
+      //end
+      //else begin
 
 	 // We need to delay the data so that we start looking at the traces
 	 // before the trigger.  Otherwise we'll start looking too late in
@@ -83,6 +83,7 @@ module shwr_integral(
 	 ADCD <= DLYD_ADC[`SHWR_AREA_ADC_DLY];
 	 ADCLONG[`ADC_WIDTH+`BASELINE_FRAC_WIDTH-1:`BASELINE_FRAC_WIDTH] 
 	   <= DLYD_ADC[`SHWR_AREA_ADC_DLY];
+	 ADCLONG[`BASELINE_FRAC_WIDTH-1:0] <= 0;
 	 
 	 if (!TRIGGERED) begin
 	    BIN_COUNT <= 0;
@@ -179,7 +180,7 @@ module shwr_integral(
 		 INTEGRAL <= 0;
 	    end	      
 	 end
-      end // if (RESET)
+//      end // if (RESET)
    end // always @ (posedge CLK120)
    
 endmodule
