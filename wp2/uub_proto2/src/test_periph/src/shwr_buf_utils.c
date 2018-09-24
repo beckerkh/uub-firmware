@@ -81,6 +81,7 @@ void read_shw_buffers()
     printf(" EXT_DLYD");
   printf("  T = %f  DT = %f", time, dt);
   printf("\n");
+  fflush(stdout);
 #endif
 
   if ((trig_id & COMPATIBILITY_SHWR_BUF_TRIG_SB) != 0)
@@ -377,7 +378,7 @@ void print_shw_buffers()
   trig = 1;
 
   //  #define DETAIL_PRINT
-  #define PRINT_EVENT
+  //  #define PRINT_EVENT
 
 #ifndef ANY_DEBUG  // Some firmware debug flags disable info needed for this
 #ifdef COMPAT_SB_TRIGGER
@@ -483,6 +484,7 @@ void print_shw_buffers()
 	{
 	  printf("%1d %1d %4d %4d %d\n", 
 		 i, saturated[i], baseline[i], peak[i], area[i]);
+          fflush(stdout);
 	}
       printf("<<<<<<<<<< END OF EVENT HEADER <<<<<<<<<<\n");
 

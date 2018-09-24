@@ -21,7 +21,7 @@ module deconvolve_40mhz(
                         output reg [59:0] DEBUG
                         );
    
-// Pipeline registers
+   // Pipeline registers
    (* dont_touch = "true" *) reg [`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1:0] INT_A;
    (* dont_touch = "true" *) reg [`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH:0] INT_B;
    (* dont_touch = "true" *) reg [`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1:0] INT_C;
@@ -31,17 +31,17 @@ module deconvolve_40mhz(
 
    
    always @(posedge CLK) begin
-         if (ENABLE40 == 0) begin
-            // Ensure signal does not go below baseline
-            if (ADC_IN
-                <= BASELINE[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:`SHWR_BASELINE_EXTRA_BITS])
-              ADC_LIMITED <= BASELINE[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:`SHWR_BASELINE_EXTRA_BITS];
-            else
-              ADC_LIMITED <= ADC_IN;
+      if (ENABLE40 == 0) begin
+         // Ensure signal does not go below baseline
+         if (ADC_IN
+             <= BASELINE[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:`SHWR_BASELINE_EXTRA_BITS])
+           ADC_LIMITED <= BASELINE[`ADC_WIDTH+`SHWR_BASELINE_EXTRA_BITS-1:`SHWR_BASELINE_EXTRA_BITS];
+         else
+           ADC_LIMITED <= ADC_IN;
 
          // Multiply previous ADC value by decay factor.  
          // Result will have 6 fractional binary digits.
-            INT_A <= ADC_LIMITED * FD;
+         INT_A <= ADC_LIMITED * FD;
          
          // Subtract result of previous stage from current limited ADC value.
          // Note that the clock delays in the previous operation means this
@@ -65,11 +65,11 @@ module deconvolve_40mhz(
          
          // Load output value, limiting maximum value to 4095.
          if ( INT_E[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH+`COMPATIBILITY_TOTD_FN_FRAC_BITS])
-            ADC_OUT <= 4095;
+           ADC_OUT <= 4095;
          else
-            ADC_OUT <= INT_E[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1+
-                             `COMPATIBILITY_TOTD_FN_FRAC_BITS:
-                             `COMPATIBILITY_TOTD_FD_BITS+`COMPATIBILITY_TOTD_FN_FRAC_BITS];
+           ADC_OUT <= INT_E[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1+
+                            `COMPATIBILITY_TOTD_FN_FRAC_BITS:
+                            `COMPATIBILITY_TOTD_FD_BITS+`COMPATIBILITY_TOTD_FN_FRAC_BITS];
       end
       else begin
          ADC_LIMITED <= ADC_LIMITED;
@@ -85,7 +85,7 @@ module deconvolve_40mhz(
       DEBUG[23:12] <= INT_A[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1:`COMPATIBILITY_TOTD_FD_BITS];
       DEBUG[35:24] <= INT_C[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1:`COMPATIBILITY_TOTD_FD_BITS];
       DEBUG[47:36] <= INT_E[`COMPATIBILITY_TOTD_FD_BITS+`ADC_WIDTH-1+`COMPATIBILITY_TOTD_FN_FRAC_BITS:
-                           `COMPATIBILITY_TOTD_FD_BITS+`COMPATIBILITY_TOTD_FN_FRAC_BITS];
+                            `COMPATIBILITY_TOTD_FD_BITS+`COMPATIBILITY_TOTD_FN_FRAC_BITS];
       DEBUG[59:48] <= ADC_OUT;
    end
 

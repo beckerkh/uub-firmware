@@ -18,7 +18,7 @@
 //#define USE_FAKE_MUON
 #define USE_FAKE_SIGNAL
 #define PMT0_DLY 0
-#define PMT1_DLY 3
+#define PMT1_DLY 0
 #define PMT2_DLY 0
 #define FAKE_SIGNAL_WIDTH 30
 #define SIGNAL_HT 3000
@@ -33,9 +33,9 @@
 #define LED_PULSWID0 10
 #define LED_PULSWID1 20
 
-#define TRIG_THR0 2000
-#define TRIG_THR1 2000
-#define TRIG_THR2 2000
+#define TRIG_THR0 512
+#define TRIG_THR1 512
+#define TRIG_THR2 512
 #define TRIG_SSD 4095
 #define LPMT_THR0 0000   // Software large PMT threshold for small PMT cal
 #define LPMT_THR1 0000
@@ -45,16 +45,18 @@
 
 #ifdef SHWR_TRIGGERS 
   #define COMPAT_SB_TRIGGER
-//  #define COMPAT_TOT_TRIGGER
-//  #define COMPAT_TOT_TRIG_OCC 10
-  // #define COMPAT_TOTD_TRIGGER
-  //   #define COMPAT_TOTD_TRIG_OCC 2
+  #define COMPAT_TOT_TRIGGER
+  #define COMPAT_TOT_TRIG_OCC 1
+   #define COMPAT_TOTD_TRIGGER
+   #define COMPAT_TOTD_TRIG_OCC 1
   //   #define COMPAT_TOTD_FD 42  // 60ns decay constant
   //   #define COMPAT_TOTD_FN 47
-  //   #define COMPAT_TOTD_UP0 4095
-  //   #define COMPAT_TOTD_UP1 4095
-  //   #define COMPAT_TOTD_UP2 4095
-  //   #define COMPAT_TOTD_INT  300
+     #define COMPAT_TOTD_FD 32  // 17ns decay constant
+     #define COMPAT_TOTD_FN 32
+     #define COMPAT_TOTD_UP0 4095
+     #define COMPAT_TOTD_UP1 4095
+     #define COMPAT_TOTD_UP2 4095
+     #define COMPAT_TOTD_INT  5
   #define SB_TRIGGER
 //  #define SSD_AND	
   #define SB_COINC_LVL 3

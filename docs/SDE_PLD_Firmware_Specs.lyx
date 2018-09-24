@@ -83,7 +83,7 @@ SDE Upgrade PLD Firmware Specifications
 \end_layout
 
 \begin_layout Date
-September 21, 2018
+September 24, 2018
 \end_layout
 
 \begin_layout Author
@@ -211,6 +211,10 @@ convolved (ToTd) trigger.
 
 \begin_layout Description
 20-Sep-2018 Update fake data module documentation.
+\end_layout
+
+\begin_layout Description
+24-Sep-2018 Expand interrupt module documentation.
 \end_layout
 
 \begin_layout Section
@@ -13053,6 +13057,28 @@ Bit 0 - Shower trigger interrupt pending
 
 \end_layout
 
+\begin_layout Standard
+Since the shower and muon interrupts have been split, register 1 does not
+ add much functionality.
+ If the Global trigger interrupt is enabled, an IRQ to the processor will
+ be generated for each interrupt request from the trigger module, irregardless
+ of whether or not the specific shower trigger interrupt is enabled, since
+ the module only handles one interrupt now.
+ The shower trigger interrupt enable only enables the interrupt pending
+ information to be available in the interrupt pending register.
+ Thus, if the Global trigger interrupt enable is not set, but the shower
+ trigger interrupt is set, no IRQ request is passed on to the processor,
+ however the trigger interrupt pending register will reflect the status
+ of the interrupt request.
+ However, this same interrupt pending information is also available in the
+ SHWR_BUF_STATUS register.
+ The register definitions are historical, left over from when the shower
+ and muon interrupts generated a common IRQ to the processor and one could
+ individually enable each using register 1, and test for which was pending
+ using register 4.
+ Basically, one probably now only needs to use register 0 and register 3.
+\end_layout
+
 \begin_layout Subsection
 Muon Trigger Interrupt Module
 \end_layout
@@ -13128,7 +13154,7 @@ Bit 0 - Global trigger interrupt enable if set
 \begin_inset Text
 
 \begin_layout Plain Layout
-Bit 0 - Enable shower trigger interrupt if set
+Bit 0 - Enable muon trigger interrupt if set
 \end_layout
 
 \end_inset
@@ -13199,6 +13225,11 @@ Bit 0 - Muon trigger interrupt pending
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Similar comments as those above for the Shower Trigger Interrupt Module
+ apply here also.
 \end_layout
 
 \begin_layout Subsection

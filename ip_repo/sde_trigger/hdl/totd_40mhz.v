@@ -1,7 +1,10 @@
 // This module implements the 40 MHz compatibility mode ToTd trigger.
 //
-// 21-June-2018 DFN Initial version
-// 28-June-2018 DFN Need to add integral constraint yet
+// 21-Jun-2018 DFN Initial version
+// 28-Jun-2018 DFN Need to add integral constraint yet
+// 17-Aug-2018 DFN Add integral constraint
+// 22-Sep-2018 DFN Remove unnecessary resets; add requirement that not
+//                 triggered on previous clock cycle
 
 `include "sde_trigger_defs.vh"
 
@@ -38,6 +41,8 @@ module totd_40mhz(
    reg [2:0]                        PMT_TRIG;
    reg [1:0]                        SUM_PMT_TRIGS;
    reg [`ADC_WIDTH-1:0]             THRES[2:0];
+   reg                              TRIG_NOW;
+   reg                              TRIG_PREV;
    reg [`ADC_WIDTH-1:0]             ADCD[2:0];
    wire [`ADC_WIDTH-1:0]            ADCD0;
    wire [`ADC_WIDTH-1:0]            ADCD1;
@@ -127,62 +132,55 @@ module totd_40mhz(
                             );
    
    always @(posedge CLK120) begin
-      if (RESET) begin
+      if (ENABLE40 == 0) begin
+         
+         // First do a simple single bin trigger on each bin
+         for (INDEX=0; INDEX<3; INDEX=INDEX+1) begin
+	    if ((THRES[INDEX] < ADCD[INDEX]) && (TRIG_ENABLE[INDEX] == 1)) 
+	      PMT_TRIG[INDEX] <= 1;
+	    else 
+	      PMT_TRIG[INDEX] <= 0;
+            WINDOW[INDEX] <= {WINDOW[INDEX][`WIDTH-2:0],PMT_TRIG[INDEX]};
+            if (WINDOW[INDEX][`WIDTH-1] && !PMT_TRIG[INDEX])
+              OCC_COUNTER[INDEX] <= OCC_COUNTER[INDEX]-1;
+            else if (!WINDOW[INDEX][`WIDTH-1] && PMT_TRIG[INDEX])
+              OCC_COUNTER[INDEX] <= OCC_COUNTER[INDEX]+1;
+            if ((OCC_COUNTER[INDEX] > OCCUPANCY) &&
+                (INTEGRAL[INDEX] > INT)) SB_TRIG[INDEX] <= 1;
+            else SB_TRIG[INDEX] <= 0;
+         end // for (INDEX=0; INDEX<3; INDEX=INDEX+1)
+      end  // Downsampled loop
+      
+      THRES[0] <= THRES0;
+      THRES[1] <= THRES1;
+      THRES[2] <= THRES2;
+      ADCD[0] <= ADCD0;
+      ADCD[1] <= ADCD1;
+      ADCD[2] <= ADCD2;
+      INTEGRAL[0] <= INTEGRAL0;
+      INTEGRAL[1] <= INTEGRAL1;
+      INTEGRAL[2] <= INTEGRAL2;
+
+      SUM_PMT_TRIGS <= SB_TRIG[0] + SB_TRIG[1] + SB_TRIG[2];
+      if ((SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0)) begin
+	 TRIG_NOW <= 1;
          WINDOW[0] <= 0;
          OCC_COUNTER[0] <= 0;
          WINDOW[1] <= 0;
          OCC_COUNTER[1] <= 0;
          WINDOW[2] <= 0;
          OCC_COUNTER[2] <= 0;
-         TRIG <= 0;
       end
-      else begin
-         if (ENABLE40 == 0) begin
-            
-            // First do a simple single bin trigger on each bin
-            for (INDEX=0; INDEX<3; INDEX=INDEX+1) begin
-	       if ((THRES[INDEX] < ADCD[INDEX]) && (TRIG_ENABLE[INDEX] == 1)) 
-	         PMT_TRIG[INDEX] <= 1;
-	       else 
-	         PMT_TRIG[INDEX] <= 0;
-               WINDOW[INDEX] <= {WINDOW[INDEX][`WIDTH-2:0],PMT_TRIG[INDEX]};
-               if (WINDOW[INDEX][`WIDTH-1] && !PMT_TRIG[INDEX])
-                 OCC_COUNTER[INDEX] <= OCC_COUNTER[INDEX]-1;
-               else if (!WINDOW[INDEX][`WIDTH-1] && PMT_TRIG[INDEX])
-                 OCC_COUNTER[INDEX] <= OCC_COUNTER[INDEX]+1;
-               if ((OCC_COUNTER[INDEX] > OCCUPANCY) &&
-                   (INTEGRAL[INDEX] > INT)) SB_TRIG[INDEX] <= 1;
-               else SB_TRIG[INDEX] <= 0;
-            end // for (INDEX=0; INDEX<3; INDEX=INDEX+1)
-         end  // Downsampled loop
-  
-         THRES[0] <= THRES0;
-         THRES[1] <= THRES1;
-         THRES[2] <= THRES2;
-         ADCD[0] <= ADCD0;
-         ADCD[1] <= ADCD1;
-         ADCD[2] <= ADCD2;
-         INTEGRAL[0] <= INTEGRAL0;
-         INTEGRAL[1] <= INTEGRAL1;
-         INTEGRAL[2] <= INTEGRAL2;
-
-         SUM_PMT_TRIGS <= SB_TRIG[0] + SB_TRIG[1] + SB_TRIG[2];
-         if ((SUM_PMT_TRIGS >= MULTIPLICITY) && (MULTIPLICITY != 0)) begin
-	    TRIG <= 1;
-            WINDOW[0] <= 0;
-            OCC_COUNTER[0] <= 0;
-            WINDOW[1] <= 0;
-            OCC_COUNTER[1] <= 0;
-            WINDOW[2] <= 0;
-            OCC_COUNTER[2] <= 0;
-         end
-         else
-	   TRIG <= 0;
-      end
+      else
+	TRIG_NOW <= 0;
+      
+      // Only trigger if did not trigger previous clock cycle
+      TRIG <= TRIG_NOW && !TRIG_PREV;
+      TRIG_PREV <= TRIG_NOW;
 
       // Debug outputs
-`ifdef`COMPAT_TOTD_DECONV_DEBUG
-      DEBUG <= DECONV_DEBUG0;
+      `ifdef`COMPAT_TOTD_DECONV_DEBUG
+        DEBUG <= DECONV_DEBUG0;
 `endif
 `ifdef COMPAT_TOTD_INTGRL_DEBUG
       DEBUG[11:0] <= ADC0[11:0];

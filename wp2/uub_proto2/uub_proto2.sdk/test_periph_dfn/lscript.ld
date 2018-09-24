@@ -30,7 +30,9 @@ MEMORY
    trigger_memory_block_shower_memory_block_axi_bram_ctrl_2_S_AXI_BASEADDR : ORIGIN = 0x48000000, LENGTH = 0x00008000
    trigger_memory_block_shower_memory_block_axi_bram_ctrl_3_S_AXI_BASEADDR : ORIGIN = 0x4A000000, LENGTH = 0x00008000
    trigger_memory_block_shower_memory_block_axi_bram_ctrl_4_S_AXI_BASEADDR : ORIGIN = 0x4C000000, LENGTH = 0x00008000
-   ps7_ddr_0_S_AXI_BASEADDR : ORIGIN = 0x00100000, LENGTH = 0x3FF00000
+   test_control_block_axi_bram_ctrl_0_S_AXI_BASEADDR : ORIGIN = 0x4E000000, LENGTH = 0x00002000
+   test_control_block_axi_bram_ctrl_1_S_AXI_BASEADDR : ORIGIN = 0x50000000, LENGTH = 0x00002000
+   ps7_ddr_0_S_AXI_BASEADDR : ORIGIN = 0x00100000, LENGTH = 0x1FF00000
    ps7_ram_0_S_AXI_BASEADDR : ORIGIN = 0x00000000, LENGTH = 0x00030000
    ps7_ram_1_S_AXI_BASEADDR : ORIGIN = 0xFFFF0000, LENGTH = 0x0000FE00
 }

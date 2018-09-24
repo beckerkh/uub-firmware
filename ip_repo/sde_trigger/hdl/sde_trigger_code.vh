@@ -598,9 +598,9 @@ always @(posedge CLK120) begin
 
         // Send debug output to test pins P61 through P63
 
-        P6X[1] <= STRETCHED_SB_TRIG;
-        P6X[2] <= STRETCHED_COMPAT_SB_TRIG;
-        P6X[3] <= SB_TRIG;
+        //P6X[1] <= STRETCHED_SB_TRIG;
+        //P6X[2] <= STRETCHED_COMPAT_SB_TRIG;
+        //P6X[3] <= SB_TRIG;
          
      end // else: !if(LCL_RESET)
 end

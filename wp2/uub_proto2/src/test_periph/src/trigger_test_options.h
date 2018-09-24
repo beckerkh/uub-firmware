@@ -8,7 +8,7 @@
 
 
 #define STAND_ALONE
-#define MAX_EVENTS 200
+#define MAX_EVENTS 20
 #define EVENT_COUNT_INTERVAL 100
 #define VERBOSE_BUFFERS  // Print more buffer status if set
 
@@ -16,14 +16,14 @@
 //#define TOGGLE_WATCHDOG
 //#define TOGGLE_ADCPWD
 //#define USE_FAKE_MUON
-//#define USE_FAKE_SIGNAL
+#define USE_FAKE_SIGNAL
 #define PMT0_DLY 0
-#define PMT1_DLY 3
+#define PMT1_DLY 0
 #define PMT2_DLY 0
 #define FAKE_SIGNAL_WIDTH 30
 #define SIGNAL_HT 3000
 #define EXP_DECAY 0
-#define FAKE_SIGNAL_MODE (8 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<11) | (EXP_DECAY<<19) | (SIGNAL_HT<<20))
+#define FAKE_SIGNAL_MODE (5 | (PMT0_DLY<<5) | (PMT1_DLY<<7) | (PMT2_DLY<<9) | (FAKE_SIGNAL_WIDTH<<11) | (EXP_DECAY<<19) | (SIGNAL_HT<<20))
 //#define RAMP
 #define USE_FAKE_GPS
 //#define DO_LED_PULSE
@@ -73,8 +73,8 @@
 // to be read in a polling loop.  TRIGGER_INTERRUPT used an interrupt routine
 // to process any full buffers.  TRIGGER_POLLED is the only option that
 // works in Linux currently.
-#define TRIGGER_POLLED
-//#define TRIGGER_INTERRUPT
+//#define TRIGGER_POLLED
+#define TRIGGER_INTERRUPT
 
 // PDT mode. Read shower/muon buffers using simple memory mapped access.
 // This is the only option that works in Linux currently.

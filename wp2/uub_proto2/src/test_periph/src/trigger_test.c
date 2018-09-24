@@ -467,7 +467,7 @@ void trigger_test()
     if ((SHWR_INTR_PEND_MASK & (status >> SHWR_INTR_PEND_SHIFT)) != 0)
       {
         //  printf("Shower buf: Interrupt pending\n");
-        //printf("Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
+        //printf("Trigger_test: Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
         //     status, SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT),
         //     SHWR_BUF_RNUM_MASK & (status >> SHWR_BUF_RNUM_SHIFT), 
         //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
@@ -482,7 +482,7 @@ void trigger_test()
 #ifndef VERBOSE_BUFFERS
         if (nevents%EVENT_COUNT_INTERVAL == 0)
           {
-          printf("Trigger_test: Read %d events\n");
+            //  printf("Trigger_test: Read %d events\n", nevents);
           printf("Trigger_test: Counts - Compat SB %d  Compat ToT %d",
                  compat_sb_count, compat_tot_count);
           printf("  Compat ToTd %d  SB %d",
@@ -491,6 +491,7 @@ void trigger_test()
                  compat_sb_dlyd_count, compat_tot_dlyd_count);
           printf("  Compat ToTd dlyd %d  SB dlyd %d\n",
                  compat_totd_dlyd_count, sb_dlyd_count);
+          fflush(stdout);
           //          compat_sb_count = 0;
           //compat_tot_count = 0;
           //compat_totd_count = 0;
@@ -530,22 +531,10 @@ void trigger_test()
         read_shw_buffers();  // Read buffers to local memory
     	nevents++;
 
-        // Reset full flag
-        //printf("Resetting full flag\n");
-        //fflush(stdout);
-
-        // Check status just before resetting full flag
-        //        status = read_trig(SHWR_BUF_STATUS_ADDR);
-        // printf("Shower buf: About to reset full flag\n");
-        //printf("Shower buf status %x  writing %d  to read %d  full %x  num full=%d\n",
-        //     status, SHWR_BUF_WNUM_MASK & (status >> SHWR_BUF_WNUM_SHIFT),
-        //     SHWR_BUF_RNUM_MASK & (status >> SHWR_BUF_RNUM_SHIFT), 
-        //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
-        //     0x7 & (status >> SHWR_BUF_NFULL_SHIFT));
-
- #ifdef USE_FAKE_SIGNAL
+  #ifdef USE_FAKE_SIGNAL
       // FAKE_SIGNAL_MODE & 0x1f == 7 means load fake data!
       if ((FAKE_SIGNAL_MODE & 0x1f) == 7) 
+      {
       mem_ptr0 = (u32*) fake_event_ptr[0];
       mem_ptr1 = (u32*) fake_event_ptr[1];
        for (i=0; i<SHWR_MEM_WORDS; i++)
@@ -564,6 +553,7 @@ void trigger_test()
            fake_event_file = fopen("/fake_event.txt","r");
            //           nevents = MAX_EVENTS;
       }
+      }
 #endif
         cntrl_word = toread_shwr_buf_num;
         write_trig(SHWR_BUF_CONTROL_ADDR,cntrl_word);
@@ -577,7 +567,7 @@ void trigger_test()
         //     SHWR_BUF_FULL_MASK & (status >> SHWR_BUF_FULL_SHIFT),
         //     0x7 & (status >> SHWR_BUF_NFULL_SHIFT));
  
-        //printf("Full flag reset\n");
+        //printf("Trigger_test: Full flag reset\n");
         //fflush(stdout);
 
         // Indicate data has been read
@@ -588,9 +578,7 @@ void trigger_test()
 
     if (full_shw_rd_bufs[unpack_shw_buf_num] != 0)
       {
-        //printf("Starting unpack_shw_buffers\n");
         unpack_shw_buffers(); // Unpack the buffers
-        //               full_shw_rd_bufs[unpack_shw_buf_num] = 0;
         check_shw_buffers();  // Do sanity check of shower buffers
         print_shw_buffers();  // Print out the buffer
         // This needs to be last -- not sure why
@@ -650,6 +638,10 @@ void trigger_test()
         print_muon_buffers();  // Print out the buffer
       }
   }
+  // Disable shower interrupts from the sde_trigger module. --
+  // For test if disable after enable works
+   SDE_TRIGGER_EnableInterrupts((int *) SDE_SHWR_TRIGGER_INTR_BASE, 0);
+   SDE_TRIGGER_EnableInterrupts((int *) SDE_MUON_TRIGGER_INTR_BASE, 0);
 }
 
 

@@ -75,7 +75,7 @@ module sde_trigger #
     output wire [`MUON_BUF_NUM_WIDTH-1:0] MUON_BUF_RNUM,
     output wire [`MUON_EVT_CTR_WIDTH-1:0] MUON_EVT_CTR,
     output wire TRIG_OUT, // External trigger output
-    output wire [3:1] P6X,  // Test point outputs
+    output [3:1] P6X,  // Test point outputs
     output wire LED,
    
     // User ports ends
@@ -156,6 +156,8 @@ module sde_trigger #
 
    wire          MUON_INTR;
    wire          SHWR_INTR;
+   wire [3:1]    P6XA;
+   
    
    // Instantiation of Axi Bus Interface S00_AXI
    sde_trigger_S00_AXI # ( 
@@ -220,7 +222,7 @@ module sde_trigger #
                              .SHWR_INTR(SHWR_INTR),
                              .MUON_INTR(MUON_INTR),
                              .TRIG_OUT(TRIG_OUT),
-			     .P6X(P6X),
+			     .P6X(P6XA),
                              .LED(LED)
 	                     );
 
@@ -300,7 +302,22 @@ module sde_trigger #
 
    // Add user logic here
 
- 
+   // always @(posedge CLK120)
+   //   begin
+   //      P6X[1] <= SHWR_IRQ;
+   //      P6X[2] <= SHWR_INTR | MUON_INTR;
+   //      P6X[3] <= MUON_IRQ;
+   //      //P6X[1] <= P6XA[1];
+   //      //P6X[2] <= P6XA[2];
+   //      //P6X[3] <= P6XA[3];
+        
+   //   end
+
+   assign P6X[1] = SHWR_IRQ;
+   assign P6X[2] = SHWR_INTR | MUON_INTR;
+   assign P6X[3] = MUON_IRQ;
+   
+   
    // User logic ends
 
 endmodule
