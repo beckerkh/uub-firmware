@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Sep 24 14:44:00 2018" VIVADOVERSION="2015.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue Oct 23 14:05:01 2018" VIVADOVERSION="2015.2">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z020" NAME="uub_proto2" PACKAGE="clg484" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
+    <PORT DIR="I" NAME="RD_SER_DATA1" SIGIS="undef"/>
+    <PORT DIR="O" NAME="FAKE_RD_SER_DATA1" SIGIS="undef"/>
     <PORT CLKFREQUENCY="120000000" DIR="I" NAME="FPGA_CK_N" SIGIS="clk" SIGNAME="External_Ports_FPGA_CK_N">
       <CONNECTIONS>
         <CONNECTION INSTANCE="util_ds_buf_0" PORT="IBUF_DS_N"/>
@@ -189,16 +191,6 @@
         <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="P6X"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="7" NAME="ext1_dat" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" LEFT="7" NAME="ext1_ctl" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
-      </CONNECTIONS>
-    </PORT>
     <PORT DIR="O" NAME="ADC_PWD" SIGIS="undef" SIGNAME="interface_uub_dfn3_0_ADC_PWD">
       <CONNECTIONS>
         <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="ADC_PWD"/>
@@ -234,9 +226,71 @@
         <CONNECTION INSTANCE="axi_uartlite_1" PORT="rx"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="3" NAME="ext0_dat" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+    <PORT DIR="O" NAME="FAKE_RD_XFR_CLK" SIGIS="undef"/>
+    <PORT DIR="I" NAME="RD_XFR_CLK" SIGIS="undef" SIGNAME="External_Ports_RD_XFR_CLK">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="xlconstant_2" PORT="dout"/>
+        <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="clkb"/>
+        <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="SERIAL_CLK_IN"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="RD_SER_DATA0" SIGIS="undef" SIGNAME="External_Ports_RD_SER_DATA0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="SERIAL_DATA0_IN"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="ENABLE_RD_XFR" SIGIS="undef" SIGNAME="External_Ports_ENABLE_RD_XFR">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="ENABLE_XFR_IN"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="FAKE_ENABLE_RD_XFR" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_ENABLE_FAKE_XFR">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="ENABLE_FAKE_XFR"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="RD_XFR_CLK_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="RD_SER_DATA0_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="RD_SER_DATA1_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="ENABLE_RD_XFR_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_0" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="FAKE_RD_SER_DATA1_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_3_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_3" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="FAKE_RD_SER_DATA0_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_3_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_3" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="FAKE_ENABLE_RD_XFR_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_3_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_3" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="FAKE_RD_XFR_CLK_CTL" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_3_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_3" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="FAKE_RD_SER_DATA0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_SERIAL_FAKE_OUT">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="SERIAL_FAKE_OUT"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="IO" NAME="DDR_cas_n" SIGIS="undef"/>
@@ -260,6 +314,26 @@
     <PORT DIR="IO" NAME="FIXED_IO_ps_srstb" SIGIS="undef"/>
     <PORT DIR="IO" NAME="FIXED_IO_ps_clk" SIGIS="undef"/>
     <PORT DIR="IO" NAME="FIXED_IO_ps_porb" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="0" NAME="EXT0_DAT4" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_2" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="EXT0_DAT5" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_2" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="EXT0_DAT6" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_2" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="0" NAME="EXT0_DAT7" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xlconstant_2" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
   </EXTERNALPORTS>
 
   <EXTERNALINTERFACES>
@@ -1134,6 +1208,1432 @@
         <PORT DIR="O" NAME="CLK1PPS" SIGIS="undef" SIGNAME="clock_1pps_0_CLK1PPS">
           <CONNECTIONS>
             <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="FAKE_PPS"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/axi_bram_ctrl_0" HWVERSION="4.0" INSTANCE="fake_rd_block_axi_bram_ctrl_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY_CNTLR" MODTYPE="axi_bram_ctrl" VLNV="xilinx.com:ip:axi_bram_ctrl:4.0">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_bram_ctrl;v=v4_0;d=pg078-axi-bram-ctrl.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_BRAM_INST_MODE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="C_MEMORY_DEPTH" VALUE="8192"/>
+        <PARAMETER NAME="C_BRAM_ADDR_WIDTH" VALUE="13"/>
+        <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="15"/>
+        <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="C_S_AXI_PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="C_SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_ADDR_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_bram_ctrl_0_4"/>
+        <PARAMETER NAME="BMG_INSTANCE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="MEM_DEPTH" VALUE="8192"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+        <PARAMETER NAME="EDK_SPECIAL" VALUE="BRAM_CTRL"/>
+        <PARAMETER NAME="C_S_AXI_BASEADDR" VALUE="0x52000000"/>
+        <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x52007FFF"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_aresetn" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_awid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="14" NAME="s_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_awlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_awburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_awcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_awready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="s_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_wready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_bid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_bready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_arid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="14" NAME="s_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_arlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_arburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_arcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_arready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_rid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="s_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_rready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_AXI_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_rst_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="rsta"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_clk_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="clka"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_en_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="ena"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="bram_we_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="wea"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="bram_addr_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="addra"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="bram_wrdata_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="dina"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="bram_rddata_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="douta"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M20_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
+          <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="15"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
+          <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="s_axi_araddr"/>
+            <PORTMAP PHYSICAL="s_axi_arburst"/>
+            <PORTMAP PHYSICAL="s_axi_arcache"/>
+            <PORTMAP PHYSICAL="s_axi_arid"/>
+            <PORTMAP PHYSICAL="s_axi_arlen"/>
+            <PORTMAP PHYSICAL="s_axi_arlock"/>
+            <PORTMAP PHYSICAL="s_axi_arprot"/>
+            <PORTMAP PHYSICAL="s_axi_arready"/>
+            <PORTMAP PHYSICAL="s_axi_arsize"/>
+            <PORTMAP PHYSICAL="s_axi_arvalid"/>
+            <PORTMAP PHYSICAL="s_axi_awaddr"/>
+            <PORTMAP PHYSICAL="s_axi_awburst"/>
+            <PORTMAP PHYSICAL="s_axi_awcache"/>
+            <PORTMAP PHYSICAL="s_axi_awid"/>
+            <PORTMAP PHYSICAL="s_axi_awlen"/>
+            <PORTMAP PHYSICAL="s_axi_awlock"/>
+            <PORTMAP PHYSICAL="s_axi_awprot"/>
+            <PORTMAP PHYSICAL="s_axi_awready"/>
+            <PORTMAP PHYSICAL="s_axi_awsize"/>
+            <PORTMAP PHYSICAL="s_axi_awvalid"/>
+            <PORTMAP PHYSICAL="s_axi_bid"/>
+            <PORTMAP PHYSICAL="s_axi_bready"/>
+            <PORTMAP PHYSICAL="s_axi_bresp"/>
+            <PORTMAP PHYSICAL="s_axi_bvalid"/>
+            <PORTMAP PHYSICAL="s_axi_rdata"/>
+            <PORTMAP PHYSICAL="s_axi_rid"/>
+            <PORTMAP PHYSICAL="s_axi_rlast"/>
+            <PORTMAP PHYSICAL="s_axi_rready"/>
+            <PORTMAP PHYSICAL="s_axi_rresp"/>
+            <PORTMAP PHYSICAL="s_axi_rvalid"/>
+            <PORTMAP PHYSICAL="s_axi_wdata"/>
+            <PORTMAP PHYSICAL="s_axi_wlast"/>
+            <PORTMAP PHYSICAL="s_axi_wready"/>
+            <PORTMAP PHYSICAL="s_axi_wstrb"/>
+            <PORTMAP PHYSICAL="s_axi_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="fake_rd_block_axi_bram_ctrl_0_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="INITIATOR">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="bram_addr_a"/>
+            <PORTMAP PHYSICAL="bram_clk_a"/>
+            <PORTMAP PHYSICAL="bram_wrdata_a"/>
+            <PORTMAP PHYSICAL="bram_rddata_a"/>
+            <PORTMAP PHYSICAL="bram_en_a"/>
+            <PORTMAP PHYSICAL="bram_rst_a"/>
+            <PORTMAP PHYSICAL="bram_we_a"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/axi_bram_ctrl_1" HWVERSION="4.0" INSTANCE="fake_rd_block_axi_bram_ctrl_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY_CNTLR" MODTYPE="axi_bram_ctrl" VLNV="xilinx.com:ip:axi_bram_ctrl:4.0">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_bram_ctrl;v=v4_0;d=pg078-axi-bram-ctrl.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_BRAM_INST_MODE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="C_MEMORY_DEPTH" VALUE="8192"/>
+        <PARAMETER NAME="C_BRAM_ADDR_WIDTH" VALUE="13"/>
+        <PARAMETER NAME="C_S_AXI_ADDR_WIDTH" VALUE="15"/>
+        <PARAMETER NAME="C_S_AXI_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="C_S_AXI_PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="C_S_AXI_SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="C_SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_ADDR_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S_AXI_CTRL_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="C_ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+        <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+        <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+        <PARAMETER NAME="SINGLE_PORT_BRAM" VALUE="1"/>
+        <PARAMETER NAME="ECC_TYPE" VALUE="Hamming"/>
+        <PARAMETER NAME="USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="FAULT_INJECT" VALUE="0"/>
+        <PARAMETER NAME="ECC_ONOFF_RESET_VALUE" VALUE="0"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_axi_bram_ctrl_1_2"/>
+        <PARAMETER NAME="BMG_INSTANCE" VALUE="EXTERNAL"/>
+        <PARAMETER NAME="MEM_DEPTH" VALUE="8192"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+        <PARAMETER NAME="EDK_SPECIAL" VALUE="BRAM_CTRL"/>
+        <PARAMETER NAME="C_S_AXI_BASEADDR" VALUE="0x54000000"/>
+        <PARAMETER NAME="C_S_AXI_HIGHADDR" VALUE="0x54007FFF"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_aresetn" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_awid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="14" NAME="s_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_awlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_awburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_awcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_awready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="s_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_wready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_bid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_bready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="s_axi_arid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="14" NAME="s_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="7" NAME="s_axi_arlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="s_axi_arburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s_axi_arcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_arready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="s_axi_rid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="s_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s_axi_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s_axi_rready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_AXI_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_rst_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="rsta"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_clk_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="clka"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="bram_en_a" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="ena"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="bram_we_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="wea"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="bram_addr_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="addra"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="bram_wrdata_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="dina"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="bram_rddata_a" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="douta"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M19_AXI" DATAWIDTH="32" NAME="S_AXI" TYPE="SLAVE">
+          <PARAMETER NAME="ID_WIDTH" VALUE="12"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="15"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="16"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
+          <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="s_axi_araddr"/>
+            <PORTMAP PHYSICAL="s_axi_arburst"/>
+            <PORTMAP PHYSICAL="s_axi_arcache"/>
+            <PORTMAP PHYSICAL="s_axi_arid"/>
+            <PORTMAP PHYSICAL="s_axi_arlen"/>
+            <PORTMAP PHYSICAL="s_axi_arlock"/>
+            <PORTMAP PHYSICAL="s_axi_arprot"/>
+            <PORTMAP PHYSICAL="s_axi_arready"/>
+            <PORTMAP PHYSICAL="s_axi_arsize"/>
+            <PORTMAP PHYSICAL="s_axi_arvalid"/>
+            <PORTMAP PHYSICAL="s_axi_awaddr"/>
+            <PORTMAP PHYSICAL="s_axi_awburst"/>
+            <PORTMAP PHYSICAL="s_axi_awcache"/>
+            <PORTMAP PHYSICAL="s_axi_awid"/>
+            <PORTMAP PHYSICAL="s_axi_awlen"/>
+            <PORTMAP PHYSICAL="s_axi_awlock"/>
+            <PORTMAP PHYSICAL="s_axi_awprot"/>
+            <PORTMAP PHYSICAL="s_axi_awready"/>
+            <PORTMAP PHYSICAL="s_axi_awsize"/>
+            <PORTMAP PHYSICAL="s_axi_awvalid"/>
+            <PORTMAP PHYSICAL="s_axi_bid"/>
+            <PORTMAP PHYSICAL="s_axi_bready"/>
+            <PORTMAP PHYSICAL="s_axi_bresp"/>
+            <PORTMAP PHYSICAL="s_axi_bvalid"/>
+            <PORTMAP PHYSICAL="s_axi_rdata"/>
+            <PORTMAP PHYSICAL="s_axi_rid"/>
+            <PORTMAP PHYSICAL="s_axi_rlast"/>
+            <PORTMAP PHYSICAL="s_axi_rready"/>
+            <PORTMAP PHYSICAL="s_axi_rresp"/>
+            <PORTMAP PHYSICAL="s_axi_rvalid"/>
+            <PORTMAP PHYSICAL="s_axi_wdata"/>
+            <PORTMAP PHYSICAL="s_axi_wlast"/>
+            <PORTMAP PHYSICAL="s_axi_wready"/>
+            <PORTMAP PHYSICAL="s_axi_wstrb"/>
+            <PORTMAP PHYSICAL="s_axi_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="fake_rd_block_axi_bram_ctrl_1_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="INITIATOR">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="bram_addr_a"/>
+            <PORTMAP PHYSICAL="bram_clk_a"/>
+            <PORTMAP PHYSICAL="bram_wrdata_a"/>
+            <PORTMAP PHYSICAL="bram_rddata_a"/>
+            <PORTMAP PHYSICAL="bram_en_a"/>
+            <PORTMAP PHYSICAL="bram_rst_a"/>
+            <PORTMAP PHYSICAL="bram_we_a"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/blk_mem_gen_0" HWVERSION="8.2" INSTANCE="fake_rd_block_blk_mem_gen_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY" MODTYPE="blk_mem_gen" VLNV="xilinx.com:ip:blk_mem_gen:8.2">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=blk_mem_gen;v=v8_2;d=pg058-blk-mem-gen.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_XDEVICEFAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_ELABORATION_DIR" VALUE="./"/>
+        <PARAMETER NAME="C_INTERFACE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_AXI_SLAVE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BRAM_BLOCK" VALUE="1"/>
+        <PARAMETER NAME="C_ENABLE_32BIT_ADDRESS" VALUE="1"/>
+        <PARAMETER NAME="C_CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="C_HAS_AXI_ID" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_ID_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_MEM_TYPE" VALUE="2"/>
+        <PARAMETER NAME="C_BYTE_SIZE" VALUE="8"/>
+        <PARAMETER NAME="C_ALGORITHM" VALUE="1"/>
+        <PARAMETER NAME="C_PRIM_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_LOAD_INIT_FILE" VALUE="0"/>
+        <PARAMETER NAME="C_INIT_FILE_NAME" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="C_INIT_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="C_USE_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_RSTA" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_A" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_A" VALUE="0"/>
+        <PARAMETER NAME="C_INITA_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENA" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEA" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEA" VALUE="1"/>
+        <PARAMETER NAME="C_WEA_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_A" VALUE="8192"/>
+        <PARAMETER NAME="C_READ_DEPTH_A" VALUE="8192"/>
+        <PARAMETER NAME="C_ADDRA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_RSTB" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_B" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_B" VALUE="0"/>
+        <PARAMETER NAME="C_INITB_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENB" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEB" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEB" VALUE="1"/>
+        <PARAMETER NAME="C_WEB_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_B" VALUE="8192"/>
+        <PARAMETER NAME="C_READ_DEPTH_B" VALUE="8192"/>
+        <PARAMETER NAME="C_ADDRB_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_MUX_PIPELINE_STAGES" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_INPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_USE_SOFTECC" VALUE="0"/>
+        <PARAMETER NAME="C_USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_EN_ECC_PIPE" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_INJECTERR" VALUE="0"/>
+        <PARAMETER NAME="C_SIM_COLLISION_CHECK" VALUE="ALL"/>
+        <PARAMETER NAME="C_COMMON_CLK" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_COLL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_USE_URAM" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRA_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRB_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_DEEPSLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SHUTDOWN_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_RANGE" VALUE="0"/>
+        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="8"/>
+        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="0"/>
+        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     20.388 mW"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_blk_mem_gen_0_2"/>
+        <PARAMETER NAME="Interface_Type" VALUE="Native"/>
+        <PARAMETER NAME="AXI_Type" VALUE="AXI4_Full"/>
+        <PARAMETER NAME="AXI_Slave_Type" VALUE="Memory_Slave"/>
+        <PARAMETER NAME="Use_AXI_ID" VALUE="false"/>
+        <PARAMETER NAME="AXI_ID_Width" VALUE="4"/>
+        <PARAMETER NAME="Memory_Type" VALUE="True_Dual_Port_RAM"/>
+        <PARAMETER NAME="PRIM_type_to_Implement" VALUE="BRAM"/>
+        <PARAMETER NAME="Enable_32bit_Address" VALUE="true"/>
+        <PARAMETER NAME="ecctype" VALUE="No_ECC"/>
+        <PARAMETER NAME="ECC" VALUE="false"/>
+        <PARAMETER NAME="softecc" VALUE="false"/>
+        <PARAMETER NAME="EN_SLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_DEEPSLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_SHUTDOWN_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_ECC_PIPE" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_A" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_B" VALUE="false"/>
+        <PARAMETER NAME="Use_Error_Injection_Pins" VALUE="false"/>
+        <PARAMETER NAME="Error_Injection_Type" VALUE="Single_Bit_Error_Injection"/>
+        <PARAMETER NAME="Use_Byte_Write_Enable" VALUE="true"/>
+        <PARAMETER NAME="Byte_Size" VALUE="8"/>
+        <PARAMETER NAME="Algorithm" VALUE="Minimum_Area"/>
+        <PARAMETER NAME="Primitive" VALUE="8kx2"/>
+        <PARAMETER NAME="Assume_Synchronous_Clk" VALUE="false"/>
+        <PARAMETER NAME="Write_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Write_Depth_A" VALUE="8192"/>
+        <PARAMETER NAME="Read_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_A" VALUE="Use_ENA_Pin"/>
+        <PARAMETER NAME="Write_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Read_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_B" VALUE="Use_ENB_Pin"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEA_Pin" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEB_Pin" VALUE="false"/>
+        <PARAMETER NAME="register_porta_input_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="register_portb_output_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="Pipeline_Stages" VALUE="0"/>
+        <PARAMETER NAME="Load_Init_File" VALUE="false"/>
+        <PARAMETER NAME="Coe_File" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="Fill_Remaining_Memory_Locations" VALUE="false"/>
+        <PARAMETER NAME="Remaining_Memory_Locations" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTA_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_A" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_A" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_A" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTB_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_B" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_B" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_B" VALUE="0"/>
+        <PARAMETER NAME="Reset_Type" VALUE="SYNC"/>
+        <PARAMETER NAME="Additional_Inputs_for_Power_Estimation" VALUE="false"/>
+        <PARAMETER NAME="Port_A_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_A_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_B_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_A_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Collision_Warnings" VALUE="ALL"/>
+        <PARAMETER NAME="Disable_Collision_Warnings" VALUE="false"/>
+        <PARAMETER NAME="Disable_Out_of_Range_Warnings" VALUE="false"/>
+        <PARAMETER NAME="use_bram_block" VALUE="BRAM_Controller"/>
+        <PARAMETER NAME="MEM_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clka" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_clk_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rsta" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_rst_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ena" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_en_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="wea" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_we_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addra" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_addr_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_wrdata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="douta" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="bram_rddata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clkb" SIGIS="undef"/>
+        <PORT DIR="I" NAME="rstb" SIGIS="undef" SIGNAME="zync_block_proc_sys_reset_1_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_1" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="enb" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_5_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_xlconstant_5" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="web" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_7_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_xlconstant_7" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_FAKE_DATA_ADDR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="FAKE_DATA_ADDR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dinb" RIGHT="0" SIGIS="undef"/>
+        <PORT DIR="O" LEFT="31" NAME="doutb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_blk_mem_gen_0_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="FAKE_DATA"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="fake_rd_block_axi_bram_ctrl_0_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addra"/>
+            <PORTMAP PHYSICAL="clka"/>
+            <PORTMAP PHYSICAL="dina"/>
+            <PORTMAP PHYSICAL="douta"/>
+            <PORTMAP PHYSICAL="ena"/>
+            <PORTMAP PHYSICAL="rsta"/>
+            <PORTMAP PHYSICAL="wea"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="BRAM_PORTB" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addrb"/>
+            <PORTMAP PHYSICAL="clkb"/>
+            <PORTMAP PHYSICAL="dinb"/>
+            <PORTMAP PHYSICAL="doutb"/>
+            <PORTMAP PHYSICAL="enb"/>
+            <PORTMAP PHYSICAL="rstb"/>
+            <PORTMAP PHYSICAL="web"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/blk_mem_gen_1" HWVERSION="8.2" INSTANCE="fake_rd_block_blk_mem_gen_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="MEMORY" MODTYPE="blk_mem_gen" VLNV="xilinx.com:ip:blk_mem_gen:8.2">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=blk_mem_gen;v=v8_2;d=pg058-blk-mem-gen.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_XDEVICEFAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_ELABORATION_DIR" VALUE="./"/>
+        <PARAMETER NAME="C_INTERFACE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_AXI_SLAVE_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BRAM_BLOCK" VALUE="1"/>
+        <PARAMETER NAME="C_ENABLE_32BIT_ADDRESS" VALUE="1"/>
+        <PARAMETER NAME="C_CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="C_HAS_AXI_ID" VALUE="0"/>
+        <PARAMETER NAME="C_AXI_ID_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_MEM_TYPE" VALUE="2"/>
+        <PARAMETER NAME="C_BYTE_SIZE" VALUE="8"/>
+        <PARAMETER NAME="C_ALGORITHM" VALUE="1"/>
+        <PARAMETER NAME="C_PRIM_TYPE" VALUE="1"/>
+        <PARAMETER NAME="C_LOAD_INIT_FILE" VALUE="0"/>
+        <PARAMETER NAME="C_INIT_FILE_NAME" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="C_INIT_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="C_USE_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_DEFAULT_DATA" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_RSTA" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_A" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_A" VALUE="0"/>
+        <PARAMETER NAME="C_INITA_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENA" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEA" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEA" VALUE="1"/>
+        <PARAMETER NAME="C_WEA_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_A" VALUE="8192"/>
+        <PARAMETER NAME="C_READ_DEPTH_A" VALUE="8192"/>
+        <PARAMETER NAME="C_ADDRA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_RSTB" VALUE="1"/>
+        <PARAMETER NAME="C_RST_PRIORITY_B" VALUE="CE"/>
+        <PARAMETER NAME="C_RSTRAM_B" VALUE="0"/>
+        <PARAMETER NAME="C_INITB_VAL" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_ENB" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_REGCEB" VALUE="0"/>
+        <PARAMETER NAME="C_USE_BYTE_WEB" VALUE="1"/>
+        <PARAMETER NAME="C_WEB_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_WRITE_MODE_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="32"/>
+        <PARAMETER NAME="C_WRITE_DEPTH_B" VALUE="8192"/>
+        <PARAMETER NAME="C_READ_DEPTH_B" VALUE="8192"/>
+        <PARAMETER NAME="C_ADDRB_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MEM_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_MUX_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_MUX_PIPELINE_STAGES" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_INPUT_REGS_A" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_SOFTECC_OUTPUT_REGS_B" VALUE="0"/>
+        <PARAMETER NAME="C_USE_SOFTECC" VALUE="0"/>
+        <PARAMETER NAME="C_USE_ECC" VALUE="0"/>
+        <PARAMETER NAME="C_EN_ECC_PIPE" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_INJECTERR" VALUE="0"/>
+        <PARAMETER NAME="C_SIM_COLLISION_CHECK" VALUE="ALL"/>
+        <PARAMETER NAME="C_COMMON_CLK" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_COLL" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_USE_URAM" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRA_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_RDADDRB_CHG" VALUE="0"/>
+        <PARAMETER NAME="C_EN_DEEPSLEEP_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_EN_SHUTDOWN_PIN" VALUE="0"/>
+        <PARAMETER NAME="C_DISABLE_WARN_BHV_RANGE" VALUE="0"/>
+        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="8"/>
+        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="0"/>
+        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     20.388 mW"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_blk_mem_gen_1_2"/>
+        <PARAMETER NAME="Interface_Type" VALUE="Native"/>
+        <PARAMETER NAME="AXI_Type" VALUE="AXI4_Full"/>
+        <PARAMETER NAME="AXI_Slave_Type" VALUE="Memory_Slave"/>
+        <PARAMETER NAME="Use_AXI_ID" VALUE="false"/>
+        <PARAMETER NAME="AXI_ID_Width" VALUE="4"/>
+        <PARAMETER NAME="Memory_Type" VALUE="True_Dual_Port_RAM"/>
+        <PARAMETER NAME="PRIM_type_to_Implement" VALUE="BRAM"/>
+        <PARAMETER NAME="Enable_32bit_Address" VALUE="true"/>
+        <PARAMETER NAME="ecctype" VALUE="No_ECC"/>
+        <PARAMETER NAME="ECC" VALUE="false"/>
+        <PARAMETER NAME="softecc" VALUE="false"/>
+        <PARAMETER NAME="EN_SLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_DEEPSLEEP_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_SHUTDOWN_PIN" VALUE="false"/>
+        <PARAMETER NAME="EN_ECC_PIPE" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_A" VALUE="false"/>
+        <PARAMETER NAME="RD_ADDR_CHNG_B" VALUE="false"/>
+        <PARAMETER NAME="Use_Error_Injection_Pins" VALUE="false"/>
+        <PARAMETER NAME="Error_Injection_Type" VALUE="Single_Bit_Error_Injection"/>
+        <PARAMETER NAME="Use_Byte_Write_Enable" VALUE="true"/>
+        <PARAMETER NAME="Byte_Size" VALUE="8"/>
+        <PARAMETER NAME="Algorithm" VALUE="Minimum_Area"/>
+        <PARAMETER NAME="Primitive" VALUE="8kx2"/>
+        <PARAMETER NAME="Assume_Synchronous_Clk" VALUE="false"/>
+        <PARAMETER NAME="Write_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Write_Depth_A" VALUE="8192"/>
+        <PARAMETER NAME="Read_Width_A" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_A" VALUE="Use_ENA_Pin"/>
+        <PARAMETER NAME="Write_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Read_Width_B" VALUE="32"/>
+        <PARAMETER NAME="Operating_Mode_B" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Enable_B" VALUE="Use_ENB_Pin"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortA_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEA_Pin" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Primitives" VALUE="false"/>
+        <PARAMETER NAME="Register_PortB_Output_of_Memory_Core" VALUE="false"/>
+        <PARAMETER NAME="Use_REGCEB_Pin" VALUE="false"/>
+        <PARAMETER NAME="register_porta_input_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="register_portb_output_of_softecc" VALUE="false"/>
+        <PARAMETER NAME="Pipeline_Stages" VALUE="0"/>
+        <PARAMETER NAME="Load_Init_File" VALUE="false"/>
+        <PARAMETER NAME="Coe_File" VALUE="no_coe_file_loaded"/>
+        <PARAMETER NAME="Fill_Remaining_Memory_Locations" VALUE="false"/>
+        <PARAMETER NAME="Remaining_Memory_Locations" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTA_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_A" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_A" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_A" VALUE="0"/>
+        <PARAMETER NAME="Use_RSTB_Pin" VALUE="true"/>
+        <PARAMETER NAME="Reset_Memory_Latch_B" VALUE="false"/>
+        <PARAMETER NAME="Reset_Priority_B" VALUE="CE"/>
+        <PARAMETER NAME="Output_Reset_Value_B" VALUE="0"/>
+        <PARAMETER NAME="Reset_Type" VALUE="SYNC"/>
+        <PARAMETER NAME="Additional_Inputs_for_Power_Estimation" VALUE="false"/>
+        <PARAMETER NAME="Port_A_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_A_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_B_Clock" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Write_Rate" VALUE="50"/>
+        <PARAMETER NAME="Port_A_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Port_B_Enable_Rate" VALUE="100"/>
+        <PARAMETER NAME="Collision_Warnings" VALUE="ALL"/>
+        <PARAMETER NAME="Disable_Collision_Warnings" VALUE="false"/>
+        <PARAMETER NAME="Disable_Out_of_Range_Warnings" VALUE="false"/>
+        <PARAMETER NAME="use_bram_block" VALUE="BRAM_Controller"/>
+        <PARAMETER NAME="MEM_FILE" VALUE="NONE"/>
+        <PARAMETER NAME="CTRL_ECC_ALGO" VALUE="NONE"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="clka" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_clk_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_clk_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rsta" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_rst_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_rst_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ena" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_en_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_en_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="wea" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_we_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_we_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addra" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_addr_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_addr_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_wrdata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_wrdata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="douta" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_bram_rddata_a">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="bram_rddata_a"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="clkb" SIGIS="undef" SIGNAME="External_Ports_RD_XFR_CLK">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_XFR_CLK"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="rstb" SIGIS="undef" SIGNAME="zync_block_proc_sys_reset_1_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_1" PORT="peripheral_reset"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="enb" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_ENABLE_MEM_WRT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="ENABLE_MEM_WRT"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="web" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_6_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_xlconstant_6" PORT="dout"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="addrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_DATA_ADDR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="DATA_ADDR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="dinb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_DATA_TO_MEM">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="DATA_TO_MEM"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="doutb" RIGHT="0" SIGIS="undef"/>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="fake_rd_block_axi_bram_ctrl_1_BRAM_PORTA" NAME="BRAM_PORTA" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="32768"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addra"/>
+            <PORTMAP PHYSICAL="clka"/>
+            <PORTMAP PHYSICAL="dina"/>
+            <PORTMAP PHYSICAL="douta"/>
+            <PORTMAP PHYSICAL="ena"/>
+            <PORTMAP PHYSICAL="rsta"/>
+            <PORTMAP PHYSICAL="wea"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="__NOC__" NAME="BRAM_PORTB" TYPE="TARGET">
+          <PARAMETER NAME="MASTER_TYPE" VALUE="BRAM_CTRL"/>
+          <PARAMETER NAME="MEM_ECC" VALUE="NONE"/>
+          <PARAMETER NAME="MEM_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="MEM_SIZE" VALUE="8192"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="addrb"/>
+            <PORTMAP PHYSICAL="clkb"/>
+            <PORTMAP PHYSICAL="dinb"/>
+            <PORTMAP PHYSICAL="doutb"/>
+            <PORTMAP PHYSICAL="enb"/>
+            <PORTMAP PHYSICAL="rstb"/>
+            <PORTMAP PHYSICAL="web"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/fake_rd_interface_0" HWVERSION="1.0" INSTANCE="fake_rd_block_fake_rd_interface_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="fake_rd_interface" VLNV="auger.org:auger:fake_rd_interface:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="C_S00_AXI_DATA_WIDTH" VALUE="32"/>
+        <PARAMETER NAME="C_S00_AXI_ADDR_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_fake_rd_interface_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+        <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x43C60000"/>
+        <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x43C6FFFF"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="SERIAL_DATA0_IN" SIGIS="undef" SIGNAME="External_Ports_RD_SER_DATA0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_SER_DATA0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="SERIAL_CLK_IN" SIGIS="undef" SIGNAME="External_Ports_RD_XFR_CLK">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_XFR_CLK"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ENABLE_XFR_IN" SIGIS="undef" SIGNAME="External_Ports_ENABLE_RD_XFR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="ENABLE_RD_XFR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="FAKE_DATA" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_blk_mem_gen_0_doutb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="doutb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="LOCAL_CLK" SIGIS="undef"/>
+        <PORT DIR="O" NAME="ENABLE_FAKE_XFR" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_ENABLE_FAKE_XFR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_ENABLE_RD_XFR"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="SERIAL_FAKE_OUT" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_SERIAL_FAKE_OUT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_RD_SER_DATA0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="FAKE_DATA_ADDR" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_FAKE_DATA_ADDR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="addrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="DATA_ADDR" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_DATA_ADDR">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="addrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="DATA_TO_MEM" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_DATA_TO_MEM">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="dinb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="ENABLE_MEM_WRT" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_ENABLE_MEM_WRT">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="enb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="50000000" DIR="I" NAME="s00_axi_aclk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_aresetn" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="peripheral_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s00_axi_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s00_axi_awready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="s00_axi_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s00_axi_wready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s00_axi_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s00_axi_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_bready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="3" NAME="s00_axi_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="2" NAME="s00_axi_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s00_axi_arready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="s00_axi_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="s00_axi_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="s00_axi_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="s00_axi_rready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_AXI_rready"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M21_AXI" DATAWIDTH="32" NAME="S00_AXI" TYPE="SLAVE">
+          <PARAMETER NAME="WIZ_DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="WIZ_NUM_REG" VALUE="4"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
+          <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
+          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ADDR_WIDTH" VALUE="4"/>
+          <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="s00_axi_awaddr"/>
+            <PORTMAP PHYSICAL="s00_axi_awprot"/>
+            <PORTMAP PHYSICAL="s00_axi_awvalid"/>
+            <PORTMAP PHYSICAL="s00_axi_awready"/>
+            <PORTMAP PHYSICAL="s00_axi_wdata"/>
+            <PORTMAP PHYSICAL="s00_axi_wstrb"/>
+            <PORTMAP PHYSICAL="s00_axi_wvalid"/>
+            <PORTMAP PHYSICAL="s00_axi_wready"/>
+            <PORTMAP PHYSICAL="s00_axi_bresp"/>
+            <PORTMAP PHYSICAL="s00_axi_bvalid"/>
+            <PORTMAP PHYSICAL="s00_axi_bready"/>
+            <PORTMAP PHYSICAL="s00_axi_araddr"/>
+            <PORTMAP PHYSICAL="s00_axi_arprot"/>
+            <PORTMAP PHYSICAL="s00_axi_arvalid"/>
+            <PORTMAP PHYSICAL="s00_axi_arready"/>
+            <PORTMAP PHYSICAL="s00_axi_rdata"/>
+            <PORTMAP PHYSICAL="s00_axi_rresp"/>
+            <PORTMAP PHYSICAL="s00_axi_rvalid"/>
+            <PORTMAP PHYSICAL="s00_axi_rready"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+      </BUSINTERFACES>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/xlconstant_5" HWVERSION="1.1" INSTANCE="fake_rd_block_xlconstant_5" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="1"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="1"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_5_2"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="0" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_5_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="enb"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/xlconstant_6" HWVERSION="1.1" INSTANCE="fake_rd_block_xlconstant_6" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="1111"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_6_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="3" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_6_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="web"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/fake_rd_block/xlconstant_7" HWVERSION="1.1" INSTANCE="fake_rd_block_xlconstant_7" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="0000"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_6_1"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="3" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_xlconstant_7_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="web"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -9448,22 +10948,22 @@
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M02_AXI" DATAWIDTH="32" NAME="S00_AXI" TYPE="SLAVE">
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
-          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="10"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
             <PORTMAP PHYSICAL="s00_axi_awaddr"/>
             <PORTMAP PHYSICAL="s00_axi_awprot"/>
@@ -9488,22 +10988,22 @@
         </BUSINTERFACE>
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M01_AXI" DATAWIDTH="32" NAME="S_AXI_INTR" TYPE="SLAVE">
           <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
-          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
-          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="5"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
             <PORTMAP PHYSICAL="s_axi_intr_awaddr"/>
             <PORTMAP PHYSICAL="s_axi_intr_awprot"/>
@@ -9527,23 +11027,23 @@
           </PORTMAPS>
         </BUSINTERFACE>
         <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M15_AXI" DATAWIDTH="32" NAME="S1_AXI_INTR" TYPE="SLAVE">
-          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="PROTOCOL" VALUE="AXI4LITE"/>
-          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
-          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
+          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
+          <PARAMETER NAME="DATA_WIDTH" VALUE="32"/>
           <PARAMETER NAME="ADDR_WIDTH" VALUE="5"/>
           <PARAMETER NAME="AWUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="ARUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="WUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="RUSER_WIDTH" VALUE="0"/>
           <PARAMETER NAME="BUSER_WIDTH" VALUE="0"/>
-          <PARAMETER NAME="READ_WRITE_MODE" VALUE="READ_WRITE"/>
-          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
+          <PARAMETER NAME="ID_WIDTH" VALUE="0"/>
           <PARAMETER NAME="NUM_READ_OUTSTANDING" VALUE="8"/>
           <PARAMETER NAME="NUM_WRITE_OUTSTANDING" VALUE="8"/>
+          <PARAMETER NAME="SUPPORTS_NARROW_BURST" VALUE="0"/>
           <PARAMETER NAME="MAX_BURST_LENGTH" VALUE="1"/>
-          <PARAMETER NAME="PHASE" VALUE="0.000"/>
+          <PARAMETER NAME="FREQ_HZ" VALUE="50000000"/>
           <PARAMETER NAME="CLK_DOMAIN" VALUE="uub_proto2_processing_system7_0_0_FCLK_CLK0"/>
+          <PARAMETER NAME="PHASE" VALUE="0.000"/>
           <PORTMAPS>
             <PORTMAP PHYSICAL="s1_axi_intr_awaddr"/>
             <PORTMAP PHYSICAL="s1_axi_intr_awprot"/>
@@ -22065,6 +23565,7 @@
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_2" PORT="CLK"/>
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_3" PORT="CLK"/>
             <CONNECTION INSTANCE="adc_inputs_ddr_synchronizer_24bit_4" PORT="CLK"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="CLK120"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_blk_mem_gen_6" PORT="clkb"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_blk_mem_gen_0" PORT="clkb"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_3" PORT="clkb"/>
@@ -22072,7 +23573,6 @@
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_2" PORT="clkb"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_1" PORT="clkb"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_blk_mem_gen_5" PORT="clkb"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="CLK120"/>
             <CONNECTION INSTANCE="filter_block_fir_compiler_2" PORT="aclk"/>
             <CONNECTION INSTANCE="filter_block_fir_compiler_1" PORT="aclk"/>
             <CONNECTION INSTANCE="filter_block_fir_compiler_0" PORT="aclk"/>
@@ -22088,16 +23588,18 @@
     <MODULE FULLNAME="/xlconstant_0" HWVERSION="1.1" INSTANCE="xlconstant_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="CONST_VAL" VALUE="11111111"/>
-        <PARAMETER NAME="CONST_WIDTH" VALUE="8"/>
+        <PARAMETER NAME="CONST_VAL" VALUE="0"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="1"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_0_0"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="O" LEFT="7" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
+        <PORT DIR="O" LEFT="0" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_0_dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ext1_ctl"/>
-            <CONNECTION INSTANCE="External_Ports" PORT="ext1_dat"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="ENABLE_RD_XFR_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_SER_DATA1_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_SER_DATA0_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="RD_XFR_CLK_CTL"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -22123,15 +23625,38 @@
     <MODULE FULLNAME="/xlconstant_2" HWVERSION="1.1" INSTANCE="xlconstant_2" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
       <DOCUMENTS/>
       <PARAMETERS>
-        <PARAMETER NAME="CONST_VAL" VALUE="0000"/>
-        <PARAMETER NAME="CONST_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="CONST_VAL" VALUE="0"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="1"/>
         <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_2_1"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="O" LEFT="3" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
+        <PORT DIR="O" LEFT="0" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_2_dout">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="ext0_dat"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="EXT0_DAT7"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="EXT0_DAT6"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="EXT0_DAT4"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="EXT0_DAT5"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/xlconstant_3" HWVERSION="1.1" INSTANCE="xlconstant_3" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="xlconstant" VLNV="xilinx.com:ip:xlconstant:1.1">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="CONST_VAL" VALUE="1"/>
+        <PARAMETER NAME="CONST_WIDTH" VALUE="1"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_xlconstant_0_3"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="O" LEFT="0" NAME="dout" RIGHT="0" SIGIS="undef" SIGNAME="xlconstant_3_dout">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_RD_XFR_CLK_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_ENABLE_RD_XFR_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_RD_SER_DATA0_CTL"/>
+            <CONNECTION INSTANCE="External_Ports" PORT="FAKE_RD_SER_DATA1_CTL"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>
@@ -23298,7 +24823,7 @@
       </DOCUMENTS>
       <PARAMETERS>
         <PARAMETER NAME="NUM_SI" VALUE="1"/>
-        <PARAMETER NAME="NUM_MI" VALUE="19"/>
+        <PARAMETER NAME="NUM_MI" VALUE="22"/>
         <PARAMETER NAME="STRATEGY" VALUE="0"/>
         <PARAMETER NAME="ENABLE_ADVANCED_OPTIONS" VALUE="0"/>
         <PARAMETER NAME="ENABLE_PROTOCOL_CHECKERS" VALUE="0"/>
@@ -23805,6 +25330,36 @@
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="0" NAME="M18_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="0" NAME="M19_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="0" NAME="M20_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_ACLK" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="0" NAME="M21_ARESETN" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_interconnect_aresetn">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="interconnect_aresetn"/>
           </CONNECTIONS>
@@ -26544,6 +28099,451 @@
             <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_wvalid"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M19_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M19_AXI_arburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M19_AXI_arcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M19_AXI_arid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M19_AXI_arlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_arlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M19_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_arready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M19_AXI_arsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M19_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M19_AXI_awburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M19_AXI_awcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M19_AXI_awid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M19_AXI_awlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_awlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M19_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_awready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M19_AXI_awsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M19_AXI_bid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_bready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M19_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M19_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M19_AXI_rid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_rlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_rready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M19_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M19_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_wlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M19_AXI_wready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M19_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M19_AXI_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_1_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M20_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M20_AXI_arburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M20_AXI_arcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M20_AXI_arid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M20_AXI_arlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_arlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M20_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_arready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M20_AXI_arsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M20_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="1" NAME="M20_AXI_awburst" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awburst">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awburst"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M20_AXI_awcache" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awcache">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awcache"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="11" NAME="M20_AXI_awid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="7" NAME="M20_AXI_awlen" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awlen">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awlen"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_awlock" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awlock">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awlock"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M20_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_awready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M20_AXI_awsize" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awsize">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awsize"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M20_AXI_bid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_bid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_bready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M20_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M20_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="11" NAME="M20_AXI_rid" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_rlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_rready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M20_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M20_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_wlast" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wlast">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_wlast"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M20_AXI_wready" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M20_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M20_AXI_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_axi_bram_ctrl_0_s_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M21_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M21_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M21_AXI_awvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_AXI_awready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M21_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M21_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M21_AXI_wvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_AXI_wready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M21_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_AXI_bvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M21_AXI_bready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M21_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M21_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M21_AXI_arvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_AXI_arready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M21_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M21_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M21_AXI_rvalid" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M21_AXI_rready" SIGIS="undef" SIGNAME="fake_rd_block_fake_rd_interface_0_s00_axi_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="zync_block_processing_system7_0_M_AXI_GP0" DATAWIDTH="32" NAME="S00_AXI" TYPE="SLAVE">
@@ -27171,6 +29171,107 @@
             <PORTMAP PHYSICAL="M18_AXI_wready"/>
             <PORTMAP PHYSICAL="M18_AXI_wstrb"/>
             <PORTMAP PHYSICAL="M18_AXI_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M19_AXI" DATAWIDTH="32" NAME="M19_AXI" TYPE="MASTER">
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="M19_AXI_araddr"/>
+            <PORTMAP PHYSICAL="M19_AXI_arburst"/>
+            <PORTMAP PHYSICAL="M19_AXI_arcache"/>
+            <PORTMAP PHYSICAL="M19_AXI_arid"/>
+            <PORTMAP PHYSICAL="M19_AXI_arlen"/>
+            <PORTMAP PHYSICAL="M19_AXI_arlock"/>
+            <PORTMAP PHYSICAL="M19_AXI_arprot"/>
+            <PORTMAP PHYSICAL="M19_AXI_arready"/>
+            <PORTMAP PHYSICAL="M19_AXI_arsize"/>
+            <PORTMAP PHYSICAL="M19_AXI_arvalid"/>
+            <PORTMAP PHYSICAL="M19_AXI_awaddr"/>
+            <PORTMAP PHYSICAL="M19_AXI_awburst"/>
+            <PORTMAP PHYSICAL="M19_AXI_awcache"/>
+            <PORTMAP PHYSICAL="M19_AXI_awid"/>
+            <PORTMAP PHYSICAL="M19_AXI_awlen"/>
+            <PORTMAP PHYSICAL="M19_AXI_awlock"/>
+            <PORTMAP PHYSICAL="M19_AXI_awprot"/>
+            <PORTMAP PHYSICAL="M19_AXI_awready"/>
+            <PORTMAP PHYSICAL="M19_AXI_awsize"/>
+            <PORTMAP PHYSICAL="M19_AXI_awvalid"/>
+            <PORTMAP PHYSICAL="M19_AXI_bid"/>
+            <PORTMAP PHYSICAL="M19_AXI_bready"/>
+            <PORTMAP PHYSICAL="M19_AXI_bresp"/>
+            <PORTMAP PHYSICAL="M19_AXI_bvalid"/>
+            <PORTMAP PHYSICAL="M19_AXI_rdata"/>
+            <PORTMAP PHYSICAL="M19_AXI_rid"/>
+            <PORTMAP PHYSICAL="M19_AXI_rlast"/>
+            <PORTMAP PHYSICAL="M19_AXI_rready"/>
+            <PORTMAP PHYSICAL="M19_AXI_rresp"/>
+            <PORTMAP PHYSICAL="M19_AXI_rvalid"/>
+            <PORTMAP PHYSICAL="M19_AXI_wdata"/>
+            <PORTMAP PHYSICAL="M19_AXI_wlast"/>
+            <PORTMAP PHYSICAL="M19_AXI_wready"/>
+            <PORTMAP PHYSICAL="M19_AXI_wstrb"/>
+            <PORTMAP PHYSICAL="M19_AXI_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M20_AXI" DATAWIDTH="32" NAME="M20_AXI" TYPE="MASTER">
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="M20_AXI_araddr"/>
+            <PORTMAP PHYSICAL="M20_AXI_arburst"/>
+            <PORTMAP PHYSICAL="M20_AXI_arcache"/>
+            <PORTMAP PHYSICAL="M20_AXI_arid"/>
+            <PORTMAP PHYSICAL="M20_AXI_arlen"/>
+            <PORTMAP PHYSICAL="M20_AXI_arlock"/>
+            <PORTMAP PHYSICAL="M20_AXI_arprot"/>
+            <PORTMAP PHYSICAL="M20_AXI_arready"/>
+            <PORTMAP PHYSICAL="M20_AXI_arsize"/>
+            <PORTMAP PHYSICAL="M20_AXI_arvalid"/>
+            <PORTMAP PHYSICAL="M20_AXI_awaddr"/>
+            <PORTMAP PHYSICAL="M20_AXI_awburst"/>
+            <PORTMAP PHYSICAL="M20_AXI_awcache"/>
+            <PORTMAP PHYSICAL="M20_AXI_awid"/>
+            <PORTMAP PHYSICAL="M20_AXI_awlen"/>
+            <PORTMAP PHYSICAL="M20_AXI_awlock"/>
+            <PORTMAP PHYSICAL="M20_AXI_awprot"/>
+            <PORTMAP PHYSICAL="M20_AXI_awready"/>
+            <PORTMAP PHYSICAL="M20_AXI_awsize"/>
+            <PORTMAP PHYSICAL="M20_AXI_awvalid"/>
+            <PORTMAP PHYSICAL="M20_AXI_bid"/>
+            <PORTMAP PHYSICAL="M20_AXI_bready"/>
+            <PORTMAP PHYSICAL="M20_AXI_bresp"/>
+            <PORTMAP PHYSICAL="M20_AXI_bvalid"/>
+            <PORTMAP PHYSICAL="M20_AXI_rdata"/>
+            <PORTMAP PHYSICAL="M20_AXI_rid"/>
+            <PORTMAP PHYSICAL="M20_AXI_rlast"/>
+            <PORTMAP PHYSICAL="M20_AXI_rready"/>
+            <PORTMAP PHYSICAL="M20_AXI_rresp"/>
+            <PORTMAP PHYSICAL="M20_AXI_rvalid"/>
+            <PORTMAP PHYSICAL="M20_AXI_wdata"/>
+            <PORTMAP PHYSICAL="M20_AXI_wlast"/>
+            <PORTMAP PHYSICAL="M20_AXI_wready"/>
+            <PORTMAP PHYSICAL="M20_AXI_wstrb"/>
+            <PORTMAP PHYSICAL="M20_AXI_wvalid"/>
+          </PORTMAPS>
+        </BUSINTERFACE>
+        <BUSINTERFACE BUSNAME="zync_block_axi_interconnect_0_M21_AXI" DATAWIDTH="32" NAME="M21_AXI" TYPE="MASTER">
+          <PORTMAPS>
+            <PORTMAP PHYSICAL="M21_AXI_awaddr"/>
+            <PORTMAP PHYSICAL="M21_AXI_awprot"/>
+            <PORTMAP PHYSICAL="M21_AXI_awvalid"/>
+            <PORTMAP PHYSICAL="M21_AXI_awready"/>
+            <PORTMAP PHYSICAL="M21_AXI_wdata"/>
+            <PORTMAP PHYSICAL="M21_AXI_wstrb"/>
+            <PORTMAP PHYSICAL="M21_AXI_wvalid"/>
+            <PORTMAP PHYSICAL="M21_AXI_wready"/>
+            <PORTMAP PHYSICAL="M21_AXI_bresp"/>
+            <PORTMAP PHYSICAL="M21_AXI_bvalid"/>
+            <PORTMAP PHYSICAL="M21_AXI_bready"/>
+            <PORTMAP PHYSICAL="M21_AXI_araddr"/>
+            <PORTMAP PHYSICAL="M21_AXI_arprot"/>
+            <PORTMAP PHYSICAL="M21_AXI_arvalid"/>
+            <PORTMAP PHYSICAL="M21_AXI_arready"/>
+            <PORTMAP PHYSICAL="M21_AXI_rdata"/>
+            <PORTMAP PHYSICAL="M21_AXI_rresp"/>
+            <PORTMAP PHYSICAL="M21_AXI_rvalid"/>
+            <PORTMAP PHYSICAL="M21_AXI_rready"/>
           </PORTMAPS>
         </BUSINTERFACE>
       </BUSINTERFACES>
@@ -30795,6 +32896,9 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_2" PORT="ARESETN"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_ARESETN"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_ARESETN"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_ARESETN"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_ARESETN"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_ARESETN"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_0_peripheral_aresetn">
@@ -30804,6 +32908,9 @@
             <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="amiga_trigger_0" PORT="resetn"/>
             <CONNECTION INSTANCE="axi_uartlite_1" PORT="s_axi_aresetn"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aresetn"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aresetn"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_0" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_crossbar_0" PORT="aresetn"/>
@@ -30818,16 +32925,66 @@
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_2" PORT="aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_3" PORT="aresetn"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_4" PORT="aresetn"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aresetn"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aresetn"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aresetn"/>
             <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_aresetn"/>
             <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_aresetn"/>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_aresetn"/>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_aresetn"/>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_1" PORT="s_axi_lite_aresetn"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="s_axi_lite_aresetn"/>
           </CONNECTIONS>
         </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE FULLNAME="/zync_block/proc_sys_reset_1" HWVERSION="5.0" INSTANCE="zync_block_proc_sys_reset_1" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="proc_sys_reset" VLNV="xilinx.com:ip:proc_sys_reset:5.0">
+      <DOCUMENTS>
+        <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=proc_sys_reset;v=v5_0;d=pg164-proc-sys-reset.pdf"/>
+      </DOCUMENTS>
+      <PARAMETERS>
+        <PARAMETER NAME="C_FAMILY" VALUE="zynq"/>
+        <PARAMETER NAME="C_EXT_RST_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_AUX_RST_WIDTH" VALUE="4"/>
+        <PARAMETER NAME="C_EXT_RESET_HIGH" VALUE="0"/>
+        <PARAMETER NAME="C_AUX_RESET_HIGH" VALUE="0"/>
+        <PARAMETER NAME="C_NUM_BUS_RST" VALUE="1"/>
+        <PARAMETER NAME="C_NUM_PERP_RST" VALUE="1"/>
+        <PARAMETER NAME="C_NUM_INTERCONNECT_ARESETN" VALUE="1"/>
+        <PARAMETER NAME="C_NUM_PERP_ARESETN" VALUE="1"/>
+        <PARAMETER NAME="Component_Name" VALUE="uub_proto2_proc_sys_reset_0_1"/>
+        <PARAMETER NAME="USE_BOARD_FLOW" VALUE="false"/>
+        <PARAMETER NAME="RESET_BOARD_INTERFACE" VALUE="Custom"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT CLKFREQUENCY="29761904" DIR="I" NAME="slowest_sync_clk" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_CLK1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="ext_reset_in" SIGIS="rst" SIGNAME="zync_block_processing_system7_0_FCLK_RESET0_N">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_RESET0_N"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="aux_reset_in" SIGIS="rst" SIGNAME="zync_block_processing_system7_0_FCLK_RESET0_N">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="FCLK_RESET0_N"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="mb_debug_sys_rst" SIGIS="rst"/>
+        <PORT DIR="I" NAME="dcm_locked" SIGIS="undef"/>
+        <PORT DIR="O" NAME="mb_reset" SIGIS="rst"/>
+        <PORT DIR="O" LEFT="0" NAME="bus_struct_reset" RIGHT="0" SIGIS="rst"/>
+        <PORT DIR="O" LEFT="0" NAME="peripheral_reset" RIGHT="0" SIGIS="rst" SIGNAME="zync_block_proc_sys_reset_1_peripheral_reset">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_1" PORT="rstb"/>
+            <CONNECTION INSTANCE="fake_rd_block_blk_mem_gen_0" PORT="rstb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" RIGHT="0" SIGIS="rst"/>
+        <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" RIGHT="0" SIGIS="rst"/>
       </PORTS>
       <BUSINTERFACES/>
     </MODULE>
@@ -30885,12 +33042,12 @@
         <PARAMETER NAME="C_USE_S_AXI_ACP" VALUE="0"/>
         <PARAMETER NAME="C_PS7_SI_REV" VALUE="PRODUCTION"/>
         <PARAMETER NAME="C_FCLK_CLK0_BUF" VALUE="true"/>
-        <PARAMETER NAME="C_FCLK_CLK1_BUF" VALUE="false"/>
+        <PARAMETER NAME="C_FCLK_CLK1_BUF" VALUE="true"/>
         <PARAMETER NAME="C_FCLK_CLK2_BUF" VALUE="false"/>
         <PARAMETER NAME="C_FCLK_CLK3_BUF" VALUE="false"/>
         <PARAMETER NAME="C_PACKAGE_NAME" VALUE="clg484"/>
         <PARAMETER NAME="PCW_DDR_RAM_BASEADDR" VALUE="0x00100000"/>
-        <PARAMETER NAME="PCW_DDR_RAM_HIGHADDR" VALUE="0x3FFFFFFF"/>
+        <PARAMETER NAME="PCW_DDR_RAM_HIGHADDR" VALUE="0x0FFFFFFF"/>
         <PARAMETER NAME="PCW_UART0_BASEADDR" VALUE="0xE0000000"/>
         <PARAMETER NAME="PCW_UART0_HIGHADDR" VALUE="0xE0000FFF"/>
         <PARAMETER NAME="PCW_UART1_BASEADDR" VALUE="0xE0001000"/>
@@ -30926,7 +33083,7 @@
         <PARAMETER NAME="PCW_TTC1_BASEADDR" VALUE="0xE0105000"/>
         <PARAMETER NAME="PCW_TTC1_HIGHADDR" VALUE="0xE0105fff"/>
         <PARAMETER NAME="PCW_FCLK_CLK0_BUF" VALUE="true"/>
-        <PARAMETER NAME="PCW_FCLK_CLK1_BUF" VALUE="false"/>
+        <PARAMETER NAME="PCW_FCLK_CLK1_BUF" VALUE="true"/>
         <PARAMETER NAME="PCW_FCLK_CLK2_BUF" VALUE="false"/>
         <PARAMETER NAME="PCW_FCLK_CLK3_BUF" VALUE="false"/>
         <PARAMETER NAME="PCW_UIPARAM_DDR_FREQ_MHZ" VALUE="400"/>
@@ -31019,7 +33176,7 @@
         <PARAMETER NAME="PCW_PCAP_PERIPHERAL_FREQMHZ" VALUE="200"/>
         <PARAMETER NAME="PCW_TPIU_PERIPHERAL_FREQMHZ" VALUE="200"/>
         <PARAMETER NAME="PCW_FPGA0_PERIPHERAL_FREQMHZ" VALUE="50"/>
-        <PARAMETER NAME="PCW_FPGA1_PERIPHERAL_FREQMHZ" VALUE="50"/>
+        <PARAMETER NAME="PCW_FPGA1_PERIPHERAL_FREQMHZ" VALUE="30"/>
         <PARAMETER NAME="PCW_FPGA2_PERIPHERAL_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_FPGA3_PERIPHERAL_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_ACT_APU_PERIPHERAL_FREQMHZ" VALUE="333.333344"/>
@@ -31043,7 +33200,7 @@
         <PARAMETER NAME="PCW_ACT_PCAP_PERIPHERAL_FREQMHZ" VALUE="208.333328"/>
         <PARAMETER NAME="PCW_ACT_TPIU_PERIPHERAL_FREQMHZ" VALUE="200.000000"/>
         <PARAMETER NAME="PCW_ACT_FPGA0_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
-        <PARAMETER NAME="PCW_ACT_FPGA1_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
+        <PARAMETER NAME="PCW_ACT_FPGA1_PERIPHERAL_FREQMHZ" VALUE="29.761904"/>
         <PARAMETER NAME="PCW_ACT_FPGA2_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
         <PARAMETER NAME="PCW_ACT_FPGA3_PERIPHERAL_FREQMHZ" VALUE="50.000000"/>
         <PARAMETER NAME="PCW_ACT_TTC0_CLK0_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
@@ -31053,7 +33210,7 @@
         <PARAMETER NAME="PCW_ACT_TTC1_CLK1_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
         <PARAMETER NAME="PCW_ACT_TTC1_CLK2_PERIPHERAL_FREQMHZ" VALUE="55.555557"/>
         <PARAMETER NAME="PCW_CLK0_FREQ" VALUE="50000000"/>
-        <PARAMETER NAME="PCW_CLK1_FREQ" VALUE="50000000"/>
+        <PARAMETER NAME="PCW_CLK1_FREQ" VALUE="29761904"/>
         <PARAMETER NAME="PCW_CLK2_FREQ" VALUE="50000000"/>
         <PARAMETER NAME="PCW_CLK3_FREQ" VALUE="50000000"/>
         <PARAMETER NAME="PCW_OVERRIDE_BASIC_CLOCK" VALUE="0"/>
@@ -31067,7 +33224,7 @@
         <PARAMETER NAME="PCW_CAN_PERIPHERAL_DIVISOR0" VALUE="1"/>
         <PARAMETER NAME="PCW_CAN_PERIPHERAL_DIVISOR1" VALUE="1"/>
         <PARAMETER NAME="PCW_FCLK0_PERIPHERAL_DIVISOR0" VALUE="25"/>
-        <PARAMETER NAME="PCW_FCLK1_PERIPHERAL_DIVISOR0" VALUE="25"/>
+        <PARAMETER NAME="PCW_FCLK1_PERIPHERAL_DIVISOR0" VALUE="42"/>
         <PARAMETER NAME="PCW_FCLK2_PERIPHERAL_DIVISOR0" VALUE="25"/>
         <PARAMETER NAME="PCW_FCLK3_PERIPHERAL_DIVISOR0" VALUE="25"/>
         <PARAMETER NAME="PCW_FCLK0_PERIPHERAL_DIVISOR1" VALUE="1"/>
@@ -31232,7 +33389,7 @@
         <PARAMETER NAME="PCW_DM_WIDTH" VALUE="4"/>
         <PARAMETER NAME="PCW_MIO_PRIMITIVE" VALUE="54"/>
         <PARAMETER NAME="PCW_EN_CLK0_PORT" VALUE="1"/>
-        <PARAMETER NAME="PCW_EN_CLK1_PORT" VALUE="0"/>
+        <PARAMETER NAME="PCW_EN_CLK1_PORT" VALUE="1"/>
         <PARAMETER NAME="PCW_EN_CLK2_PORT" VALUE="0"/>
         <PARAMETER NAME="PCW_EN_CLK3_PORT" VALUE="0"/>
         <PARAMETER NAME="PCW_EN_RST0_PORT" VALUE="1"/>
@@ -31708,7 +33865,7 @@
         <PARAMETER NAME="PCW_MIO_TREE_SIGNALS" VALUE="qspi1_ss_b#qspi0_ss_b#qspi0_io[0]#qspi0_io[1]#qspi0_io[2]#qspi0_io[3]#qspi0_sclk#gpio[7]#tx#rx#mosi#miso#sclk#ss[0]#scl#sda#tx_clk#txd[0]#txd[1]#txd[2]#txd[3]#tx_ctl#rx_clk#rxd[0]#rxd[1]#rxd[2]#rxd[3]#rx_ctl#data[4]#dir#stp#nxt#data[0]#data[1]#data[2]#data[3]#clk#data[5]#data[6]#data[7]#sclk#miso#ss[0]#ss[1]#ss[2]#mosi#rx#tx#scl#sda#reset#reset#mdc#mdio"/>
         <PARAMETER NAME="PCW_PS7_SI_REV" VALUE="PRODUCTION"/>
         <PARAMETER NAME="PCW_FPGA_FCLK0_ENABLE" VALUE="1"/>
-        <PARAMETER NAME="PCW_FPGA_FCLK1_ENABLE" VALUE="0"/>
+        <PARAMETER NAME="PCW_FPGA_FCLK1_ENABLE" VALUE="1"/>
         <PARAMETER NAME="PCW_FPGA_FCLK2_ENABLE" VALUE="0"/>
         <PARAMETER NAME="PCW_FPGA_FCLK3_ENABLE" VALUE="0"/>
         <PARAMETER NAME="PCW_NOR_SRAM_CS0_T_TR" VALUE="1"/>
@@ -32392,6 +34549,9 @@
             <CONNECTION INSTANCE="time_tagging_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="interface_uub_dfn3_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="axi_uartlite_1" PORT="s_axi_aclk"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aclk"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aclk"/>
+            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_1" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_bram_ctrl_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_muon_memory_block_axi_crossbar_0" PORT="aclk"/>
@@ -32406,13 +34566,12 @@
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_2" PORT="aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_3" PORT="aclk"/>
             <CONNECTION INSTANCE="trigger_memory_block_shower_memory_block_axi_crossbar_4" PORT="aclk"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s00_axi_aclk"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s_axi_intr_aclk"/>
-            <CONNECTION INSTANCE="trigger_memory_block_sde_trigger_0" PORT="s1_axi_intr_aclk"/>
             <CONNECTION INSTANCE="test_control_block_test_control_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_0" PORT="s_axi_aclk"/>
             <CONNECTION INSTANCE="test_control_block_axi_bram_ctrl_1" PORT="s_axi_aclk"/>
-            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="slowest_sync_clk"/>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_0" PORT="s_axi_aclk"/>
+            <CONNECTION INSTANCE="fake_rd_block_axi_bram_ctrl_1" PORT="s_axi_aclk"/>
+            <CONNECTION INSTANCE="fake_rd_block_fake_rd_interface_0" PORT="s00_axi_aclk"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="m_axi_aclk"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_0" PORT="s_axi_lite_aclk"/>
             <CONNECTION INSTANCE="zync_block_axi_cdma_1" PORT="m_axi_aclk"/>
@@ -32420,6 +34579,7 @@
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="M_AXI_GP0_ACLK"/>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="S_AXI_HP0_ACLK"/>
             <CONNECTION INSTANCE="zync_block_processing_system7_0" PORT="S_AXI_HP1_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="slowest_sync_clk"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_1" PORT="ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_1" PORT="S00_ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_1" PORT="S01_ACLK"/>
@@ -32456,12 +34616,22 @@
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M16_ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M17_ACLK"/>
             <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M18_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M19_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M20_ACLK"/>
+            <CONNECTION INSTANCE="zync_block_axi_interconnect_0" PORT="M21_ACLK"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="29761904" DIR="O" NAME="FCLK_CLK1" SIGIS="clk" SIGNAME="zync_block_processing_system7_0_FCLK_CLK1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_1" PORT="slowest_sync_clk"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="FCLK_RESET0_N" SIGIS="rst" SIGNAME="zync_block_processing_system7_0_FCLK_RESET0_N">
           <CONNECTIONS>
             <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="ext_reset_in"/>
             <CONNECTION INSTANCE="zync_block_proc_sys_reset_0" PORT="aux_reset_in"/>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_1" PORT="ext_reset_in"/>
+            <CONNECTION INSTANCE="zync_block_proc_sys_reset_1" PORT="aux_reset_in"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="IO" LEFT="53" NAME="MIO" RIGHT="0" SIGIS="undef"/>
@@ -32756,6 +34926,7 @@
         <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C30000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C3FFFF" INSTANCE="time_tagging_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
         <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C40000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C4FFFF" INSTANCE="test_control_block_test_control_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
         <MEMRANGE ADDRESSBLOCK="reg0" BASENAME="C_BASEADDR" BASEVALUE="0x43C50000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x43C5FFFF" INSTANCE="trigger_memory_block_sde_trigger_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S1_AXI_INTR"/>
+        <MEMRANGE ADDRESSBLOCK="S00_AXI_reg" BASENAME="C_S00_AXI_BASEADDR" BASEVALUE="0x43C60000" HIGHNAME="C_S00_AXI_HIGHADDR" HIGHVALUE="0x43C6FFFF" INSTANCE="fake_rd_block_fake_rd_interface_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S00_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x44000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x44007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x46000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x46007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x48000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x48007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_2" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
@@ -32763,6 +34934,8 @@
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x4C000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4C007FFF" INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_4" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x4E000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x4E001FFF" INSTANCE="test_control_block_axi_bram_ctrl_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x50000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x50001FFF" INSTANCE="test_control_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x52000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x52007FFF" INSTANCE="fake_rd_block_axi_bram_ctrl_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
+        <MEMRANGE ADDRESSBLOCK="Mem0" BASENAME="C_S_AXI_BASEADDR" BASEVALUE="0x54000000" HIGHNAME="C_S_AXI_HIGHADDR" HIGHVALUE="0x54007FFF" INSTANCE="fake_rd_block_axi_bram_ctrl_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="MEMORY" SLAVEBUSINTERFACE="S_AXI"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x7E200000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x7E20FFFF" INSTANCE="zync_block_axi_cdma_0" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_LITE"/>
         <MEMRANGE ADDRESSBLOCK="Reg" BASENAME="C_BASEADDR" BASEVALUE="0x7E210000" HIGHNAME="C_HIGHADDR" HIGHVALUE="0x7E21FFFF" INSTANCE="zync_block_axi_cdma_1" IS_DATA="TRUE" IS_INSTRUCTION="TRUE" MASTERBUSINTERFACE="M_AXI_GP0" MEMTYPE="REGISTER" SLAVEBUSINTERFACE="S_AXI_LITE"/>
       </MEMORYMAP>
@@ -32775,6 +34948,7 @@
         <PERIPHERAL INSTANCE="trigger_memory_block_sde_trigger_0"/>
         <PERIPHERAL INSTANCE="time_tagging_0"/>
         <PERIPHERAL INSTANCE="test_control_block_test_control_0"/>
+        <PERIPHERAL INSTANCE="fake_rd_block_fake_rd_interface_0"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_0"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_1"/>
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_2"/>
@@ -32782,6 +34956,8 @@
         <PERIPHERAL INSTANCE="trigger_memory_block_shower_memory_block_axi_bram_ctrl_4"/>
         <PERIPHERAL INSTANCE="test_control_block_axi_bram_ctrl_0"/>
         <PERIPHERAL INSTANCE="test_control_block_axi_bram_ctrl_1"/>
+        <PERIPHERAL INSTANCE="fake_rd_block_axi_bram_ctrl_0"/>
+        <PERIPHERAL INSTANCE="fake_rd_block_axi_bram_ctrl_1"/>
         <PERIPHERAL INSTANCE="zync_block_axi_cdma_0"/>
         <PERIPHERAL INSTANCE="zync_block_axi_cdma_1"/>
       </PERIPHERALS>
