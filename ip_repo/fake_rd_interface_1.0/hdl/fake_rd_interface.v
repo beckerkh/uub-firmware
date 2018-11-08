@@ -27,7 +27,9 @@ module fake_rd_interface
    output reg[31:0] DATA_ADDR,
    output reg[31:0] DATA_TO_MEM,
    output reg ENABLE_MEM_WRT,
-   output wire XFR_DONE
+   output wire XFR_DONE,
+   output wire DEBUG1,
+   output wire DEBUG2
    );
 
    wire       LOCAL_DO_FAKE_XFR;
@@ -37,6 +39,9 @@ module fake_rd_interface
    reg        LOCAL_XFR_DONE;
    reg        PREV_ENABLE_XFR_IN;
    wire       LOCAL_XFR_DONE_ACK;
+   reg [31:0] LOCAL_FAKE_DATA;
+   reg [31:0] NEXT_DATA_ADDR;
+   
       
       
    rd_synchronizer do_fake_sync(.ASYNC_IN(DO_FAKE_XFR),
@@ -51,32 +56,47 @@ module fake_rd_interface
    
    
 // Get and store data from RD
-   always @(posedge SERIAL_CLK_IN)
+   assign DEBUG1 = PREV_ENABLE_XFR_IN;
+   assign DEBUG2 = LOCAL_XFR_DONE;
+   
+//   always @(posedge SERIAL_CLK_IN)
+   always @(negedge SERIAL_CLK_IN)  // Delay reg by 1/2 clock cycle?
      begin
+        //        DEBUG1 <= PREV_ENABLE_XFR_IN;
+        //        DEBUG2 <= LOCAL_XFR_DONE;
+        DATA_TO_MEM[SERIAL_IN_BIT_COUNT] <= SERIAL_DATA0_IN;
+        DATA_ADDR <= NEXT_DATA_ADDR;
         PREV_ENABLE_XFR_IN <= ENABLE_XFR_IN;
         if (PREV_ENABLE_XFR_IN && !ENABLE_XFR_IN)
           LOCAL_XFR_DONE <= 1;
         else if (LOCAL_XFR_DONE_ACK)
           LOCAL_XFR_DONE <= 0;
         
-// May have a problem here if the previous transfer has not been acknowledged.
+        // May have a problem here if the previous transfer has not been acknowledged.
         // Will think transfer is complete when it is not.
         // This should be fixed when integrated with WCD triggers
-       if (ENABLE_XFR_IN) begin
-           // Write data to memory every 13 bits
-           if (SERIAL_IN_BIT_COUNT == 12) begin
-              SERIAL_IN_BIT_COUNT <= 0;
-              ENABLE_MEM_WRT <= 1;
-              DATA_ADDR <= DATA_ADDR+4;
-          end
-           else
-             SERIAL_IN_BIT_COUNT <= SERIAL_IN_BIT_COUNT+1;
-           
-           DATA_TO_MEM[SERIAL_IN_BIT_COUNT] <= SERIAL_DATA0_IN;
-         end // if (ENABLE_XFR_IN)
+        // Seem to need one clock cycle delay here; so use PREV version.
+        if (PREV_ENABLE_XFR_IN)
+          begin
+             // Write data to memory every 13 bits
+             if (SERIAL_IN_BIT_COUNT == 12)
+               begin
+                  SERIAL_IN_BIT_COUNT <= 0;
+                  ENABLE_MEM_WRT <= 1;
+               end
+             else
+               begin
+                  SERIAL_IN_BIT_COUNT <= SERIAL_IN_BIT_COUNT+1;
+                  ENABLE_MEM_WRT <= 0;
+               end // else: !if(SERIAL_IN_BIT_COUNT == 12)
+             if (ENABLE_MEM_WRT == 1)
+               NEXT_DATA_ADDR <= NEXT_DATA_ADDR+4;
+          end // if (ENABLE_XFR_IN)
         else begin
            SERIAL_IN_BIT_COUNT <= 0;
-           DATA_ADDR <= 0;
+           NEXT_DATA_ADDR <= 0;
+           DATA_TO_MEM <= 0;
+           ENABLE_MEM_WRT <= 0;
         end
      end
 
@@ -87,24 +107,30 @@ module fake_rd_interface
         PREV_DO_FAKE_XFR <= LOCAL_DO_FAKE_XFR;
         if (LOCAL_DO_FAKE_XFR && !PREV_DO_FAKE_XFR)
           begin
-             SERIAL_OUT_BIT_COUNT <= 0;
              ENABLE_FAKE_XFR <= 1;
-             FAKE_DATA_ADDR <= 0;
           end
         if (ENABLE_FAKE_XFR)
           begin
+             if (SERIAL_OUT_BIT_COUNT == 11)
+               FAKE_DATA_ADDR <= FAKE_DATA_ADDR+4;
              if (SERIAL_OUT_BIT_COUNT == 12) 
                begin
                   SERIAL_OUT_BIT_COUNT <= 0;
-                  if (FAKE_DATA_ADDR < 2047*4)
-                    FAKE_DATA_ADDR <= FAKE_DATA_ADDR+4;
-                  else
+                  LOCAL_FAKE_DATA <= FAKE_DATA;
+                  if (FAKE_DATA_ADDR >= 2048*4)
                     ENABLE_FAKE_XFR <= 0;
                end
-             SERIAL_OUT_BIT_COUNT <= SERIAL_OUT_BIT_COUNT+1;
-             SERIAL_FAKE_OUT <= FAKE_DATA[SERIAL_OUT_BIT_COUNT];
-          end
+             else
+               SERIAL_OUT_BIT_COUNT <= SERIAL_OUT_BIT_COUNT+1;
+             SERIAL_FAKE_OUT <= LOCAL_FAKE_DATA[SERIAL_OUT_BIT_COUNT];
+          end // if (ENABLE_FAKE_XFR)
+        else
+          begin
+             LOCAL_FAKE_DATA <= FAKE_DATA;
+             FAKE_DATA_ADDR <= 0;
+             SERIAL_OUT_BIT_COUNT <= 0;
+          end             
      end
 
- endmodule  
-   
+endmodule  
+

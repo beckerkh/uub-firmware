@@ -39,6 +39,8 @@
          output wire[31:0] DATA_ADDR,
          output wire[31:0] DATA_TO_MEM,
          output wire ENABLE_MEM_WRT,
+         output wire DEBUG1,
+         output wire DEBUG2,
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -93,19 +95,23 @@
 		.S_AXI_RRESP(s00_axi_rresp),
 		.S_AXI_RVALID(s00_axi_rvalid),
 		.S_AXI_RREADY(s00_axi_rready),
-                .DO_FAKE_XFR(DO_FAKE_XFR),
                 .SERIAL_DATA0_IN(SERIAL_DATA0_IN),
                 .SERIAL_CLK_IN(SERIAL_CLK_IN),
                 .ENABLE_XFR_IN(ENABLE_XFR_IN),
+                .ENABLE_FAKE_XFR(ENABLE_FAKE_XFR),
                 .FAKE_DATA(FAKE_DATA),
                 .LOCAL_CLK(LOCAL_CLK),
                 .SERIAL_FAKE_OUT(SERIAL_FAKE_OUT),
                 .FAKE_DATA_ADDR(FAKE_DATA_ADDR),
                 .DATA_ADDR(DATA_ADDR),
-                .DATA_TO_MEM(DATA_TO_MEM)
+                .ENABLE_MEM_WRT(ENABLE_MEM_WRT),
+                .DATA_TO_MEM(DATA_TO_MEM),
+                .DEBUG1(DEBUG1),
+                .DEBUG2(DEBUG2)
 	);
 
 	// Add user logic here
+
 
 	// User logic ends
 

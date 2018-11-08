@@ -8,7 +8,7 @@
 //                 SYNC_STAGES = 2.
 //
 
-module rd_synchronizer #( parameter SYNC_STAGES = 3 )
+module rd_synchronizer #( parameter SYNC_STAGES = 4 )
    (
     input ASYNC_IN,
     input CLK,

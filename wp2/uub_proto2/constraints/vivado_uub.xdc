@@ -15,6 +15,8 @@
 # 16-Oct-2018 DFN Modify ext1_dat ports for FAKE_RD tests
 # 21-Oct-2018 DFN Vivado keeps renaming ext0_dat[*], so change to
 #                 individual pins instead of a vector.
+# 02-Nov-2018 DFN Change P6x[3:1] to P61 ... P63.  Vivado kept changing vector
+#                 from [3:1] to [2:0] which then failed placement.
 
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets RD_XFR_CLK_IBUF]
 
@@ -77,9 +79,12 @@ set_property IOSTANDARD LVCMOS25 [get_ports {LED_ASY[0]}]
 set_property IOSTANDARD LVCMOS25 [get_ports RADIO_RTS]
 set_property IOSTANDARD LVCMOS25 [get_ports RADIO_CTS]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {P6X[1]}]
-set_property IOSTANDARD LVCMOS25 [get_ports {P6X[2]}]
-set_property IOSTANDARD LVCMOS25 [get_ports {P6X[3]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {P6X[1]}]
+#set_property IOSTANDARD LVCMOS25 [get_ports {P6X[2]}]
+#set_property IOSTANDARD LVCMOS25 [get_ports {P6X[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports P61]
+set_property IOSTANDARD LVCMOS25 [get_ports P62]
+set_property IOSTANDARD LVCMOS25 [get_ports P63]
 set_property IOSTANDARD LVCMOS25 [get_ports ADC_PWD]
 set_property IOSTANDARD LVCMOS25 [get_ports P65]
 
@@ -248,9 +253,12 @@ set_property PACKAGE_PIN U14 [get_ports {LED_ASY[0]}]
 set_property PACKAGE_PIN T21 [get_ports RADIO_RTS]
 set_property PACKAGE_PIN U19 [get_ports RADIO_CTS]
 
-set_property PACKAGE_PIN W10 [get_ports {P6X[1]}]
-set_property PACKAGE_PIN H15 [get_ports {P6X[2]}]
-set_property PACKAGE_PIN R15 [get_ports {P6X[3]}]
+#set_property PACKAGE_PIN W10 [get_ports {P6X[1]}]
+#set_property PACKAGE_PIN H15 [get_ports {P6X[2]}]
+#set_property PACKAGE_PIN R15 [get_ports {P6X[3]}]
+set_property PACKAGE_PIN W10 [get_ports P61]
+set_property PACKAGE_PIN H15 [get_ports P62]
+set_property PACKAGE_PIN R15 [get_ports P63]
 set_property PACKAGE_PIN H17 [get_ports ADC_PWD]
 set_property PACKAGE_PIN H18 [get_ports P65]
 

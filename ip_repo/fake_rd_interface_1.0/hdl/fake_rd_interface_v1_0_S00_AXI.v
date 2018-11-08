@@ -16,20 +16,20 @@ module fake_rd_interface_v1_0_S00_AXI #
    (
     // Users to add ports here
 
-    input wire DO_FAKE_XFR,
     input wire SERIAL_DATA0_IN,
     input wire SERIAL_CLK_IN,
     input wire ENABLE_XFR_IN,
     input wire[31:0] FAKE_DATA,
     input wire LOCAL_CLK,
-    input wire SERIAL_FAKE_OUT,
 
     output wire ENABLE_FAKE_XFR,
-    output wire SERIAL_FAKE_IN,
+    output wire SERIAL_FAKE_OUT,
     output wire[31:0] FAKE_DATA_ADDR,
     output wire[31:0] DATA_ADDR,
     output wire[31:0] DATA_TO_MEM,
     output wire ENABLE_MEM_WRT,
+    output wire DEBUG1,
+    output wire DEBUG2,
 
     // User ports ends
     // Do not modify the ports beyond this line
@@ -402,9 +402,11 @@ module fake_rd_interface_v1_0_S00_AXI #
                             .XFR_DONE_ACK(slv_reg0[0]),
                             .FAKE_DATA(FAKE_DATA),
                             .LOCAL_CLK(LOCAL_CLK),
-                            .AXI_CLK(S_AXI_CLK),
+                            .AXI_CLK(S_AXI_ACLK),
                             .FAKE_DATA_ADDR(FAKE_DATA_ADDR),
-                            .ENABLE_MEM_WRT(ENABLE_MEM_WRT)
+                            .ENABLE_MEM_WRT(ENABLE_MEM_WRT),
+                            .DEBUG1(DEBUG1),
+                            .DEBUG2(DEBUG2)
                             );
 
 
